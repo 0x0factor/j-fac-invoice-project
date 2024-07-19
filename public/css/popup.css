@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS layout Style ---------------------------------------------------------- */
+
+.popup_contents_area table th {
+	text-align:left;
+	padding:5px;
+}
+.popup_contents_area table td {
+	text-align:left;
+	padding:5px;
+	word-break:break-all;
+}
+#popup_contents .save_btn {
+	float:right;
+	margin:10px 5px 0 0;
+}
+
+#popup_contents .block {display:block;}
+#popup_contents input {padding:2px;}

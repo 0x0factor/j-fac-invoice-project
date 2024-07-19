@@ -1,0 +1,69 @@
+body {
+    background: #CCFFFF;
+    color     : #444444;
+    margin    : 0px;
+    padding   : 10px;
+}
+#header {
+    font-size: 14pt;
+    font-weight: bold;
+}
+#footer {
+    font-size: 14pt;
+    font-weight: bold;
+}
+#main {
+    background: #FFFFFF;
+    clear: both
+}
+h1 { font-size: 14pt; }
+h2 { font-size: 12pt; font-weight: bold; }
+h3 { font-size: 12pt; }
+h4 { font-size: 10pt; }
+h5 { font-size: 9pt; }
+h6 { font-size: 8pt; }
+
+
+ul{
+	margin:0;
+	padding:0;
+}
+ul li.navi{
+	margin:5px;
+	background:#FFFFCC;
+	list-style-type:none;
+	float:left;
+}
+
+input{
+	width:200px;
+}
+
+input.phone{
+	width:52px;
+}
+
+input.zip{
+	width:89px;
+}
+input.error{
+	background:#FFCCCC;
+}
+textarea.error{
+	background:#FFCCCC;
+}
+select.error{
+	background:#FFCCCC;
+}
+p.error{
+	color:red;
+}
+a.del_hidden{
+	display:none;
+}
+a.add_hidden{
+	display:none;
+}
+span.pay_hidden{
+	display:none;
+}
