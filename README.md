@@ -1,4 +1,4 @@
-# Andis Dev
+# Honest Dev
 ## _Turorial Login Register CRUD Laravel 10_
 
 ## Features
@@ -58,7 +58,7 @@ https://login-register-crud-laravel.andisdev.tech/
 
 ## License
 
-Andis Dev
+Honest Dev
 
 **Free for learn !**
 
