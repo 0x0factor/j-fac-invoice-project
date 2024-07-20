@@ -41,19 +41,18 @@ open link at your browser
 http://127.0.0.1:8000
 
 ## Screenshoot
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss7.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss8.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss9.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss10.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss11.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss12.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss1.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss2.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss3.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss4.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss5.png)
-![logo](https://github.com/AndiSyarif/login-register-crud-laravel-10/blob/main/public/assets/img/ss6.png)
-
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s7.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s8.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s9.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s10.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s11.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s12.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s1.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s2.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s3.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s4.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s5.png)
+![logo](https://github.com/j-fac/j-fac-invoice-project/blob/main/public/assets/img/s6.png)
 ## License
 
 Honest Dev
