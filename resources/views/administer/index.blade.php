@@ -50,7 +50,7 @@
     </div>
 
     <div class="new_document">
-        <a href="{{ route('administer.create') }}">
+        <a href="{{ route('administer.add') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="">
         </a>
     </div>

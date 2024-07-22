@@ -22,6 +22,7 @@ class CustomerController extends Controller
     {
         $main_title = "取引先一覧";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
 
@@ -45,7 +46,7 @@ class CustomerController extends Controller
         $condition = [];
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customer.index', compact('main_title', 'title_text', 'charge'));
+        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge'));
     }
 
     public function select(Request $request)
@@ -69,6 +70,7 @@ class CustomerController extends Controller
     {
         $main_title = "取引先確認";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
 
@@ -89,13 +91,14 @@ class CustomerController extends Controller
 
         $charge = $this->customer->get_charge($customer->CHR_ID);
 
-        return view('customer.check', compact('main_title', 'title_text', 'editauth', 'customer_ID', 'customer', 'charge'));
+        return view('customer.check', compact('main_title', 'title_text', 'title', 'editauth', 'customer_ID', 'customer', 'charge'));
     }
 
     public function add(Request $request)
     {
         $main_title = "取引先登録";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
         $phone_error = 0;
@@ -142,13 +145,14 @@ class CustomerController extends Controller
         $tax_fraction_timing = config('constants.TaxFractionTimingCode');
         $honor = config('constants.HonorCode');
 
-        return view('customer.add', compact('main_title', 'title_text', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.add', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
     }
 
     public function edit(Request $request, $customer_ID)
     {
         $main_title = "取引先編集";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         if ($request->input('cancel_x')) {
             return redirect()->route('customers.index');
@@ -204,7 +208,7 @@ class CustomerController extends Controller
         $tax_fraction_timing = config('constants.TaxFractionTimingCode');
         $honor = config('constants.HonorCode');
 
-        return view('customer.edit', compact('main_title', 'title_text', 'customer', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.edit', compact('main_title', 'title_text', 'title', 'customer', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
     }
 
     // Custom methods for validation and authorities

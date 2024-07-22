@@ -20,12 +20,15 @@ class ConfigurationController extends Controller
     {
         $main_title = "環境設定";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
-        $params = Configuration::index_select(1);
+        $config = new Configuration();
+        $params = $config->index_select(1);
 
         return view('configuration.index', compact(
             'main_title',
             'title_text',
+            'title',
             'params'
         ))
         ->with('security', Config::get('constants.SmtpSecurityCode'))
@@ -41,6 +44,7 @@ class ConfigurationController extends Controller
     {
         $main_title = "環境設定";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
         $error = [];
 
@@ -101,6 +105,7 @@ class ConfigurationController extends Controller
         return view('configuration.edit', compact(
             'main_title',
             'title_text',
+            'title',
             'data'
         ))
         ->with('security', $security)

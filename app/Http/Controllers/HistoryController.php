@@ -20,6 +20,7 @@ class HistoryController extends Controller
     {
         $main_title = "操作履歴";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
         // Fetching paginated data
         $condition = [];
@@ -43,6 +44,6 @@ class HistoryController extends Controller
 
         $action = Config::get('ActionCode');
 
-        return view('history.index', compact('main_title', 'title_text', 'histories', 'ids', 'action'));
+        return view('history.index', compact('main_title', 'title_text', 'title', 'histories', 'ids', 'action'));
     }
 }

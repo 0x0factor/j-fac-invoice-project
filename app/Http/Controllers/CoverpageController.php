@@ -28,6 +28,8 @@ class CoverpageController extends Controller
 
         $main_title = "送付状作成";
         $title_text = "帳票管理";
+        $title = "抹茶請求書";
+
         $maxline = Config::get('constants.CoverpageMaxFormLine');
         $SendMethod = Config::get('constants.SendMethod');
 
@@ -113,6 +115,7 @@ class CoverpageController extends Controller
                     'dataline' => $count ?: 1,
                     'main_title' => $main_title,
                     'title_text' => $title_text,
+                    'title',
                     'maxline' => $maxline,
                     'SendMethod' => $SendMethod,
                     'data' => $data

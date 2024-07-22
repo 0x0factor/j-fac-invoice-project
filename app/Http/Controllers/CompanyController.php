@@ -19,6 +19,7 @@ class CompanyController extends Controller
     {
         $main_title = "自社情報設定確認";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
 
@@ -40,6 +41,7 @@ class CompanyController extends Controller
         return view('company.index', compact(
             'main_title',
             'title_text',
+            'title',
             'data',
             'image',
             'color'
@@ -64,6 +66,7 @@ class CompanyController extends Controller
     {
         $main_title = "自社情報設定";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
         $phone_error = 0;
@@ -203,6 +206,7 @@ class CompanyController extends Controller
         return view('company.edit', compact(
             'main_title',
             'title_text',
+            'title',
             'data',
             'image',
             'phone_error',

@@ -63,6 +63,7 @@ class QuoteController extends AppController
     {
         $main_title = "見積書登録";
         $title_text = "帳票管理";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect('/quotes');
@@ -286,6 +287,7 @@ class QuoteController extends AppController
         return view('quote.add', [
             'main_title' => $main_title,
             'title_text' => $title_text,
+            'title' => $title,
             'excises' => Config::get('ExciseCode'),
             'fractions' => Config::get('FractionCode'),
             "discount" => Config::get('DiscountCode'),

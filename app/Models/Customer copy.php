@@ -22,6 +22,7 @@ class CustomersController extends Controller
     {
         $main_title = "取引先一覧";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
 
@@ -46,13 +47,15 @@ class CustomersController extends Controller
         $condition = [];
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customers.index', compact('main_title', 'title_text', 'charge'));
+        return view('customers.index', compact('main_title', 'title_text', 'title', 'charge'));
     }
 
     public function select()
     {
         $main_title = "顧客から絞り込み";
         $title_text = "帳票管理";
+        $title = "抹茶請求書";
+
         $inv_num = $this->customer->getInvoiceNum();
 
         // Pagination and search handling here
@@ -61,13 +64,14 @@ class CustomersController extends Controller
         $condition = [];
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customers.select', compact('main_title', 'title_text', 'inv_num', 'charge'));
+        return view('customers.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge'));
     }
 
     public function check($customer_ID)
     {
         $main_title = "取引先確認";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
 
@@ -88,12 +92,13 @@ class CustomersController extends Controller
 
         $charge = $this->customer->get_charge($customer->CHR_ID);
 
-        return view('customers.check', compact('main_title', 'title_text', 'editauth', 'customer_ID', 'charge'));
+        return view('customers.check', compact('main_title', 'title_text', 'title', 'editauth', 'customer_ID', 'charge'));
     }
     public function add(Request $request)
     {
         $main_title = "取引先登録";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $company_ID = 1;
         $phone_error = 0;
@@ -117,13 +122,14 @@ class CustomersController extends Controller
         // Fetch additional data for the form
         // Example: Fetch data for drop-downs and checkboxes
 
-        return view('customers.add', compact('main_title', 'title_text'));
+        return view('customers.add', compact('main_title', 'title_text', 'title'));
     }
 
     public function edit(Request $request, $customer_ID)
     {
         $main_title = "取引先編集";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         if ($request->input('cancel_x')) {
             return redirect()->route('customers.index');
@@ -153,7 +159,7 @@ class CustomersController extends Controller
         // Fetch additional data for the form
         // Example: Fetch data for drop-downs and checkboxes
 
-        return view('customers.edit', compact('main_title', 'title_text', 'customer'));
+        return view('customers.edit', compact('main_title', 'title_text', 'title', 'customer'));
     }
 
     // Actions go here

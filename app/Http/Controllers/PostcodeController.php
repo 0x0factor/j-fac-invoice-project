@@ -22,8 +22,9 @@ class PostcodeController extends Controller
         $count = Post::count();
         $main_title = "郵便番号の管理";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
-        return view('postcode.index', compact('count', 'main_title', 'title_text'));
+        return view('postcode.index', compact('count', 'main_title', 'title_text', 'title'));
     }
 
     // 更新
@@ -32,6 +33,7 @@ class PostcodeController extends Controller
         $count = Post::count();
         $main_title = "郵便番号の管理";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
         $ex_csv = ['csv', 'CSV'];
         $mime_csv = ['application/vnd.ms-excel'];

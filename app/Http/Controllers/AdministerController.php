@@ -22,12 +22,14 @@ class AdministerController extends Controller
     {
         $main_title = "ユーザ一覧";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
+
         $companyID = 1;
 
         // Retrieve all users except those with AUTHORITY 0
         $administers = Administer::where('AUTHORITY', '!=', 0)->paginate();
 
-        return view('administer.index', compact('main_title', 'title_text', 'administers'));
+        return view('administer.index', compact('main_title', 'title_text', 'title', 'administers'));
     }
 
     // 登録用
@@ -35,6 +37,8 @@ class AdministerController extends Controller
     {
         $main_title = "ユーザ登録";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
+
         $company_ID = 1;
         $error = [
             'LOGIN_ID' => 0,
@@ -80,7 +84,7 @@ class AdministerController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administer.add', compact('main_title', 'title_text', 'error', 'status', 'authority'));
+        return view('administer.add', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority'));
     }
 
     // 編集用
@@ -88,6 +92,8 @@ class AdministerController extends Controller
     {
         $main_title = "ユーザ編集";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
+
         $company_ID = 1;
         $error = [
             'LOGIN_ID' => 0,
@@ -149,7 +155,7 @@ class AdministerController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administer.edit', compact('main_title', 'title_text', 'error', 'status', 'authority', 'requestData'));
+        return view('administer.edit', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority', 'requestData'));
     }
 
     // 編集用
@@ -157,6 +163,7 @@ class AdministerController extends Controller
     {
         $main_title = "ユーザ確認";
         $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
 
         $administer = Administer::find($usr_ID);
 
@@ -167,6 +174,6 @@ class AdministerController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administer.check', compact('main_title', 'title_text', 'administer', 'status', 'authority'));
+        return view('administer.check', compact('main_title', 'title_text', 'title', 'administer', 'status', 'authority'));
     }
 }

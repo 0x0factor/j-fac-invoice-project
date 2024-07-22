@@ -22,6 +22,7 @@ class CustomerChargeController extends Controller
     {
         $main_title = "取引先担当者一覧";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         if (request()->has('delete_x')) {
             // トークンチェック
@@ -41,13 +42,14 @@ class CustomerChargeController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charge.index', compact('main_title', 'title_text', 'customers', 'status', 'countys'));
+        return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys'));
     }
 
     public function check($chargeID)
     {
         $main_title = "取引先担当者確認";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         $chargeAry = CustomerCharge::find($chargeID);
 
@@ -62,13 +64,14 @@ class CustomerChargeController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charge.check', compact('main_title', 'title_text', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
+        return view('customer_charge.check', compact('main_title', 'title_text', 'title', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
     }
 
     public function add(Request $request)
     {
         $main_title = "取引先担当者登録";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect()->route('customer_charges.index');
@@ -95,13 +98,14 @@ class CustomerChargeController extends Controller
         $countys = Config::get('prefectureCode');
         $status = Config::get('statusCode');
 
-        return view('customer_charge.add', compact('main_title', 'title_text', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
+        return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
     }
 
     public function edit(Request $request, $chargeID)
     {
         $main_title = "取引先担当者編集";
         $title_text = "顧客管理";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect()->route('customer_charges.index');
@@ -140,6 +144,6 @@ class CustomerChargeController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charge.edit', compact('main_title', 'title_text', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
+        return view('customer_charge.edit', compact('main_title', 'title_text', 'title', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
     }
 }

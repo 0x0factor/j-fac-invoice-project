@@ -22,6 +22,7 @@ class PersonalController extends Controller
         $user = Auth::user();
 
         $title_text = ($user->AUTHORITY == '1') ? "マイメニュー" : "管理者メニュー";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect('/homes');
@@ -54,6 +55,6 @@ class PersonalController extends Controller
             ]);
         }
 
-        return view('personal.pass_edit', compact('main_title', 'title_text'));
+        return view('personal.pass_edit', compact('main_title', 'title_text', 'title'));
     }
 }

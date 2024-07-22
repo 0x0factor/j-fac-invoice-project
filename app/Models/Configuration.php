@@ -18,6 +18,7 @@ class Configuration extends Model
         $_con_ID = is_null($_con_ID) ? 1 : $_con_ID;
 
         $result = DB::table($this->table)->find($_con_ID);
+        
 
         // Return null if record does not exist
         if (! $result)

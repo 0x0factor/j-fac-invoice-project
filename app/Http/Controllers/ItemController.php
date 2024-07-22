@@ -23,6 +23,8 @@ class ItemController extends Controller
         $excises = Config::get('ExciseCode');
         $main_title = "商品管理";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
+
         $page_title = "Company";
 
         return view('item.index', compact('excises', 'main_title', 'title_text', 'page_title'));
@@ -33,6 +35,7 @@ class ItemController extends Controller
     {
         $main_title = "商品登録";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect('/items');
@@ -59,7 +62,7 @@ class ItemController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('item.add', compact('main_title', 'title_text', 'excises'));
+        return view('item.add', compact('main_title', 'title_text', 'title', 'excises'));
     }
 
     // 編集用
@@ -67,6 +70,7 @@ class ItemController extends Controller
     {
         $main_title = "商品確認";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
 
         if (!$request->has('data')) {
             // 初期データの取得
@@ -86,7 +90,7 @@ class ItemController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('item.check', compact('main_title', 'title_text', 'excises', 'editauth', 'data'));
+        return view('item.check', compact('main_title', 'title_text', 'title', 'excises', 'editauth', 'data'));
     }
 
     // 編集用
@@ -94,6 +98,7 @@ class ItemController extends Controller
     {
         $main_title = "商品編集";
         $title_text = "自社情報設定";
+        $title = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect('/items');
@@ -125,7 +130,7 @@ class ItemController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('item.edit', compact('main_title', 'title_text', 'excises'));
+        return view('item.edit', compact('main_title', 'title_text', 'title', 'excises'));
     }
 
     // 削除用

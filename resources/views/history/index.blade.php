@@ -1,15 +1,13 @@
 @extends('layout.default')
 
 @section('content')
-<script><!--
+<script>
 try{
 	window.addEventListener("load",initTableRollovers('index_table'),false);
  }catch(e){
  	window.attachEvent("onload",initTableRollovers('index_table'));
 }
---></script>
 
-<script>
 $(function() {
 	setBeforeSubmit('<?php echo $this->name.ucfirst($this->action).'Form'; ?>');
 });
