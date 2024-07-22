@@ -46,7 +46,7 @@ $(document).ready(function($){
 <div id="contents">
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ route('quotes.store') }}" method="POST">
+            <form action="{{ route('quote.store') }}" method="POST">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>

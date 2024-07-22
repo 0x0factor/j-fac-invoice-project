@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Barryvdh\DomPDF\Facade\Pdf; // For PDF generation
 
-class TotalbillsController extends Controller
+class TotalbillController extends Controller
 {
     protected $totalbill;
     protected $bill;
@@ -45,7 +45,7 @@ class TotalbillsController extends Controller
     public function index()
     {
         $authority = [];
-        return view('totalbills.index', [
+        return view('totalbill.index', [
             'authority' => $authority,
             'main_title' => '合計請求書管理',
             'title_text' => '帳票管理',
@@ -121,7 +121,7 @@ class TotalbillsController extends Controller
                     }
                 }
 
-                return view('totalbills.search', [
+                return view('totalbill.search', [
                     'billlist' => $data,
                     'cst_name' => $request->input('Totalbill.CUSTOMER_NAME'),
                     'cst_id' => $request->input('Totalbill.CST_ID'),
@@ -215,7 +215,7 @@ class TotalbillsController extends Controller
                     return redirect()->back();
                 }
 
-                return view('totalbills.add', [
+                return view('totalbill.add', [
                     'billlist' => $data,
                     'bill_id' => $bill_id,
                     'edit_stat' => $request->input('Totalbill.EDIT_STAT'),
@@ -255,7 +255,7 @@ class TotalbillsController extends Controller
             $param['CustomerCharge']['UNIT'] = $customer_charge->UNIT;
         }
 
-        return view('totalbills.check', [
+        return view('totalbill.check', [
             'editauth' => $editauth,
             'param' => $param,
             'honor' => config('app.HonorCode'),
@@ -321,7 +321,7 @@ class TotalbillsController extends Controller
                 $billfrag = 1;
             }
 
-            return view('totalbills.edit_search', [
+            return view('totalbill.edit_search', [
                 'authority' => $user_auth,
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
@@ -361,7 +361,7 @@ class TotalbillsController extends Controller
                 return redirect('/totalbills/');
             }
 
-            return view('totalbills.edit', [
+            return view('totalbill.edit', [
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
                 'billlist' => $data,
@@ -387,7 +387,7 @@ class TotalbillsController extends Controller
             'class' => 'txt_mid'
         ];
 
-        return view('totalbills.edit_search', [
+        return view('totalbill.edit_search', [
             'edit_stat' => $edit_stat,
             'mailstatus' => config('app.MailStatusCode'),
             'status' => config('app.IssuedStatCode')

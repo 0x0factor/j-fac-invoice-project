@@ -74,13 +74,13 @@
                             &nbsp;
                         </td>
                         <td>
-                            <a href="{{ route('quotes.index')}}">
+                            <a href="{{ route('quote.index')}}">
                                 見積書
                             </a>
-                            <a href="{{ route('bills.index')}}">
+                            <a href="{{ route('bill.index')}}">
                                 請求書
                             </a>
-                            <a href="{{ route('deliveries.index')}}">
+                            <a href="{{ route('delivery.index')}}">
                                 納品書
                             </a>
                         </td>

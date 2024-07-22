@@ -58,7 +58,7 @@ class BillController extends Controller
             ]);
         }
 
-        return view('bills.index', [
+        return view('bill.index', [
             'bills' => $bills,
             'authority' => $authority,
             'main_title' => '請求書管理',
@@ -180,7 +180,7 @@ class BillController extends Controller
             'TAX_FRACTION_TIMING' => $defaultCompany['TAX_FRACTION_TIMING'] ?? 0
         ];
 
-        return view('bills.add', [
+        return view('bill.add', [
             'main_title' => $mainTitle,
             'title_text' => $titleText,
             'excises' => config('app.ExciseCode'),
@@ -239,7 +239,7 @@ class BillController extends Controller
         $editauth = $this->getEditAuthority($param['Bill']['USR_ID']);
 
         // Set data for the view
-        return view('bills.check', [
+        return view('bill.check', [
             'main_title' => '請求書確認',
             'title_text' => '帳票管理',
             'status' => Config::get('constants.IssuedStatCode'),
@@ -377,7 +377,7 @@ class BillController extends Controller
             $data['Bill']['CHARGE_NAME'] = $this->getChargeName($data['Bill']['CHR_ID']);
         }
 
-        return view('bills.edit', [
+        return view('bill.edit', [
             'excises' => config('constants.excise_code'),
             'fractions' => config('constants.fraction_code'),
             'tax_fraction_timing' => config('constants.tax_fraction_timing_code'),
@@ -455,7 +455,7 @@ class BillController extends Controller
                 // 成功
                 if (Quote::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '見積書に転記しました');
-                    return redirect()->route('quotes.index', ['customer' => $customer_id]);
+                    return redirect()->route('quote.index', ['customer' => $customer_id]);
                 } else {
                     return redirect()->route('bills.index', ['customer' => $customer_id]);
                 }
@@ -536,7 +536,7 @@ class BillController extends Controller
             }
         }
 
-        return view('bills.export')->with([
+        return view('bill.export')->with([
             'main_title' => '請求書Excel出力',
             'title_text' => '帳票管理'
         ]);
@@ -777,7 +777,7 @@ class BillController extends Controller
             $data['Customer']['TOTAL'] = round($data['Bill']['TOTAL']);
         }
 
-        return view('bills.receipt')->with([
+        return view('bill.receipt')->with([
             'main_title' => $mainTitle,
             'title_text' => $titleText,
             'error' => $errors,

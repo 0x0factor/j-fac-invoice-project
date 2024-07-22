@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
-class CustomersController extends Controller
+class CustomerController extends Controller
 {
     protected $customer;
 
@@ -45,7 +45,7 @@ class CustomersController extends Controller
         $condition = [];
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customers.index', compact('main_title', 'title_text', 'charge'));
+        return view('customer.index', compact('main_title', 'title_text', 'charge'));
     }
 
     public function select(Request $request)
@@ -62,7 +62,7 @@ class CustomersController extends Controller
         $condition = [];
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customers.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge'));
+        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge'));
     }
 
     public function check($customer_ID)
@@ -89,7 +89,7 @@ class CustomersController extends Controller
 
         $charge = $this->customer->get_charge($customer->CHR_ID);
 
-        return view('customers.check', compact('main_title', 'title_text', 'editauth', 'customer_ID', 'customer', 'charge'));
+        return view('customer.check', compact('main_title', 'title_text', 'editauth', 'customer_ID', 'customer', 'charge'));
     }
 
     public function add(Request $request)
@@ -142,7 +142,7 @@ class CustomersController extends Controller
         $tax_fraction_timing = config('constants.TaxFractionTimingCode');
         $honor = config('constants.HonorCode');
 
-        return view('customers.add', compact('main_title', 'title_text', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.add', compact('main_title', 'title_text', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
     }
 
     public function edit(Request $request, $customer_ID)
@@ -204,7 +204,7 @@ class CustomersController extends Controller
         $tax_fraction_timing = config('constants.TaxFractionTimingCode');
         $honor = config('constants.HonorCode');
 
-        return view('customers.edit', compact('main_title', 'title_text', 'customer', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.edit', compact('main_title', 'title_text', 'customer', 'payment', 'countys', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
     }
 
     // Custom methods for validation and authorities

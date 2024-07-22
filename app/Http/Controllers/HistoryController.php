@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 
-class HistoriesController extends Controller
+class HistoryController extends Controller
 {
     public function __construct()
     {
@@ -43,6 +43,6 @@ class HistoriesController extends Controller
 
         $action = Config::get('ActionCode');
 
-        return view('histories.index', compact('main_title', 'title_text', 'histories', 'ids', 'action'));
+        return view('history.index', compact('main_title', 'title_text', 'histories', 'ids', 'action'));
     }
 }

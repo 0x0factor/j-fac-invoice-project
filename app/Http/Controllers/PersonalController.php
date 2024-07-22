@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\Personal;
 
-class PersonalsController extends Controller
+class PersonalController extends Controller
 {
     public function __construct()
     {
@@ -54,6 +54,6 @@ class PersonalsController extends Controller
             ]);
         }
 
-        return view('personals.pass_edit', compact('main_title', 'title_text'));
+        return view('personal.pass_edit', compact('main_title', 'title_text'));
     }
 }

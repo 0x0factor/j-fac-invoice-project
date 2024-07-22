@@ -27,17 +27,17 @@
     </div>
     <div class="edit_btn2">
         @if($editauth)
-            <a href="{{ route('totalbills.edit', ['id' => $param['Totalbill']['TBL_ID']]) }}">
+            <a href="{{ route('totalbill.edit', ['id' => $param['Totalbill']['TBL_ID']]) }}">
                 <img src="{{ asset('img/bt_edit.jpg') }}" class="imgover" alt="編集する">
             </a>
         @endif
-        <a href="{{ route('totalbills.download', ['id' => $param['Totalbill']['TBL_ID']]) }}">
+        <a href="{{ route('totalbill.download', ['id' => $param['Totalbill']['TBL_ID']]) }}">
             <img src="{{ asset('img/bt_download.jpg') }}" class="imgover" alt="ダウンロード">
         </a>
-        <a href="{{ route('totalbills.preview', ['id' => $param['Totalbill']['TBL_ID']]) }}" target="_blank">
+        <a href="{{ route('totalbill.preview', ['id' => $param['Totalbill']['TBL_ID']]) }}" target="_blank">
             <img src="{{ asset('img/bt_preview.jpg') }}" class="imgover" alt="プレビュー">
         </a>
-        <form action="{{ route('totalbills.moveback') }}" method="post" style="display:inline;">
+        <form action="{{ route('totalbill.moveback') }}" method="post" style="display:inline;">
             @csrf
             <a href="javascript:move_to_index();">
                 <img src="{{ asset('img/bt_index.jpg') }}" class="imgover" alt="一覧">

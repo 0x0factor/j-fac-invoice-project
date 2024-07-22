@@ -8,7 +8,7 @@ use App\Models\Serial;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
-class CompaniesController extends Controller
+class CompanyController extends Controller
 {
     public function __construct()
     {
@@ -37,7 +37,7 @@ class CompaniesController extends Controller
             $color[$key] = $value['name'];
         }
 
-        return view('companies.index', compact(
+        return view('company.index', compact(
             'main_title',
             'title_text',
             'data',
@@ -200,7 +200,7 @@ class CompaniesController extends Controller
             'class' => 'txt_mid'
         ];
 
-        return view('companies.edit', compact(
+        return view('company.edit', compact(
             'main_title',
             'title_text',
             'data',

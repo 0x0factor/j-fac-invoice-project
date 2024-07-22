@@ -137,10 +137,10 @@ $(function() {
 </form>
 
 <div class="new_document">
-    <a href="{{ route('deliveries.add') }}">
+    <a href="{{ route('delivery.add') }}">
         <img src="{{ asset('img/bt_new.jpg') }}" alt="" class="imgover">
     </a>
-    <a href="{{ route('deliveries.export') }}">
+    <a href="{{ route('delivery.export') }}">
         <img src="{{ asset('img/bt_excel.jpg') }}" alt="" class="imgover">
     </a>
 </div>
@@ -196,7 +196,7 @@ $(function() {
                                 <td>{{ $customHtml->ht2br($val['Delivery']['MDV_ID'], 'Delivery', 'MDV_ID') }}</td>
                                 <td>{{ $customHtml->ht2br($val['Customer']['NAME'], 'Customer', 'NAME') }}</td>
                                 <td>
-                                    <a href="{{ route('deliveries.check', $val['Delivery']['MDV_ID']) }}">
+                                    <a href="{{ route('delivery.check', $val['Delivery']['MDV_ID']) }}">
                                         {{ $val['Delivery']['SUBJECT'] }}
                                     </a>
                                 </td>

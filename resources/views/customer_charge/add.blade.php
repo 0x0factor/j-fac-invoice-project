@@ -29,7 +29,7 @@
     <div class="contents_box">
         <img src="{{ asset('bg_contents_top.jpg') }}" alt="">
         <div class="contents_area">
-            <form action="{{ route('customer_charges.store') }}" method="post" class="CustomerCharge">
+            <form action="{{ route('customer_charge.store') }}" method="post" class="CustomerCharge">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>

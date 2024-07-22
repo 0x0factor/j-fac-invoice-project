@@ -2,7 +2,7 @@
 	<div class="contents_box">
 		<img src="{{ asset('img/bg_contents_top.jpg') }}" class="block" alt="">
 
-		<form action="{{ route('mails.store') }}" method="post">
+		<form action="{{ route('mail.store') }}" method="post">
             @csrf
 			<div class="contents_area">
 				<h3 class="mail_h3">データのダウンロード</h3>

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
 
-class CoverpagesController extends Controller
+class CoverpageController extends Controller
 {
     public function __construct()
     {
@@ -108,7 +108,7 @@ class CoverpagesController extends Controller
 
                 return $pdf->download($filename);
             } else {
-                return view('coverpages.index', [
+                return view('coverpage.index', [
                     'errors' => $errors,
                     'dataline' => $count ?: 1,
                     'main_title' => $main_title,
@@ -120,7 +120,7 @@ class CoverpagesController extends Controller
             }
         } else {
             $data['Coverpages']['DATE'] = date("Y-m-d");
-            return view('coverpages.index', [
+            return view('coverpage.index', [
                 'dataline' => 1,
                 'main_title' => $main_title,
                 'title_text' => $title_text,

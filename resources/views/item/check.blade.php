@@ -26,7 +26,7 @@
         <div class="edit_01_item"><span class="edit_txt">&nbsp;</span></div>
     </h3>
 
-    <form action="{{ route('items.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST" class="Item">
+    <form action="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST" class="Item">
         @csrf
         <div class="contents_box">
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
@@ -109,17 +109,17 @@
         </div>
         <div class="edit_btn">
             @if($editauth)
-                <a href="{{ route('items.edit', ['id' => $params['Item']['ITM_ID']]) }}" class="imgover" onclick="event.preventDefault(); document.getElementById('editForm').submit();">
+                <a href="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" class="imgover" onclick="event.preventDefault(); document.getElementById('editForm').submit();">
                     <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                 </a>
             @endif
 
-            <form id="editForm" action="{{ route('items.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST" style="display:inline;">
+            <form id="editForm" action="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST" style="display:inline;">
                 @csrf
                 <input type="hidden" name="ITM_ID" value="{{ $params['Item']['ITM_ID'] }}">
             </form>
 
-            <form action="{{ route('items.index') }}" method="POST" style="display:inline;">
+            <form action="{{ route('item.index') }}" method="POST" style="display:inline;">
                 @csrf
                 <a href="javascript:move_to_index();" class="imgover">
                     <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">

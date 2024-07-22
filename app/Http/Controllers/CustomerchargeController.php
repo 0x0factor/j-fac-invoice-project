@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
-class CustomerChargesController extends Controller
+class CustomerChargeController extends Controller
 {
     public function __construct()
     {
@@ -41,7 +41,7 @@ class CustomerChargesController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charges.index', compact('main_title', 'title_text', 'customers', 'status', 'countys'));
+        return view('customer_charge.index', compact('main_title', 'title_text', 'customers', 'status', 'countys'));
     }
 
     public function check($chargeID)
@@ -62,7 +62,7 @@ class CustomerChargesController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charges.check', compact('main_title', 'title_text', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
+        return view('customer_charge.check', compact('main_title', 'title_text', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
     }
 
     public function add(Request $request)
@@ -95,7 +95,7 @@ class CustomerChargesController extends Controller
         $countys = Config::get('prefectureCode');
         $status = Config::get('statusCode');
 
-        return view('customer_charges.add', compact('main_title', 'title_text', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
+        return view('customer_charge.add', compact('main_title', 'title_text', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
     }
 
     public function edit(Request $request, $chargeID)
@@ -140,6 +140,6 @@ class CustomerChargesController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charges.edit', compact('main_title', 'title_text', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
+        return view('customer_charge.edit', compact('main_title', 'title_text', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
     }
 }

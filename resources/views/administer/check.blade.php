@@ -72,11 +72,11 @@ use Illuminate\Support\Facades\Session;
         <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="Contents Bottom" class="block">
     </div>
     <div class="edit_btn">
-        <a href="{{ route('administers.edit', $params['Administer']['USR_ID']) }}" class="imgover">
+        <a href="{{ route('administer.edit', $params['Administer']['USR_ID']) }}" class="imgover">
             <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
         </a>
         {!! Form::close() !!}
-        <form action="{{ route('administers.index') }}" method="get" style="display:inline;">
+        <form action="{{ route('administer.index') }}" method="get" style="display:inline;">
             <button type="submit" class="imgover">
                 <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
             </button>

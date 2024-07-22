@@ -12,7 +12,7 @@ use Session;
 use Config;
 use Carbon\Carbon;
 
-class MailsController extends Controller
+class MailController extends Controller
 {
     public function __construct()
     {
@@ -27,7 +27,7 @@ class MailsController extends Controller
             3 => '納品書'
         ];
 
-        return view('mails.index', [
+        return view('mail.index', [
             'mailstatus' => Config::get('MailStatusCode'),
             'type' => $type,
             'main_title' => '確認メール',
@@ -63,7 +63,7 @@ class MailsController extends Controller
                 break;
         }
 
-        return view('mails.check', [
+        return view('mail.check', [
             'reptime' => $result->RCV_DATE,
             'mail_status' => $status[$result->STATUS],
             'sender' => $result->SENDER,
@@ -135,7 +135,7 @@ class MailsController extends Controller
                     2 => '修正願い'
                 ];
 
-                return view('mails.c_reaffirmation', [
+                return view('mail.c_reaffirmation', [
                     'status' => $sta[$request->input('Mail.STATUS')],
                     'comment' => nl2br(e($request->input('Mail.COMMENT')))
                 ]);
@@ -163,7 +163,7 @@ class MailsController extends Controller
                     $type = "deliveries";
                 }
 
-                return view('mails.customer', [
+                return view('mail.customer', [
                     'frm_id' => $check->FRM_ID,
                     'type' => $type,
                     'token' => $token,
@@ -186,7 +186,7 @@ class MailsController extends Controller
             abort(404);
         }
 
-        return view('mails.login', [
+        return view('mail.login', [
             'customer_charge' => $check->RCV_NAME,
             'charge' => $check->SND_NAME,
             'token' => $token
@@ -195,7 +195,7 @@ class MailsController extends Controller
 
     public function logout()
     {
-        return view('mails.logout');
+        return view('mail.logout');
     }
 
     public function sendmail(Request $request)
@@ -224,7 +224,7 @@ class MailsController extends Controller
                 if ($this->Mail->Send_Mail($request->input('Mail'))) {
                     $pass = $request->input('Mail.PASSWORD1');
 
-                    return view('mails.completion', [
+                    return view('mail.completion', [
                         'main_title' => '確認依頼',
                         'title_text' => '帳票管理',
                         'pass' => $pass
@@ -248,7 +248,7 @@ class MailsController extends Controller
 
                 $param = $request->input('Mail');
 
-                return view('mails.reaffirmation', [
+                return view('mail.reaffirmation', [
                     'main_title' => '確認依頼',
                     'title_text' => '帳票管理',
                     'param' => $param
@@ -270,7 +270,7 @@ class MailsController extends Controller
                                           ->where('SND_DATE', '>=', $time_limit)
                                           ->get();
 
-                return view('mails.sendmail', [
+                return view('mail.sendmail', [
                     'quotes' => $all_quotes,
                     'bills' => $all_bills,
                     'deliveries' => $all_deliveries,

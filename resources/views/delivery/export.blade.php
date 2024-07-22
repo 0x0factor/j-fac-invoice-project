@@ -9,7 +9,7 @@
 <div id="contents">
     <div class="search_box">
         <div class="search_area">
-            <form method="POST" action="{{ route('deliveries.index') }}">
+            <form method="POST" action="{{ route('delivery.index') }}">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>

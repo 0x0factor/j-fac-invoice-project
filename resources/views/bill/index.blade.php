@@ -30,7 +30,7 @@ $(function() {
 
     <div class="quote_search_box">
         <div class="quote_search_area">
-            <form method="get" action="{{ route('bills.index') }}">
+            <form method="get" action="{{ route('bill.index') }}">
                 <table width="940" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th>管理番号</th>
@@ -130,10 +130,10 @@ $(function() {
     <div id="calid"></div>
 
     <div class="new_document">
-        <a href="{{ route('bills.create') }}">
+        <a href="{{ route('bill.create') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="新規">
         </a>
-        <a href="{{ route('bills.export') }}">
+        <a href="{{ route('bill.export') }}">
             <img src="{{ asset('img/bt_excel.jpg') }}" alt="エクスポート">
         </a>
     </div>
@@ -157,7 +157,7 @@ $(function() {
 
         <div class="list_area">
             @if ($bills->isNotEmpty())
-                <form method="post" action="{{ route('bills.action') }}">
+                <form method="post" action="{{ route('bill.action') }}">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>
@@ -183,7 +183,7 @@ $(function() {
                                     <td><input type="checkbox" name="selected[]" value="{{ $bill->MBL_ID }}" class="chk"></td>
                                     <td>{{ $bill->MBL_ID }}</td>
                                     <td>{{ $bill->customer->NAME }}</td>
-                                    <td><a href="{{ route('bills.check', $bill->MBL_ID) }}">{{ $bill->SUBJECT }}</a></td>
+                                    <td><a href="{{ route('bill.check', $bill->MBL_ID) }}">{{ $bill->SUBJECT }}</a></td>
                                     <td>{{ $bill->TOTAL ?? '&nbsp;' }}円</td>
                                     <td>{{ $bill->ISSUE_DATE ?? '&nbsp;' }}</td>
                                     @if($user->AUTHORITY != 1)

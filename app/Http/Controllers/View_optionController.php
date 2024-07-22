@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\ViewOption;
 
-class ViewOptionsController extends Controller
+class ViewOptionController extends Controller
 {
     public function __construct()
     {

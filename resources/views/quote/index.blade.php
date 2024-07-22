@@ -22,7 +22,7 @@
     <h3><div class="quote_search"><span class="edit_txt">&nbsp;</span></div></h3>
     <div class="quote_search_box">
         <div class="quote_search_area">
-            <form method="GET" action="{{ route('quotes.index') }}">
+            <form method="GET" action="{{ route('quote.index') }}">
                 <table width="940" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th>管理番号</th>
@@ -114,8 +114,8 @@
         <div id="calid"></div>
 
         <div class="new_document">
-            <a href="{{ route('quotes.create') }}"><img src="{{ asset('img/bt_new.jpg') }}" alt="新規作成"></a>
-            <a href="{{ route('quotes.export') }}"><img src="{{ asset('img/bt_excel.jpg') }}" alt="エクスポート"></a>
+            <a href="{{ route('quote.create') }}"><img src="{{ asset('img/bt_new.jpg') }}" alt="新規作成"></a>
+            <a href="{{ route('quote.export') }}"><img src="{{ asset('img/bt_excel.jpg') }}" alt="エクスポート"></a>
         </div>
 
         <h3><div class="edit_02_quote"><span class="edit_txt">&nbsp;</span></div></h3>
@@ -130,7 +130,7 @@
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">
             <div class="list_area">
                 @if($quotes->isNotEmpty())
-                <form method="POST" action="{{ route('quotes.action') }}">
+                <form method="POST" action="{{ route('quote.action') }}">
                     @csrf
                     @method('DELETE')
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
@@ -155,7 +155,7 @@
                             <td class="v50"><input type="checkbox" name="selected_quotes[]" value="{{ $quote->MQT_ID }}" class="chk"></td>
                             <td class="v50">{{ $quote->MQT_ID }}</td>
                             <td class="v100">{{ $quote->customer->NAME }}</td>
-                            <td class="v100"><a href="{{ route('quotes.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a></td>
+                            <td class="v100"><a href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a></td>
                             <td class="v150">{{ $quote->TOTAL }}円</td>
                             <td class="v150">{{ $quote->ISSUE_DATE }}</td>
                             @if(auth()->user()->AUTHORITY != 1)

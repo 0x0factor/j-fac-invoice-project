@@ -8,7 +8,7 @@
 <div id="contents">
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ route('bills.index') }}" method="post">
+            <form action="{{ route('bill.index') }}" method="post">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>

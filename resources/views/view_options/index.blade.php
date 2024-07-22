@@ -63,7 +63,7 @@
 
 @if($user['AUTHORITY'] == 0)
     <div class="edit_btn">
-        <a href="{{ route('view_options.edit') }}">
+        <a href="{{ route('view_option.edit') }}">
             <img src="{{ asset('img/bt_edit.jpg') }}" class="imgover" alt="編集する">
         </a>
     </div>

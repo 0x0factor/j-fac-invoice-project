@@ -31,7 +31,7 @@ $(function() {
 @endif
 
 {{-- Form Start --}}
-<form method="GET" action="{{ route('totalbills.index') }}">
+<form method="GET" action="{{ route('totalbill.index') }}">
     <div id="contents">
         <div class="arrow_under">
             <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow Under">
@@ -100,7 +100,7 @@ $(function() {
     </form>
 
     <div class="new_document">
-        <a href="{{ route('totalbills.create') }}">
+        <a href="{{ route('totalbill.create') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="New">
         </a>
     </div>
@@ -127,7 +127,7 @@ $(function() {
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">
         <div class="list_area">
             @if(is_array($list))
-                <form method="POST" action="{{ route('totalbills.action') }}">
+                <form method="POST" action="{{ route('totalbill.action') }}">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>
@@ -152,7 +152,7 @@ $(function() {
                                     <td><input type="checkbox" name="ids[]" value="{{ $val['Totalbill']['TBL_ID'] }}" class="chk"></td>
                                     <td>{{ $val['Totalbill']['TBL_ID'] }}</td>
                                     <td>{{ $val['Customer']['NAME'] }}</td>
-                                    <td><a href="{{ route('totalbills.show', ['id' => $val['Totalbill']['TBL_ID']]) }}">{{ $val['Totalbill']['SUBJECT'] }}</a></td>
+                                    <td><a href="{{ route('totalbill.show', ['id' => $val['Totalbill']['TBL_ID']]) }}">{{ $val['Totalbill']['SUBJECT'] }}</a></td>
                                     <td>{{ isset($val['Totalbill']['THISM_BILL']) ? $val['Totalbill']['THISM_BILL'] . '円' : '&nbsp;' }}</td>
                                     <td>{{ $val['Totalbill']['ISSUE_DATE'] ?: '&nbsp;' }}</td>
                                     @if($user['AUTHORITY'] != 1)

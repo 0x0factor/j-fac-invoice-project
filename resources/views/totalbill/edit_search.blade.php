@@ -34,7 +34,7 @@
     </div>
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ route('totalbills.store') }}" method="post" class="Totalbill">
+            <form action="{{ route('totalbill.store') }}" method="post" class="Totalbill">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>

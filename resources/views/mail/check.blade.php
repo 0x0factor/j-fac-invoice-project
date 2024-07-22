@@ -64,7 +64,7 @@
         <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block">
     </div>
     <div class="edit_btn">
-        <a href="{{ route('mails.index') }}" class="imgover">
+        <a href="{{ route('mail.index') }}" class="imgover">
             <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
         </a>
     </div>

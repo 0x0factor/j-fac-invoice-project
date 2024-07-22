@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-class ConfigurationsController extends Controller
+class ConfigurationController extends Controller
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ class ConfigurationsController extends Controller
 
         $params = Configuration::index_select(1);
 
-        return view('configurations.index', compact(
+        return view('configuration.index', compact(
             'main_title',
             'title_text',
             'params'
@@ -98,7 +98,7 @@ class ConfigurationsController extends Controller
             'class' => 'txt_mid'
         ];
 
-        return view('configurations.edit', compact(
+        return view('configuration.edit', compact(
             'main_title',
             'title_text',
             'data'

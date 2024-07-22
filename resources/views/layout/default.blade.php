@@ -83,19 +83,19 @@
                             <img src="{{ asset('img/bt_menu02.jpg') }}" alt="帳票管理" class="imgover">
                         @endif
                         <ul class="dmenu">
-                            <li><span><a href="{{ route('customers.select') }}">顧客から絞り込み</a></span></li>
+                            <li><span><a href="{{ route('customer.select') }}">顧客から絞り込み</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
                             <li><span><a href="{{ route('quote.index') }}">見積書一覧</a></span></li>
                             <li><span><a href="{{ route('quote.add') }}">見積書を作成する</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
-                            <li><span><a href="{{ route('bills.index') }}">請求書一覧</a></span></li>
-                            <li><span><a href="{{ route('bills.add') }}">請求書を作成する</a></span></li>
-                            <li><span><a href="{{ route('totalbills.movetoindex') }}">合計請求書一覧</a></span></li>
+                            <li><span><a href="{{ route('bill.index') }}">請求書一覧</a></span></li>
+                            <li><span><a href="{{ route('bill.add') }}">請求書を作成する</a></span></li>
+                            <li><span><a href="{{ route('totalbill.movetoindex') }}">合計請求書一覧</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
-                            <li><span><a href="{{ route('deliveries.movetoindex') }}">納品書一覧</a></span></li>
-                            <li><span><a href="{{ route('deliveries.add') }}">納品書を作成する</a></span></li>
+                            <li><span><a href="{{ route('delivery.index') }}">納品書一覧</a></span></li>
+                            <li><span><a href="{{ route('delivery.add') }}">納品書を作成する</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
                             @if(isset($rb_flag) && $rb_flag)
@@ -104,7 +104,7 @@
                                 <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
                             @endif
 
-                            <li><span><a href="{{ route('mails.index') }}">確認メール一覧</a></span></li>
+                            <li><span><a href="{{ route('mail.index') }}">確認メール一覧</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                         </ul>
                     </li>
@@ -115,9 +115,9 @@
                             <img src="{{ asset('img/bt_menu03.jpg') }}" alt="顧客管理" class="imgover">
                         @endif
                         <ul class="dmenu">
-                            <li><span><a href="{{ route('customers.movetoindex') }}">取引先を見る</a></span></li>
-                            <li><span><a href="{{ route('customer_charges.index') }}">取引先担当者を見る</a></span></li>
-                            <li><span><a href="{{ route('coverpages.index') }}">送付状を作成する</a></span></li>
+                            <li><span><a href="{{ route('customer.movetoindex') }}">取引先を見る</a></span></li>
+                            <li><span><a href="{{ route('customer_charge.index') }}">取引先担当者を見る</a></span></li>
+                            <li><span><a href="{{ route('coverpage.index') }}">送付状を作成する</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                         </ul>
                     </li>
@@ -128,12 +128,12 @@
                             <img src="{{ asset('img/bt_menu04.jpg') }}" alt="自社設定" class="imgover">
                         @endif
                         <ul class="dmenu">
-                            <li><span><a href="{{ route('companies.index') }}">基本情報を見る</a></span></li>
-                            <li><span><a href="{{ route('charges.movetoindex') }}">自社担当者を見る</a></span></li>
+                            <li><span><a href="{{ route('company.index') }}">基本情報を見る</a></span></li>
+                            <li><span><a href="{{ route('charge.movetoindex') }}">自社担当者を見る</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
-                            <li><span><a href="{{ route('items.movetoindex') }}">商品を見る</a></span></li>
-                            <li><span><a href="{{ route('items.add') }}">商品を登録する</a></span></li>
+                            <li><span><a href="{{ route('item.movetoindex') }}">商品を見る</a></span></li>
+                            <li><span><a href="{{ route('item.add') }}">商品を登録する</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                         </ul>
                     </li>
@@ -145,13 +145,13 @@
                                 <img src="{{ asset('img/bt_menu05.jpg') }}" alt="管理者メニュー" class="imgover">
                             @endif
                             <ul class="dmenu">
-                                <li><span><a href="{{ route('administers.movetoindex') }}">ユーザを管理する</a></span></li>
-                                <li><span><a href="{{ route('histories.movetoindex') }}">操作履歴を見る</a></span></li>
-                                <li><span><a href="{{ route('configurations.index') }}">環境設定をする</a></span></li>
+                                <li><span><a href="{{ route('administer.index') }}">ユーザを管理する</a></span></li>
+                                <li><span><a href="{{ route('history.movetoindex') }}">操作履歴を見る</a></span></li>
+                                <li><span><a href="{{ route('configuration.index') }}">環境設定をする</a></span></li>
                                 <li><span><a href="{{ route('postcode.index') }}">郵便番号を管理する</a></span></li>
-                                <li><span><a href="{{ route('view_options.index') }}">デザイン設定をする</a></span></li>
+                                <li><span><a href="{{ route('view_option.index') }}">デザイン設定をする</a></span></li>
                                 <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
-                                <li><span><a href="{{ route('personals.passEdit') }}">パスワードを変更する</a></span></li>
+                                <li><span><a href="{{ route('personal.passEdit') }}">パスワードを変更する</a></span></li>
                                 <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                             </ul>
                         @endif
@@ -163,7 +163,7 @@
                             <img src="{{ asset('img/bt_menu06.jpg') }}" alt="ユーザメニュー" class="imgover">
                         @endif
                         <ul class="dmenu">
-                            <li><span><a href="{{ route('personals.passEdit') }}">パスワードを変更する</a></span></li>
+                            <li><span><a href="{{ route('personal.passEdit') }}">パスワードを変更する</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                         </ul>
                     </li>

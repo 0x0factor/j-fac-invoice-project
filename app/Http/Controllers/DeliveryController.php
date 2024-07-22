@@ -16,7 +16,7 @@ use App\Models\Customer;
 use App\Services\ExcelService;
 use Carbon\Carbon;
 
-class DeliveriesController extends Controller
+class DeliveryController extends Controller
 {
     const DISCOUNT_TYPE_PERCENT = 0;
     const DISCOUNT_TYPE_NONE = 2;
@@ -57,7 +57,7 @@ class DeliveriesController extends Controller
         $this->data['mailstatus'] = config('app.MailStatusCode');
         $this->data['status'] = config('app.IssuedStatCode');
 
-        return view('deliveries.index', $this->data);
+        return view('deliverie.index', $this->data);
     }
 
     // 登録用
@@ -233,7 +233,7 @@ class DeliveriesController extends Controller
         $this->data['taxOperationDate'] = config('app.TaxOperationDate');
         $this->data['seal_flg'] = config('app.SealFlg');
 
-        return view('deliveries.add', $this->data);
+        return view('deliverie.add', $this->data);
     }
 
     public function check(Request $request, $id)
@@ -261,7 +261,7 @@ class DeliveriesController extends Controller
             'customerCharge' => $delivery->CustomerCharge,
         ];
 
-        return view('deliveries.check', $data);
+        return view('deliverie.check', $data);
     }
     public function edit(Request $request, $id = null)
     {
@@ -351,7 +351,7 @@ class DeliveriesController extends Controller
         $this->data['error'] = $error;
         $this->data['dataline'] = $count;
 
-        return view('deliveries.edit', $this->data);
+        return view('deliverie.edit', $this->data);
     }
 
     public function action(Request $request)
@@ -390,7 +390,7 @@ class DeliveriesController extends Controller
         if ($request->input('reproduce_quote_x')) {
             $result = Delivery::reproduceCheck($request->input('data'));
             if ($result && Quote::insertReproduce($result, Auth::id())) {
-                return redirect()->route('quotes.index', ['customer' => $customer_id])->with('success', '見積書に転記しました');
+                return redirect()->route('quote.index', ['customer' => $customer_id])->with('success', '見積書に転記しました');
             }
             return redirect()->route('deliveries.index', ['customer' => $customer_id]);
         }
@@ -439,7 +439,7 @@ class DeliveriesController extends Controller
             }
         }
 
-        return view('deliveries.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理']);
+        return view('deliverie.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理']);
     }
 
     public function pdf(Request $request, $id)

@@ -12,7 +12,7 @@
 
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ route('administers.index') }}" method="GET">
+            <form action="{{ route('administer.index') }}" method="GET">
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th>ユーザID</th>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="new_document">
-        <a href="{{ route('administers.create') }}">
+        <a href="{{ route('administer.create') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="">
         </a>
     </div>
@@ -71,25 +71,25 @@
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
             @if($administers->isNotEmpty())
-                <form action="{{ route('administers.action') }}" method="POST">
+                <form action="{{ route('administer.action') }}" method="POST">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>
                             <tr>
                                 <th class="w50">
-                                    <a href="{{ route('administers.index', ['sort' => 'USR_ID']) }}">No</a>
+                                    <a href="{{ route('administer.index', ['sort' => 'USR_ID']) }}">No</a>
                                 </th>
                                 <th class="w300">
-                                    <a href="{{ route('administers.index', ['sort' => 'LOGIN_ID']) }}">ユーザID</a>
+                                    <a href="{{ route('administer.index', ['sort' => 'LOGIN_ID']) }}">ユーザID</a>
                                 </th>
                                 <th class="w200">
-                                    <a href="{{ route('administers.index', ['sort' => 'NAME_KANA']) }}">ユーザ名</a>
+                                    <a href="{{ route('administer.index', ['sort' => 'NAME_KANA']) }}">ユーザ名</a>
                                 </th>
                                 <th class="w300">
-                                    <a href="{{ route('administers.index', ['sort' => 'MAIL']) }}">メール</a>
+                                    <a href="{{ route('administer.index', ['sort' => 'MAIL']) }}">メール</a>
                                 </th>
                                 <th class="w100">
-                                    <a href="{{ route('administers.index', ['sort' => 'STATUS']) }}">ステータス</a>
+                                    <a href="{{ route('administer.index', ['sort' => 'STATUS']) }}">ステータス</a>
                                 </th>
                             </tr>
                         </thead>
@@ -99,7 +99,7 @@
                                     <tr>
                                         <td>{{ $administer->USR_ID }}</td>
                                         <td>
-                                            <a href="{{ route('administers.show', $administer->USR_ID) }}">{{ $administer->LOGIN_ID }}</a>
+                                            <a href="{{ route('administer.show', $administer->USR_ID) }}">{{ $administer->LOGIN_ID }}</a>
                                         </td>
                                         <td>{{ $administer->NAME }}</td>
                                         <td>{{ $administer->MAIL ?: '&nbsp;' }}</td>

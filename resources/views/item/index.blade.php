@@ -26,7 +26,7 @@ $(function() {
     {{ session('flash') }}
 @endif
 
-<form action="{{ route('items.index') }}" method="get">
+<form action="{{ route('item.index') }}" method="get">
     @csrf
     <div id="contents">
         <div class="arrow_under">
@@ -97,7 +97,7 @@ $(function() {
 
     <div class="list_area">
         @if(is_array($list))
-            <form action="{{ route('items.delete') }}" method="post">
+            <form action="{{ route('item.delete') }}" method="post">
                 @csrf
                 <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                     <thead>
@@ -119,7 +119,7 @@ $(function() {
                             <tr>
                                 <td><input type="checkbox" name="ITM_ID[]" value="{{ $val['Item']['ITM_ID'] }}" class="chk" style="width:30px;"></td>
                                 <td>{{ $val['Item']['ITM_ID'] }}</td>
-                                <td><a href="{{ route('items.check', $val['Item']['ITM_ID']) }}">{{ $val['Item']['ITEM'] }}</a></td>
+                                <td><a href="{{ route('item.check', $val['Item']['ITM_ID']) }}">{{ $val['Item']['ITEM'] }}</a></td>
                                 <td>{!! $customHtml->ht2br($val['Item']['ITEM_CODE'], 'Item', 'ITEM_CODE') ?: "&nbsp;" !!}</td>
                                 <td>{!! $customHtml->ht2br($val['Item']['UNIT'], 'Item', 'UNIT') ?: "&nbsp;" !!}</td>
                                 <td>{!! $customHtml->ht2br($val['Item']['UNIT_PRICE'], 'Item', 'UNIT_PRICE') ?: "&nbsp;" !!}</td>

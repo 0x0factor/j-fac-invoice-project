@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
-class ItemsController extends Controller
+class ItemController extends Controller
 {
     public function __construct()
     {
@@ -25,7 +25,7 @@ class ItemsController extends Controller
         $title_text = "自社情報設定";
         $page_title = "Company";
 
-        return view('items.index', compact('excises', 'main_title', 'title_text', 'page_title'));
+        return view('item.index', compact('excises', 'main_title', 'title_text', 'page_title'));
     }
 
     // 登録用
@@ -59,7 +59,7 @@ class ItemsController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('items.add', compact('main_title', 'title_text', 'excises'));
+        return view('item.add', compact('main_title', 'title_text', 'excises'));
     }
 
     // 編集用
@@ -86,7 +86,7 @@ class ItemsController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('items.check', compact('main_title', 'title_text', 'excises', 'editauth', 'data'));
+        return view('item.check', compact('main_title', 'title_text', 'excises', 'editauth', 'data'));
     }
 
     // 編集用
@@ -125,7 +125,7 @@ class ItemsController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('items.edit', compact('main_title', 'title_text', 'excises'));
+        return view('item.edit', compact('main_title', 'title_text', 'excises'));
     }
 
     // 削除用

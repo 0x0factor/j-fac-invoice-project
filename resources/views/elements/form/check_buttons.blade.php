@@ -31,7 +31,7 @@
         </a>
 
         @if($param[$formType]['STATUS'] == 1)
-            <a href="{{ route('mails.sendmail', ['action' => $mailAction, 'id' => $param[$formType][$formID]]) }}">
+            <a href="{{ route('mail.sendmail', ['action' => $mailAction, 'id' => $param[$formType][$formID]]) }}">
                 <img src="{{ asset('img/bt_send_mail.jpg') }}" class="imgover" alt="メール送付">
             </a>
         @endif

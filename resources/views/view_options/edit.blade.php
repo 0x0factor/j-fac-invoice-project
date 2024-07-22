@@ -57,7 +57,7 @@ function reset_default(){
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Background">
         <div class="contents_area">
-            <form action="{{ route('view_options.update') }}" method="POST" enctype="multipart/form-data" class="ViewOption">
+            <form action="{{ route('view_option.update') }}" method="POST" enctype="multipart/form-data" class="ViewOption">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     @foreach($options as $option)

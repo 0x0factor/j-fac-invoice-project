@@ -20,7 +20,7 @@
 <!-- contents_Start -->
 <div class="arrow_under"><img src="{{ asset('img/i_arrow_under.jpg') }}" alt=""></div>
 <div class="user_reset_box">
-    <form action="{{ route('personal.pass_edit') }}" method="POST">
+    <form action="{{ route('personal.passEdit') }}" method="POST">
         @csrf
         <div class="user_reset_area">
             <table cellspacing="0" cellpadding="0" border="0" width="600">

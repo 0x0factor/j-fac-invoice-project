@@ -318,7 +318,7 @@ class QuoteController extends AppController
         }
 
         // Example of passing data to view
-        return view('quotes.check', [
+        return view('quote.check', [
             'main_title' => '見積書確認',
             'title_text' => '帳票管理',
             'decimals' => config('constants.DecimalCode'),
@@ -422,7 +422,7 @@ class QuoteController extends AppController
 
         $this->setViewData($data, $items, $error, $count);
 
-        return view('quotes.edit', $data);
+        return view('quote.edit', $data);
     }
 
     public function action(Request $request)
@@ -436,21 +436,21 @@ class QuoteController extends AppController
             $quoteIds = array_keys($request->input('Quote', []));
             if (empty($quoteIds)) {
                 Session::flash('message', '見積書が選択されていません');
-                return redirect()->route('quotes.index', ['customer' => $customerId]);
+                return redirect()->route('quote.index', ['customer' => $customerId]);
             }
 
             foreach ($quoteIds as $quoteId) {
                 $quote = Quote::find($quoteId);
                 if ($quote && !$this->hasEditAuthority($quote->USR_ID)) {
                     Session::flash('message', '削除できない見積書が含まれていました');
-                    return redirect()->route('quotes.index', ['customer' => $customerId]);
+                    return redirect()->route('quote.index', ['customer' => $customerId]);
                 }
             }
 
             Quote::destroy($quoteIds);
             History::logActions($userId, 4, $quoteIds);
             Session::flash('message', '見積書を削除しました');
-            return redirect()->route('quotes.index', ['customer' => $customerId]);
+            return redirect()->route('quote.index', ['customer' => $customerId]);
         }
 
         if ($request->has('reproduce_quote_x')) {
@@ -504,7 +504,7 @@ class QuoteController extends AppController
             }
         }
 
-        return view('quotes.export', [
+        return view('quote.export', [
             'main_title' => '見積書Excel出力',
             'title_text' => '帳票管理'
         ]);

@@ -8,7 +8,7 @@ use App\Models\Charge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class ChargesController extends Controller
+class ChargeController extends Controller
 {
     public function __construct()
     {
@@ -21,7 +21,7 @@ class ChargesController extends Controller
         $status = config('app.status_code');
         $seal = config('app.seal_code');
 
-        return view('charges.index', compact('status', 'seal'))
+        return view('charge.index', compact('status', 'seal'))
             ->with('main_title', '自社担当者一覧')
             ->with('title_text', '自社情報設定')
             ->with('page_title', 'Company');
@@ -73,7 +73,7 @@ class ChargesController extends Controller
         $seal_method = config('app.seal_method');
         $seal_flg = config('app.seal_flg');
 
-        return view('charges.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
+        return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
             ->with('main_title', '自社担当者登録')
             ->with('title_text', '自社情報設定')
             ->with('page_title', 'Company');
@@ -125,7 +125,7 @@ class ChargesController extends Controller
                 if ($result === 1 || $result === 2 || $result === 3) {
                     $image_error = $result;
                     $image = Charge::get_image($charge_ID);
-                    return view('charges.edit', compact('image', 'image_error', 'phone_error', 'fax_error', 'charge_ID'))
+                    return view('charge.edit', compact('image', 'image_error', 'phone_error', 'fax_error', 'charge_ID'))
                         ->with('main_title', '自社担当者編集')
                         ->with('title_text', '自社情報設定')
                         ->with('page_title', 'Company');
@@ -147,7 +147,7 @@ class ChargesController extends Controller
 
             $image = $charge['Charge']['SEAL'] ?? null;
 
-            return view('charges.edit', compact('image', 'phone_error', 'fax_error', 'charge_ID'))
+            return view('charge.edit', compact('image', 'phone_error', 'fax_error', 'charge_ID'))
                 ->with('main_title', '自社担当者編集')
                 ->with('title_text', '自社情報設定')
                 ->with('page_title', 'Company');
@@ -175,7 +175,7 @@ class ChargesController extends Controller
 
         $image = $charge['Charge']['SEAL'] ?? null;
 
-        return view('charges.check', compact('charge', 'image', 'charge_ID'))
+        return view('charge.check', compact('charge', 'image', 'charge_ID'))
             ->with('main_title', '自社担当者確認')
             ->with('title_text', '自社情報設定')
             ->with('page_title', 'Company');

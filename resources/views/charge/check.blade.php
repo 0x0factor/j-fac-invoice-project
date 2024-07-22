@@ -22,11 +22,11 @@
 <!-- contents_Start -->
 <div class="edit_btn">
     @if($editauth)
-        <a href="{{ route('charges.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
+        <a href="{{ route('charge.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
             <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
         </a>
     @endif
-    <form method="POST" action="{{ route('charges.moveback') }}" style="display:inline;">
+    <form method="POST" action="{{ route('charge.moveback') }}" style="display:inline;">
         @csrf
         <a href="javascript:move_to_index();" class="imgover">
             <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
@@ -44,7 +44,7 @@
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="contents_area">
-            <form method="POST" action="{{ route('charges.update', ['charge' => $params['Charge']['CHR_ID']]) }}" enctype="multipart/form-data" class="Charge">
+            <form method="POST" action="{{ route('charge.update', ['charge' => $params['Charge']['CHR_ID']]) }}" enctype="multipart/form-data" class="Charge">
                 @csrf
                 @method('PUT')
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
@@ -67,11 +67,11 @@
     </div>
     <div class="edit_btn">
         @if($editauth)
-            <a href="{{ route('charges.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
+            <a href="{{ route('charge.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
                 <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
             </a>
         @endif
-        <a href="{{ route('charges.index') }}" class="imgover">
+        <a href="{{ route('charge.index') }}" class="imgover">
             <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
         </a>
     </div>

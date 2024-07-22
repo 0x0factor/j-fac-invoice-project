@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class AdministersController extends Controller
+class AdministerController extends Controller
 {
     // Initialize controller
     public function __construct()
@@ -27,7 +27,7 @@ class AdministersController extends Controller
         // Retrieve all users except those with AUTHORITY 0
         $administers = Administer::where('AUTHORITY', '!=', 0)->paginate();
 
-        return view('administers.index', compact('main_title', 'title_text', 'administers'));
+        return view('administer.index', compact('main_title', 'title_text', 'administers'));
     }
 
     // 登録用
@@ -80,7 +80,7 @@ class AdministersController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administers.add', compact('main_title', 'title_text', 'error', 'status', 'authority'));
+        return view('administer.add', compact('main_title', 'title_text', 'error', 'status', 'authority'));
     }
 
     // 編集用
@@ -149,7 +149,7 @@ class AdministersController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administers.edit', compact('main_title', 'title_text', 'error', 'status', 'authority', 'requestData'));
+        return view('administer.edit', compact('main_title', 'title_text', 'error', 'status', 'authority', 'requestData'));
     }
 
     // 編集用
@@ -167,6 +167,6 @@ class AdministersController extends Controller
         $status = config('status_code');
         $authority = config('authority_code');
 
-        return view('administers.check', compact('main_title', 'title_text', 'administer', 'status', 'authority'));
+        return view('administer.check', compact('main_title', 'title_text', 'administer', 'status', 'authority'));
     }
 }
