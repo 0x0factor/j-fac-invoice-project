@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 
 <!-- JavaScript -->
+@push('scripts')
+
 <script>
     function insert(no) {
         $('#SETCHARGE input[type=text]').val($('#name'+no).html());
@@ -67,7 +69,7 @@
         });
     }
 </script>
-
+@endpush
 <!-- Inline Styles -->
 <style>
     table.tbl {

@@ -1,17 +1,21 @@
 @extends('layout.default')
 
 @section('content')
+@push('scripts')
 <script>
-try{
-	window.addEventListener("load",initTableRollovers('index_table'),false);
- }catch(e){
- 	window.attachEvent("onload",initTableRollovers('index_table'));
-}
+document.addEventListener("DOMContentLoaded", function() {
+    try {
+        window.addEventListener("load", initTableRollovers('index_table'), false);
+    } catch(e) {
+        window.attachEvent("onload", initTableRollovers('index_table'));
+    }
 
-$(function() {
-	setBeforeSubmit('<?php echo $this->name.ucfirst($this->action).'Form'; ?>');
+    $(function() {
+        setBeforeSubmit('{{ class_basename(request()->route()->getController()) . ucfirst(request()->route()->getActionMethod()) }}Form');
+    });
 });
 </script>
+@endpush
 <!-- resources/views/history/index.blade.php -->
 
 <!-- Flash Message -->
@@ -70,7 +74,7 @@ $(function() {
 
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
-            @if(is_array($list) && count($list) > 0)
+            @if(is_array($histories) && count($history) > 0)
                 <form action="{{ url('action') }}" method="post">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
@@ -82,7 +86,7 @@ $(function() {
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list as $key => $val)
+                            @foreach($history as $key => $val)
                                 <tr>
                                     <td>{{ $val['History']['ACTION_DATE'] }}</td>
                                     <td>{{ $val['User']['NAME'] }}</td>

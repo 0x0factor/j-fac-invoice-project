@@ -22,7 +22,7 @@ class HomeController extends Controller
 
         $users = User::select('USR_ID', 'NAME')->get();
 
-        $title = 'My Page Title';
+        $title = '抹茶請求書';
         return view('homes.index', [
             'title'=>$title,
             'main_title' => 'HOME',

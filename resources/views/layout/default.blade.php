@@ -26,7 +26,12 @@
     @if(preg_match('/^home/', $controller))
         <title>{{ $main_title }}｜{{ $title }}</title>
     @else
-        <title>{{ $main_title }}｜{{ $title_text }}｜{!! nl2br(e($title)) !!}</title>
+        <title>
+            {{ $main_title }}｜
+            @if(isset($title_text)){{ $title_text }}｜
+            @endif
+            {!! nl2br(e($title)) !!}
+        </title>
     @endif
     <script>
         var controller_name = @isset($controller_name) '{{ $controller_name }}' @endisset;

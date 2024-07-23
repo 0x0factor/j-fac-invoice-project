@@ -20,6 +20,8 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TotalbillController;
 use App\Http\Controllers\View_optionController;
+use App\Http\Controllers\ZipcodeController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -46,10 +48,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/homes', [HomeController::class, 'index'])->name('home');
 
 
-// Route::get('customers/select', [CustomerController::class, 'select'])->name('customers.select');
 Route::get('customers/movetoindex', [CustomerController::class, 'index'])->name('customer.movetoindex');
 // Route::get('customers/add', [CustomerController::class, 'addCustomers'])->name('customers.add');
 
@@ -103,6 +104,9 @@ Route::get('view_options/index', [View_optionController::class, 'index'])->name(
 Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
 
 
+Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
+Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');
+Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.reset');
 
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');

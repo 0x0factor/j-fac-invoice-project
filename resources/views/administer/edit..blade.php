@@ -22,22 +22,25 @@
         <div class="contents_box">
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
             <div class="contents_area">
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const radios = document.querySelectorAll('input[type="radio"]');
-                        radios.forEach(radio => {
-                            radio.addEventListener('click', function () {
-                                if (this.value == 0) {
-                                    document.querySelector('div.ps_class').style.display = 'none';
-                                    document.querySelector('input[name="EDIT_PASSWORD"]').value = "";
-                                    document.querySelector('input[name="EDIT_PASSWORD1"]').value = "";
-                                } else if (this.value == 1) {
-                                    document.querySelector('div.ps_class').style.display = 'block';
-                                }
+                @push('scripts')
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const radios = document.querySelectorAll('input[type="radio"]');
+                            radios.forEach(radio => {
+                                radio.addEventListener('click', function () {
+                                    if (this.value == 0) {
+                                        document.querySelector('div.ps_class').style.display = 'none';
+                                        document.querySelector('input[name="EDIT_PASSWORD"]').value = "";
+                                        document.querySelector('input[name="EDIT_PASSWORD1"]').value = "";
+                                    } else if (this.value == 1) {
+                                        document.querySelector('div.ps_class').style.display = 'block';
+                                    }
+                                });
                             });
                         });
-                    });
-                </script>
+                    </script>
+                @endpush
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th style="width:170px;">ステータス</th>

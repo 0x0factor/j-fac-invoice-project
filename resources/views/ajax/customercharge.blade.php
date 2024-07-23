@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="{{ asset('path/to/popup.css') }}">
+@push('scripts')
+
 <script>
     function insert(no, id) {
         $('#SETCUSTOMERCHARGE').children('input[type=text]').val($('#name'+no).html());
@@ -68,6 +70,7 @@
         });
     }
 </script>
+@endpush
 
 <style>
     /* CSS styles here */

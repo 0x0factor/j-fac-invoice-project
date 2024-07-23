@@ -28,6 +28,9 @@ class HistoryController extends Controller
             ->orderBy('ACTION_DATE')
             ->orderBy('ACTION')
             ->paginate(15); // Adjust pagination limit as needed
+        $paginator = $histories;
+
+        // dd($paginator);
 
         $ids = [];
         foreach ($histories as $key => $val) {
@@ -44,6 +47,6 @@ class HistoryController extends Controller
 
         $action = Config::get('ActionCode');
 
-        return view('history.index', compact('main_title', 'title_text', 'title', 'histories', 'ids', 'action'));
+        return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'action'));
     }
 }
