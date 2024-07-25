@@ -1,6 +1,9 @@
 @extends('layout.default')
 
 @section('content')
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <div id="guide">
     <div id="guide_box" class="clearfix">
         <img src="{{ asset('img/company/i_guide.jpg') }}" alt="">
@@ -26,14 +29,19 @@
             <div class="contents_area">
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
-                        <th style="width:130px;" class="{{ $errors->has('ITEM') ? 'txt_top' : '' }}">商品{{ Html::image('img/i_must.jpg', '必須', ['class' => 'pl10']) }}</th>
+                        <th style="width:130px;" class="{{ $errors->has('ITEM') ? 'txt_top' : '' }}">
+                            商品<img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10">
+                        </th>
                         <td style="width:750px;">
                             <input type="text" name="ITEM" value="{{ old('ITEM') }}" class="w300{{ $errors->has('ITEM') ? ' error' : '' }}" maxlength="80">
                             <br /><span class="usernavi">{{ $usernavi['ITEM'] }}</span>
                             <br /><span class="must">{{ $errors->first('ITEM') }}</span>
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line">{!! Html::image('img/i_line_solid.gif') !!}</td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Solid"></td>
+                    </tr>
+
                     <tr>
                         <th style="width:130px;" class="{{ $errors->has('ITEM_KANA') ? 'txt_top' : '' }}">商品名カナ</th>
                         <td style="width:750px;">
@@ -42,7 +50,10 @@
                             <br /><span class="must">{{ $errors->first('ITEM_KANA') }}</span>
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line">{!! Html::image('img/i_line_solid.gif') !!}</td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Solid"></td>
+                    </tr>
+
                     <tr>
                         <th style="width:130px;" class="{{ $errors->has('ITEM_CODE') ? 'txt_top' : '' }}">商品コード</th>
                         <td style="width:750px;">
@@ -51,7 +62,10 @@
                             <br /><span class="must">{{ $errors->first('ITEM_CODE') }}</span>
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line">{!! Html::image('img/i_line_solid.gif') !!}</td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Solid"></td>
+                    </tr>
+
                     <tr>
                         <th style="width:130px;" class="{{ $errors->has('UNIT') ? 'txt_top' : '' }}">単位</th>
                         <td style="width:750px;">
@@ -60,7 +74,10 @@
                             <br /><span class="must">{{ $errors->first('UNIT') }}</span>
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line">{!! Html::image('img/i_line_solid.gif') !!}</td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Solid"></td>
+                    </tr>
+
                     <tr>
                         <th style="width:130px;" class="{{ $errors->has('UNIT_PRICE') ? 'txt_top' : '' }}">価格</th>
                         <td style="width:750px;">
@@ -69,20 +86,28 @@
                             <br /><span class="must">{{ $errors->first('UNIT_PRICE') }}</span>
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line">{!! Html::image('img/i_line_solid.gif') !!}</td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Solid"></td>
+                    </tr>
+
                     <tr>
                         <th style="width:130px;" class="{{ $errors->has('TAX_CLASS') ? 'txt_top' : '' }}">税区分</th>
                         <td style="width:750px;">
                             {{-- Assuming $excises is an array of radio options --}}
-                            @foreach($excises as $value => $label)
-                                <label>
-                                    <input type="radio" name="TAX_CLASS" value="{{ $value }}" {{ old('TAX_CLASS') == $value ? 'checked' : '' }}>
-                                    {{ $label }}
-                                </label>
-                                @if(!$loop->last)
-                                    <br>
-                                @endif
-                            @endforeach
+                            @if(is_array($excises) && !empty($excises))
+                                @foreach($excises as $value => $label)
+                                    <label>
+                                        <input type="radio" name="TAX_CLASS" value="{{ $value }}" {{ old('TAX_CLASS') == $value ? 'checked' : '' }}>
+                                        {{ $label }}
+                                    </label>
+                                    @if(!$loop->last)
+                                        <br>
+                                    @endif
+                                @endforeach
+                            @else
+                                <p>No excises available.</p>
+                            @endif
+
                             <br /><span class="usernavi">{{ $usernavi['TAX_CLASS'] }}</span>
                             <br /><span class="must">{{ $errors->first('TAX_CLASS') }}</span>
                         </td>
@@ -97,7 +122,8 @@
             <input type="image" src="{{ asset('img/bt_cancel.jpg') }}" name="cancel" alt="キャンセル" class="imgover imgcheck">
         </div>
 
-        {{ $customHtml->hiddenToken() }}
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
         <input type="hidden" name="USR_ID" value="{{ $user['USR_ID'] }}">
         <input type="hidden" name="UPDATE_USR_ID" value="{{ $user['USR_ID'] }}">
     </form>

@@ -27,11 +27,24 @@ class MailController extends Controller
             3 => '納品書'
         ];
 
+        $condition = [];
+        $paginator = Mail::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(15);
+
+        $mailstatus = $paginator->items();
+        $list = $paginator->items();
+
+
         return view('mail.index', [
             'mailstatus' => Config::get('MailStatusCode'),
             'type' => $type,
             'main_title' => '確認メール',
-            'title_text' => '帳票管理'
+            'title_text' => '帳票管理',
+            'title' => "抹茶請求書",
+            'list' => $list,
+            'mailstatus' => $mailstatus,
+            'paginator' => $paginator,
         ]);
     }
 

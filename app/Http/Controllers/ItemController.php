@@ -27,7 +27,13 @@ class ItemController extends Controller
 
         $page_title = "Company";
 
-        return view('item.index', compact('excises', 'main_title', 'title_text', 'page_title'));
+        $condition = [];
+        $paginator = Item::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $list = $paginator->items();
+// dd($paginator);
+        return view('item.index', compact('excises', 'main_title', 'title_text', 'title', 'page_title', 'paginator', 'list'));
     }
 
     // 登録用
@@ -56,13 +62,17 @@ class ItemController extends Controller
             }
         }
 
+        $usernavi = Item::paginate(15);
+
+        // dd($usernavi);
+
         $user = Auth::user();
         $company = Company::first();
         $request->merge(['Item.TAX_CLASS' => $company->EXCISE + 1]);
 
         $excises = Config::get('ExciseCode');
 
-        return view('item.add', compact('main_title', 'title_text', 'title', 'excises'));
+        return view('item.add', compact('main_title', 'title_text', 'title', 'excises', 'usernavi'));
     }
 
     // 編集用

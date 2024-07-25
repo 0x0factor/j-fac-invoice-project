@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\ViewOption;
 
-class ViewOptionController extends Controller
+class View_optionController extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,9 @@ class ViewOptionController extends Controller
         $title_text = "管理者メニュー";
         $title = "抹茶請求書";
 
-        $options = ViewOption::get_option(); // Implement this method in your ViewOption model
+
+        $viewOption = new ViewOption();
+        $options = $viewOption->get_option(); // Implement this method in your ViewOption model
 
         return view('view_options.index', compact('main_title', 'title_text', 'title', 'options'));
     }

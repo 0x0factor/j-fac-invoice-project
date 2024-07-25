@@ -4,145 +4,143 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class Configuration extends Model
 {
+    // Table name
     protected $table = 'T_CONFIG';
+
+    // Primary key
     protected $primaryKey = 'CON_ID';
+
+    // Disable timestamps if not using `created_at` and `updated_at`
     public $timestamps = false;
 
-    // Define validation rules if necessary
+    // Fillable fields
+    protected $fillable = [
+        'CON_ID', 'FROM_NAME', 'FROM', 'STATUS', 'PROTOCOL', 'SECURITY',
+        'HOST', 'PORT', 'USER', 'PASS', 'LAST_UPDATE', 'INSERT_DATE'
+    ];
 
-    function index_select($_con_ID = null)
+    // Validation rules
+    public static $rules = [
+        'FROM' => 'required|email|max:256',
+        'FROM_NAME' => 'required|max:256',
+        'PORT' => 'nullable|integer|between:0,65536',
+        'USER' => 'nullable|max:30',
+        'PASS' => 'nullable|regex:/^[a-zA-Z0-9]+$/',
+        'HOST' => 'nullable|max:100|regex:/^[a-zA-Z0-9.-]+$/',
+        'STATUS' => 'required|integer',
+        'PROTOCOL' => 'required|integer',
+        'SECURITY' => 'required|integer'
+    ];
+
+    // Custom validation messages
+    public static $messages = [
+        'FROM.required' => 'メールアドレスは必須です',
+        'FROM.email' => '有効なメールアドレスではありません',
+        'FROM.max' => 'メールアドレスが長すぎます',
+        'FROM_NAME.required' => '送信者名は必須です',
+        'FROM_NAME.max' => '送信者名が長すぎます',
+        'PORT.between' => '有効なポート番号ではありません',
+        'PORT.integer' => '有効なポート番号ではありません',
+        'USER.max' => 'ユーザ名が長すぎます',
+        'PASS.regex' => '半角英数字以外が含まれます',
+        'HOST.max' => 'SMTPサーバが長すぎます',
+        'HOST.regex' => '有効なドメインではありません',
+        'STATUS.required' => 'ステータスは必須です',
+        'PROTOCOL.required' => 'プロトコルが選択されていません',
+        'SECURITY.required' => 'SMTPセキュリティが選択されていません'
+    ];
+
+    // Custom validation method
+    public static function validate($data)
     {
-        $_con_ID = is_null($_con_ID) ? 1 : $_con_ID;
-
-        $result = DB::table($this->table)->find($_con_ID);
-        
-
-        // Return null if record does not exist
-        if (! $result)
-            return null;
-
-        return (array) $result;
+        return Validator::make($data, self::$rules, self::$messages);
     }
 
-    function index_set_data($_param, &$_error = null, $_state = null)
+    // Select method
+    public static function index_select($conId = null)
     {
-        // Set INSERT_DATE and LAST_UPDATE
-        if ($_state == 'new') {
-            $_param['INSERT_DATE'] = date("Y-m-d H:i:s");
-            $_param['CON_ID'] = 1;
+        if (is_null($conId)) {
+            $conId = 1;
         }
-        $_param['LAST_UPDATE'] = date("Y-m-d H:i:s");
 
-        // Start transaction
+        $result = self::find($conId);
+
+        // Return null if not found
+        return $result ? $result : null;
+    }
+
+    // Set data method
+    public function index_setData($data, &$errors = null, $state = null)
+    {
+        // Time set
+        if ($state === 'new') {
+            $data['INSERT_DATE'] = now();
+            $data['CON_ID'] = 1;
+        }
+        $data['LAST_UPDATE'] = now();
+
+        // Validation
+        $validator = self::validate($data);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return false;
+        }
+
+        // Additional validation based on status
+        $error = false;
+        if ($data['STATUS'] != 0) {
+            if (empty($data['HOST'])) {
+                $errors['HOST'] = "SMTPサーバは必須です。";
+                $error = true;
+            }
+
+            if (empty($data['PORT'])) {
+                $errors['PORT'] = "ポート番号は必須です。";
+                $error = true;
+            }
+
+            if (!isset($data['PROTOCOL']) || $data['PROTOCOL'] == '') {
+                $errors['PROTOCOL'] = "プロトコルが選択されていません。";
+                $error = true;
+            } elseif ($data['PROTOCOL'] == 1) {
+                if (empty($data['USER'])) {
+                    $errors['USER'] = "SMTPユーザは必須です。";
+                    $error = true;
+                }
+                if (empty($data['PASS'])) {
+                    $errors['PASS'] = "SMTPパスワードは必須です。";
+                    $error = true;
+                }
+            }
+
+            if (!isset($data['SECURITY']) || $data['SECURITY'] == '') {
+                $errors['SECURITY'] = "SMTPセキュリティが選択されていません。";
+                $error = true;
+            }
+        }
+
+        if ($error) {
+            return false;
+        }
+
+        // Save data
         DB::beginTransaction();
 
         try {
-            // Perform validation and handle errors
-            $_error = $this->validateData($_param);
-            $error = 0;
+            $this->fill($data);
+            $this->save();
+            DB::commit();
 
-            // Additional business logic validation
-            if ($_param['STATUS'] != 0) {
-                if (empty($_param['HOST'])) {
-                    $_error['HOST'] = "SMTPサーバは必須です。";
-                    $error = 1;
-                }
-
-                if (empty($_param['PORT'])) {
-                    $_error['PORT'] = "ポート番号は必須です。";
-                    $error = 1;
-                }
-
-                if (! isset($_param['PROTOCOL']) || $_param['PROTOCOL'] == '') {
-                    $_error['PROTOCOL'] = "プロトコルが選択されていません。";
-                    $error = 1;
-                } else {
-                    if ($_param['PROTOCOL'] == 1) {
-                        if (empty($_param['USER'])) {
-                            $_error['USER'] = "SMTPユーザは必須です。";
-                            $error = 1;
-                        }
-                        if (empty($_param['PASS'])) {
-                            $_error['PASS'] = "SMTPパスワードは必須です。";
-                            $error = 1;
-                        }
-                    }
-                }
-
-                if (! isset($_param['SECURITY']) || $_param['SECURITY'] == '') {
-                    $_error['SECURITY'] = "SMTPセキュリティが選択されていません。";
-                    $error = 1;
-                }
-            }
-
-            // Save to database
-            if ($error == 0) {
-                $this->where('CON_ID', $_param['CON_ID'])->update($this->permit_params($_param));
-                DB::commit();
-                $_param['CON_ID'] = $this->getInsertID();
-            } else {
-                DB::rollback();
-                return $_param;
-            }
+            $data['CON_ID'] = $this->id; // Get the ID of the newly created record
+            return $data;
         } catch (\Exception $e) {
             DB::rollback();
-            return $_param;
+            return false;
         }
-
-        return $_param;
-    }
-
-    // Validate data based on the defined rules
-    private function validateData($data)
-    {
-        $validator = \Validator::make($data, [
-            'FROM' => ['nullable', 'max:256', 'email'],
-            'FROM_NAME' => ['required', 'max:256'],
-            'PORT' => ['nullable', 'numeric', 'between:0,65536'],
-            'USER' => ['nullable', 'max:30'],
-            'PASS' => ['nullable', 'regex:/^[a-zA-Z0-9]*$/'],
-            'HOST' => ['nullable', 'max:100', 'domain'],
-        ], [
-            'FROM.max' => 'メールアドレスが長すぎます',
-            'FROM.email' => '有効なメールアドレスではありません',
-            'FROM.required' => 'メールアドレスは必須です',
-            'FROM_NAME.required' => '送信者名は必須です',
-            'FROM_NAME.max' => '送信者名が長すぎます',
-            'PORT.between' => '有効なポート番号ではありません',
-            'PORT.numeric' => '有効なポート番号ではありません',
-            'USER.max' => 'ユーザ名が長すぎます',
-            'PASS.regex' => '半角英数字以外が含まれます',
-            'HOST.max' => 'SMTPサーバが長すぎます',
-            'HOST.domain' => '有効なドメインではありません',
-        ]);
-
-        if ($validator->fails()) {
-            return $validator->errors()->toArray();
-        }
-
-        return [];
-    }
-
-    // Method to filter and permit only accessible parameters
-    private function permit_params($params)
-    {
-        $accessibleParams = [
-            'FROM_NAME',
-            'FROM',
-            'STATUS',
-            'PROTOCOL',
-            'SECURITY',
-            'HOST',
-            'PORT',
-            'USER',
-            'PASS',
-            'CON_ID',
-            'LAST_UPDATE',
-        ];
-
-        return array_intersect_key($params, array_fill_keys($accessibleParams, null));
     }
 }

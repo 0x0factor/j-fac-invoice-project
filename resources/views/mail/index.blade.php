@@ -1,14 +1,21 @@
-<script><!--
+@extends('layout.default')
+
+@section('content')
+<script>
 try{
 	window.addEventListener("load",initTableRollovers('index_table'),false);
  }catch(e){
  	window.attachEvent("onload",initTableRollovers('index_table'));
 }
---></script>
+</script>
 
 <script>
-$(function() {
-	setBeforeSubmit('<?php echo $this->name.ucfirst($this->action).'Form'; ?>');
+ $(function() {
+    @if(isset($name) && isset($action))
+        setBeforeSubmit('{{ $name . ucfirst($action) . 'Form' }}');
+    @else
+        console.error("Name or action is not set.");
+    @endif
 });
 </script>
 
@@ -18,7 +25,7 @@ $(function() {
 
 <div id="contents">
     <div class="arrow_under">
-        <img src="{{ asset('i_arrow_under.jpg') }}" alt="">
+        <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
     </div>
     <h3>
         <div class="search">
@@ -44,7 +51,7 @@ $(function() {
                 </table>
                 <div class="search_btn">
                     <a href="#" onclick="document.forms[0].submit();">
-                        <img src="{{ asset('bt_search.jpg') }}" alt="">
+                        <img src="{{ asset('img/bt_search.jpg') }}" alt="">
                     </a>
                 </div>
             </div>
@@ -64,25 +71,70 @@ $(function() {
         </div>
 
         <div id='pagination'>
-            {!! $paginator->previous('<< '.__('前へ'), ['class' => 'disabled', 'tag' => 'span']) !!} |
-            {!! $paginator->links() !!} |
-            {!! $paginator->next(__('次へ').' >>', ['class' => 'disabled', 'tag' => 'span']) !!}
+            @if ($paginator->onFirstPage())
+                <span class="disabled"><< {{ __('前へ') }}</span>
+            @else
+                <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+            @endif
+
+
+            <!-- Pagination Elements -->
+            @foreach ($paginator->links()->elements as $element)
+                <!-- "Three Dots" Separator -->
+                @if (is_string($element))
+                    <span class="disabled">{{ $element }}</span>
+                @endif
+
+                <!-- Array Of Links -->
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $paginator->currentPage())
+                            <span class="active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+
+            @if ($paginator->hasMorePages())
+                <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+            @else
+                <span class="disabled">{{ __('次へ') }} >></span>
+            @endif
         </div>
 
-        <img src="{{ asset('bg_contents_top.jpg') }}" alt="">
+        <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
             @if(is_array($list))
                 <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                     <thead>
                         <tr>
-                            <th class="w50">@sortablelink('Mail.TML_ID', 'No.')</th>
-                            <th class="w100">@sortablelink('Mail.RCV_NAME', '送信先')</th>
-                            <th class="w100">@sortablelink('Mail.TYPE', '種別')</th>
-                            <th class="w200">@sortablelink('Mail.SUBJECT', '件名')</th>
-                            <th class="w200">@sortablelink('Mail.CUSTOMER', '顧客名')</th>
-                            <th class="w100">@sortablelink('Mail.STATUS', 'ステータス')</th>
-                            <th class="w100">@sortablelink('Mail.SND_DATE', '送信日')</th>
-                            <th class="w100">@sortablelink('Mail.RCV_DATE', '受信日')</th>
+                            <th class="w50">
+                                <a href="{{ route('mail.index', ['sort' => 'ITM_ID']) }}">No.</a>
+                            </th>
+                            <th class="w100">
+                                <a href="{{ route('mail.index', ['sort' => 'RCV_NAME']) }}">送信先</a>
+                            </th>
+                            <th class="w100">
+                                <a href="{{ route('mail.index', ['sort' => 'TYPE']) }}">種別</a>
+                            </th>
+                            <th class="w200">
+                                <a href="{{ route('mail.index', ['sort' => 'SUBJECT']) }}">件名</a>
+                            </th>
+                            <th class="w200">
+                                <a href="{{ route('mail.index', ['sort' => 'CUSTOMER']) }}">顧客名</a>
+                            </th>
+                            <th class="w100">
+                                <a href="{{ route('mail.index', ['sort' => 'STATUS']) }}">ステータス</a>
+                            </th>
+                            <th class="w100">
+                                <a href="{{ route('mail.index', ['sort' => 'SND_DATE']) }}">送信日</a>
+                            </th>
+                            <th class="w100">
+                                <a href="{{ route('mail.index', ['sort' => 'RCV_DATE']) }}">受信日</a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,6 +160,7 @@ $(function() {
                 </table>
             @endif
         </div>
-        <img src="{{ asset('bg_contents_bottom.jpg') }}" class="block" alt="">
+        <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
     </div>
 </div>
+@endsection

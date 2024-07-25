@@ -96,7 +96,7 @@
 
                             <li><span><a href="{{ route('bill.index') }}">請求書一覧</a></span></li>
                             <li><span><a href="{{ route('bill.add') }}">請求書を作成する</a></span></li>
-                            <li><span><a href="{{ route('totalbill.movetoindex') }}">合計請求書一覧</a></span></li>
+                            <li><span><a href="{{ route('totalbill.index') }}">合計請求書一覧</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
                             <li><span><a href="{{ route('delivery.index') }}">納品書一覧</a></span></li>
@@ -120,7 +120,7 @@
                             <img src="{{ asset('img/bt_menu03.jpg') }}" alt="顧客管理" class="imgover">
                         @endif
                         <ul class="dmenu">
-                            <li><span><a href="{{ route('customer.movetoindex') }}">取引先を見る</a></span></li>
+                            <li><span><a href="{{ route('customer.index') }}">取引先を見る</a></span></li>
                             <li><span><a href="{{ route('customer_charge.index') }}">取引先担当者を見る</a></span></li>
                             <li><span><a href="{{ route('coverpage.index') }}">送付状を作成する</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
@@ -134,10 +134,10 @@
                         @endif
                         <ul class="dmenu">
                             <li><span><a href="{{ route('company.index') }}">基本情報を見る</a></span></li>
-                            <li><span><a href="{{ route('charge.movetoindex') }}">自社担当者を見る</a></span></li>
+                            <li><span><a href="{{ route('charge.index') }}">自社担当者を見る</a></span></li>
                             <li class="line"><img src="{{ asset('img/i_line_dmenu.gif') }}"></li>
 
-                            <li><span><a href="{{ route('item.movetoindex') }}">商品を見る</a></span></li>
+                            <li><span><a href="{{ route('item.index') }}">商品を見る</a></span></li>
                             <li><span><a href="{{ route('item.add') }}">商品を登録する</a></span></li>
                             <li class="last"><img src="{{ asset('img/bg_dmenu_btm.png') }}" class="alphafilter"></li>
                         </ul>
@@ -151,7 +151,7 @@
                             @endif
                             <ul class="dmenu">
                                 <li><span><a href="{{ route('administer.index') }}">ユーザを管理する</a></span></li>
-                                <li><span><a href="{{ route('history.movetoindex') }}">操作履歴を見る</a></span></li>
+                                <li><span><a href="{{ route('history.index') }}">操作履歴を見る</a></span></li>
                                 <li><span><a href="{{ route('configuration.index') }}">環境設定をする</a></span></li>
                                 <li><span><a href="{{ route('postcode.index') }}">郵便番号を管理する</a></span></li>
                                 <li><span><a href="{{ route('view_option.index') }}">デザイン設定をする</a></span></li>

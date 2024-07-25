@@ -1,3 +1,6 @@
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 
 <script>

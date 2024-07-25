@@ -1,6 +1,9 @@
 @extends('layout.default')
 
 @section('content')
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 @if(session()->has('flash'))
     {{ session('flash') }}
 @endif
@@ -33,26 +36,27 @@
                 <tr>
                     <th>送信者名</th>
                     <td style="width:750px;">
-                        {{ nl2br($params['Configuration']['FROM_NAME']) }}
+                        {{ nl2br(e($params['Configuration']['FROM_NAME'] ?? '')) }}
                     </td>
                 </tr>
                 <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                 <tr>
                     <th>送信者アドレス</th>
                     <td style="width:750px;">
-                        {{ nl2br($params['Configuration']['FROM']) }}
+                        {{ nl2br(e($params['Configuration']['FROM'] ?? '')) }}
                     </td>
                 </tr>
                 <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                 <tr>
                     <th style="width:130px;"><span class="float_l">SMTPの使用</span></th>
                     <td style="width:750px;">
-                        {{ $status[$params['Configuration']['STATUS']] }}
+                    {{ $status[$params['Configuration']['STATUS'] ?? 'default_key'] ?? '無効' }}
                     </td>
                 </tr>
             </table>
 
-            <input type="hidden" name="smtp_frag" value="{{ $params['Configuration']['STATUS'] }}">
+            <input type="hidden" name="smtp_frag" value="{{ $params['Configuration']['STATUS'] ?? '' }}">
+
 
             <div class="Smtpuse">
                 <table>
@@ -60,42 +64,43 @@
                     <tr>
                         <th style="width:130px;"><span class="float_l">プロトコル</span></th>
                         <td style="width:750px;">
-                            {{ $params['Configuration']['SECURITY'] != null ? $protocol[$params['Configuration']['PROTOCOL']] : '' }}
+                            {{ isset($params['Configuration']['SECURITY']) && $params['Configuration']['SECURITY'] !== null && isset($protocol[$params['Configuration']['PROTOCOL']]) ? $protocol[$params['Configuration']['PROTOCOL']] : '' }}
+
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                     <tr>
                         <th style="width:130px;"><span class="float_l">SMTPセキュリティ</span></th>
                         <td style="width:750px;">
-                            {{ $params['Configuration']['SECURITY'] != null ? $security[$params['Configuration']['SECURITY']] : '' }}
+                        {{ isset($params['Configuration']['SECURITY']) && $params['Configuration']['SECURITY'] != null ? $security[$params['Configuration']['SECURITY']] : '' }}
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                     <tr>
                         <th>SMTPサーバ</th>
                         <td style="width:750px;">
-                            {{ nl2br($params['Configuration']['HOST']) }}
+                            {{ isset($params['Configuration']['HOST']) ? nl2br($params['Configuration']['HOST']) : '' }}
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                     <tr>
                         <th>ポート番号</th>
                         <td style="width:750px;">
-                            {{ nl2br($params['Configuration']['PORT']) }}
+                            {{ isset($params['Configuration']['PORT']) ? nl2br($params['Configuration']['PORT']) : '' }}
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                     <tr>
                         <th>SMTPユーザ</th>
                         <td style="width:750px;">
-                            {{ nl2br($params['Configuration']['USER']) }}
+                            {{ isset($params['Configuration']['USER']) ? nl2br($params['Configuration']['USER']) : '' }}
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>
                     <tr>
                         <th>SMTPパスワード</th>
                         <td style="width:750px;">
-                            {{ nl2br($params['Configuration']['PASS']) }}
+                            {{ isset($params['Configuration']['PASS']) ? nl2br($params['Configuration']['PASS']) : '' }}
                         </td>
                     </tr>
                     <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Solid Line"></td></tr>

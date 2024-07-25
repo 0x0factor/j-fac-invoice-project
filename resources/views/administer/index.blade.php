@@ -70,8 +70,8 @@
 
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
-            @if($administers->isNotEmpty())
-                <form action="{{ route('administer.action') }}" method="POST">
+            @if(is_array($list))
+                <form action="{{ route('administer.add') }}" method="POST">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>
@@ -94,16 +94,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($administers as $administer)
-                                @if($administer->AUTHORITY != 0)
+                            @foreach($list as $val)
+                                @if($val->AUTHORITY != 0)
                                     <tr>
-                                        <td>{{ $administer->USR_ID }}</td>
+                                        <td>{{ $val->USR_ID }}</td>
                                         <td>
-                                            <a href="{{ route('administer.show', $administer->USR_ID) }}">{{ $administer->LOGIN_ID }}</a>
+                                            <a href="{{ route('administer.show', $val->USR_ID) }}">{{ $val->LOGIN_ID }}</a>
                                         </td>
-                                        <td>{{ $administer->NAME }}</td>
-                                        <td>{{ $administer->MAIL ?: '&nbsp;' }}</td>
-                                        <td>{{ $status[$administer->STATUS] }}</td>
+                                        <td>{{ $val->NAME }}</td>
+                                        <td>{{ $val->MAIL ?: '&nbsp;' }}</td>
+                                        <td>{{ $status[$val->STATUS] }}</td>
                                     </tr>
                                 @endif
                             @endforeach

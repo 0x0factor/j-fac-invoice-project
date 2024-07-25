@@ -1,6 +1,9 @@
 @extends('layout.default')
 
 @section('content')
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 @if(Session::has('flash_message'))
     <div class="flash-message">
         {{ Session::get('flash_message') }}

@@ -1,7 +1,9 @@
 @extends('layout.default')
 
 @section('content')
-
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 
 @if(session()->has('message'))
     <div class="alert alert-success">
@@ -31,17 +33,18 @@
         <div class="contents_area">
             <table width="880" cellpadding="0" cellspacing="0" border="0">
                 @foreach($options as $option)
+
                     @php
-                        $option_name = $option['ViewOption']['OPTION_NAME'];
-                        $option_name_jp = $option['ViewOption']['OPTION_NAME_JP'];
-                        $option_value = $option['ViewOption']['OPTION_VALUE'];
+                        $option_name = $option->OPTION_NAME;
+                        $option_name_jp = $option->OPTION_NAME_JP;
+                        $option_value = $option->OPTION_VALUE;
                     @endphp
                     <tr>
                         <th width="130px">{{ $option_name_jp }}</th>
                         <td width="750px">
                             @if($option_name === 'logo')
                                 @if(!empty($option_value))
-                                    <img src="{{ asset('cms/' . $option_value) }}" height="40" alt="Logo">
+                                    <img src="{{ asset('img/cms/' . $option_value) }}" height="40" alt="Logo">
                                     {{ $option_value }}<br /><br />
                                 @endif
                             @else

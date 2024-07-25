@@ -44,9 +44,13 @@ class CustomerController extends Controller
         }
 
         $condition = [];
+        $paginator = Customer::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(15);
+        $list = $paginator->items();
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge'));
+        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list'));
     }
 
     public function select(Request $request)

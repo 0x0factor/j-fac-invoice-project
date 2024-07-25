@@ -28,7 +28,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             Alert::success('Success', 'Login success !');
-            return redirect()->intended('/home');
+            return redirect()->intended('/homes');
         } else {
             Alert::error('Error', 'Login failed !');
             return redirect('/login');

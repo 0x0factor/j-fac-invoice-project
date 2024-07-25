@@ -28,8 +28,12 @@
 
 // -->
 </script>
-{{-- Flash Message --}}
-{{ session()->flash() }}
+ <!-- Flash message -->
+ @if (session('flash_message'))
+    <div class="flash-message">
+        {{ session('flash_message') }}
+    </div>
+@endif
 
 {{-- Guide Section --}}
 <div id="guide">

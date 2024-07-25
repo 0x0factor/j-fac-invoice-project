@@ -42,7 +42,13 @@ class CustomerChargeController extends Controller
         $status = Config::get('statusCode');
         $countys = Config::get('prefectureCode');
 
-        return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys'));
+        $condition = [];
+        $paginator = CustomerCharge::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $list = $paginator->items();
+
+        return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys', 'paginator', 'list'));
     }
 
     public function check($chargeID)

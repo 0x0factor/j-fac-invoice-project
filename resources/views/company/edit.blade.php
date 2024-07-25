@@ -1,70 +1,9 @@
 @extends('layout.default')
 
 @section('content')
-<script type="text/javascript">
-<!--
-function show_serial(val) {
-	if(val == 0) {
-		$('#serial_option').slideDown();
-	}
-	if(val == 1) {
-		$('#serial_option').slideUp();
-	}
-}
-
-function update_serial(no) {
-	$('#SERIAL'+no+'CHANGED').val(1);
-}
-
-function change_sample(no) {
-	var str = "";
-
-	if($('#SERIAL'+no+'NUMBERINGFORMAT').val() == 0) {
-		str += $('#SERIAL'+no+'PREFIX').val();
-		if($('#SERIAL'+no+'NEXT').val().length < 6) {
-			str += ('00000' + $('#SERIAL'+no+'NEXT').val()).slice(-5);
-		}else {
-			str += $('#SERIAL'+no+'NEXT').val();
-		}
-		$('#sample'+no).html(str);
-	}else {
-		str += $('#SERIAL'+no+'PREFIX').val();
-		str += '<?php echo date("ymd");?>';
-		if($('#SERIAL'+no+'NEXT').val().length < 2) {
-			str += ('00000' + $('#SERIAL'+no+'NEXT').val()).slice(-2);
-		}else {
-			str += $('#SERIAL'+no+'NEXT').val();
-		}
-		$('#sample'+no).html(str);
-	}
-}
-
-function format_change(val, no) {
-	if(val == 1) {
-		$('.NF'+no).fadeOut();
-		$('#SERIAL'+no+'NEXT').val(1);
-	}
-	else {
-		$('.NF'+no).fadeIn();
-	}
-}
-
-$(document).ready(function($){
-	if(<?php echo $this->data['Company']['SERIAL_NUMBER'];?>) {
-		$('#serial_option').hide();
-	}
-	<?php
-		for($i = 0; $i < 5; $i++) {
-			if($this->data['SERIAL'][$i]['NUMBERING_FORMAT']) {
-				echo '$(".NF'.$i.'").fadeOut();'."\n";
-			}
-		}
-	?>
-});
-
-// -->
-</script>
-
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <div id="guide">
     <div id="guide_box" class="clearfix">
         <img src="{{ asset('img/company/i_guide.jpg') }}" />
@@ -89,7 +28,7 @@ $(document).ready(function($){
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" />
         <div class="contents_area">
-            <form method="post" action="{{ route('charge.store') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('charge.add') }}" enctype="multipart/form-data">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -107,7 +46,7 @@ $(document).ready(function($){
                         <th style="width:150px;">担当者名</th>
                         <td style="width:730px;">
                             <input type="text" name="CHARGE_NAME" class="w300" maxlength="60">
-                            <br /><span class="usernavi">{{ $usernavi['CHARGE_NAME'] }}</span>
+                            <br /><span class="usernavi">{{ $status['CHARGE_NAME'] }}</span>
                         </td>
                     </tr>
                     <!-- Continue with other form inputs similarly -->
@@ -121,7 +60,7 @@ $(document).ready(function($){
                                 <!-- Handle file upload and other form elements -->
                                 <input type="file" name="image">
                                 <input type="checkbox" name="DEL_SEAL" style="width:30px;">削除
-                                <br /><span class="usernavi">{{ $usernavi['SEAL'] }}</span>
+                                <br /><span class="usernavi">{{ $status['SEAL'] }}</span>
                                 <!-- Add error messages handling -->
                             </td>
                         </tr>

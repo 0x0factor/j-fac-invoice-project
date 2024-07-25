@@ -21,9 +21,16 @@ class ChargeController extends Controller
         $status = config('app.status_code');
         $seal = config('app.seal_code');
 
-        return view('charge.index', compact('status', 'seal'))
+        $condition = [];
+        $paginator = Charge::where($condition)
+            ->orderBy('INSERT_DATE')
+            ->paginate(15);
+
+        $list = Charge::All();
+        return view('charge.index', compact('status', 'seal', 'paginator', 'list'))
             ->with('main_title', '自社担当者一覧')
             ->with('title_text', '自社情報設定')
+            ->with('title', '抹茶請求書')
             ->with('page_title', 'Company');
     }
 

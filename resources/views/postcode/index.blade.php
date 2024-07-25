@@ -47,7 +47,7 @@
                         <th style="width:200px;">郵便番号の修復</th>
                         <td>
                             更新に失敗した場合は、
-                            <a href="{{ route('postcode.reset') }}">こちら</a>をクリックすると郵便番号を初期状態に戻すことができます。
+                            <a href="{{ route('zipcode.reset') }}">こちら</a>をクリックすると郵便番号を初期状態に戻すことができます。
                         </td>
                     </tr>
                 </table>

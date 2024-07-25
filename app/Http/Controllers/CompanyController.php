@@ -34,14 +34,20 @@ class CompanyController extends Controller
 
         // 色設定
         $color = [];
-        foreach (Config::get('constants.ColorCode') as $key => $value) {
+
+        $colorCodes = Config::get('constants.ColorCode', []);
+
+        foreach ($colorCodes as $key => $value) {
             $color[$key] = $value['name'];
         }
+
+        $company = $data;
 
         return view('company.index', compact(
             'main_title',
             'title_text',
             'title',
+            'company',
             'data',
             'image',
             'color'

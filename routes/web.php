@@ -51,7 +51,6 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 Route::get('/homes', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('customers/movetoindex', [CustomerController::class, 'index'])->name('customer.movetoindex');
 // Route::get('customers/add', [CustomerController::class, 'addCustomers'])->name('customers.add');
 
 Route::get('/customers', [CustomerController::class, "index"])->name('customer.index');
@@ -64,43 +63,49 @@ Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])
 
 
 
-Route::get('quotes/index', [QuoteController::class, 'index'])->name('quote.index');
+Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::get('quotes/create', [QuoteController::class, 'create'])->name('quote.create');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
 
 
-Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
+Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
 
-Route::get('totalbills/movetoindex', [TotalbillController::class, 'index'])->name('totalbill.movetoindex');
+Route::get('totalbills', [TotalbillController::class, 'index'])->name('totalbill.index');
 Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
 
 
-Route::get('deliveries/index', [DeliveryController::class, 'index'])->name('delivery.movetoindex');
+Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
-Route::get('deliveries/index', [DeliveryController::class, 'index'])->name('delivery.index');
 
-Route::get('charges/movetoindex', [ChargeController::class, 'index'])->name('charge.movetoindex');
+Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 
-Route::get('items/movetoindex', [ItemController::class, 'index'])->name('item.movetoindex');
+Route::get('items', [ItemController::class, 'index'])->name('item.index');
 Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
+Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete');
 
 
-Route::get('mails/index', [MailController::class, 'index'])->name('mail.index');
-Route::get('customercharges/index', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
-Route::get('companies/index', [CompanyController::class, 'index'])->name('company.index');
-Route::get('coverpages/index', [CoverpageController::class, 'index'])->name('coverpage.index');
-Route::get('administers/movetoindex', [AdministerController::class, 'index'])->name('administer.movetoindex');
-Route::get('administers/index', [AdministerController::class, 'index'])->name('administer.index');
+Route::get('mails', [MailController::class, 'index'])->name('mail.index');
+Route::get('customercharges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
+Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
+
+Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
+Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
+
+Route::get('coverpages', [CoverpageController::class, 'index'])->name('coverpage.index');
+Route::get('administers', [AdministerController::class, 'index'])->name('administer.index');
 Route::get('administers/add', [AdministerController::class, 'add'])->name('administer.add');
-Route::get('histories/movetoindex', [HistoryController::class, 'index'])->name('history.movetoindex');
-Route::get('configurations/index', [ConfigurationController::class, 'index'])->name('configuration.index');
-Route::get('postcode/index', [PostcodeController::class, 'index'])->name('postcode.index');
-Route::get('view_options/index', [View_optionController::class, 'index'])->name('view_option.index');
+Route::get('histories', [HistoryController::class, 'index'])->name('history.index');
+Route::get('configurations', [ConfigurationController::class, 'index'])->name('configuration.index');
+Route::get('postcode', [PostcodeController::class, 'index'])->name('postcode.index');
+
+Route::get('view_options', [View_optionController::class, 'index'])->name('view_option.index');
+Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
+
 Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
 
 

@@ -35,6 +35,10 @@ class CoverpageController extends Controller
 
         $errors = null;
         $data = $request->all();
+        $condition = [];
+        
+        $usernavi = $paginator;
+
 
         if (isset($data['Coverpages'])) {
             // バリデーション
@@ -115,10 +119,11 @@ class CoverpageController extends Controller
                     'dataline' => $count ?: 1,
                     'main_title' => $main_title,
                     'title_text' => $title_text,
-                    'title',
+                    'title' => $title,
                     'maxline' => $maxline,
                     'SendMethod' => $SendMethod,
-                    'data' => $data
+                    'data' => $data,
+                    'usernavi' => $usernavi
                 ]);
             }
         } else {
@@ -129,7 +134,9 @@ class CoverpageController extends Controller
                 'title_text' => $title_text,
                 'maxline' => $maxline,
                 'SendMethod' => $SendMethod,
-                'data' => $data
+                'data' => $data,
+                'usernavi' => $usernavi,
+
             ]);
         }
     }

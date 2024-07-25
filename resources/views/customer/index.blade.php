@@ -1,25 +1,32 @@
 @extends('layout.default')
 
 @section('content')
-<script><!--
-try{
-	window.addEventListener("load",initTableRollovers('index_table'),false);
- }catch(e){
- 	window.attachEvent("onload",initTableRollovers('index_table'));
-}
---></script>
-
-<script><!--
-function select_all() {
-	$(".chk").attr("checked", $(".chk_all").attr("checked"));
-	$('input[name="delete"]').attr('disabled','');
-	$('input[name="reproduce"]').attr('disabled','');
-}
-
---></script>
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <script>
-$(function() {
-	setBeforeSubmit('<?php echo $this->name.ucfirst($this->action).'Form'; ?>');
+    try {
+        window.addEventListener("load", initTableRollovers('index_table'), false);
+    } catch (e) {
+        window.attachEvent("onload", initTableRollovers('index_table'));
+    }
+</script>
+
+<script>
+    function select_all() {
+        $(".chk").attr("checked", $(".chk_all").attr("checked"));
+        $('input[name="delete"]').attr('disabled', '');
+        $('input[name="reproduce"]').attr('disabled', '');
+    }
+</script>
+
+<script>
+ $(function() {
+    @if(isset($name) && isset($action))
+        setBeforeSubmit('{{ $name . ucfirst($action) . 'Form' }}');
+    @else
+        console.error("Name or action is not set.");
+    @endif
 });
 </script>
 @if(session('status'))
@@ -66,7 +73,7 @@ $(function() {
     </form>
 
     <div class="new_document">
-        <a href="{{ route('customers.add') }}">
+        <a href="{{ route('customer.add') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="" />
         </a>
     </div>
@@ -79,11 +86,41 @@ $(function() {
 
     <div class="contents_box mb40">
         <div id='pagination'>
-            {{ $paginator->total() }}
+            {{ $paginator->total() }}件中 0 - 0 件を表示
         </div>
         <div id='pagination'>
-            {!! $paginator->prev('<< '.__('前へ'), [], null, ['class'=>'disabled', 'tag' => 'span']) !!} |
-            {!! $paginator->numbers().' | '.$paginator->next(__('次へ').' >>', [], null, ['tag' => 'span', 'class' => 'disabled']) !!}
+            <!-- Previous Page Link -->
+            @if ($paginator->onFirstPage())
+                <span class="disabled"><< {{ __('前へ') }}</span>
+            @else
+                <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+            @endif
+
+            <!-- Pagination Elements -->
+            @foreach ($paginator->links()->elements as $element)
+                <!-- "Three Dots" Separator -->
+                @if (is_string($element))
+                    <span class="disabled">{{ $element }}</span>
+                @endif
+
+                <!-- Array Of Links -->
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $paginator->currentPage())
+                            <span class="active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+            <!-- Next Page Link -->
+            @if ($paginator->hasMorePages())
+                <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+            @else
+                <span class="disabled">{{ __('次へ') }} >></span>
+            @endif
         </div>
         <img src="{{ asset('img/bg_contents_top.jpg') }}">
         <div class="list_area">
@@ -93,14 +130,27 @@ $(function() {
                     <table width="900" cellpadding="0" cellspacing="0" border="0" style="break-word:break-all;" id="index_table">
                         <thead>
                             <tr>
-                                <th width="50" class="w50"><input type="checkbox" class="chk_all" onclick="select_all();"></th>
-                                <th class="w50"><?php echo $customHtml->sortLink('No.', 'Customer.CST_ID'); ?></th>
-                                <th class="w250"><?php echo $customHtml->sortLink('顧客名', 'Customer.NAME_KANA'); ?></th>
-                                <th class="w250"><?php echo $customHtml->sortLink('住所', 'Customer.CNT_ID'); ?></th>
-                                <th class="w100"><?php echo $customHtml->sortLink('電話番号', 'Customer.PHONE_NO1'); ?></th>
-                                <th class="w200"><?php echo $customHtml->sortLink('担当者', 'Customer.CHR_ID'); ?></th>
+                                <th width="50" class="w50"><input type="checkbox" name="action.select_all" class="chk_all" onclick="select_all();"></th>
+
+                                <th class="w50">
+                                    <a href="{{ route('item.index', ['sort' => 'CST_ID']) }}">No.</a>
+                                </th>
+                                <th class="w250">
+                                    <a href="{{ route('item.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
+                                </th>
+                                <th class="w250">
+                                    <a href="{{ route('item.index', ['sort' => 'CNT_ID']) }}">住所</a>
+                                </th>
+                                <th class="w100">
+                                    <a href="{{ route('item.index', ['sort' => 'PHONE_NO1']) }}">電話番号</a>
+                                </th>
+                                <th class="w200">
+                                    <a href="{{ route('item.index', ['sort' => 'CHR_ID']) }}">担当者</a>
+                                </th>
                                 @if ($user['AUTHORITY'] != 1)
-                                    <th class='w100'><?php echo $customHtml->sortLink('作成者', 'Customer.USR_ID'); ?></th>
+                                    <th class='w100'>
+                                        <a href="{{ route('item.index', ['sort' => 'USR_ID']) }}">作成者</a>
+                                    </th>
                                 @endif
                             </tr>
                         </thead>
@@ -111,7 +161,7 @@ $(function() {
                                     <td>{{ $val['Customer']['CST_ID'] }}</td>
                                     <td>
                                         @if ($authcheck[$val['Customer']['CST_ID']] == 1)
-                                            <a href="{{ route('customers.check', ['id' => $val['Customer']['CST_ID']]) }}">{{ $val['Customer']['NAME'] }}</a>
+                                            <a href="{{ route('customer.check', ['id' => $val['Customer']['CST_ID']]) }}">{{ $val['Customer']['NAME'] }}</a>
                                         @else
                                             {{ $customHtml->ht2br($val['Customer']['NAME']) }}
                                         @endif

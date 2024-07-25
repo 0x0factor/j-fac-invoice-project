@@ -1,6 +1,9 @@
 @extends('layout.default')
 
 @section('content')
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <script><!--
 try{
 	window.addEventListener("load",initTableRollovers('index_table'),false);
