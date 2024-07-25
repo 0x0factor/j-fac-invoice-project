@@ -36,8 +36,7 @@ class CoverpageController extends Controller
         $errors = null;
         $data = $request->all();
         $condition = [];
-        
-        $usernavi = $paginator;
+
 
 
         if (isset($data['Coverpages'])) {
