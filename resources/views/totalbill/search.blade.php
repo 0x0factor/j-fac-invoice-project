@@ -134,7 +134,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <br /><span class="usernavi">{{ $usernavi['EDIT_STAT'] ?? '' }}</span>
+                                <br /><span class="usernavi">{{ $usernavi['EDIT_STAT'] }}</span>
                             </td>
                         </tr>
                         <tr>

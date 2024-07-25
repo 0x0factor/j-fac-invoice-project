@@ -38,7 +38,7 @@ $action = request()->route()->getActionMethod();
                     <th class="{{ $errors->has('NO') ? 'txt_top' : '' }}">管理番号</th>
                     <td width="320">
                         <input type="text" name="NO" class="w180 p2{{ $errors->has('NO') ? ' error' : '' }}" maxlength="20" value="{{ old('NO') }}">
-                        <br><span class="usernavi">{{ $usernavi['NO'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['NO'] }}</span>
                         <br><span class="must">{{ $errors->first('NO') }}</span>
                     </td>
                     <th class="{{ $errors->has('DATE') ? 'txt_top' : '' }}">
@@ -56,7 +56,7 @@ $action = request()->route()->getActionMethod();
                 <tr>
                     <td colspan="3"></td>
                     <td>
-                        <span class="usernavi">{{ $usernavi['DATE'] ?? '' }}</span>
+                        <span class="usernavi">{{ $usernavi['DATE'] }}</span>
                         <br><span class="must">{{ $errors->first('ISSUE_DATE') }}</span>
                     </td>
                 </tr>
@@ -71,7 +71,7 @@ $action = request()->route()->getActionMethod();
                     <td colspan="3">
                         <input type="text" name="SUBJECT" class="w320 mr10{{ $errors->has('SUBJECT') ? ' error' : '' }}" maxlength="80" onkeyup="count_strw('subject_rest', value, 40)" value="{{ old('SUBJECT') }}">
                         <span id="subject_rest"></span>
-                        <br><span class="usernavi">{{ $usernavi['SUBJECT'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['SUBJECT'] }}</span>
                         <br><span class="must">{{ $errors->first('SUBJECT') }}</span>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@ $action = request()->route()->getActionMethod();
                         <a href="#" onclick="return customer_reset();">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">
                         </a>
-                        <br><span class="usernavi">{{ $usernavi['CST_ID'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['CST_ID'] }}</span>
                         <br><span class="must">{{ $errors->first('CST_ID') }}</span>
                     </td>
                     <th style="width:120px;" class="{{ $errors->has('NO') ? 'txt_top' : '' }}">顧客担当者名</th>
@@ -137,7 +137,7 @@ $action = request()->route()->getActionMethod();
                             <input type="radio" name="HONOR_CODE" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('HONOR_CODE') == $key ? 'checked' : '' }}> {{ $value }}
                         @endforeach
                         <input type="text" name="HONOR_TITLE" class="w160 mr10{{ $errors->has('HONOR_TITLE') ? ' error' : '' }}" maxlength="8" value="{{ old('HONOR_TITLE') }}">
-                        <br><span class="usernavi">{{ $usernavi['HONOR'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['HONOR'] }}</span>
                         <br><span class="must">{{ $errors->first('HONOR_TITLE') }}</span>
                     </td>
                 </tr>
@@ -152,7 +152,7 @@ $action = request()->route()->getActionMethod();
                         @foreach ($seal_flg as $key => $value)
                             <input type="radio" name="CMP_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CMP_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
                         @endforeach
-                        <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
                         <br><span class="must">{{ $errors->first('CMP_SEAL_FLG') }}</span>
                     </td>
                 </tr>
@@ -167,7 +167,7 @@ $action = request()->route()->getActionMethod();
                         @foreach ($seal_flg as $key => $value)
                             <input type="radio" name="CHR_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CHR_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
                         @endforeach
-                        <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
                         <br><span class="must">{{ $errors->first('CHR_SEAL_FLG') }}</span>
                     </td>
                 </tr>

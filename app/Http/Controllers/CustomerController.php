@@ -65,9 +65,13 @@ class CustomerController extends Controller
 
         $company_ID = 1;
         $condition = [];
+        $paginator = Customer::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(15);
+        $list = $paginator->items();
         $charge = $this->customer->select_charge($company_ID, $condition);
 
-        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge'));
+        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge', 'paginator', 'list'));
     }
 
     public function check($customer_ID)

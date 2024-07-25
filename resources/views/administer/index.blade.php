@@ -65,8 +65,40 @@
         </div>
 
         <div id='pagination'>
-            {{ $administers->links() }}
+            <!-- Previous Page Link -->
+            @if ($administers->onFirstPage())
+                <span class="disabled"><< {{ __('前へ') }}</span>
+            @else
+                <a href="{{ $administers->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+            @endif
+
+            <!-- Pagination Elements -->
+            @foreach ($administers->links()->elements as $element)
+                <!-- "Three Dots" Separator -->
+                @if (is_string($element))
+                    <span class="disabled">{{ $element }}</span>
+                @endif
+
+                <!-- Array Of Links -->
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $administers->currentPage())
+                            <span class="active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+            <!-- Next Page Link -->
+            @if ($administers->hasMorePages())
+                <a href="{{ $administers->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+            @else
+                <span class="disabled">{{ __('次へ') }} >></span>
+            @endif
         </div>
+
 
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">

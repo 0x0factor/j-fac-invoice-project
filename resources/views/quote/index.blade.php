@@ -48,6 +48,7 @@
                             @if(isset($status))
                             @foreach($status as $key => $value)
                                 <label><input type="checkbox" name="STATUS[]" value="{{ $key }}"> {{ $value }}</label>
+                                <div class="checkbox"><input type="checkbox" name="STATUS[]" value="{{ $key }}" id="QuoteSTATUS{{ $key }}"><label for="QuoteSTATUS{{ $key }}"> {{ $value }}</label></div>
                             @endforeach
                             @endif
                         </td>
@@ -55,10 +56,10 @@
                 </table>
                 <div class="quote_extend">
                     <div class="quote_extend_btn" id="quote_open_btn">
-                        <img src="{{ asset('img/button/d_down.png') }}" class="imgover" alt="off" onclick="toggle_quote_extend_open();"> 詳細検索を表示する
+                        <img src="{{ asset('img/button/d_down.png') }}" class="imgover" alt="off" onclick="toggle_quote_extend_open();">　詳細検索を表示する
                     </div>
                     <div class="quote_extend_btn" id="quote_close_btn" style="display:none;">
-                        <img src="{{ asset('img/button/d_up.png') }}" class="imgover" alt="off" onclick="toggle_quote_extend_close();"> 詳細検索を非表示にする
+                        <img src="{{ asset('img/button/d_up.png') }}" class="imgover" alt="off" onclick="toggle_quote_extend_close();">　詳細検索を非表示にする
                     </div>
                     <div class="quote_extend_area">
                         <table width="940" cellpadding="0" cellspacing="0" border="0">
@@ -111,73 +112,121 @@
                 </div>
             </form>
         </div>
-        <div id="calid"></div>
+    </div>
 
-        <div class="new_document">
-            <a href="{{ route('quote.create') }}"><img src="{{ asset('img/bt_new.jpg') }}" alt="新規作成"></a>
-            <a href="{{ route('quote.export') }}"><img src="{{ asset('img/bt_excel.jpg') }}" alt="エクスポート"></a>
+    <div id="calid"></div>
+
+    <div class="new_document">
+        <a href="{{ route('quote.create') }}"><img src="{{ asset('img/bt_new.jpg') }}" alt="新規作成"></a>
+        <a href="{{ route('quote.export') }}"><img src="{{ asset('img/bt_excel.jpg') }}" alt="エクスポート"></a>
+    </div>
+
+    <h3><div class="edit_02_quote"><span class="edit_txt">&nbsp;</span></div></h3>
+
+    <div class="contents_box mb40">
+        <div id='pagination'>
+            {{ $paginator->total() }}件中 0 - 0 件を表示
         </div>
+        <div id='pagination'>
+            @if ($paginator->onFirstPage())
+                <span class="disabled"><< {{ __('前へ') }}</span>
+            @else
+                <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+            @endif
 
-        <h3><div class="edit_02_quote"><span class="edit_txt">&nbsp;</span></div></h3>
 
-        <div class="contents_box mb40">
-            <div id='pagination'>
-                {{ $quotes->count() }}
-            </div>
-            <div id='pagination'>
-                {{ $quotes->links() }}
-            </div>
-            <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">
-            <div class="list_area">
-                @if($quotes->isNotEmpty())
-                <form method="POST" action="{{ route('quote.action') }}">
-                    @csrf
-                    @method('DELETE')
-                    <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
-                        <thead>
-                        <tr>
-                            <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();"></th>
-                            <th class="w50">@sortablelink('MQT_ID', 'No.')</th>
-                            <th class="w100">@sortablelink('customer.NAME_KANA', '顧客名')</th>
-                            <th class="w150">@sortablelink('SUBJECT', '件名')</th>
-                            <th class="w100">@sortablelink('TOTAL', '合計金額')</th>
-                            <th class="w100">@sortablelink('ISSUE_DATE', '発行日')</th>
-                            @if(auth()->user()->AUTHORITY != 1)
-                                <th class="w150">@sortablelink('USR_ID', '作成者') / @sortablelink('UPDATE_USR_ID', '更新者')</th>
-                            @endif
-                            <th class="w100">@sortablelink('STATUS', '発行ステータス')</th>
-                            <th class="w100">メモ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($quotes as $quote)
-                        <tr>
-                            <td class="v50"><input type="checkbox" name="selected_quotes[]" value="{{ $quote->MQT_ID }}" class="chk"></td>
-                            <td class="v50">{{ $quote->MQT_ID }}</td>
-                            <td class="v100">{{ $quote->customer->NAME }}</td>
-                            <td class="v100"><a href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a></td>
-                            <td class="v150">{{ $quote->TOTAL }}円</td>
-                            <td class="v150">{{ $quote->ISSUE_DATE }}</td>
-                            @if(auth()->user()->AUTHORITY != 1)
-                                <td class="v50">{{ $quote->user->NAME }} / {{ $quote->updateUser->NAME ?? '&nbsp;' }}</td>
-                            @endif
-                            <td class="v50">{{ $status[$quote->STATUS] }}</td>
-                            <td class="v100">{{ $quote->MEMO ?? '&nbsp;' }}</td>
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="list_btn">
-                        <button type="submit" name="delete" onclick="return confirm('Are you sure you want to delete these quotes?');"><img src="{{ asset('img/document/bt_delete2.jpg') }}" alt="削除"></button>
-                        <button type="submit" name="reproduce_quote"><img src="{{ asset('img/bt_01.jpg') }}" alt="複製"></button>
-                        <button type="submit" name="reproduce_bill"><img src="{{ asset('img/bt_02.jpg') }}" alt="複製"></button>
-                        <button type="submit" name="reproduce_delivery"><img src="{{ asset('img/bt_03.jpg') }}" alt="複製"></button>
-                    </div>
-                </form>
+            <!-- Pagination Elements -->
+            @foreach ($paginator->links()->elements as $element)
+                <!-- "Three Dots" Separator -->
+                @if (is_string($element))
+                    <span class="disabled">{{ $element }}</span>
                 @endif
-            </div>
-            <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="Contents Bottom" class="block">
+
+                <!-- Array Of Links -->
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $paginator->currentPage())
+                            <span class="active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+
+            @if ($paginator->hasMorePages())
+                <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+            @else
+                <span class="disabled">{{ __('次へ') }} >></span>
+            @endif
         </div>
+        <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">
+        <div class="list_area">
+
+            @if(is_array($quotes))
+            <form method="POST" action="{{ route('quote.action') }} " id="QuoteActionForm" accept-charset="utf-8">
+                @csrf
+                @method('DELETE')
+                <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
+                    <thead>
+                    <tr>
+                        <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();"></th>
+                        <th class="w50">
+                            <a href="{{ route('quote.index', ['sort' => 'MQT_ID']) }}">No.</a>
+                        </th>
+                        <th class="w100">
+                            <a href="{{ route('quote.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
+                        </th>
+                        <th class="w150">
+                            <a href="{{ route('quote.index', ['sort' => 'SUBJECT']) }}">件名</a>
+                        </th>
+                        <th class="w100">
+                            <a href="{{ route('quote.index', ['sort' => 'TOTAL']) }}">合計金額</a>
+                        </th>
+                        <th class="w100">
+                            <a href="{{ route('quote.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
+                        </th>
+                        @if(auth()->user()->AUTHORITY != 1)
+                            <th class="w150">
+                                <a href="{{ route('quote.index', ['sort' => 'USR_ID']) }}">作成者</a>/
+                                <a href="{{ route('quote.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
+                            </th>
+                        @endif
+                        <th class="w100">
+                            <a href="{{ route('quote.index', ['sort' => 'STATUS']) }}">発行ステータス</a>
+                        </th>
+                        <th class="w100">メモ</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($quotes as $quote)
+                    <tr>
+                        <td class="v50"><input type="checkbox" name="selected_quotes[]" value="{{ $quote->MQT_ID }}" class="chk"></td>
+                        <td class="v50">{{ $quote->MQT_ID }}</td>
+                        <td class="v100">{{ $quote->customer->NAME }}</td>
+                        <td class="v100"><a href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a></td>
+                        <td class="v150">{{ $quote->TOTAL }}円</td>
+                        <td class="v150">{{ $quote->ISSUE_DATE }}</td>
+                        @if(auth()->user()->AUTHORITY != 1)
+                            <td class="v50">{{ $quote->user->NAME }} / {{ $quote->updateUser->NAME ?? '&nbsp;' }}</td>
+                        @endif
+                        <td class="v50">{{ $status[$quote->STATUS] }}</td>
+                        <td class="v100">{{ $quote->MEMO ?? '&nbsp;' }}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="list_btn">
+                    <input type="image" src="{{ asset('img/document/bt_delete2.jpg') }}" name="delete" alt="削除" onclick="return del();" class="mr5" disabled="">
+                    <input type="image" src="{{ asset('img/bt_01.jpg') }}" name="reproduce_quote" alt="複製" class="mr5">
+                    <input type="image" src="{{ asset('img/bt_02.jpg') }}" name="reproduce_bill" alt="複製" class="mr5">
+                    <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery" alt="複製" class="mr5">
+                </div>
+            </form>
+            @endif
+        </div>
+        <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="Contents Bottom" class="block">
     </div>
 </div>
 @endsection

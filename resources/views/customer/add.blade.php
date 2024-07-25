@@ -43,7 +43,7 @@ function charge_reset() {
                         </th>
                         <td style="width:750px;">
                             <input type="text" name="NAME" class="w300{{ $errors->has('NAME') ? ' error' : '' }}" maxlength="60" value="{{ old('NAME') }}">
-                            <br /><span class="usernavi">{{ $usernavi['CMP_NAME'] ?? '' }}</span>
+                            <br /><span class="usernavi">{{ $usernavi['CMP_NAME'] }}</span>
                             <br /><span class="must">{{ $errors->first('NAME') }}</span>
                         </td>
                     </tr>
@@ -70,7 +70,7 @@ function charge_reset() {
     <h3><div class="company_02"><span class="edit_txt">&nbsp;</span></div></h3>
 
     <div class="contents_box">
-        <span class="usernavi">{{ $usernavi['CUSTOMER_PAYMENT'] ?? '' }}</span>
+        <span class="usernavi">{{ $usernavi['CUSTOMER_PAYMENT'] }}</span>
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">
         <div class="contents_area">
             <table width="880" cellpadding="0" cellspacing="0" border="0">
@@ -85,7 +85,7 @@ function charge_reset() {
                             @endforeach
                         </select>
                         <input type="text" name="CUTOOFF_DATE" class="w60 mr5 ml5{{ $errors->has('CUTOOFF_DATE') ? ' error' : '' }}" maxlength="2" value="{{ old('CUTOOFF_DATE') }}">日
-                        <br /><span class="usernavi">{{ $usernavi['CST_CUTOOFF'] ?? '' }}</span>
+                        <br /><span class="usernavi">{{ $usernavi['CST_CUTOOFF'] }}</span>
                         <br /><span class="must">{{ $errors->first('CUTOOFF_DATE') }}</span>
                     </td>
                 </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Quote;
 use App\Models\Bill;
 use App\Models\Delivery;
@@ -14,6 +15,7 @@ use App\Models\Charge;
 use App\Models\Customer;
 use App\Models\History;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
 
@@ -30,6 +32,8 @@ class QuoteController extends AppController
         $this->customer = $customer;
     }
 
+
+
     public function index(Request $request)
     {
         if ($request->has('customer')) {
@@ -43,8 +47,12 @@ class QuoteController extends AppController
         } else {
             $customer_id = null;
         }
-        $quotes = Quote::paginate(10); // Adjust the number of items per page as needed
-        // Assuming $status is retrieved from some config or database
+        $condition = [];
+
+        $paginator = Quote::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $quotes = $paginator->items();
         $status = []; // Placeholder for status options
 
         return view('quote.index', [
@@ -54,7 +62,8 @@ class QuoteController extends AppController
             'mailstatus' => config('constants.MailStatusCode'),
             'status' => config('constants.IssuedStatCode'),
             'customer_id' => $customer_id,
-            'quotes' => $quotes
+            'paginator' => $paginator,
+            'quotes' => $quotes,
 
         ]);
     }
@@ -64,6 +73,10 @@ class QuoteController extends AppController
         $main_title = "見積書登録";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
+
+        $user = Auth::user();
+
+        $name = $user['NAME'];
 
         if ($request->has('cancel_x')) {
             return redirect('/quotes');
@@ -307,6 +320,7 @@ class QuoteController extends AppController
             'taxRates' => Config::get('TaxRates'),
             'taxOperationDate' => Config::get('TaxOperationDate'),
             'seal_flg' => $seal_flg,
+            'name' => $name,
         ]);
     }
 

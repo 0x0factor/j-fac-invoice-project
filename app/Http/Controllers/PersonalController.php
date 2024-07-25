@@ -54,8 +54,7 @@ class PersonalController extends Controller
                 'Personal.EDIT_PASSWORD1' => null
             ]);
         }
-        $usernavi = Personal::paginate(15);
 
-        return view('personal.pass_edit', compact('main_title', 'title_text', 'title', 'usernavi'));
+        return view('personal.pass_edit', compact('main_title', 'title_text', 'title'));
     }
 }

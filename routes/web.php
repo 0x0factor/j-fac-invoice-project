@@ -97,6 +97,8 @@ Route::get('companies', [CompanyController::class, 'index'])->name('company.inde
 Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
 
 Route::get('coverpages', [CoverpageController::class, 'index'])->name('coverpage.index');
+Route::get('coverpages/store', [CoverpageController::class, 'store'])->name('coverpage.store');
+
 Route::get('administers', [AdministerController::class, 'index'])->name('administer.index');
 Route::get('administers/add', [AdministerController::class, 'add'])->name('administer.add');
 Route::get('histories', [HistoryController::class, 'index'])->name('history.index');

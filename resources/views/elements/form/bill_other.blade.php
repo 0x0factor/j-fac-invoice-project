@@ -70,7 +70,7 @@
                     <td>
                         <input type="text" name="FEE" value="{{ old('FEE') }}" class="form-control{{ $errors->has('FEE') ? ' error' : '' }}" maxlength="40" onkeyup="count_strw('fee_rest', this.value, 20)">
                         <span id="fee_rest"></span>
-                        <br><span class="usernavi">{{ $usernavi['FEE'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['FEE'] }}</span>
                         <br><span class="must">{{ $errors->first('FEE') }}</span>
                     </td>
                 </tr>
@@ -84,7 +84,7 @@
                     <td>
                         <input type="text" name="DUE_DATE" value="{{ old('DUE_DATE') }}" class="form-control{{ $errors->has('DUE_DATE') ? ' error' : '' }}" maxlength="40" onkeyup="count_strw('due_date_rest', this.value, 20)">
                         <span id="due_date_rest"></span>
-                        <br><span class="usernavi">{{ $usernavi['DUE_DATE'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['DUE_DATE'] }}</span>
                         <br><span class="must">{{ $errors->first('DUE_DATE') }}</span>
                     </td>
                 </tr>
@@ -98,7 +98,7 @@
                     <td>
                         <textarea name="NOTE" class="form-control{{ $errors->has('NOTE') ? ' error' : '' }}" onkeyup="count_strw('note_rest', this.value, 300)">{{ old('NOTE') }}</textarea>
                         <br><span id="note_rest"></span>
-                        <span class="usernavi">{{ $usernavi['NOTE'] ?? '' }}</span>
+                        <span class="usernavi">{{ $usernavi['NOTE'] }}</span>
                         <br><span class="must">{{ $errors->first('NOTE') }}</span>
                     </td>
                 </tr>
@@ -112,7 +112,7 @@
                     <td>
                         <input type="text" name="MEMO" value="{{ old('MEMO') }}" class="form-control{{ $errors->has('MEMO') ? ' error' : '' }}" maxlength="100" onkeyup="count_strw('memo_rest', this.value, 50)">
                         <span id="memo_rest"></span>
-                        <br><span class="usernavi">{{ $usernavi['MEMO'] ?? '' }}</span>
+                        <br><span class="usernavi">{{ $usernavi['MEMO'] }}</span>
                         <br><span class="must">{{ $errors->first('MEMO') }}</span>
                     </td>
                 </tr>

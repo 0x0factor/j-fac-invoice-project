@@ -45,13 +45,22 @@ class TotalbillController extends Controller
     public function index()
     {
         $authority = [];
+        $condition = [];
+        $paginator = Totalbill::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $list = $paginator->items();
+
         return view('totalbill.index', [
             'authority' => $authority,
             'main_title' => '合計請求書管理',
             'title_text' => '帳票管理',
+            'title' => '抹茶請求書',
             'edit_stat' => config('app.Edit_StatProtocolCode'),
             'mailstatus' => config('app.MailStatusCode'),
             'status' => config('app.IssuedStatCode'),
+            'paginator' => $paginator,
+            'list' => $list,
         ]);
     }
 

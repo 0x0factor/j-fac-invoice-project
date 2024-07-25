@@ -62,9 +62,7 @@ class ItemController extends Controller
             }
         }
 
-        $usernavi = Item::paginate(15);
 
-        // dd($usernavi);
 
         $user = Auth::user();
         $company = Company::first();
@@ -72,7 +70,7 @@ class ItemController extends Controller
 
         $excises = Config::get('ExciseCode');
 
-        return view('item.add', compact('main_title', 'title_text', 'title', 'excises', 'usernavi'));
+        return view('item.add', compact('main_title', 'title_text', 'title', 'excises'));
     }
 
     // 編集用

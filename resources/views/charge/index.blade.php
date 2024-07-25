@@ -108,12 +108,40 @@
             <div id='pagination'>
                 {{ $paginator->total() }}
             </div>
+            
             <div id='pagination'>
-                {{ $paginator->previousPageUrl() }}
-                |
-                {{ $paginator->links() }}
-                |
-                {{ $paginator->nextPageUrl() }}
+                <!-- Previous Page Link -->
+                @if ($paginator->onFirstPage())
+                    <span class="disabled"><< {{ __('前へ') }}</span>
+                @else
+                    <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+                @endif
+
+                <!-- Pagination Elements -->
+                @foreach ($paginator->links()->elements as $element)
+                    <!-- "Three Dots" Separator -->
+                    @if (is_string($element))
+                        <span class="disabled">{{ $element }}</span>
+                    @endif
+
+                    <!-- Array Of Links -->
+                    @if (is_array($element))
+                        @foreach ($element as $page => $url)
+                            @if ($page == $paginator->currentPage())
+                                <span class="active">{{ $page }}</span>
+                            @else
+                                <a href="{{ $url }}">{{ $page }}</a>
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
+
+                <!-- Next Page Link -->
+                @if ($paginator->hasMorePages())
+                    <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                @else
+                    <span class="disabled">{{ __('次へ') }} >></span>
+                @endif
             </div>
 
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">

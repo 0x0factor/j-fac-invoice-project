@@ -44,7 +44,7 @@
                         </th>
                         <td style="width:710px;">
                             <input type="text" name="NAME" class="w300 {{ $errors->has('NAME') ? 'error' : '' }}" maxlength="60" value="{{ old('NAME') }}">
-                            <br><span class="usernavi">{{ $usernavi['USR_NAME'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_NAME'] }}</span>
                             <br><span class="must">{{ $errors->first('NAME') }}</span>
                         </td>
                     </tr>
@@ -53,7 +53,7 @@
                         <th style="width:170px;" class="{{ $errors->has('NAME_KANA') ? 'txt_top' : '' }}">名前カナ</th>
                         <td style="width:710px;">
                             <input type="text" name="NAME_KANA" class="w300 {{ $errors->has('NAME_KANA') ? 'error' : '' }}" maxlength="60" value="{{ old('NAME_KANA') }}">
-                            <br><span class="usernavi">{{ $usernavi['USR_NAME_KANA'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_NAME_KANA'] }}</span>
                             <br><span class="must">{{ $errors->first('NAME_KANA') }}</span>
                         </td>
                     </tr>
@@ -62,7 +62,7 @@
                         <th style="width:170px;" class="{{ $errors->has('UNIT') ? 'txt_top' : '' }}">部署名</th>
                         <td style="width:710px;">
                             <input type="text" name="UNIT" class="w300 {{ $errors->has('UNIT') ? 'error' : '' }}" maxlength="60" value="{{ old('UNIT') }}">
-                            <br><span class="usernavi">{{ $usernavi['UNIT'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['UNIT'] }}</span>
                             <br><span class="must">{{ $errors->first('UNIT') }}</span>
                         </td>
                     </tr>
@@ -71,7 +71,7 @@
                         <th style="width:170px;" class="{{ $errors->has('MAIL') ? 'txt_top' : '' }}"><span class="float_l">メールアドレス</span></th>
                         <td style="width:710px;">
                             <input type="email" name="MAIL" class="w300 {{ $errors->has('MAIL') ? 'error' : '' }}" maxlength="256" value="{{ old('MAIL') }}">
-                            <br><span class="usernavi">{{ $usernavi['USR_MAIL'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_MAIL'] }}</span>
                             <br><span class="must">{{ $errors->first('MAIL') }}</span>
                             <br>
                             <span class="must">
@@ -94,7 +94,7 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            <br><span class="usernavi">{{ $usernavi['AUTHORITY'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['AUTHORITY'] }}</span>
                             <br><span class="must">{{ $errors->first('AUTHORITY') }}</span>
                         </td>
                     </tr>
@@ -106,7 +106,7 @@
                         </th>
                         <td style="width:710px;">
                             <input type="text" name="LOGIN_ID" class="w300 {{ $errors->has('LOGIN_ID') ? 'error' : '' }}" maxlength="10" value="{{ old('LOGIN_ID') }}">
-                            <br><span class="usernavi">{{ $usernavi['USR_ID'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_ID'] }}</span>
                             <br><span class="must">{{ $errors->first('LOGIN_ID') }}</span>
                             <div id="target"></div>
                         </td>
@@ -119,7 +119,7 @@
                         </th>
                         <td style="width:710px;">
                             <input type="password" name="EDIT_PASSWORD" class="w300 {{ $errors->has('EDIT_PASSWORD') ? 'error' : '' }}" maxlength="20">
-                            <br><span class="usernavi">{{ $usernavi['USR_PASSWORD'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_PASSWORD'] }}</span>
                             <br><span class="must">{{ $errors->first('EDIT_PASSWORD') }}</span>
                         </td>
                     </tr>
@@ -131,7 +131,7 @@
                         </th>
                         <td style="width:710px;">
                             <input type="password" name="EDIT_PASSWORD1" class="w300 {{ $errors->has('EDIT_PASSWORD1') ? 'error' : '' }}" maxlength="20">
-                            <br><span class="usernavi">{{ $usernavi['USR_CPASSWORD'] ?? '' }}</span>
+                            <br><span class="usernavi">{{ $usernavi['USR_CPASSWORD'] }}</span>
                             <br><span class="must">{{ $errors->first('EDIT_PASSWORD1') }}</span>
                         </td>
                     </tr>

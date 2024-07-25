@@ -96,6 +96,11 @@
 
 <div class="contents_box mb40">
     <div id='pagination'>
+        {{ $paginator->data['Item']['count'] }}
+        {{ $paginator->total() }}件中 0 - 0 件を表示
+
+    </div>
+    <div id='pagination'>
         <!-- Previous Page Link -->
         @if ($paginator->onFirstPage())
             <span class="disabled"><< {{ __('前へ') }}</span>

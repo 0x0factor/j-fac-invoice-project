@@ -41,28 +41,37 @@
         <span class="usernavi">{{ $usernavi['ITEM_LIST'] }}</span>
         <table id="detail_table" width="920px" cellpadding="0" cellspacing="0" border="0">
             <tr>
-                @if($error['ITEM']['FLAG'] != 0)
+                @if(isset($error['ITEM']['FLAG']) && $error['ITEM']['FLAG'] != 0)
+
                     @for($i = 0; $i < $dataline; $i++)
+
                         @isset($error['ITEM']['NO'][$i])
                             <td></td>
                             <td colspan=7>
                                 <font color='red'>商品名の{{ ++$error['ITEM']['NO'][$i] }}行目にエラーがあります</font>
                             </td>
                         </tr><tr>
-                    @endisset
+                        @endisset
+
                     @endfor
+
                 @endif
-                @if($error['ITEM_NO']['FLAG'] != 0)
+                @if(isset($error['ITEM_NO']['FLAG']) && $error['ITEM_NO']['FLAG'] != 0)
+
                     @for($i = 0; $i < $dataline; $i++)
-                        @isset($error['ITEM_NO']['NO'][$i])
+
+                        @if(isset($error['ITEM_NO']['NO'][$i]))
                             <td></td>
-                            <td colspan=7>
-                                <font color='red'>NOの{{ ++$error['ITEM_NO']['NO'][$i] }}行目にエラーがあります</font>
+                            <td colspan="7">
+                                <font color='red'>NOの{{ $error['ITEM_NO']['NO'][$i] }}行目にエラーがあります</font>
                             </td>
                         </tr><tr>
-                    @endisset
+                        @endif
+
                     @endfor
+
                 @endif
+
                 <!-- Repeat for other error checks -->
             </tr>
             <tr>
@@ -108,14 +117,26 @@
                 </td>
                 <td>
                     <select name="{{ $formType }}item[LINE_ATTRIBUTE][]" class="w103" onchange="changeAttribute('{{ $formType }}', {{ $i }}, value);">
+                    @if(is_array($lineAttribute))
                         @foreach($lineAttribute as $key => $value)
                             <option value="{{ $key }}" @if($key == old($formType.'item[LINE_ATTRIBUTE][]')) selected @endif>{{ $value }}</option>
                         @endforeach
+                    @else
+                        <!-- Optionally handle the case where $lineAttribute is not an array -->
+                        <option value="">No options available</option>
+                    @endif
+
                     </select>
                     <select name="{{ $formType }}item[TAX_CLASS][]" class="w105" onchange="changeTaxClass('{{ $formType }}', {{ $i }}, value);">
+                    @if(is_array($taxClass))
                         @foreach($taxClass as $key => $value)
                             <option value="{{ $key }}" @if($key == old($formType.'item[TAX_CLASS][]')) selected @endif>{{ $value }}</option>
                         @endforeach
+                    @else
+                        <!-- Optionally handle the case where $taxClass is not an array -->
+                        <option value="">No options available</option>
+                    @endif
+
                     </select>
                     <input type="hidden" name="{{ $formType }}item[DISCOUNT][]">
                     <input type="hidden" name="{{ $formType }}item[DISCOUNT_TYPE][]">

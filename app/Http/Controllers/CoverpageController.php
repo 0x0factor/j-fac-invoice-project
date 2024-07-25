@@ -25,12 +25,16 @@ class CoverpageController extends Controller
         if ($request->has('cancel_x')) {
             return redirect('/homes');
         }
-
+        $usernavi = config('app.user_navigate');
         $main_title = "送付状作成";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
 
         $maxline = Config::get('constants.CoverpageMaxFormLine');
+
+        if ($maxline == null) {
+            $maxline = 1;
+        }
         $SendMethod = Config::get('constants.SendMethod');
 
         $errors = null;
@@ -122,7 +126,6 @@ class CoverpageController extends Controller
                     'maxline' => $maxline,
                     'SendMethod' => $SendMethod,
                     'data' => $data,
-                    'usernavi' => $usernavi
                 ]);
             }
         } else {
@@ -131,11 +134,10 @@ class CoverpageController extends Controller
                 'dataline' => 1,
                 'main_title' => $main_title,
                 'title_text' => $title_text,
+                'title' => $title,
                 'maxline' => $maxline,
                 'SendMethod' => $SendMethod,
                 'data' => $data,
-                'usernavi' => $usernavi,
-
             ]);
         }
     }
@@ -232,5 +234,9 @@ class CoverpageController extends Controller
             }
         }
         return $_param;
+    }
+
+    public function store() {
+        return "123";
     }
 }

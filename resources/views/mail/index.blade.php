@@ -67,7 +67,7 @@ try{
 
     <div class="contents_box mb40">
         <div id='pagination'>
-            {{ $paginator->total() }}
+            {{ $paginator->total() }}件中 0 - 0 件を表示
         </div>
 
         <div id='pagination'>
