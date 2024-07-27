@@ -24,14 +24,19 @@
                 <th class="txt_top">発行ステータス</th>
                 <td>
                     @if(request()->route()->getActionMethod() == 'edit')
+
                         <select name="STATUS" class="form-control">
                             @foreach(config('constants.issued_stat_code') as $key => $value)
                                 <option value="{{ $key }}" {{ old('STATUS', $status) == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
                         </select>
                     @else
+                        @php
+                            // Retrieve the config value and ensure it's an array
+                            $issuedStatCode = config('constants.issued_stat_code', []);
+                        @endphp
                         <select name="STATUS" class="form-control">
-                            @foreach(config('constants.issued_stat_code') as $key => $value)
+                            @foreach($issuedStatCode as $key => $value)
                                 <option value="{{ $key }}" {{ old('STATUS', 1) == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
                         </select>

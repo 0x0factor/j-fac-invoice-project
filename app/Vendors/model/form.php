@@ -624,21 +624,32 @@ class Form
 
     public function Get_User_Data($_model_Name, $_id)
     {
-        if ($_model_Name === 'Quote') {
-            $Model = new Quote();
-            $_primary_key = 'MQT_ID';
-        } elseif ($_model_Name === 'Bill') {
-            $Model = new Bill();
-            $_primary_key = 'MBL_ID';
-        } elseif ($_model_Name === 'Delivery') {
-            $Model = new Delivery();
-            $_primary_key = 'MDV_ID';
+        // Define an associative array mapping model names to class names and primary keys
+        $models = [
+            'Quote' => ['class' => Quote::class, 'primary_key' => 'MQT_ID'],
+            'Bill' => ['class' => Bill::class, 'primary_key' => 'MBL_ID'],
+            'Delivery' => ['class' => Delivery::class, 'primary_key' => 'MDV_ID']
+        ];
+
+        // Check if the model name exists in the array
+        if (!array_key_exists($_model_Name, $models)) {
+            // Handle the case where the model name is not recognized
+            return false;
         }
 
-        $result = $Model::where($_primary_key, $_id)->get(['USR_ID']);
+        // Get the model class and primary key
+        $modelClass = $models[$_model_Name]['class'];
+        $primaryKey = $models[$_model_Name]['primary_key'];
 
-        if ($result->isEmpty()) return false;
+        // Perform the query
+        $result = $modelClass::where($primaryKey, $_id)->get(['USR_ID']);
 
+        // Check if the result is empty and return false if it is
+        if ($result->isEmpty()) {
+            return false;
+        }
+
+        // Return the USER_ID from the result
         return $result[0]['USR_ID'];
     }
 }

@@ -2,17 +2,24 @@
     $formType = $name; // Assuming $name is defined in your controller or passed to the view
 
     // Prepare tax options, excluding "0"
-    $taxOption = $taxClass; // Assuming $taxClass is an array of tax options
-    unset($taxOption["0"]);
+    $taxOption = isset($taxClass) && is_array($taxClass) ? $taxClass : [];
+
+    if (isset($taxOption["0"])) {
+        unset($taxOption["0"]);
+    }
 
     // Prepare tax class for JSON
     $taxClassforJson = [];
+
     foreach ($taxOption as $key => $name) {
         $taxClassforJson[] = [
             'name' => $name,
             'key' => $key,
         ];
     }
+
+    // Debugging output
+    // dd($taxClassforJson);
 @endphp
 
 <script type="text/javascript">

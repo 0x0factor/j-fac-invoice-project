@@ -75,6 +75,8 @@ class QuoteController extends AppController
         $title = "抹茶請求書";
 
         $user = Auth::user();
+        $action = Config::get('ActionCode');
+
 
         $name = $user['NAME'];
 
@@ -321,6 +323,7 @@ class QuoteController extends AppController
             'taxOperationDate' => Config::get('TaxOperationDate'),
             'seal_flg' => $seal_flg,
             'name' => $name,
+            'action' => $action,
         ]);
     }
 
@@ -337,6 +340,7 @@ class QuoteController extends AppController
         return view('quote.check', [
             'main_title' => '見積書確認',
             'title_text' => '帳票管理',
+            'title' => '抹茶請求書',
             'decimals' => config('constants.DecimalCode'),
             'excises' => config('constants.ExciseCode'),
             'fractions' => config('constants.FractionCode'),
@@ -356,6 +360,7 @@ class QuoteController extends AppController
         $data = [];
         $data['main_title'] = "見積書編集";
         $data['title_text'] = "帳票管理";
+        $data['title'] = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect('/quotes');
@@ -522,7 +527,8 @@ class QuoteController extends AppController
 
         return view('quote.export', [
             'main_title' => '見積書Excel出力',
-            'title_text' => '帳票管理'
+            'title_text' => '帳票管理',
+            'title' => '抹茶請求書',
         ]);
     }
 

@@ -8,7 +8,9 @@
         // Inline script if necessary
     </script>
 @endpush
-
+@php
+    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
 <div id="guide">
     <div id="guide_box" class="clearfix">
         <img src="{{ asset('img/i_guide02.jpg') }}" alt="Guide">

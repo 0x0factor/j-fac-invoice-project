@@ -10,7 +10,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FormModel;
+use App\Vendors\model\Form;
 use App\Traits\AddValidationRule;
 use App\Traits\CustomValidation;
 class Bill extends Model

@@ -133,9 +133,15 @@ $action = request()->route()->getActionMethod();
                         <span class="float_l">敬称</span>
                     </th>
                     <td id="HONOR" colspan="3">
-                        @foreach ($honor as $key => $value)
-                            <input type="radio" name="HONOR_CODE" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('HONOR_CODE') == $key ? 'checked' : '' }}> {{ $value }}
-                        @endforeach
+
+                        @isset($honor)
+                            @foreach ($honor as $key => $value)
+                                <input type="radio" name="HONOR_CODE" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('HONOR_CODE') == $key ? 'checked' : '' }}> {{ $value }}
+                            @endforeach
+                        @else
+                            <p>No honor data available.</p>
+                        @endisset
+
                         <input type="text" name="HONOR_TITLE" class="w160 mr10{{ $errors->has('HONOR_TITLE') ? ' error' : '' }}" maxlength="8" value="{{ old('HONOR_TITLE') }}">
                         <br><span class="usernavi">{{ $usernavi['HONOR'] }}</span>
                         <br><span class="must">{{ $errors->first('HONOR_TITLE') }}</span>
@@ -149,9 +155,15 @@ $action = request()->route()->getActionMethod();
                         <span class="float_l">自社印押印設定</span>
                     </th>
                     <td id="SET_CMP_SEAL_FLG" colspan="3">
-                        @foreach ($seal_flg as $key => $value)
-                            <input type="radio" name="CMP_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CMP_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
-                        @endforeach
+
+                        @if(is_array($seal_flg) || is_object($seal_flg))
+                            @foreach ($seal_flg as $key => $value)
+                                <input type="radio" name="CMP_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CMP_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
+                            @endforeach
+                        @else
+                            <p>No seal flag data available.</p>
+                        @endif
+
                         <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
                         <br><span class="must">{{ $errors->first('CMP_SEAL_FLG') }}</span>
                     </td>
@@ -164,9 +176,13 @@ $action = request()->route()->getActionMethod();
                         <span class="float_l">担当者印押印設定</span>
                     </th>
                     <td id="SET_CHR_SEAL_FLG" colspan="3">
-                        @foreach ($seal_flg as $key => $value)
-                            <input type="radio" name="CHR_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CHR_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
-                        @endforeach
+                        @if(is_array($seal_flg) || is_object($seal_flg))
+                            @foreach ($seal_flg as $key => $value)
+                                <input type="radio" name="CHR_SEAL_FLG" value="{{ $key }}" class="ml20 mr5 txt_mid" {{ old('CHR_SEAL_FLG') == $key ? 'checked' : '' }}> {{ $value }}
+                            @endforeach
+                        @else
+                            <p>No seal flag data available.</p>
+                        @endif
                         <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
                         <br><span class="must">{{ $errors->first('CHR_SEAL_FLG') }}</span>
                     </td>

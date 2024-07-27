@@ -11,8 +11,12 @@ use App\Models\Item;
 use App\Models\Mail;
 use App\Models\CustomerCharge;
 use App\Models\Serial;
+use App\Models\User;
 use App\Models\Charge;
 use App\Models\Customer;
+use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use App\Services\ExcelService;
 use Carbon\Carbon;
 
@@ -23,9 +27,10 @@ class DeliveryController extends Controller
 
     protected $excelService;
 
-    public function __construct(ExcelService $excelService)
+    // public function __construct(ExcelService $excelService)
+    public function __construct()
     {
-        $this->excelService = $excelService;
+        // $this->excelService = $excelService;
         $this->middleware('auth');
     }
 
@@ -36,6 +41,7 @@ class DeliveryController extends Controller
 
         $this->data['main_title'] = "納品書管理";
         $this->data['title_text'] = "帳票管理";
+        $this->data['title'] = "抹茶請求書";
 
         if ($request->has('customer')) {
             $customer = Customer::where('CST_ID', $request->query('customer'))->first();
@@ -54,10 +60,35 @@ class DeliveryController extends Controller
             }
         }
 
+         // Example data for $status
+        $status = [
+            '1' => '作成済み',
+            '2' => '下書き',
+            '3' => '破棄',
+            '4' => '未入金',
+            '5' => '入金済み',
+            '6' => '入金対象外',
+        ];
+
+        $action = Config::get('ActionCode');
+        $name = Auth::user()->NAME;
+
+        $condition = [];
+        $paginator = Delivery::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $list = $paginator->items();
+
+        // $this->data['status'] = $status;
+        $this->data['action'] = $action;
+        $this->data['name'] = $name;
+        $this->data['paginator'] = $paginator;
+        $this->data['list'] = $list;
+
         $this->data['mailstatus'] = config('app.MailStatusCode');
         $this->data['status'] = config('app.IssuedStatCode');
 
-        return view('deliverie.index', $this->data);
+        return view('delivery.index', $this->data);
     }
 
     // 登録用
@@ -66,6 +97,7 @@ class DeliveryController extends Controller
         $this->data = [];
         $this->data['main_title'] = "納品書登録";
         $this->data['title_text'] = "帳票管理";
+        $this->data['title'] = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
             return redirect()->route('deliveries.index');
@@ -133,7 +165,8 @@ class DeliveryController extends Controller
 
             $delivery = new Delivery();
             if ($delivery->get_serial($company_ID) == 0) {
-                $this->data['Delivery']['NO'] = Serial::get_number('Delivery');
+                $serial = new Serial();
+                $this->data['Delivery']['NO'] = $serial->get_number('Delivery');
             }
 
             $this->data['Delivery']['CST_ID'] = 'default';
@@ -154,8 +187,20 @@ class DeliveryController extends Controller
 
             $default_dec = $delivery->get_decimal($company_ID);
             if ($default_dec) {
-                $this->data['Delivery']['DECIMAL_QUANTITY'] = $default_dec[0]['Company']['DECIMAL_QUANTITY'];
-                $this->data['Delivery']['DECIMAL_UNITPRICE'] = $default_dec[0]['Company']['DECIMAL_UNITPRICE'];
+                // Check if $default_dec is not null and has at least one element
+                if (!empty($default_dec) && isset($default_dec[0]['Company']['DECIMAL_QUANTITY'])) {
+                    $this->data['Delivery']['DECIMAL_QUANTITY'] = $default_dec[0]['Company']['DECIMAL_QUANTITY'];
+                } else {
+                    // Handle the case where DECIMAL_QUANTITY is not set
+                    $this->data['Delivery']['DECIMAL_QUANTITY'] = 0; // or any default value
+                }
+
+                if (!empty($default_dec) && isset($default_dec[0]['Company']['DECIMAL_UNITPRICE'])) {
+                    $this->data['Delivery']['DECIMAL_UNITPRICE'] = $default_dec[0]['Company']['DECIMAL_UNITPRICE'];
+                } else {
+                    // Handle the case where DECIMAL_UNITPRICE is not set
+                    $this->data['Delivery']['DECIMAL_UNITPRICE'] = 0; // or any default value you prefer
+                }
             } else {
                 $this->data['Delivery']['DECIMAL_QUANTITY'] = 0;
                 $this->data['Delivery']['DECIMAL_UNITPRICE'] = 0;
@@ -163,19 +208,29 @@ class DeliveryController extends Controller
 
             $this->data['Delivery']['DISCOUNT_TYPE'] = 2;
             $this->data['Delivery']['DATE'] = Carbon::now()->format('Y-m-d');
-            $this->data['Delivery']['CMP_SEAL_FLG'] = app('App\Services\CompanyService')->getSealFlg();
+            $company = new Company;
+            $this->data['Delivery']['CMP_SEAL_FLG'] = $company->getSealFlg();
             $this->data['Delivery']['CHR_SEAL_FLG'] = 0;
 
             $default_honor = $delivery->get_honor($company_ID);
             if ($default_honor) {
-                $this->data['Delivery']['HONOR_CODE'] = $default_honor[0]['Company']['HONOR_CODE'];
-                if ($default_honor[0]['Company']['HONOR_CODE'] == 2) {
-                    $this->data['Delivery']['HONOR_TITLE'] = $default_honor[0]['Company']['HONOR_TITLE'];
+                if (!empty($default_honor) && isset($default_honor[0]['Company']['HONOR_CODE'])) {
+                    $this->data['Delivery']['HONOR_CODE'] = $default_honor[0]['Company']['HONOR_CODE'];
+
+                    if ($default_honor[0]['Company']['HONOR_CODE'] == 2) {
+                        $this->data['Delivery']['HONOR_TITLE'] = $default_honor[0]['Company']['HONOR_TITLE'] ?? 'default_value'; // Set a default value if HONOR_TITLE is not set
+                    }
+                } else {
+                    // Handle the case where default_honor is empty or HONOR_CODE is not set
+                    $this->data['Delivery']['HONOR_CODE'] = 'default_value'; // or any default value you prefer
+                    $this->data['Delivery']['HONOR_TITLE'] = 'default_value'; // or any default value you prefer
                 }
             }
 
             // Set tax operation date
             $taxOperationDate = config('app.TaxOperationDate');
+
+            if (is_array($taxOperationDate) || is_object($taxOperationDate))
             foreach ($taxOperationDate as $key => $value) {
                 if ($this->data['Delivery']['DATE'] >= $value['start']) {
                     if ($this->data['Delivery']['DATE'] <= $value['end']) {
@@ -198,8 +253,8 @@ class DeliveryController extends Controller
         // Get company information
         $company_ID = 1; // Assuming company_ID is 1, adjust as needed
         $cst_condition = $this->getUserAuthority() == 1
-            ? ['Customer.CMP_ID' => $company_ID, 'Customer.USR_ID' => $this->getUserId()]
-            : ['Customer.CMP_ID' => $company_ID];
+            ? ['CMP_ID' => $company_ID, 'USR_ID' => $this->getUserId()]
+            : ['CMP_ID' => $company_ID];
 
         $items = Item::where('USR_ID', $this->getUserId())->get();
         $itemList = [];
@@ -211,6 +266,12 @@ class DeliveryController extends Controller
             ];
         }
 
+        $user = Auth::user();
+        $action = Config::get('ActionCode');
+
+
+        $name = $user['NAME'];
+
         // Set data for the view
         $this->data['excises'] = config('app.ExciseCode');
         $this->data['fractions'] = config('app.FractionCode');
@@ -221,6 +282,8 @@ class DeliveryController extends Controller
         $this->data['companys'] = $delivery->get_customer($company_ID, $cst_condition);
         $this->data['error'] = $error;
         $this->data['dataline'] = $count;
+        $this->data['name'] = $name;
+        $this->data['user'] = $user;
         $this->data['item'] = $items->pluck('ITEM', 'ITM_ID')->prepend('＋アイテム選択＋', 'default')->prepend('＋アイテム追加＋', 'item');
         $this->data['itemlist'] = !empty($itemList) ? json_encode($itemList) : false;
         $this->data['honor'] = config('app.HonorCode');
@@ -230,10 +293,10 @@ class DeliveryController extends Controller
         $this->data['lineAttribute'] = config('app.LineAttribute');
         $this->data['taxClass'] = config('app.TaxClass');
         $this->data['taxRates'] = config('app.TaxRates');
-        $this->data['taxOperationDate'] = config('app.TaxOperationDate');
+        $this->data['taxOperationDate'] = config('app.TaxOpera  tionDate');
         $this->data['seal_flg'] = config('app.SealFlg');
 
-        return view('deliverie.add', $this->data);
+        return view('delivery.add', $this->data);
     }
 
     public function check(Request $request, $id)
@@ -439,7 +502,8 @@ class DeliveryController extends Controller
             }
         }
 
-        return view('deliverie.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理']);
+
+        return view('deliverie.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理', 'title' => "抹茶請求書" ]);
     }
 
     public function pdf(Request $request, $id)
@@ -477,6 +541,22 @@ class DeliveryController extends Controller
         }
 
         return $pdf->download($fileName);
+    }
+
+    private function getUserAuthority()
+    {
+        if (auth()->check()) {
+            return auth()->user()->authority;
+        }
+        return null;
+    }
+
+    private function getUserId()
+    {
+        if (auth()->check()) {
+            return auth()->user()->id;
+        }
+        return null;
     }
 
 }

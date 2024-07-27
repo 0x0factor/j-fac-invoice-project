@@ -8,10 +8,12 @@ use App\Models\Delivery;
 use App\Models\Item;
 use App\Models\Receipt;
 use App\Models\CustomerCharge;
+use App\Models\User;
 use App\Models\Mail;
 use App\Models\Serial;
 use App\Models\Charge;
 use App\Models\Customer;
+use App\Models\Company;
 use App\Models\History;
 use App\Components\ExcelComponent;
 use App\Services\ExcelService;
@@ -19,9 +21,11 @@ use App\Services\PDF\BillPDF;
 use App\Services\PDF\BillPDFSide;
 use App\Services\PDF\ReceiptPDF;
 use Illuminate\Http\Request;
-use Session;
-use Auth;
-use Config;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+
 
 
 class BillController extends Controller
@@ -32,17 +36,18 @@ class BillController extends Controller
 
     protected $excel;
 
-    public function __construct(ExcelComponent $excel)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->excel = $excel;
+        // $this->excel = $excel;
     }
 
 
     public function index(Request $request)
     {
-        $bills = Bill::orderBy('STATUS', 'DESC')->paginate();
+        $bills = Bill::orderBy('STATUS', 'DESC')->paginate(20);
         $authority = [];
+        $list = $bills->items();
 
         foreach ($bills as $bill) {
             $authority[$bill->user->USR_ID] = $this->getEditAuthority($bill->user->USR_ID) ? true : false;
@@ -63,6 +68,8 @@ class BillController extends Controller
             'authority' => $authority,
             'main_title' => '請求書管理',
             'title_text' => '帳票管理',
+            'title' => "抹茶請求書",
+            'list' => $list,
             'mailstatus' => config('app.MailStatusCode'),
             'status' => config('app.IssuedStatCode')
         ]);
@@ -72,6 +79,8 @@ class BillController extends Controller
     {
         $mainTitle = '請求書登録';
         $titleText = '帳票管理';
+        $title = "抹茶請求書";
+
         $companyID = 1;
 
         if ($request->has('cancel_x')) {
@@ -126,11 +135,13 @@ class BillController extends Controller
                 'other' => 1
             ];
 
-            $data['Bill']['NO'] = Serial::getNumber('Bill');
+            $serial = new Serial();
+            $data['Bill']['NO'] = $serial->get_number('Bill');
             $data['Bill']['CST_ID'] = 'default';
             $data['Bill']['item'] = 'default';
 
-            $defaultCompany = $this->getCompanyPayment($companyID);
+            $bill = new Bill;
+            $defaultCompany = $bill->getCompanyPayment($companyID);
             $data['Bill'] = array_merge($data['Bill'], [
                 'EXCISE' => $defaultCompany['EXCISE'] ?? 1,
                 'FRACTION' => $defaultCompany['FRACTION'] ?? 1,
@@ -138,7 +149,7 @@ class BillController extends Controller
                 'TAX_FRACTION_TIMING' => $defaultCompany['TAX_FRACTION_TIMING'] ?? 0
             ]);
 
-            $defaultDecimal = $this->getDecimal($companyID);
+            $defaultDecimal = $bill->getDecimal($companyID);
             $data['Bill'] = array_merge($data['Bill'], [
                 'DECIMAL_QUANTITY' => $defaultDecimal['DECIMAL_QUANTITY'] ?? 0,
                 'DECIMAL_UNITPRICE' => $defaultDecimal['DECIMAL_UNITPRICE'] ?? 0
@@ -146,18 +157,21 @@ class BillController extends Controller
 
             $data['Bill']['DISCOUNT_TYPE'] = self::DISCOUNT_TYPE_NONE;
             $data['Bill']['DATE'] = now()->toDateString();
-            $data['Bill']['CMP_SEAL_FLG'] = $this->getSealFlg();
+            $company = new Company;
+            $data['Bill']['CMP_SEAL_FLG'] = $company->getSealFlg();
             $data['Bill']['CHR_SEAL_FLG'] = 0;
 
-            $defaultHonor = $this->getHonor($companyID);
+            $defaultHonor = $bill->getHonor($companyID);
+            // dd(json_decode(json_encode($defaultHonor[0]), true)['HONOR_CODE']);
             if ($defaultHonor) {
-                $data['Bill']['HONOR_CODE'] = $defaultHonor['HONOR_CODE'];
-                if ($defaultHonor['HONOR_CODE'] == 2) {
-                    $data['Bill']['HONOR_TITLE'] = $defaultHonor['HONOR_TITLE'];
+                $data['Bill']['HONOR_CODE'] = json_decode(json_encode($defaultHonor[0]), true)['HONOR_CODE'];
+                if (json_decode(json_encode($defaultHonor[0]), true)['HONOR_CODE'] == 2) {
+                    $data['Bill']['HONOR_TITLE'] = json_decode(json_encode($defaultHonor[0]), true)['HONOR_TITLE'];
                 }
             }
 
             $taxOperationDate = config('app.TaxOperationDate');
+            $taxOperationDate = $taxOperationDate ?? [];
             foreach ($taxOperationDate as $key => $value) {
                 if ($data['Bill']['DATE'] >= $value['start'] && $data['Bill']['DATE'] <= $value['end']) {
                     if ($key == 8 || $key >= 10) {
@@ -168,10 +182,15 @@ class BillController extends Controller
             }
         }
 
-        $items = Item::where('USR_ID', $this->getUserId())->pluck('ITEM', 'ITM_ID')->toArray();
-        $company = $this->getCustomer($companyID);
-        $hidden = $this->getPayment($companyID);
-        $defaultCompany = $this->getCompanyPayment($companyID);
+        $items = Item::where('USR_ID', $bill->getUser($companyID))->pluck('ITEM', 'ITM_ID')->toArray();
+        $company = $bill->getCustomer($companyID);
+        $hidden = $bill->getPayment($companyID);
+        $defaultCompany = $bill->getCompanyPayment($companyID);
+        $user = Auth::user();
+        $action = Config::get('ActionCode');
+
+
+        $name = $user['NAME'];
 
         $hidden['default'] = [
             'EXCISE' => $defaultCompany['EXCISE'] ?? 1,
@@ -183,6 +202,10 @@ class BillController extends Controller
         return view('bill.add', [
             'main_title' => $mainTitle,
             'title_text' => $titleText,
+            'title' => $title,
+            'name' => $name,
+            'action' => $action,
+            'user' => $user,
             'excises' => config('app.ExciseCode'),
             'fractions' => config('app.FractionCode'),
             'tax_fraction_timing' => config('app.TaxFractionTimingCode'),
@@ -242,6 +265,7 @@ class BillController extends Controller
         return view('bill.check', [
             'main_title' => '請求書確認',
             'title_text' => '帳票管理',
+            'title' => "抹茶請求書",
             'status' => Config::get('constants.IssuedStatCode'),
             'decimals' => Config::get('constants.DecimalCode'),
             'excises' => Config::get('constants.ExciseCode'),
@@ -514,32 +538,43 @@ class BillController extends Controller
     {
         // Browser identification
         $browser = $request->server('HTTP_USER_AGENT');
+        $data = [
+            'title' => 'Sample PDF',
+            'date' => date('m/d/Y'),
+        ];
 
-        if ($request->filled('download_x')) {
-            $billIds = $request->input('Bill', []);
+        // Load the view and pass the data
+        $pdf = PDF::loadView('bill.pdf', $data);
 
-            if (!empty($billIds)) {
-                $error = "";
-                $data = (new Bill())->export($billIds, $error, 'term', $this->Get_User_AUTHORITY(), $this->Get_User_ID());
+        // Define print format type (e.g., A4, A3, Letter)
+        $pdf->setPaper('A4', 'portrait'); // Options: 'A4', 'A3', 'Letter', etc.
 
-                if ($data) {
-                    $fileName = "請求書";
-                    if (preg_match("/MSIE/", $browser) || preg_match('/Trident\/[0-9]\.[0-9]/', $browser)) {
-                        $excelService->outputXls($fileName, $data);
-                    } else {
-                        $excelService->outputXls($fileName, $data);
-                    }
-                } else {
-                    Session::flash('error', $error);
-                    return redirect()->route('bills.export');
-                }
-            }
-        }
+        return $pdf->download('bill.pdf');
+        // if ($request->filled('download_x')) {
+        //     $billIds = $request->input('Bill', []);
 
-        return view('bill.export')->with([
-            'main_title' => '請求書Excel出力',
-            'title_text' => '帳票管理'
-        ]);
+        //     if (!empty($billIds)) {
+        //         $error = "";
+        //         $data = (new Bill())->export($billIds, $error, 'term', $this->Get_User_AUTHORITY(), $this->Get_User_ID());
+
+        //         if ($data) {
+        //             $fileName = "請求書";
+        //             if (preg_match("/MSIE/", $browser) || preg_match('/Trident\/[0-9]\.[0-9]/', $browser)) {
+        //                 $excelService->outputXls($fileName, $data);
+        //             } else {
+        //                 $excelService->outputXls($fileName, $data);
+        //             }
+        //         } else {
+        //             Session::flash('error', $error);
+        //             return redirect()->route('bills.export');
+        //         }
+        //     }
+        // }
+
+        // return view('bill.export')->with([
+        //     'main_title' => '請求書Excel出力',
+        //     'title_text' => '帳票管理'
+        // ]);
     }
 
     public function pdf(Request $request)
@@ -690,6 +725,9 @@ class BillController extends Controller
     {
         $mainTitle = "領収書発行";
         $titleText = "帳票管理";
+        $title = "抹茶請求書";
+
+
         $errors = 0;
 
         // Handle cancel button press
@@ -785,4 +823,19 @@ class BillController extends Controller
         ]);
     }
 
+    private function getUserAuthority()
+    {
+        if (auth()->check()) {
+            return auth()->user()->authority;
+        }
+        return null;
+    }
+
+    private function getUserId()
+    {
+        if (auth()->check()) {
+            return auth()->user()->id;
+        }
+        return null;
+    }
 }

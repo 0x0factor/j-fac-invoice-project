@@ -3,18 +3,17 @@
 
     {{-- Dropdown for STATUS_CHANGE --}}
     <select name="STATUS_CHANGE" id="status_change" class="form-control">
-        @foreach($status as $value => $label)
-            <option value="{{ $value }}">{{ $label }}</option>
-        @endforeach
+        @if(is_array($status) || is_object($status))
+            @foreach($status as $value => $label)
+                <option value="{{ $value }}">{{ $label }}</option>
+            @endforeach
+        @else
+            <option value="" disabled>No status available</option>
+        @endif
     </select>
 
     {{-- Submit Button --}}
-    <button
-        type="submit"
-        name="status_change"
-        onclick="return status_change();"
-        class="mr5"
-    >
-        <img src="{{ asset('img/bt_set.jpg') }}" alt="ステータス変更">
-    </button>
+    
+    <input type="image" src="{{ asset('img/bt_set.jpg') }}" name="status_change" alt="ステータス変更" class="mr5" onclick="return status_change();">
+
 </div>

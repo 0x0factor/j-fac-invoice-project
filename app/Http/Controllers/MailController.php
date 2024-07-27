@@ -86,7 +86,8 @@ class MailController extends Controller
             'snd_name' => $result->SND_NAME,
             'subject' => $result->SUBJECT,
             'main_title' => "{$title}確認メール",
-            'title_text' => '帳票管理'
+            'title_text' => '帳票管理',
+            'title' => '抹茶請求書'
         ]);
     }
 
@@ -240,6 +241,7 @@ class MailController extends Controller
                     return view('mail.completion', [
                         'main_title' => '確認依頼',
                         'title_text' => '帳票管理',
+                        'title' => '抹茶請求書',
                         'pass' => $pass
                     ]);
                 } else {
@@ -264,6 +266,7 @@ class MailController extends Controller
                 return view('mail.reaffirmation', [
                     'main_title' => '確認依頼',
                     'title_text' => '帳票管理',
+                    'title' => '抹茶請求書',
                     'param' => $param
                 ]);
 
@@ -289,7 +292,8 @@ class MailController extends Controller
                     'deliveries' => $all_deliveries,
                     'token' => $tkn,
                     'main_title' => '確認依頼',
-                    'title_text' => '帳票管理'
+                    'title_text' => '帳票管理',
+                    'title' => '抹茶請求書',
                 ]);
         }
     }

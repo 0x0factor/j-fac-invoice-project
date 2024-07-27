@@ -1,7 +1,10 @@
 @extends('layout.default')
 
 @section('content')
+@push('scripts')
 @include('elements.form.scripts')
+@endpush
+
 <div id="guide">
     <div id="guide_box" class="clearfix">
         <img src="{{ asset('img/i_guide02.jpg') }}" />
@@ -12,7 +15,7 @@
 
 <!-- contents_Start -->
 <div id="contents">
-@include('elements.form.basic_infomation')
+@include('elements.form.basic_information')
 @include('elements.arrow_under')
 @include('elements.form.details')
 @include('elements.arrow_under')

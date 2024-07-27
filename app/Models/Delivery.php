@@ -14,7 +14,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FormModel;
+use App\Vendors\model\Form;
+
 use App\Traits\AddValidationRule;
 use App\Traits\CustomValidation;
 class Delivery extends Model
@@ -282,8 +283,7 @@ class Delivery extends Model
     // index削除用メソッド
     function index_delete($_param)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Delete_Replication_Data($_param, 'Delivery', 'MDV_ID');
     }
@@ -291,8 +291,7 @@ class Delivery extends Model
     // チェックされている項目を取得
     function reproduce_check($_param, $auto_serial = true, $model_from = 'Delivery')
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
         unset($_param['Delivery']['STATUS_CHANGE']);
         // コピーする項目が数字でないものが一つでもある場合は処理を不許可
         foreach($_param['Delivery'] as $key => $val){
@@ -327,8 +326,7 @@ class Delivery extends Model
 
     function insert_reproduce($_param, $_user_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         $Table_before = "Table";
         $Table_after = "Delivery";
@@ -348,8 +346,7 @@ class Delivery extends Model
     // 納品書の取得
     function edit_select($_delivery_ID, &$count = null)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Edit_Select($_delivery_ID, 'Delivery', 'MDV_ID', $count);
     }
@@ -357,8 +354,7 @@ class Delivery extends Model
     // 顧客情報
     function get_customer($_company_id, $_condition)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Customer($_company_id, $_condition);
     }
@@ -366,8 +362,7 @@ class Delivery extends Model
     // 顧客支払い情報
     function get_payment($_company_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Payment($_company_id);
     }
@@ -375,8 +370,7 @@ class Delivery extends Model
     // 小数以下情報を取得
     function get_decimal($_company_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Decimal($_company_id);
     }
@@ -389,8 +383,7 @@ class Delivery extends Model
      */
     function get_honor($_company_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Honor($_company_id);
     }
@@ -398,8 +391,7 @@ class Delivery extends Model
     // 顧客支払い情報
     function get_company_payment($_company_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Company_Payment($_company_id);
     }
@@ -407,8 +399,7 @@ class Delivery extends Model
     // 連番設定情報
     function get_serial($_company_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Serial($_company_id);
     }
@@ -421,8 +412,7 @@ class Delivery extends Model
             return false;
         }
 
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Set_Replication_Data($_param, 'Delivery', $_state, $_error);
     }
@@ -430,24 +420,21 @@ class Delivery extends Model
     // プレビュー表示用データの取得
     function preview_data($_delivery_ID, &$_items = null, &$_discounts = null)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Preview_Data($_delivery_ID, 'Delivery', $_items, $_discounts);
     }
 
     function send_mail($_param)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Send_Mail($_param, 'Delivery');
     }
 
     function get_for_mail_param($_delivery_id, &$_customer_charge = null, &$_charge = null)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_Mail_Param($_delivery_id, 'Delivery', $_customer_charge, $_charge);
     }
@@ -455,16 +442,14 @@ class Delivery extends Model
     // EXCEL形式での出力用
     function export($_param, &$error, $_type = 'term', $_user_auth = null, $_user_id = null)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Export_Excel('Delivery', $_param, $error, $_type, $_user_auth, $_user_id);
     }
 
     function get_user($_id)
     {
-        App::import('Vendor', 'model/form');
-        $form = new FormModel();
+        $form = new Form();
 
         return $form->Get_User_Data('Delivery', $_id);
     }

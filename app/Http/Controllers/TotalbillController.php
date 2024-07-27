@@ -138,6 +138,7 @@ class TotalbillController extends Controller
                     'billfrag' => $billfrag,
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
+                    'title' => '帳票管理',
                 ]);
             } else {
                 $i = 0;
@@ -230,6 +231,7 @@ class TotalbillController extends Controller
                     'edit_stat' => $request->input('Totalbill.EDIT_STAT'),
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
+                    'title' => '抹茶請求書',
                     'mailstatus' => config('app.MailStatusCode'),
                     'status' => config('app.IssuedStatCode'),
                     'honor' => config('app.HonorCode'),
@@ -270,6 +272,7 @@ class TotalbillController extends Controller
             'honor' => config('app.HonorCode'),
             'main_title' => '合計請求書確認',
             'title_text' => '帳票管理',
+            'title' => '抹茶請求書',
         ]);
     }
 
@@ -334,6 +337,7 @@ class TotalbillController extends Controller
                 'authority' => $user_auth,
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
+                'title' => '抹茶請求書',
                 'billlist' => $data,
                 'billfrag' => $billfrag,
                 'cst_name' => $request->input('Totalbill.CUSTOMER_NAME'),
@@ -373,6 +377,7 @@ class TotalbillController extends Controller
             return view('totalbill.edit', [
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
+                'title' => '抹茶請求書',
                 'billlist' => $data,
                 'tbl_id' => $tbl_ID,
                 'bill_id' => $bill_id ?? [],

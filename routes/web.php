@@ -73,6 +73,8 @@ Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.act
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
+Route::get('bills/export', [BillController::class, 'index'])->name('bill.export');
+Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name('bill.download-pdf');
 
 Route::get('totalbills', [TotalbillController::class, 'index'])->name('totalbill.index');
 Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
@@ -80,6 +82,7 @@ Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbi
 
 Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
+Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
@@ -109,7 +112,6 @@ Route::get('view_options', [View_optionController::class, 'index'])->name('view_
 Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
 
 Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
-
 
 Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
 Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');

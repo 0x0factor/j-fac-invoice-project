@@ -16,7 +16,11 @@ function selectAll() {
 }
 
 $(function() {
-    setBeforeSubmit('{{ $formName }}');
+    @if(isset($name) && isset($action))
+        setBeforeSubmit('{{ $name . ucfirst($action) . 'Form' }}');
+    @else
+        console.error("Name or action is not set.");
+    @endif
 });
 </script>
 
@@ -56,9 +60,14 @@ $(function() {
                     <tr>
                         <th>発行ステータス</th>
                         <td colspan="3">
-                            @foreach ($status as $key => $value)
-                                <input type="checkbox" name="STATUS[]" value="{{ $key }}"> {{ $value }}
-                            @endforeach
+                            @if(is_array($status) || is_object($status))
+                                @foreach ($status as $key => $value)
+                                    <input type="checkbox" name="STATUS[]" value="{{ $key }}"> {{ $value }}
+                                @endforeach
+                            @else
+                                <p>No status available.</p>
+                            @endif
+
                         </td>
                     </tr>
                 </table>
@@ -133,7 +142,7 @@ $(function() {
     <div id="calid"></div>
 
     <div class="new_document">
-        <a href="{{ route('bill.create') }}">
+        <a href="{{ route('bill.add') }}">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="新規">
         </a>
         <a href="{{ route('bill.export') }}">
@@ -190,44 +199,59 @@ $(function() {
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
 
         <div class="list_area">
-            @if ($bills->isNotEmpty())
-                <form method="post" action="{{ route('bill.action') }}">
+            @if(is_array($list))
+                <form method="post" action="{{ route('bill.index') }}">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>
                             <tr>
                                 <th class="w50"><input type="checkbox" class="chk_all" onclick="selectAll();"></th>
-                                <th class="w50">@sortablelink('MBL_ID', 'No.')</th>
-                                <th class="w100">@sortablelink('Customer.NAME_KANA', '顧客名')</th>
-                                <th class="w150">@sortablelink('SUBJECT', '件名')</th>
-                                <th class="w70">@sortablelink('CAST_TOTAL', '合計金額')</th>
-                                <th class="w100">@sortablelink('ISSUE_DATE', '発行日')</th>
+                                <th class="w50">
+                                    <a href="{{ route('bill.index', ['sort' => 'MBL_ID']) }}">No.</a>
+                                </th>
+                                <th class="w100">
+                                    <a href="{{ route('bill.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
+                                </th>
+                                <th class="w150">
+                                    <a href="{{ route('bill.index', ['sort' => 'SUBJECT']) }}">件名</a>
+                                </th>
+                                <th class="w70">
+                                    <a href="{{ route('bill.index', ['sort' => 'CAST_TOTAL']) }}">合計金額</a>
+                                </th>
+                                <th class="w100">
+                                    <a href="{{ route('bill.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
+                                </th>
                                 @if($user->AUTHORITY != 1)
-                                    <th class="w100">@sortablelink('USR_ID', '作成者') / @sortablelink('UPDATE_USR_ID', '更新者')</th>
+                                    <th class="w100">
+                                    <a href="{{ route('bill.index', ['sort' => 'USR_ID']) }}">作成者</a>/
+                                    <a href="{{ route('bill.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
+                                    </th>
                                 @endif
-                                <th class="w80">@sortablelink('STATUS', '発行ステータス')</th>
+                                <th class="w80">
+                                    <a href="{{ route('bill.index', ['sort' => 'STATUS']) }}">発行ステータス</a>
+                                </th>
                                 <th class="w100">メモ</th>
                                 <th class="w100">領収書作成</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach($bills as $bill)
+                            @foreach($list as $key => $val)
                                 <tr>
-                                    <td><input type="checkbox" name="selected[]" value="{{ $bill->MBL_ID }}" class="chk"></td>
-                                    <td>{{ $bill->MBL_ID }}</td>
-                                    <td>{{ $bill->customer->NAME }}</td>
-                                    <td><a href="{{ route('bill.check', $bill->MBL_ID) }}">{{ $bill->SUBJECT }}</a></td>
-                                    <td>{{ $bill->TOTAL ?? '&nbsp;' }}円</td>
-                                    <td>{{ $bill->ISSUE_DATE ?? '&nbsp;' }}</td>
+                                    <td><input type="checkbox" name="selected[]" value="{{ $val->MBL_ID }}" class="chk"></td>
+                                    <td>{{ $val->MBL_ID }}</td>
+                                    <td>{{ $val->customer->NAME }}</td>
+                                    <td><a href="{{ route('val.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
+                                    <td>{{ $val->TOTAL ?? '&nbsp;' }}円</td>
+                                    <td>{{ $val->ISSUE_DATE ?? '&nbsp;' }}</td>
                                     @if($user->AUTHORITY != 1)
-                                        <td>{{ $bill->user->USR_NAME }} / {{ $bill->updater->USR_NAME }}</td>
+                                        <td>{{ $val->user->USR_NAME }} / {{ $val->updater->USR_NAME }}</td>
                                     @endif
-                                    <td>{{ $status[$bill->STATUS] ?? '' }}</td>
-                                    <td>{{ $bill->MEMO }}</td>
+                                    <td>{{ $status[$val->STATUS] ?? '' }}</td>
+                                    <td>{{ $val->MEMO }}</td>
                                     <td>
-                                        @if($bill->STATUS == 1)
-                                            <a href="{{ route('receipts.create', ['mbl_id' => $bill->MBL_ID]) }}">
+                                        @if($val->STATUS == 1)
+                                            <a href="{{ route('receipts.create', ['mbl_id' => $val->MBL_ID]) }}">
                                                 <img src="{{ asset('img/button/receipt.jpg') }}" class="imgover" alt="領収書作成">
                                             </a>
                                         @endif
@@ -237,19 +261,36 @@ $(function() {
                         </tbody>
                     </table>
 
-                    <div class="bill_actions">
-                        <button type="submit" name="delete" class="btn btn-danger" disabled>削除</button>
-                        <button type="submit" name="reproduce" class="btn btn-primary" disabled>複製</button>
+                    <div class="list_btn">
+                        <input type="image" src="{{ asset('img/document/bt_delete2.jpg') }}" name="delete" alt="削除" onclick="return del();" class="mr5" disabled="">
+                        <input type="image" src="{{ asset('img/bt_01.jpg') }}" name="reproduce_quote" alt="複製" class="mr5">
+                        <input type="image" src="{{ asset('img/bt_02.jpg') }}" name="reproduce_bill" alt="複製" class="mr5">
+                        <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery" alt="複製" class="mr5">
+
+                        <div class="status_change">
+                            <div class="status_text">発行ステータス一括変更</div>
+                            <select name="data[Bill][STATUS_CHANGE]" id="BillSTATUSCHANGE">
+                                <option value="1">作成済み</option>
+                                <option value="0">下書き</option>
+                                <option value="2">破棄</option>
+                                <option value="3">未入金</option>
+                                <option value="4">入金済み</option>
+                                <option value="5">入金対象外</option>
+                            </select>
+                            <input type="image" src="{{ asset('img/bt_set.jpg') }}" name="status_change" alt="ステータス変更" onclick="return status_change();" class="mr5" disabled="">
+
+                        </div>
+                        <input type="hidden" name="data[Security][token]" value="{{ csrf_token() }}" id="SecurityToken">							</div>
+
                     </div>
+
                 </form>
-            @else
-                <p>対象データがありません。</p>
             @endif
         </div>
     </div>
 
-    <div class="pagination">
-        {{ $bills->links() }}
-    </div>
+    <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
 </div>
 @endsection
+
+
