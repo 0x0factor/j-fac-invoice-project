@@ -34,7 +34,7 @@
 
 <!-- contents_Start -->
 <div id="contents">
-    <form method="post" action="{{ route('totalbill.update', $totalbill->id) }}" class="Totalbill">
+    <form method="POST" action="{{ route('totalbill.update', $totalbill->id) }}" class="Totalbill">
         @csrf
         @method('PUT')
         <div class="arrow_under"><img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow"></div>

@@ -33,7 +33,7 @@
     </div>
     <div class="search_box">
         <div class="search_area">
-            <form method="post" action="{{ route('totalbill.search') }}" class="Totalbill">
+            <form method="POST" action="{{ route('totalbill.search') }}" class="Totalbill">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -88,7 +88,7 @@
             <div class="contents_box mb40">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Background">
                 <div class="list_area">
-                    <form method="post" action="{{ route('totalbill.add') }}" class="Totalbill">
+                    <form method="POST" action="{{ route('totalbill.add') }}" class="Totalbill">
                         @csrf
                         <table width="900" cellpadding="0" cellspacing="0" border="0">
                             <tr>

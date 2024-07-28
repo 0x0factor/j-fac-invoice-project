@@ -29,7 +29,7 @@
     <div class="contents_box">
         <img src="{{ asset('bg_contents_top.jpg') }}" alt="">
         <div class="contents_area">
-            <form action="{{ route('customer_charge.store') }}" method="post" class="CustomerCharge">
+            <form action="{{ route('customer_charge.store') }}" method="POST" class="CustomerCharge">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -231,8 +231,8 @@
         <img src="{{ asset('bg_contents_bottom.jpg') }}" alt="" class="block">
     </div>
     <div class="edit_btn">
-        <input type="image" src="{{ asset('bt_save.jpg') }}" alt="保存する" class="imgover" form="CustomerCharge" name="submit">
-        <input type="image" src="{{ asset('bt_cancel.jpg') }}" alt="キャンセル" class="imgover" form="CustomerCharge" name="cancel">
+        <input type="image" src="{{ asset('img/bt_save.jpg') }}" alt="保存する" class="imgover" form="CustomerCharge" name="submit">
+        <input type="image" src="{{ asset('img/bt_cancel.jpg') }}" alt="キャンセル" class="imgover" form="CustomerCharge" name="cancel">
     </div>
 </div>
 <input type="hidden" name="_token" value="{{ csrf_token() }}">

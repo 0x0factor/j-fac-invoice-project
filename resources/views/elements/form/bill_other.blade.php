@@ -1,5 +1,8 @@
 
-
+{{-- Include necessary CSS and JS --}}
+@push('styles')
+    <!-- Add your CSS here -->
+@endpush
 @push('scripts')
     <script>
         // JavaScript for toggling visibility and counting characters
@@ -16,17 +19,6 @@
             return false;
         }
 
-        // function edit3_toggle(str) {
-        //     $('div.contents_area4').slideToggle();
-        //     if (str === 'on') {
-        //         $('span.show_bt3_on').hide();
-        //         $('span.show_bt3_off').show();
-        //     } else {
-        //         $('span.show_bt3_on').show();
-        //         $('span.show_bt3_off').hide();
-        //     }
-        // }
-
         function count_strw(id, value, maxLength) {
             document.getElementById(id).innerText = `${value.length}/${maxLength}`;
         }
@@ -34,6 +26,8 @@
 @endpush
 
 
+
+{{-- Toggle Buttons --}}
 <h3>
     <div class="edit_03" align="right">
         <span class="show_bt3_on" style="display:none">
@@ -53,17 +47,25 @@
             <tr>
                 <th class="txt_top">発行ステータス</th>
                 <td>
-                    <select name="STATUS" class="form-control">
+
+                    @if(request()->route()->getActionMethod() == 'edit')
+
+                        <select name="STATUS" class="form-control">
+                            @foreach(config('constants.issued_stat_code') as $key => $value)
+                                <option value="{{ $key }}" {{ old('STATUS', $status) == $key ? 'selected' : '' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    @else
                         @php
-                            $issuedStatCode = config('app.issued_stat_code');
-                            dd($issuedStatCode); // This will dump the value and stop execution
+                            // Retrieve the config value and ensure it's an array
+                            $issuedStatCode = config('constants.issued_stat_code', []);
                         @endphp
-                        @foreach(config('constants.issued_stat_code') as $key => $value)
-                            <option value="{{ $key }}" {{ old('STATUS', $action === 'edit' ? '' : 1) == $key ? 'selected' : '' }}>
-                                {{ $value }}
-                            </option>
-                        @endforeach
-                    </select>
+                        <select name="STATUS" class="form-control">
+                            @foreach($issuedStatCode as $key => $value)
+                                <option value="{{ $key }}" {{ old('STATUS', 1) == $key ? 'selected' : '' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    @endif
                 </td>
             </tr>
 
@@ -126,5 +128,4 @@
     </div>
     <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="Background Bottom" class="block">
 </div>
-
 

@@ -52,7 +52,7 @@
     @endif
 
     <!-- HTML Form for Action -->
-    <form action="{{ url('action') }}" method="post" style="display:inline;">
+    <form action="{{ url('action') }}" method="POST" style="display:inline;">
         @csrf
         <input type="hidden" name="Action.type" value="{{ strtolower($formType) }}">
         <input type="hidden" name="{{ $param[$formType][$formID] }}" value="1">
@@ -68,7 +68,7 @@
     @endif
 
     <!-- HTML Form for Move Back -->
-    <form action="{{ url('moveback') }}" method="post" style="display:inline;">
+    <form action="{{ url('moveback') }}" method="POST" style="display:inline;">
         @csrf
         <a href="javascript:move_to_index();">
             <img src="{{ asset('img/bt_index.jpg') }}" class="imgover" alt="一覧">

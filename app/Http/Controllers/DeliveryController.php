@@ -324,7 +324,7 @@ class DeliveryController extends Controller
             'customerCharge' => $delivery->CustomerCharge,
         ];
 
-        return view('deliverie.check', $data);
+        return view('delivery.check', $data);
     }
     public function edit(Request $request, $id = null)
     {
@@ -414,7 +414,7 @@ class DeliveryController extends Controller
         $this->data['error'] = $error;
         $this->data['dataline'] = $count;
 
-        return view('deliverie.edit', $this->data);
+        return view('delivery.edit', $this->data);
     }
 
     public function action(Request $request)
@@ -503,7 +503,7 @@ class DeliveryController extends Controller
         }
 
 
-        return view('deliverie.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理', 'title' => "抹茶請求書" ]);
+        return view('delivery.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理', 'title' => "抹茶請求書" ]);
     }
 
     public function pdf(Request $request, $id)

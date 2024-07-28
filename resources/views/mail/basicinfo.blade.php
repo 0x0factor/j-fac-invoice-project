@@ -2,7 +2,7 @@
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" class="block" />
         <div class="contents_area">
-            <form action="{{ url('mail') }}" method="post" class="Mail">
+            <form action="{{ url('mail') }}" method="POST" class="Mail">
                 @csrf
 
                 <h3 class="mail_h3">こちらで、データ送信者と宛先の指定をしてください。</h3>

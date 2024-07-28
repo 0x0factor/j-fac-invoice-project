@@ -3,7 +3,7 @@
 @section('content')
 
 @push('scripts')
-    <script src="{{ asset('path/to/your/script.js') }}"></script>
+    <script src="{{ asset('js/forms/script.js') }}"></script>
     <script>
         // Inline script if necessary
     </script>

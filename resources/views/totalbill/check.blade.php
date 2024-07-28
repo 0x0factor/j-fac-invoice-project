@@ -37,7 +37,7 @@
         <a href="{{ route('totalbill.preview', ['id' => $param['Totalbill']['TBL_ID']]) }}" target="_blank">
             <img src="{{ asset('img/bt_preview.jpg') }}" class="imgover" alt="プレビュー">
         </a>
-        <form action="{{ route('totalbill.moveback') }}" method="post" style="display:inline;">
+        <form action="{{ route('totalbill.moveback') }}" method="POST" style="display:inline;">
             @csrf
             <a href="javascript:move_to_index();">
                 <img src="{{ asset('img/bt_index.jpg') }}" class="imgover" alt="一覧">

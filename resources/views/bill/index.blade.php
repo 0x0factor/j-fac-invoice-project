@@ -200,7 +200,7 @@ $(function() {
 
         <div class="list_area">
             @if(is_array($list))
-                <form method="post" action="{{ route('bill.index') }}">
+                <form method="POST" action="{{ route('bill.index') }}">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>

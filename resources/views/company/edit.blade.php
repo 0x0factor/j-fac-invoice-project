@@ -28,7 +28,7 @@
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" />
         <div class="contents_area">
-            <form method="post" action="{{ route('charge.add') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('charge.add') }}" enctype="multipart/form-data">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>

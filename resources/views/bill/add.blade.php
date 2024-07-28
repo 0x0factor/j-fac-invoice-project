@@ -3,13 +3,13 @@
 @section('content')
 <!-- Include CSS -->
 @push('style')
-<link rel="stylesheet" href="{{ asset('path/to/popup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 @endpush
 
 <!-- Include JS -->
 @push('scripts')
 
-<script src="{{ asset('path/to/scripts.js') }}"></script>
+<script src="{{ asset('js/forms/scripts.js') }}"></script>
 @endpush
 @php
     $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system

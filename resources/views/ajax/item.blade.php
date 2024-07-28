@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('path/to/popup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 
 <form id="popupForm" action="{{ route('route_name') }}" method="POST">
     @csrf

@@ -34,7 +34,7 @@
     </div>
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ route('totalbill.store') }}" method="post" class="Totalbill">
+            <form action="{{ route('totalbill.store') }}" method="POST" class="Totalbill">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -97,7 +97,7 @@
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
             <div class="list_area">
                 @if (isset($billlist) && is_array($billlist))
-                    <form action="{{ url('totalbills/edit') }}" method="post" class="Totalbill">
+                    <form action="{{ url('totalbills/edit') }}" method="POST" class="Totalbill">
                         @csrf
                         <table width="900" cellpadding="0" cellspacing="0" border="0">
                             <tr>

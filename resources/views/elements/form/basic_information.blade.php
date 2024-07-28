@@ -4,7 +4,7 @@ $controller = strtolower($formType);
 $action = request()->route()->getActionMethod();
 @endphp
 
-<form method="post" action="{{ route($controller . '.add') }}" class="{{ $formType }}">
+<form method="POST" action="{{ route($controller . '.add') }}" class="{{ $formType }}">
     @csrf
 
     <div class="arrow_under">

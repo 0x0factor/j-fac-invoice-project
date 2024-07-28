@@ -129,7 +129,7 @@ $(function() {
 
     <div class="list_area">
         @if(is_array($list))
-            <form action="{{ route('items.delete') }}" method="post">
+            <form action="{{ route('items.delete') }}" method="POST">
                 @csrf
                 <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                     <thead>

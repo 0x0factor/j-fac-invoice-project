@@ -198,7 +198,7 @@ $(function() {
 
             <div class="list_area">
                 @if(is_array($list))
-                    <form action="{{ route('delivery.index') }}" method="post">
+                    <form action="{{ route('delivery.index') }}" method="POST">
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
                                 <tr>

@@ -21,7 +21,7 @@
 
     <h3><div class="edit_01_item"><span class="edit_txt">&nbsp;</span></div></h3>
 
-    <form action="{{ route('item.add') }}" method="post" class="Item">
+    <form action="{{ route('item.add') }}" method="POST" class="Item">
         @csrf
 
         <div class="contents_box">

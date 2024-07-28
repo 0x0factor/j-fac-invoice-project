@@ -17,7 +17,7 @@
     </div>
 
     <h3><div class="edit_01_administer"><span class="edit_txt">&nbsp;</span></div></h3>
-    <form action="{{ route('administer.edit') }}" method="post" class="Administer">
+    <form action="{{ route('administer.edit') }}" method="POST" class="Administer">
         @csrf
         <div class="contents_box">
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">

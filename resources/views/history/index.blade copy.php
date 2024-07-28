@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <h3><div class="search"><span class="edit_txt">&nbsp;</span></div></h3>
     <div class="search_box">
         <div class="search_area">
-            <form action="{{ url('deliveries') }}" method="post">
+            <form action="{{ url('deliveries') }}" method="POST">
                 @csrf
                 <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
             @if(is_array($histories) && count($history) > 0)
-                <form action="{{ url('action') }}" method="post">
+                <form action="{{ url('action') }}" method="POST">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                         <thead>

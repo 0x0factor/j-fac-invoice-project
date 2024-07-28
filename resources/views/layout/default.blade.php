@@ -63,14 +63,18 @@
         <div id="header" class="clearfix">
             <h1><a href="/"><img src="{{ asset('/img/cms/i_logo.jpg') }}" height="40" alt="抹茶請求書"></a></h1>
 
+
+
             <div id="logout">
-                <a href="#">
-                    <img src=" {{ asset('img/bt_logout.jpg') }}" alt="ログアウト" class="imgover">
-                    <form action="/logout" method="POST" id="logging-out">
-                        @csrf
-                    </form>
-                </a>
+                <form action="{{ url('logout') }}" method="POST" id="logging-out">
+                    @csrf
+                    <button type="submit" style="background: none; border: none; padding: 0;">
+                        <img src="{{ asset('img/bt_logout.jpg') }}" alt="ログアウト" class="imgover">
+                    </button>
+                </form>
             </div>
+
+
             <br class="clear" />
             <div>
                 <ul id="menu" class="menu">

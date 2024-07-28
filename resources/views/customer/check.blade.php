@@ -24,7 +24,7 @@
                 <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
             </a>
         @endif
-        <form action="{{ url('moveback') }}" method="post" style="display:inline;">
+        <form action="{{ url('moveback') }}" method="POST" style="display:inline;">
             @csrf
             <a href="javascript:move_to_index();" class="imgover">
                 <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">

@@ -34,7 +34,7 @@
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top Background">
         <div class="contents_area">
-            <form action="{{ route('charge.store') }}" method="post" enctype="multipart/form-data" class="Charge">
+            <form action="{{ route('charge.store') }}" method="POST" enctype="multipart/form-data" class="Charge">
                 @csrf
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>

@@ -1,8 +1,6 @@
 <div class="edit_btn">
     <!-- Save Button -->
-    <button type="submit" name="submit" alt="保存する" class="btn btn-save">
-        <img src="{{ asset('img/bt_save3.jpg') }}" alt="保存する">
-    </button>
+    <input type="image" src="{{ asset('img/bt_save3.jpg') }}" alt="保存する" class="btn btn-save" name="submit">
 
     <!-- Delete Button (Only in Edit Mode) -->
     @if(request()->routeIs('edit'))
@@ -12,12 +10,17 @@
             onclick="return confirm('削除してもよろしいですか？')">
             <img src="{{ asset('img/bt_delete4.jpg') }}" alt="削除する">
         </button>
+        <input type="image" src="{{ asset('img/bt_delete4.jpg') }}" alt="キャンセル" class="imgover imgcheck" name="del"
+            onmouseover="this.src='{{ asset('img/bt_delete4_on.jpg') }}'"
+            onmouseout="this.src='{{ asset('img/bt_delete4.jpg') }}'"
+            onclick="return confirm('削除してもよろしいですか？')"
+        >
+
     @endif
 
     <!-- Cancel Button -->
-    <button type="submit" name="cancel" alt="キャンセル" class="imgover imgcheck">
-        <img src="{{ asset('img/bt_index.jpg') }}" alt="キャンセル">
-    </button>
+    <input type="image" src="{{ asset('img/bt_index.jpg') }}" alt="キャンセル" class="imgover imgcheck" name="cancel">
+
 </div>
 
 <!-- Hidden Inputs -->

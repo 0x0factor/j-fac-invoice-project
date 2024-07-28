@@ -32,7 +32,7 @@ function cstchr_reset() {
 
 <!-- contents_Start -->
 <div id="contents">
-    <form action="{{ action('TotalbillController@add') }}" method="post" class="Totalbill">
+    <form action="{{ action('TotalbillController@add') }}" method="POST" class="Totalbill">
         @csrf
         <div class="arrow_under"><img src="{{ asset('img/i_arrow_under.jpg') }}" alt=""></div>
         <h3><div class="edit_01"><span class="edit_txt">&nbsp;</span></div></h3>

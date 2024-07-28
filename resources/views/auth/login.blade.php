@@ -2,7 +2,7 @@
 @section('content')
 
 <div id="login">
-    <form name="UserLoginForm" id="UserLoginForm" novalidate method="post" action="/login" accept-charset="utf-8">
+    <form name="UserLoginForm" id="UserLoginForm" novalidate method="POST" action="/login" accept-charset="utf-8">
         @method('POST')
         @csrf
         @if ($errors->has('LOGIN_ID'))
