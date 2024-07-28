@@ -1,13 +1,26 @@
 <div>
 
-<style type="text/css">
-<!--
-dt, dd { margin: 0; padding: 0; }
-.float { float: left; }
-.clear { clear: both; }
-.w300 { width: 100px; }
--->
-</style>
+    <style type="text/css">
+        <!--
+        dt,
+        dd {
+            margin: 0;
+            padding: 0;
+        }
+
+        .float {
+            float: left;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .w300 {
+            width: 100px;
+        }
+        -->
+    </style>
 
     <div class="clear">
 

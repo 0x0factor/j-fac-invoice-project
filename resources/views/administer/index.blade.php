@@ -1,6 +1,21 @@
 @extends('layout.default')
 
 @section('content')
+
+@section('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            initTableRollovers('index_table');
+        });
+
+        $(document).ready(function() {
+            var formId = '{{ $this->name . ucfirst($this->action) }}Form';
+            setBeforeSubmit(formId);
+        });
+    </script>
+@endsection
+
+
 <div id="contents">
     <div class="arrow_under">
         <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
@@ -17,7 +32,8 @@
                     <tr>
                         <th>ユーザID</th>
                         <td>
-                            <input type="text" name="LOGIN_ID" class="w350" value="{{ request()->input('LOGIN_ID') }}">
+                            <input type="text" name="LOGIN_ID" class="w350"
+                                value="{{ request()->input('LOGIN_ID') }}">
                         </td>
                     </tr>
                     <tr>
@@ -37,7 +53,8 @@
                                 </a>
                             </td>
                             <td style="border:none;">
-                                <a href="#" onclick="event.preventDefault(); document.getElementById('search-form').reset();">
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('search-form').reset();">
                                     <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="">
                                 </a>
                             </td>
@@ -67,9 +84,11 @@
         <div id='pagination'>
             <!-- Previous Page Link -->
             @if ($administers->onFirstPage())
-                <span class="disabled"><< {{ __('前へ') }}</span>
-            @else
-                <a href="{{ $administers->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a>
+                <span class="disabled">
+                    << {{ __('前へ') }}</span>
+                    @else
+                        <a href="{{ $administers->previousPageUrl() }}" rel="prev">
+                            << {{ __('前へ') }}</a>
             @endif
 
             <!-- Pagination Elements -->
@@ -102,7 +121,7 @@
 
         <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
         <div class="list_area">
-            @if(is_array($list))
+            @if (is_array($list))
                 <form action="{{ route('administer.add') }}" method="POST">
                     @csrf
                     <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
@@ -126,12 +145,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list as $val)
-                                @if($val->AUTHORITY != 0)
+                            @foreach ($list as $val)
+                                @if ($val->AUTHORITY != 0)
                                     <tr>
                                         <td>{{ $val->USR_ID }}</td>
                                         <td>
-                                            <a href="{{ route('administer.show', $val->USR_ID) }}">{{ $val->LOGIN_ID }}</a>
+                                            <a
+                                                href="{{ route('administer.show', $val->USR_ID) }}">{{ $val->LOGIN_ID }}</a>
                                         </td>
                                         <td>{{ $val->NAME }}</td>
                                         <td>{{ $val->MAIL ?: '&nbsp;' }}</td>

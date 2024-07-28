@@ -1,79 +1,84 @@
 @php
     $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
 @endphp
-<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
-@push('scripts')
+@section('link')
+    <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
+@endsection
+@section('scripts')
+    <script>
+        function insert(no, id) {
+            $('#SETCUSTOMERCHARGE').children('input[type=text]').val($('#name' + no).html());
+            $('#SETCUSTOMERCHARGE').children('input[type=hidden]').val(id);
+            $('#SETCCUNIT').children('input[type=text]').val($('#unit' + no).html());
+            popupclass.popup_close();
+            return false;
+        }
 
-<script>
-    function insert(no, id) {
-        $('#SETCUSTOMERCHARGE').children('input[type=text]').val($('#name'+no).html());
-        $('#SETCUSTOMERCHARGE').children('input[type=hidden]').val(id);
-        $('#SETCCUNIT').children('input[type=text]').val($('#unit'+no).html());
-        popupclass.popup_close();
-        return false;
-    }
+        var url = "{{ url('/ajax/popup') }}";
 
-    var url = "{{ url('/ajax/popup') }}";
+        function paging(page) {
+            var id = $('#SETCUSTOMER').children('input[type=hidden]').val();
 
-    function paging(page) {
-        var id = $('#SETCUSTOMER').children('input[type=hidden]').val();
+            var param = {
+                "type": "customer_charge",
+                "page": page,
+                "id": id
+            };
 
-        var param = {
-            "type": "customer_charge",
-            "page": page,
-            "id": id
+            // Add keyword if exists
+            if ($("#CHRC_KEYWORD").val()) {
+                param["keyword"] = $("#CHRC_KEYWORD").val();
+            }
+
+            // Add sorting parameters if exists
+            if ($("#sort").val()) {
+                param["sort"] = $("#sort").val();
+                param["desc"] = $("#desc").val();
+            }
+
+            $.post(url, {
+                params: param
+            }, function(d) {
+                $('#popup').html(d);
+            });
+        }
+
+        var sortBy = {
+            "CUSTOMER_NAME": 0,
+            "LAST_UPDATE": 0,
+            "CHARGE_NAME_KANA": 0
         };
 
-        // Add keyword if exists
-        if ($("#CHRC_KEYWORD").val()) {
-            param["keyword"] = $("#CHRC_KEYWORD").val();
+        function sorting(sort) {
+            var id = $('#SETCUSTOMER').children('input[type=hidden]').val();
+
+            var param = {
+                "type": "customer_charge",
+                "sort": sort,
+                "desc": sortBy[sort],
+                "id": id
+            };
+
+            // Add keyword if exists
+            if ($("#CHRC_KEYWORD").val()) {
+                param["keyword"] = $("#CHRC_KEYWORD").val();
+            }
+
+            $.post(url, {
+                params: param
+            }, function(d) {
+                $('#popup').html(d);
+
+                // Toggle sort direction
+                sortBy["CUSTOMER_NAME"] = 0;
+                sortBy["LAST_UPDATE"] = 1;
+                sortBy["CHARGE_NAME_KANA"] = 0;
+
+                sortBy[sort] = 1 - param["desc"];
+            });
         }
-
-        // Add sorting parameters if exists
-        if ($("#sort").val()) {
-            param["sort"] = $("#sort").val();
-            param["desc"] = $("#desc").val();
-        }
-
-        $.post(url, { params: param }, function(d) {
-            $('#popup').html(d);
-        });
-    }
-
-    var sortBy = {
-        "CUSTOMER_NAME": 0,
-        "LAST_UPDATE": 0,
-        "CHARGE_NAME_KANA": 0
-    };
-
-    function sorting(sort) {
-        var id = $('#SETCUSTOMER').children('input[type=hidden]').val();
-
-        var param = {
-            "type": "customer_charge",
-            "sort": sort,
-            "desc": sortBy[sort],
-            "id": id
-        };
-
-        // Add keyword if exists
-        if ($("#CHRC_KEYWORD").val()) {
-            param["keyword"] = $("#CHRC_KEYWORD").val();
-        }
-
-        $.post(url, { params: param }, function(d) {
-            $('#popup').html(d);
-
-            // Toggle sort direction
-            sortBy["CUSTOMER_NAME"] = 0;
-            sortBy["LAST_UPDATE"] = 1;
-            sortBy["CHARGE_NAME_KANA"] = 0;
-
-            sortBy[sort] = 1 - param["desc"];
-        });
-    }
-</script>
-@endpush
+    </script>
+@endsection
 
 <style>
     /* CSS styles here */
@@ -115,11 +120,14 @@
                     <tr>
                         <td colspan="5" class="w20 center">
                             @if ($user['AUTHORITY'] != 1)
-                                <a href="#" onclick="return popupclass.popupajax('add_customer_charge', {{ $cst_id }});" class="float_l lmargin20">
+                                <a href="#"
+                                    onclick="return popupclass.popupajax('add_customer_charge', {{ $cst_id }});"
+                                    class="float_l lmargin20">
                                     <img src="{{ asset('bt_new2.jpg') }}" alt="">
                                 </a>
                             @else
-                                <a href="#" onclick="return popupclass.popupajax('add_customer_charge');" class="float_l lmargin40">
+                                <a href="#" onclick="return popupclass.popupajax('add_customer_charge');"
+                                    class="float_l lmargin40">
                                     <img src="{{ asset('bt_new2.jpg') }}" alt="">
                                 </a>
                             @endif
@@ -146,16 +154,20 @@
                         <td>作成者</td>
                     </tr>
                     @foreach ($customer_charge as $key => $value)
-                        <tr class="{{ ($loop->index % 2 == 1) ? 'bgcl' : '' }}">
+                        <tr class="{{ $loop->index % 2 == 1 ? 'bgcl' : '' }}">
                             <td class="w20">
-                                <a href="#" onclick="return insert({{ $key }}, {{ $value['CustomerCharge']['CHRC_ID'] }});">
+                                <a href="#"
+                                    onclick="return insert({{ $key }}, {{ $value['CustomerCharge']['CHRC_ID'] }});">
                                     <img src="{{ asset('bt_insert.jpg') }}" alt="">
                                 </a>
                             </td>
-                            <td class="w100" id="name{{ $key }}">{{ $value['CustomerCharge']['CHARGE_NAME'] }}</td>
+                            <td class="w100" id="name{{ $key }}">
+                                {{ $value['CustomerCharge']['CHARGE_NAME'] }}</td>
                             <td class="w100">{{ $value['Customer']['NAME'] }}</td>
-                            <td class="w60" id="unit{{ $key }}">{{ $value['CustomerCharge']['UNIT'] }}</td>
-                            <input type="hidden" name="CHRC_ID" id="CHRC_ID" value="{{ $value['CustomerCharge']['CHRC_ID'] }}">
+                            <td class="w60" id="unit{{ $key }}">{{ $value['CustomerCharge']['UNIT'] }}
+                            </td>
+                            <input type="hidden" name="CHRC_ID" id="CHRC_ID"
+                                value="{{ $value['CustomerCharge']['CHRC_ID'] }}">
                             <td>{{ $value['User']['NAME'] }}</td>
                         </tr>
                     @endforeach

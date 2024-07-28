@@ -1,17 +1,17 @@
-<script type="text/javascript">
-<!--
-	//送信の確認
-	function rec() {
-		if (confirm("１度送信してしまうとPDFのダウンロードが出来なくなりますが、送信をしてもよろしいですか？")){
-			//送信
-			return true;
-		} else {
-			//キャンセル
-			return false;
-		}
-	}
-// -->
-</script>
+@section('scripts')
+    <script type="text/javascript">
+        //送信の確認
+        function rec() {
+            if (confirm("１度送信してしまうとPDFのダウンロードが出来なくなりますが、送信をしてもよろしいですか？")) {
+                //送信
+                return true;
+            } else {
+                //キャンセル
+                return false;
+            }
+        }
+    </script>
+@endsection
 <div id="contents">
     <div class="contents_box">
         <img src="{{ asset('img/bg_contents_top.jpg') }}" class="block" />
@@ -55,10 +55,14 @@
         <input type="hidden" name="TOKEN" value="">
         <input type="hidden" name="tkn" value="">
 
-        <button type="submit" name="logind" class="imgover" style="background: url('/img/bt_back.jpg') no-repeat; width: 120px; height: 40px; border: none;" onclick="return rec();" alt="戻る">戻る</button>
+        <button type="submit" name="logind" class="imgover"
+            style="background: url('/img/bt_back.jpg') no-repeat; width: 120px; height: 40px; border: none;"
+            onclick="return rec();" alt="戻る">戻る</button>
 
-        <button type="submit" name="send" class="imgover" style="background: url('/img/bt_submit.jpg') no-repeat; width: 120px; height: 40px; border: none;" onclick="return rec();" alt="送信">送信</button>
+        <button type="submit" name="send" class="imgover"
+            style="background: url('/img/bt_submit.jpg') no-repeat; width: 120px; height: 40px; border: none;"
+            onclick="return rec();" alt="送信">送信</button>
 
-            </form>
+        </form>
     </div>
 </div>

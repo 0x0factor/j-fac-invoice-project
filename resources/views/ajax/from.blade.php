@@ -1,56 +1,60 @@
 <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
+@section('scripts')
+    <script type="text/javascript">
+        function insert(no) {
+            $('#FROMNAME').children('input').val($('#name' + no).html());
+            $('#FROM').children('input').val($('#mail' + no).html());
+            popupclass.popup_close();
+            return false;
+        }
 
-<script type="text/javascript">
-    function insert(no) {
-        $('#FROMNAME').children('input').val($('#name' + no).html());
-        $('#FROM').children('input').val($('#mail' + no).html());
-        popupclass.popup_close();
-        return false;
-    }
+        var url = "{{ url('/ajax/popup') }}";
 
-    var url = "{{ url('/ajax/popup') }}";
+        function paging(page) {
+            var param = {
+                "type": "from",
+                "page": page
+            };
+            $.post(url, {
+                params: param
+            }, function(d) {
+                $('#popup').html(d);
+            });
+        }
+    </script>
+@endsection
+@section('link')
+    <style type="text/css">
+        table.tbl {
+            border: 1px #E3E3E3 solid;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin: 10px auto;
+        }
 
-    function paging(page) {
-        var param = {
-            "type": "from",
-            "page": page
-        };
-        $.post(url, { params: param }, function(d) {
-            $('#popup').html(d);
-        });
-    }
-</script>
+        table.tbl tr.bgti {
+            background: #EEEEEE;
+        }
 
-<style type="text/css">
-    table.tbl {
-        border: 1px #E3E3E3 solid;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin: 10px auto;
-    }
+        table.tbl tr.bgcl {
+            background: #F5F5F5;
+        }
 
-    table.tbl tr.bgti {
-        background: #EEEEEE;
-    }
+        table.tbl td {
+            padding: 10px;
+            border: 1px #E3E3E3 solid;
+            border-width: 0 0 1px 1px;
+        }
 
-    table.tbl tr.bgcl {
-        background: #F5F5F5;
-    }
+        table.tbl td.left {
+            text-align: left;
+        }
 
-    table.tbl td {
-        padding: 10px;
-        border: 1px #E3E3E3 solid;
-        border-width: 0 0 1px 1px;
-    }
-
-    table.tbl td.left {
-        text-align: left;
-    }
-
-    table.tbl td.center {
-        text-align: center;
-    }
-</style>
+        table.tbl td.center {
+            text-align: center;
+        }
+    </style>
+@endsection
 
 <form id="popupForm">
     <div id="popup_contents">
@@ -70,8 +74,8 @@
                         <td>メールアドレス</td>
                     </tr>
                     @php $i = 0; @endphp
-                    @foreach($charge as $key => $value)
-                        <tr @if(($i % 2) == 1) class="bgcl" @endif>
+                    @foreach ($charge as $key => $value)
+                        <tr @if ($i % 2 == 1) class="bgcl" @endif>
                             <td class="w40">
                                 <a href="#" onclick="return insert({{ $key }});">
                                     <img src="{{ asset('img/bt_insert.jpg') }}" alt="">
@@ -82,7 +86,7 @@
                         </tr>
                         @php $i++; @endphp
                     @endforeach
-                    @if($paging)
+                    @if ($paging)
                         <tr>
                             <td colspan="3" class="w40 center">
                                 {{ $paging }}

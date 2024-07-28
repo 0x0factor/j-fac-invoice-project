@@ -1,11 +1,11 @@
 @extends('layout.default')
 
 @section('content')
-@php
-    $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
-@endphp
-<!-- Flash message -->
-@if (session('flash_message'))
+    @php
+        $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+    @endphp
+    <!-- Flash message -->
+    @if (session('flash_message'))
         <div class="flash-message">
             {{ session('flash_message') }}
         </div>
@@ -44,14 +44,20 @@
                             {!! nl2br(e($company->NAME)) !!}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th>代表者名</th>
                         <td style="width:750px;">
                             {!! nl2br(e($company->REPRESENTATIVE)) !!}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">郵便番号</th>
                         <td style="width:750px;">
@@ -60,7 +66,10 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">都道府県</th>
                         <td style="width:750px;">
@@ -69,21 +78,30 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">住所</th>
                         <td style="width:750px;">
                             {!! nl2br(e($company->ADDRESS)) !!}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">建物名</th>
                         <td style="width:750px;">
                             {!! nl2br(e($company->BUILDING)) !!}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">電話番号</th>
                         <td style="width:750px;">
@@ -92,7 +110,10 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">FAX番号</th>
                         <td style="width:750px;">
@@ -101,7 +122,10 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">登録番号</th>
                         <td style="width:750px;">
@@ -110,7 +134,10 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">敬称</th>
                         <td style="width:750px;">
@@ -121,16 +148,23 @@
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th>社判登録<br /></th>
                         <td>
                             @if (isset($image))
-                                <img src="{{ asset('img/companies/contents.jpg') }}" width="100" height="100" alt="Company Seal">
+                                <img src="{{ asset('img/companies/contents.jpg') }}" width="100" height="100"
+                                    alt="Company Seal">
                             @endif
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line">
+                        </td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">押印設定</th>
                         <td style="width:750px;">
@@ -160,7 +194,10 @@
                             {{ $company->CUTOOFF_DATE ? $company->CUTOOFF_DATE . '日' : '末日' }}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th @error('PAYMENT_DAY') class="txt_top" @enderror>支払日</th>
                         <td>
@@ -169,7 +206,10 @@
                             {{ $company->PAYMENT_DAY ? $company->PAYMENT_DAY . '日' : '' }}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>数量小数部表示</th>
                         <td>{{ $decimals[$company->DECIMAL_QUANTITY] ?? '' }}</td>
@@ -178,12 +218,18 @@
                         <th>単価小数部表示</th>
                         <td>{{ $decimals[$company->DECIMAL_UNITPRICE] ?? '' }}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>消費税設定</th>
                         <td>{{ $excises[$company->EXCISE] ?? '' }}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>消費税端数処理</th>
                         <td>{{ $fractions[$company->TAX_FRACTION] ?? '' }}</td>
@@ -192,7 +238,10 @@
                         <th>消費税端数計算</th>
                         <td>{{ $tax_fraction_timing[$company->TAX_FRACTION_TIMING] ?? '' }}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>基本端数処理</th>
                         <td>{{ $fractions[$company->FRACTION] ?? '' }}</td>
@@ -220,22 +269,34 @@
                             {!! nl2br(e($company->ACCOUNT_HOLDER)) !!}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>銀行名</th>
                         <td>{!! nl2br(e($company->BANK_NAME)) !!}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>支店名</th>
                         <td>{!! nl2br(e($company->BANK_BRANCH)) !!}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>口座区分</th>
                         <td>{{ $company->ACCOUNT_TYPE ? $account_type[$company->ACCOUNT_TYPE] : '' }}</td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th>口座番号</th>
                         <td>{!! nl2br(e($company->ACCOUNT_NUMBER)) !!}</td>
@@ -263,14 +324,20 @@
                             {{ $colors[$company->COLOR] ?? '' }}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">方向</th>
                         <td style="width:750px;">
                             {{ $direction[$company->DIRECTION] ?? '' }}
                         </td>
                     </tr>
-                    <tr><td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td></tr>
+                    <tr>
+                        <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                alt="Line"></td>
+                    </tr>
                     <tr>
                         <th style="width:130px;">連番設定</th>
                         <td style="width:750px;">

@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('content')
-@push('scripts')
+@section('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     try {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-@endpush
+@endsection
 <!-- resources/views/history/index.blade.php -->
 
 <!-- Flash Message -->

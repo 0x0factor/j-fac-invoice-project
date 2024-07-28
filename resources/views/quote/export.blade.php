@@ -1,76 +1,81 @@
-<?php	//完了メッセージ
-	echo $session->flash();
-?>
+@extends('layout.default')
 
-<script type="text/javascript">
-<!--
-/*
-var url="<?php echo $html->url('/ajax/excel'); ?>";
+@section('content')
+    @if (session()->has('flash'))
+        {{ session('flash') }}
+    @endif
 
-$(document).ready(function($){
+    <script type="text/javascript">
+        <!--
+        /*
+    var url = "{{ url('/ajax/excel') }}";   
 
-	$('select.date').change(function(){
+    $(document).ready(function($){
 
-		var param = eval({
-			"year1"  : $('#year1').val(),
-			"month1" : $('#month1').val(),
-			"day1"   : $('#day1').val(),
-			"year2"  : $('#year2').val(),
-			"month2" : $('#month2').val(),
-			"day2"   : $('#day2').val()
-		});
+    	$('select.date').change(function(){
 
-		$.post(url, {params:param}, function(d){
-			$('#test').html(d);
-		});
-	});
+    		var param = eval({
+    			"year1"  : $('#year1').val(),
+    			"month1" : $('#month1').val(),
+    			"day1"   : $('#day1').val(),
+    			"year2"  : $('#year2').val(),
+    			"month2" : $('#month2').val(),
+    			"day2"   : $('#day2').val()
+    		});
 
-	var param = eval({
-		"year1"  : $('#year1').val(),
-		"month1" : $('#month1').val(),
-		"day1"   : $('#day1').val(),
-		"year2"  : $('#year2').val(),
-		"month2" : $('#month2').val(),
-		"day2"   : $('#day2').val()
-	});
+    		$.post(url, {params:param}, function(d){
+    			$('#test').html(d);
+    		});
+    	});
 
-	$.post(url, {params:param}, function(d){
-		$('#test').html(d);
-	});
-});
-*/
+    	var param = eval({
+    		"year1"  : $('#year1').val(),
+    		"month1" : $('#month1').val(),
+    		"day1"   : $('#day1').val(),
+    		"year2"  : $('#year2').val(),
+    		"month2" : $('#month2').val(),
+    		"day2"   : $('#day2').val()
+    	});
 
-// -->
-</script>
+    	$.post(url, {params:param}, function(d){
+    		$('#test').html(d);
+    	});
+    });
+    */
 
-<div id="contents">
-    <div class="search_box">
-        <div class="search_area">
-            <form action="{{ route('quote.store') }}" method="POST">
-                @csrf
-                <table width="600" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td>
-                            以下のプルダウンより抽出する期間を設定してください。期間は見積書の発行日となります。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="datetime-local" name="DATE1" id="DATE1">
-                            ～
-                            <input type="datetime-local" name="DATE2" id="DATE2">
-                        </td>
-                    </tr>
-                </table>
-                <div id="test"></div>
+        // 
+        -->
+    </script>
 
-                <div class="search_btn">
-                    <button type="submit" name="download">
-                        <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
-                    </button>
-                </div>
-            </form>
+    <div id="contents">
+        <div class="search_box">
+            <div class="search_area">
+                <form action="{{ route('quote.export') }}" method="POST">
+                    @csrf
+                    <table width="600" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td>
+                                以下のプルダウンより抽出する期間を設定してください。期間は見積書の発行日となります。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="datetime-local" name="DATE1" id="DATE1">
+                                ～
+                                <input type="datetime-local" name="DATE2" id="DATE2">
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="test"></div>
+
+                    <div class="search_btn">
+                        <button type="submit" name="download">
+                            <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <img src="{{ asset('img/document/bg_search_bottom.jpg') }}" class="block" alt="">
         </div>
-        <img src="{{ asset('img/document/bg_search_bottom.jpg') }}" class="block" alt="">
     </div>
-</div>
+@endsection

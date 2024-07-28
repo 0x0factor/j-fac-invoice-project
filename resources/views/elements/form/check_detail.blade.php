@@ -5,7 +5,7 @@
     $formController = '';
     $mailAction = '';
 
-    switch($formType) {
+    switch ($formType) {
         case 'Quote':
             $formID = 'MQT_ID';
             $formController = 'quotes';
@@ -58,25 +58,25 @@
                 <tr>
                     <td{!! $td_color !!}>
                         {{ $param[$i][$formType . 'item']['ITEM_NO'] ?? '&nbsp;' }}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {{ $param[$i][$formType . 'item']['ITEM_CODE'] ?? '&nbsp;' }}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {{ $param[$i][$formType . 'item']['ITEM'] ?? '&nbsp;' }}{!! $reduced_tax_mark !!}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {{ $param[$i][$formType . 'item']['QUANTITY'] ?? '&nbsp;' }}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {{ $param[$i][$formType . 'item']['UNIT'] ?? '&nbsp;' }}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {{ $param[$i][$formType . 'item']['UNIT_PRICE'] ?? '&nbsp;' }}
-                    </td>
-                    <td{!! $td_color !!}>
-                        {!! $tmpTax !!}{{ $param[$i][$formType . 'item']['AMOUNT'] ?? '&nbsp;' }}
-                    </td>
+                        </td>
+                        <td{!! $td_color !!}>
+                            {{ $param[$i][$formType . 'item']['ITEM_CODE'] ?? '&nbsp;' }}
+                            </td>
+                            <td{!! $td_color !!}>
+                                {{ $param[$i][$formType . 'item']['ITEM'] ?? '&nbsp;' }}{!! $reduced_tax_mark !!}
+                                </td>
+                                <td{!! $td_color !!}>
+                                    {{ $param[$i][$formType . 'item']['QUANTITY'] ?? '&nbsp;' }}
+                                    </td>
+                                    <td{!! $td_color !!}>
+                                        {{ $param[$i][$formType . 'item']['UNIT'] ?? '&nbsp;' }}
+                                        </td>
+                                        <td{!! $td_color !!}>
+                                            {{ $param[$i][$formType . 'item']['UNIT_PRICE'] ?? '&nbsp;' }}
+                                            </td>
+                                            <td{!! $td_color !!}>
+                                                {!! $tmpTax !!}{{ $param[$i][$formType . 'item']['AMOUNT'] ?? '&nbsp;' }}
+                                                </td>
                 </tr>
             @endfor
         </table>
@@ -84,7 +84,7 @@
 
     <div class="contents_area3">
         <table width="880" cellpadding="0" cellspacing="0" border="0">
-            @if($param[$formType]['REDUCED_RATE_TOTAL'])
+            @if ($param[$formType]['REDUCED_RATE_TOTAL'])
                 <tr>
                     <td colspan="8">「※」は軽減税率対象であることを示します。</td>
                 </tr>
@@ -97,7 +97,7 @@
             <tr>
                 <th>割引設定</th>
                 <td colspan="3">
-                    @if($param[$formType]['DISCOUNT_TYPE'] == 1)
+                    @if ($param[$formType]['DISCOUNT_TYPE'] == 1)
                         {{ $param[$formType]['DISCOUNT'] ? number_format($param[$formType]['DISCOUNT']) . '円引き' : '　' }}
                     @elseif($param[$formType]['DISCOUNT_TYPE'] == 0)
                         {{ $param[$formType]['DISCOUNT'] ? number_format($param[$formType]['DISCOUNT']) . '％引き' : '　' }}
@@ -164,14 +164,14 @@
                     {{ $customHtml->ht2br($param[$formType]['TOTAL'], $formType, 'TOTAL') }}円
                 </td>
             </tr>
-            @if($param[$formType]['tax_kind_count'] >= 1)
+            @if ($param[$formType]['tax_kind_count'] >= 1)
                 <tr>
                     <td colspan="8">
                         <img src="{{ asset('img/i_line_dot2.gif') }}" class="pb5" alt="Line Dot">
                     </td>
                 </tr>
 
-                @if($param[$formType]['TEN_RATE_TOTAL'])
+                @if ($param[$formType]['TEN_RATE_TOTAL'])
                     <tr>
                         <td class="pt10">
                             <img src="{{ asset('img/button/i_10_tax.jpg') }}" alt="10%対象">
@@ -188,7 +188,7 @@
                     </tr>
                 @endif
 
-                @if($param[$formType]['REDUCED_RATE_TOTAL'])
+                @if ($param[$formType]['REDUCED_RATE_TOTAL'])
                     <tr>
                         <td class="pt10">
                             <img src="{{ asset('img/button/i_reduced_tax.jpg') }}" alt="8%(軽減)対象">
@@ -205,7 +205,7 @@
                     </tr>
                 @endif
 
-                @if($param[$formType]['EIGHT_RATE_TOTAL'])
+                @if ($param[$formType]['EIGHT_RATE_TOTAL'])
                     <tr>
                         <td class="pt10">
                             <img src="{{ asset('img/button/i_8_tax.jpg') }}" alt="8%対象">
@@ -222,7 +222,7 @@
                     </tr>
                 @endif
 
-                @if($param[$formType]['FIVE_RATE_TOTAL'])
+                @if ($param[$formType]['FIVE_RATE_TOTAL'])
                     <tr>
                         <td class="pt10">
                             <img src="{{ asset('img/button/i_5_tax.jpg') }}" alt="5%対象">

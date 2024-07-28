@@ -5,7 +5,7 @@
     $formController = '';
     $mailAction = '';
 
-    switch($formType) {
+    switch ($formType) {
         case 'Quote':
             $formID = 'MQT_ID';
             $formController = 'quotes';
@@ -25,12 +25,12 @@
 @endphp
 
 <div class="edit_btn2">
-    @if($editauth)
+    @if ($editauth)
         <a href="{{ route($formController . '.edit', ['id' => $param[$formType][$formID]]) }}">
             <img src="{{ asset('img/bt_edit.jpg') }}" class="imgover" alt="編集する">
         </a>
 
-        @if($param[$formType]['STATUS'] == 1)
+        @if ($param[$formType]['STATUS'] == 1)
             <a href="{{ route('mail.sendmail', ['action' => $mailAction, 'id' => $param[$formType][$formID]]) }}">
                 <img src="{{ asset('img/bt_send_mail.jpg') }}" class="imgover" alt="メール送付">
             </a>
@@ -45,7 +45,7 @@
         <img src="{{ asset('img/bt_preview.jpg') }}" class="imgover" alt="プレビュー">
     </a>
 
-    @if($param[$formType]['STATUS'] == 1)
+    @if ($param[$formType]['STATUS'] == 1)
         <a href="{{ route($formController . '.download_with_coverpage', ['id' => $param[$formType][$formID]]) }}">
             <img src="{{ asset('img/bt_invoice.jpg') }}" class="imgover" alt="ダウンロード">
         </a>
@@ -56,12 +56,14 @@
         @csrf
         <input type="hidden" name="Action.type" value="{{ strtolower($formType) }}">
         <input type="hidden" name="{{ $param[$formType][$formID] }}" value="1">
-        <button type="submit" style="vertical-align:bottom;" onmouseover="this.src='{{ asset('img/bt_copy_on.jpg') }}'" onmouseout="this.src='{{ asset('img/bt_copy.jpg') }}'">
+        <button type="submit" style="vertical-align:bottom;"
+            onmouseover="this.src='{{ asset('img/bt_copy_on.jpg') }}'"
+            onmouseout="this.src='{{ asset('img/bt_copy.jpg') }}'">
             <img src="{{ asset('img/bt_copy.jpg') }}" alt="転記">
         </button>
     </form>
 
-    @if(isset($rb_flag) && $rb_flag && $formType == 'Bill')
+    @if (isset($rb_flag) && $rb_flag && $formType == 'Bill')
         <a href="{{ route('regularbill.add', ['id' => $param[$formType][$formID]]) }}">
             <img src="{{ asset('img/bt_rb_copy.jpg') }}" class="imgover" alt="定期請求書へコピー">
         </a>

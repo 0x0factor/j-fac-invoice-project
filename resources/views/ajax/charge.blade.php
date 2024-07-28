@@ -2,74 +2,77 @@
 <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 
 <!-- JavaScript -->
-@push('scripts')
+@section('scripts')
+    <script>
+        function insert(no) {
+            $('#SETCHARGE input[type=text]').val($('#name' + no).html());
+            $('#SETCHARGE input[type=hidden]').val($('#user' + no + ' input#CHR_ID').val());
+            $('#SET_CHR_SEAL_FLG input[type=radio]').prop('checked', false);
 
-<script>
-    function insert(no) {
-        $('#SETCHARGE input[type=text]').val($('#name'+no).html());
-        $('#SETCHARGE input[type=hidden]').val($('#user'+no+' input#CHR_ID').val());
-        $('#SET_CHR_SEAL_FLG input[type=radio]').prop('checked', false);
+            if ($('#user' + no + ' input#TMP_CHR_SEAL_FLG').val() == 1) {
+                $('#SET_CHR_SEAL_FLG input[type=radio]:first').prop('checked', true);
+            } else {
+                $('#SET_CHR_SEAL_FLG input[type=radio]:last').prop('checked', true);
+            }
 
-        if ($('#user'+no+' input#TMP_CHR_SEAL_FLG').val() == 1) {
-            $('#SET_CHR_SEAL_FLG input[type=radio]:first').prop('checked', true);
-        } else {
-            $('#SET_CHR_SEAL_FLG input[type=radio]:last').prop('checked', true);
+            popupclass.popup_close();
+            return false;
         }
 
-        popupclass.popup_close();
-        return false;
-    }
+        var url = "{{ url('/ajax/popup') }}";
 
-    var url = "{{ url('/ajax/popup') }}";
+        function paging(page) {
+            var param = {
+                type: "charge",
+                page: page
+            };
 
-    function paging(page) {
-        var param = {
-            type: "charge",
-            page: page
+            // Add keyword if available
+            if ($("#CHR_KEYWORD").val()) {
+                param.keyword = $("#CHR_KEYWORD").val();
+            }
+
+            // Add sorting parameters if available
+            if ($("#sort").val()) {
+                param.sort = $("#sort").val();
+                param.desc = $("#desc").val();
+            }
+
+            $.post(url, {
+                params: param
+            }, function(d) {
+                $('#popup').html(d);
+            });
+        }
+
+        var sortBy = {
+            CHARGE_NAME_KANA: 0,
+            LAST_UPDATE: 0
         };
 
-        // Add keyword if available
-        if ($("#CHR_KEYWORD").val()) {
-            param.keyword = $("#CHR_KEYWORD").val();
+        function sorting(sort) {
+            var param = {
+                type: "charge",
+                sort: sort,
+                desc: sortBy[sort]
+            };
+
+            // Add keyword if available
+            if ($("#CHR_KEYWORD").val()) {
+                param.keyword = $("#CHR_KEYWORD").val();
+            }
+
+            $.post(url, {
+                params: param
+            }, function(d) {
+                $('#popup').html(d);
+                sortBy["CHARGE_NAME_KANA"] = 0;
+                sortBy["LAST_UPDATE"] = 1;
+                sortBy[sort] = 1 - param["desc"];
+            });
         }
-
-        // Add sorting parameters if available
-        if ($("#sort").val()) {
-            param.sort = $("#sort").val();
-            param.desc = $("#desc").val();
-        }
-
-        $.post(url, { params: param }, function(d) {
-            $('#popup').html(d);
-        });
-    }
-
-    var sortBy = {
-        CHARGE_NAME_KANA: 0,
-        LAST_UPDATE: 0
-    };
-
-    function sorting(sort) {
-        var param = {
-            type: "charge",
-            sort: sort,
-            desc: sortBy[sort]
-        };
-
-        // Add keyword if available
-        if ($("#CHR_KEYWORD").val()) {
-            param.keyword = $("#CHR_KEYWORD").val();
-        }
-
-        $.post(url, { params: param }, function(d) {
-            $('#popup').html(d);
-            sortBy["CHARGE_NAME_KANA"] = 0;
-            sortBy["LAST_UPDATE"] = 1;
-            sortBy[sort] = 1 - param["desc"];
-        });
-    }
-</script>
-@endpush
+    </script>
+@endsection
 <!-- Inline Styles -->
 <style>
     table.tbl {
@@ -136,7 +139,7 @@
                         <td>作成者</td>
                     </tr>
                     @foreach ($charge as $key => $value)
-                        <tr class="{{ ($loop->iteration % 2 == 1) ? 'bgcl' : '' }}">
+                        <tr class="{{ $loop->iteration % 2 == 1 ? 'bgcl' : '' }}">
                             <td class="w40 center" id="user{{ $key }}">
                                 <a href="#" onclick="return insert({{ $key }})">
                                     <img src="{{ asset('img/bt_insert.jpg') }}" alt="Insert">

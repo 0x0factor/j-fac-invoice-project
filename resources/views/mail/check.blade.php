@@ -3,7 +3,8 @@
         <img src="{{ asset('img/bg_contents_top.jpg') }}" class="block">
         <div class="contents_area">
 
-            <h3 class="comment_h3">下記データに対して、{{ $snd_name }} 様宛てに以下コメントが届いています。<br>（コメント詳細については、{{ $rcv_name }} 様にご確認ください。）</h3>
+            <h3 class="comment_h3">下記データに対して、{{ $snd_name }} 様宛てに以下コメントが届いています。<br>（コメント詳細については、{{ $rcv_name }}
+                様にご確認ください。）</h3>
 
             <div class="mail_table">
                 <table cellpadding="0" cellspacing="0" border="0">

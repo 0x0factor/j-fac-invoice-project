@@ -83,7 +83,7 @@
             <tr>
                 <th class="txt_top w100">敬称</th>
                 <td colspan="3">
-                    @if($param[$formType]['HONOR_CODE'] == 2)
+                    @if ($param[$formType]['HONOR_CODE'] == 2)
                         {{ $param[$formType]['HONOR_TITLE'] }}
                     @else
                         {{ $honor[$param[$formType]['HONOR_CODE']] }}

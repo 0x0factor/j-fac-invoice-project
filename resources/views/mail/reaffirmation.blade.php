@@ -48,38 +48,40 @@
                         </tr>
                     </table>
                 </div>
-            </div>
-            <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
         </div>
+        <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
+    </div>
 
-        <div class="contents_box mt20">
-            <img src="{{ asset('img/bg_contents_top.jpg') }}" class="block" alt="">
-            <div class="contents_area">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <tr><td>{!! $body !!}</td></tr>
-                </table>
-            </div>
-            <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
+    <div class="contents_box mt20">
+        <img src="{{ asset('img/bg_contents_top.jpg') }}" class="block" alt="">
+        <div class="contents_area">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td>{!! $body !!}</td>
+                </tr>
+            </table>
         </div>
+        <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
+    </div>
 
-        <input type="hidden" name="USR_ID" value="{{ $param['USR_ID'] }}">
-        <input type="hidden" name="TYPE" value="{{ $param['TYPE'] }}">
-        <input type="hidden" name="FRM_ID" value="{{ $param['FRM_ID'] }}">
-        <input type="hidden" name="SUBJECT" value="{{ $param['SUBJECT'] }}">
-        <input type="hidden" name="MAIL" value="{{ $to }}">
-        <input type="hidden" name="BODY" value="{{ $body }}">
-        <input type="hidden" name="CORD" value="{{ $param['CORD'] }}">
-        <input type="hidden" name="TO" value="{{ $param['TO'] }}">
-        <input type="hidden" name="FROM" value="{{ $param['FROM'] }}">
-        <input type="hidden" name="COMPANY" value="{{ $param['COMPANY'] }}">
-        <input type="hidden" name="CUSTOMER" value="{{ $param['CUSTOMER'] }}">
-        <input type="hidden" name="CHARGE" value="{{ $param['CHARGE'] }}">
-        <input type="hidden" name="CUSTOMER_CHARGE" value="{{ $param['CUSTOMER_CHARGE'] }}">
-        <input type="hidden" name="PASSWORD1" value="{{ $param['PASSWORD1'] }}">
-        <input type="hidden" name="tkn" value="{{ $param['tkn'] }}">
-        <div class="edit_btn">
-            <input type="submit" class="imgover" name="body" value="戻る">
-            <input type="submit" class="imgover" name="send" value="送信" onclick="return sendmail();">
-        </div>
+    <input type="hidden" name="USR_ID" value="{{ $param['USR_ID'] }}">
+    <input type="hidden" name="TYPE" value="{{ $param['TYPE'] }}">
+    <input type="hidden" name="FRM_ID" value="{{ $param['FRM_ID'] }}">
+    <input type="hidden" name="SUBJECT" value="{{ $param['SUBJECT'] }}">
+    <input type="hidden" name="MAIL" value="{{ $to }}">
+    <input type="hidden" name="BODY" value="{{ $body }}">
+    <input type="hidden" name="CORD" value="{{ $param['CORD'] }}">
+    <input type="hidden" name="TO" value="{{ $param['TO'] }}">
+    <input type="hidden" name="FROM" value="{{ $param['FROM'] }}">
+    <input type="hidden" name="COMPANY" value="{{ $param['COMPANY'] }}">
+    <input type="hidden" name="CUSTOMER" value="{{ $param['CUSTOMER'] }}">
+    <input type="hidden" name="CHARGE" value="{{ $param['CHARGE'] }}">
+    <input type="hidden" name="CUSTOMER_CHARGE" value="{{ $param['CUSTOMER_CHARGE'] }}">
+    <input type="hidden" name="PASSWORD1" value="{{ $param['PASSWORD1'] }}">
+    <input type="hidden" name="tkn" value="{{ $param['tkn'] }}">
+    <div class="edit_btn">
+        <input type="submit" class="imgover" name="body" value="戻る">
+        <input type="submit" class="imgover" name="send" value="送信" onclick="return sendmail();">
+    </div>
     </form>
 </div>

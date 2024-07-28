@@ -1,6 +1,6 @@
 @extends('layout.default')
 
-@section('content')
+@section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
             if ($('input[name="data[Charge][SEAL_METHOD]"]:checked').val() == 1) {
@@ -11,7 +11,9 @@
             });
         });
     </script>
+@endsection
 
+@section('content')
     <div id="guide">
         <div id="guide_box" class="clearfix">
             <img src="{{ asset('img/company/i_guide.jpg') }}" alt="Guide Image">
@@ -40,19 +42,22 @@
                             <th>ステータス</th>
                             <td>
                                 <select name="STATUS" class="form-control">
-                                    @foreach($status as $key => $value)
+                                    @foreach ($status as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Image"></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line Image"></td>
                         </tr>
                         <tr>
                             <th style="width:150px;">担当者名</th>
                             <td style="width:730px;">
-                                <input type="text" name="CHARGE_NAME" value="{{ old('CHARGE_NAME') }}" class="form-control w300{{ $errors->has('CHARGE_NAME') ? ' error' : '' }}" maxlength="60">
+                                <input type="text" name="CHARGE_NAME" value="{{ old('CHARGE_NAME') }}"
+                                    class="form-control w300{{ $errors->has('CHARGE_NAME') ? ' error' : '' }}"
+                                    maxlength="60">
                                 <br /><span class="usernavi">{{ $usernavi['CHARGE_NAME'] }}</span>
                                 <br /><span class="must">{{ $errors->first('CHARGE_NAME') }}</span>
                             </td>
@@ -67,7 +72,8 @@
                                 <th style="width:150px;">&nbsp;</th>
                                 <td>
                                     @if (isset($image))
-                                        <img src="{{ asset('img/' . $image->path) }}" alt="Uploaded Image" width="100" height="100">
+                                        <img src="{{ asset('img/' . $image->path) }}" alt="Uploaded Image" width="100"
+                                            height="100">
                                     @endif
                                     <input type="file" name="image" class="form-control">
                                     <input type="checkbox" name="DEL_SEAL" style="width:30px;">削除
@@ -85,7 +91,8 @@
                             <tr>
                                 <th style="width:150px;">&nbsp;</th>
                                 <td>
-                                    <input type="text" name="SEAL_STR" value="{{ old('SEAL_STR') }}" class="form-control w300" maxlength="4">
+                                    <input type="text" name="SEAL_STR" value="{{ old('SEAL_STR') }}"
+                                        class="form-control w300" maxlength="4">
                                     <br /><span class="usernavi">{{ $usernavi['SEAL_METHOD'] }}</span>
                                     <br /><span class="must">{{ $errors->first('SEAL_STR') }}</span>
                                 </td>
@@ -95,7 +102,8 @@
 
                     <table width="880" cellpadding="0" cellspacing="0" border="0">
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line Image"></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line Image"></td>
                         </tr>
                         <tr>
                             <th>押印設定</th>
@@ -103,7 +111,8 @@
                                 <!-- Example for radio buttons -->
                                 <!-- {!! Form::radio('CHR_SEAL_FLG', $value, $seal_flg) !!} -->
                                 <!-- {!! Form::radio('CHR_SEAL_FLG', $value, $seal_flg) !!} -->
-                                <input type="radio" name="CHR_SEAL_FLG" value="{{ $seal_flg }}" class="ml20 mr5 txt_mid">
+                                <input type="radio" name="CHR_SEAL_FLG" value="{{ $seal_flg }}"
+                                    class="ml20 mr5 txt_mid">
                                 <br /><span class="usernavi">{{ $usernavi['CHR_SEAL_FLG'] }}</span>
                                 <br /><span class="must">{{ $errors->first('CHR_SEAL_FLG') }}</span>
                             </td>
