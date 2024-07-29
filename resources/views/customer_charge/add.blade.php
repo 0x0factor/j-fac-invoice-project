@@ -10,6 +10,7 @@
         }
     </script>
 @endsection
+
 @section('content')
     <div id="guide">
         <div id="guide_box" class="clearfix">

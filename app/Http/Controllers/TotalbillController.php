@@ -95,7 +95,8 @@ class TotalbillController extends Controller
         }
 
         if ($request->has('cancel_x') || $request->input('form') == null || $request->has('search_x')) {
-            $user_ID = $this->getUserID();
+            $totalbill = new Totalbill();
+            $user_ID = $totalbill->get_user_id();
             $user_auth = $this->getUserAuthority();
 
             if ($request->isMethod('post')) {

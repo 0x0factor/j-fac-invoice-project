@@ -3,6 +3,7 @@
 @section('scripts')
     @include('elements.form.scripts')
 @endsection
+
 @section('content')
     @if (session()->has('status'))
         {{ session('status') }}

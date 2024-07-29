@@ -109,7 +109,7 @@
                     </td>
                     <td>
                         <input type="text" name="{{ $formType }}item[ITEM][]" maxlength="80"
-                            class="w120 @if (isset($error['ITEM']['NO'][$i])) error @endif">
+                            class="w120 hoverLine @if (isset($error['ITEM']['NO'][$i])) error @endif">
                         <span id="INSERT_ITEM_IMG{{ $i }}">
                             <img src="{{ asset('img/bt_select3.jpg') }}" style="margin: 0px 0px 2px" alt="商品選択"
                                 url="#"

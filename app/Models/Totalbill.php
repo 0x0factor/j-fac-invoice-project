@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Vendors\model\Form;
 
 class Totalbill extends Model
 {
@@ -164,7 +165,7 @@ class Totalbill extends Model
     public function get_serial($_company_id)
     {
         // Assuming FormModel is a custom class handling form data, adjust as per your application's structure
-        $form = new \App\Models\FormModel();
+        $form = new Form();
         return $form->Get_Serial($_company_id);
     }
 

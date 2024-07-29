@@ -43,8 +43,12 @@ class Home extends Model
         $users = User::select('USR_ID', 'NAME')->get()->keyBy('USR_ID')->toArray();
 
         foreach ($result as &$item) {
-            $item["{$modelName}"]['USR_NAME'] = $users[$item["{$modelName}"]['USR_ID']] ?? null;
+            if (isset($item["{$modelName}"]) && is_array($item["{$modelName}"])) {
+                $usrId = $item["{$modelName}"]['USR_ID'] ?? null;
+                $item["{$modelName}"]['USR_NAME'] = $usrId !== null ? ($users[$usrId] ?? null) : null;
+            }
         }
+
 
         return $result;
     }

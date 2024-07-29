@@ -51,6 +51,8 @@ class AuthController extends Controller
             'PASSWORD' => 'required',
             'passwordConfirm' => 'required|same:PASSWORD'
         ]);
+
+        qq(Hash::make(a));
         $val = Hash::make($request['PASSWORD']);
         $validated['PASSWORD'] = $val;
         $validated['CMP_ID'] = 1;

@@ -1,7 +1,5 @@
 @extends('layout.default')
 
-@section('content')
-
 @section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -14,6 +12,9 @@
         });
     </script>
 @endsection
+
+@section('content')
+
 
 
 <div id="contents">

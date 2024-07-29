@@ -102,7 +102,8 @@
                                     <dd>作成者 ： {{ $value['Quote']['USR_NAME'] }}</dd>
                                 @endif
                                 <dd class="sub">件名 ：
-                                    {{ $html->link($value['Quote']['SUBJECT'], '/quotes/check/' . $value['Quote']['MQT_ID']) }}
+                                    <a href="{{ url('/quotes/check/' . $value['Quote']['MQT_ID']) }}">{{ $value['Quote']['SUBJECT'] }}</a>
+
                                 </dd>
                             @endforeach
                         @else

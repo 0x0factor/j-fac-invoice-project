@@ -3,7 +3,6 @@
 @section('content')
 
     <script type="text/javascript">
-        <!--
         function customer_reset() {
             $('#SETCUSTOMER').children('input[type=text]').val('');
             $('#SETCUSTOMER').children('input[type=hidden]').val('');
@@ -18,8 +17,7 @@
             $('#SETCCUNIT').children('input[type=text]').removeAttr('readonly')
             return false;
         }
-        // 
-        -->
+
     </script>
 
 
@@ -33,7 +31,7 @@
 
     <!-- contents_Start -->
     <div id="contents">
-        <form action="{{ action('TotalbillController@add') }}" method="POST" class="Totalbill">
+        <form action="{{ route('totalbill.add') }}" method="POST" class="Totalbill">
             @csrf
             <div class="arrow_under"><img src="{{ asset('img/i_arrow_under.jpg') }}" alt=""></div>
             <h3>

@@ -9,6 +9,7 @@
         }
     </script>
 @endsection
+
 @section('content')
 
     {{-- Flash message --}}

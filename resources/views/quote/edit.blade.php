@@ -1,7 +1,9 @@
 @extends('layout.default')
+
 @section('scripts')
     @include('elements.form.scripts')
 @endsection
+
 @section('content')
     @if (session('message'))
         <div class="alert alert-success">

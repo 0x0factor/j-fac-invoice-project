@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\Hash;
 
 class EloquentUserProvider implements UserProvider
 {
@@ -151,6 +152,8 @@ class EloquentUserProvider implements UserProvider
         if (is_null($plain = $credentials['PASSWORD'])) {
             return false;
         }
+        // var_export(Hash::make('a'));
+        // var_export($user->getAuthPassword());die();
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
 

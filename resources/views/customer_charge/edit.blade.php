@@ -8,13 +8,13 @@
             $("#INSERT_ADDRESS").html("");
             return false;
         }
-        @endsection
+</script>
+@endsection
 
-        @section('content')
-            @php
-                $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
-            @endphp
-    </script>
+@section('content')
+    @php
+        $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+    @endphp
     <div id="guide">
         <div id="guide_box" class="clearfix">
             <img src="{{ asset('img/company/i_guide.jpg') }}" alt="">
