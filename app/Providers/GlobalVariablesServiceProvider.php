@@ -61,7 +61,7 @@ class GlobalVariablesServiceProvider extends ServiceProvider
                 'CST_ID'=>'選択をクリックし、挿入を選択することで顧客名が自動入力されます。削除をクリックすると顧客名が空になります。',
                 'HONOR'=>'御中・様などを入力してください。(4文字以内)',
                 'SEAL_FLG'=>'帳票に押印するかどうかの設定ができます。',
-                'FEE'=>'',
+                'FEE'=>'(20文字以内)',
                 'ITEM_LIST'=>'項目を入力してください。罫線からはみ出る場合は、行を分けるか半角を利用してください。<br>左の「×」をクリックすると行が削除されます。右の「設定」をクリックするとアイテムごとの割引を設定できます。',
                 'MOVE_LINE'=>'移動したい行にカーソルをあて、上下ボタンを押すと行を移動できます。',
                 'ADD_LINE'=>' 行を新たに追加できます。',
@@ -79,6 +79,7 @@ class GlobalVariablesServiceProvider extends ServiceProvider
                 'TAX_CLASS'=>'どれか一つ選択してください',
                 'USR_PASSWORD'=>'4～20文字以内で入力してください。',
                 'USR_CPASSWORD'=>'確認のためパスワードをもう一度入力してください。',
+                'DISCOUNT'=>'全体に対しての割引設定が行えます。複数の税率を選択している場合は、設定できません。',
                 'EDIT_STAT'=>'',
                 'LOGO'=>'',
                 ]

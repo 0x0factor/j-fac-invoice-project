@@ -21,7 +21,7 @@
             <div class="edit_01_administer"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form method="POST" action="{{ route('administer.add') }}" class="Administer">
+        <form method="POST" action="{{ route('administer.add') }}" class="Administer" id="AdministerAddForm">
             @csrf
 
             <div class="contents_box">
@@ -177,8 +177,8 @@
             </div>
 
             <div class="edit_btn">
-                <input type="submit" name="submit" value="保存する" class="imgover">
-                <input type="submit" name="cancel" value="キャンセル" class="imgover">
+                <input type="image" name="submit" value="保存する" class="imgover"  src="{{ asset('img/bt_save.jpg') }}">
+                <input type="image" name="cancel" value="キャンセル" class="imgover"  src="{{ asset('img/bt_cancel.jpg') }}">
             </div>
         </form>
     </div>

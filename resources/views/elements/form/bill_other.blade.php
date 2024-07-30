@@ -59,7 +59,7 @@
                     @else
                         @php
                             // Retrieve the config value and ensure it's an array
-$issuedStatCode = config('constants.issued_stat_code', []);
+                            $issuedStatCode = config('constants.issued_stat_code', []);
                         @endphp
                         <select name="STATUS" class="form-control">
                             @foreach ($issuedStatCode as $key => $value)
@@ -79,8 +79,8 @@ $issuedStatCode = config('constants.issued_stat_code', []);
                 <th class="{{ $errors->has('FEE') ? 'txt_top' : '' }}">振込手数料</th>
                 <td>
                     <input type="text" name="FEE" value="{{ old('FEE') }}"
-                        class="form-control{{ $errors->has('FEE') ? ' error' : '' }}" maxlength="40"
-                        onkeyup="count_strw('fee_rest', this.value, 20)">
+                        class="w320 mr10{{ $errors->has('FEE') ? ' error' : '' }}" maxlength="40"
+                        onkeyup="count_strw('fee_rest', this.value, 20)" id="BillFEE">
                     <span id="fee_rest"></span>
                     <br><span class="usernavi">{{ $usernavi['FEE'] }}</span>
                     <br><span class="must">{{ $errors->first('FEE') }}</span>
@@ -95,8 +95,8 @@ $issuedStatCode = config('constants.issued_stat_code', []);
                 <th class="{{ $errors->has('DUE_DATE') ? 'txt_top' : '' }}">振込期限</th>
                 <td>
                     <input type="text" name="DUE_DATE" value="{{ old('DUE_DATE') }}"
-                        class="form-control{{ $errors->has('DUE_DATE') ? ' error' : '' }}" maxlength="40"
-                        onkeyup="count_strw('due_date_rest', this.value, 20)">
+                        class="w320 mr10{{ $errors->has('DUE_DATE') ? ' error' : '' }}" maxlength="40"
+                        onkeyup="count_strw('due_date_rest', this.value, 20)" id="BillDUEDATE">
                     <span id="due_date_rest"></span>
                     <br><span class="usernavi">{{ $usernavi['DUE_DATE'] }}</span>
                     <br><span class="must">{{ $errors->first('DUE_DATE') }}</span>
@@ -110,8 +110,10 @@ $issuedStatCode = config('constants.issued_stat_code', []);
             <tr>
                 <th class="txt_top">備考</th>
                 <td>
-                    <textarea name="NOTE" class="form-control{{ $errors->has('NOTE') ? ' error' : '' }}"
-                        onkeyup="count_strw('note_rest', this.value, 300)">{{ old('NOTE') }}</textarea>
+                    <textarea name="NOTE" class="textarea{{ $errors->has('NOTE') ? ' error' : '' }}"
+                        onkeyup="count_strw('note_rest', this.value, 300)" rows="4">
+                        {{ old('NOTE') }}
+                    </textarea>
                     <br><span id="note_rest"></span>
                     <span class="usernavi">{{ $usernavi['NOTE'] }}</span>
                     <br><span class="must">{{ $errors->first('NOTE') }}</span>
@@ -126,7 +128,7 @@ $issuedStatCode = config('constants.issued_stat_code', []);
                 <th class="{{ $errors->has('MEMO') ? 'txt_top' : '' }}">メモ</th>
                 <td>
                     <input type="text" name="MEMO" value="{{ old('MEMO') }}"
-                        class="form-control{{ $errors->has('MEMO') ? ' error' : '' }}" maxlength="100"
+                        class="w320{{ $errors->has('MEMO') ? ' error' : '' }}" maxlength="100" id="BillMEMO"
                         onkeyup="count_strw('memo_rest', this.value, 50)">
                     <span id="memo_rest"></span>
                     <br><span class="usernavi">{{ $usernavi['MEMO'] }}</span>

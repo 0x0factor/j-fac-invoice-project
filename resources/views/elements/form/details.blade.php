@@ -200,8 +200,199 @@
 
     <div class="contents_area3">
         <div align="left">
-            <br>
-            <button type="submit" class="btn btn-primary">保存</button>
+            <br />
+            <span class="w180">&nbsp;</span>
+            <span class="show_btdetail_on" style="{{ !isset($error['DISCOUNT']) || !$error['DISCOUNT'] ? 'display:none' : '' }}">
+                <img src="{{ asset('img/button/d_up.png') }}" class="imgover" alt="on" onclick="return detail_toggle('on');" />
+                金額詳細設定を非表示にする
+            </span>
+            <span class="show_btdetail_off" onclick="return detail_toggle('off');" style="{{ isset($error['DISCOUNT']) && $error['DISCOUNT'] ? 'display:none' : '' }}">
+                <img src="{{ asset('img/button/d_down.png') }}" class="imgover" alt="off" />
+                金額詳細設定を表示する
+            </span>
         </div>
+
+        <div id="detail" style="{{ !isset($error['DISCOUNT']) && !old('TAX_FRACTION_TIMING') ? 'display:none' : '' }}">
+            <table width="880" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td colspan="8">
+                        <img src="{{ asset('img/i_line_dot2.gif') }}" class="pb5" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="txt_top w100">割引設定</th>
+                    <td colspan="3" style="width:780px;">
+                        <input type="text" name="DISCOUNT" maxlength="15" class="w140 {{ isset($error['DISCOUNT']) && $error['DISCOUNT'] >= 1 ? 'error' : '' }} {{ $errors->has('DISCOUNT') ? 'error' : '' }}" value="{{ old('DISCOUNT') }}" />
+
+                        @foreach($discount ?? [] as $value => $label)
+                            <label class="ml10 mr5 txt_mid">
+                                <input type="radio" name="DISCOUNT_TYPE" value="{{ $value }}" {{ old('DISCOUNT_TYPE') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                        <br />
+                        <span class="must">{{ isset($error['DISCOUNT']) && $error['DISCOUNT'] == 1 ? '割引が長すぎます' : '' }}</span>
+                        <span class="must">{{ isset($error['DISCOUNT']) && $error['DISCOUNT'] == 3 ? '複数の消費税区分が設定されている場合は、割引設定は利用できません。' : $errors->first('DISCOUNT') }}</span>
+                        <br /><br />
+                        <span class="usernavi">{{ $usernavi['DISCOUNT'] }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="line">
+                        <img src="{{ asset('img/i_line_dot2.gif') }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w100">数量小数表示</th>
+                    <td colspan="3" style="width:780px;">
+
+                        @foreach($decimal ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="DECIMAL_QUANTITY" value="{{ $value }}" {{ old('DECIMAL_QUANTITY') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="line">
+                        <img src="{{ asset('img/i_line_dot2.gif') }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w100">単価小数表示</th>
+                    <td colspan="3" style="width:780px;">
+                        @foreach($decimal ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="DECIMAL_UNITPRICE" value="{{ $value }}" {{ old('DECIMAL_UNITPRICE') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="line">
+                        <img src="{{ asset('img/i_line_dot2.gif') }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w100">消費税設定</th>
+                    <td id="EXCISE" class="w240">
+                        @foreach($excises ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="EXCISE" value="{{ $value }}" {{ old('EXCISE') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                    </td>
+                    <th class="w100">消費税端数処理</th>
+                    <td id="TAX_FRACTION" class="w440">
+                        @foreach($fractions ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="TAX_FRACTION" value="{{ $value }}" {{ old('TAX_FRACTION') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="line">
+                        <img src="{{ asset('img/i_line_dot2.gif') }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="w100">消費税端数計算</th>
+                    <td id="TAX_FRACTION_TIMING" class='w240 {{ $errors->has('TAX_FRACTION_TIMING') ? 'error' : '' }}'>
+                        @foreach($tax_fraction_timing ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="TAX_FRACTION_TIMING" value="{{ $value }}" {{ old('TAX_FRACTION_TIMING') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                        @if($errors->has('TAX_FRACTION_TIMING'))
+                            <span class="must">{{ $errors->first('TAX_FRACTION_TIMING') }}</span>
+                        @endif
+                        <br />
+                        <span class="usernavi">※発行日を2023年10月01日以降に設定した場合、消費税端数計算は法律により自動的に「帳票単位」に設定されます</span>
+                    </td>
+                    <th class="w100">基本端数処理</th>
+                    <td id="FRACTION" class="w440">
+                        @foreach($fractions ?? [] as $value => $label)
+                            <label class="ml20 mr5 txt_mid">
+                                <input type="radio" name="FRACTION" value="{{ $value }}" {{ old('FRACTION') == $value ? 'checked' : '' }} />
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <table width="880" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td colspan="4" class="line">
+                    <img src="{{ asset('img/i_line_dot2.gif') }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="pt10">
+                    <img src="{{ asset('img/button/i_subtotal.jpg') }}" alt="小計" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="SUBTOTAL" class="w200" readonly value="{{ old('SUBTOTAL') }}" />
+                </td>
+                <td class="pt10">
+                    <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="SALES_TAX" class="w200" readonly value="{{ old('SALES_TAX') }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="pt10">
+                    <img src="{{ asset('img/i_total.jpg') }}" alt="合計" />
+                </td>
+                <td colspan="3" class="pt10">
+                    <input type="text" name="TOTAL" class="w200" readonly value="{{ old('TOTAL') }}" />
+                </td>
+            </tr>
+        </table>
+
+        <table width="880" cellpadding="0" cellspacing="0" border="0" id="every_tax_table">
+            <tr>
+                <td colspan="8">
+                    <img src="{{ asset('img/i_line_dot2.gif') }}" class="pb5" />
+                </td>
+            </tr>
+            <tr id="ten_rate_tax">
+                <td class="pt10">
+                    <img src="{{ asset('img/button/i_10_tax.jpg') }}" alt="10%消費税" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="TEN_TAX" class="w200" readonly value="{{ old('TEN_TAX') }}" />
+                </td>
+                <td class="pt10">
+                    <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="TEN_TAX_AMOUNT" class="w200" readonly value="{{ old('TEN_TAX_AMOUNT') }}" />
+                </td>
+            </tr>
+            <tr id="eight_rate_tax">
+                <td class="pt10">
+                    <img src="{{ asset('img/button/i_8_tax.jpg') }}" alt="8%消費税" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="EIGHT_TAX" class="w200" readonly value="{{ old('EIGHT_TAX') }}" />
+                </td>
+                <td class="pt10">
+                    <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税" />
+                </td>
+                <td class="pt10">
+                    <input type="text" name="EIGHT_TAX_AMOUNT" class="w200" readonly value="{{ old('EIGHT_TAX_AMOUNT') }}" />
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -6,16 +6,17 @@
 @endsection
 
 <!-- Include JS -->
+
 @section('scripts')
-    <script src="{{ asset('js/forms/scripts.js') }}"></script>
+<script src="{{ asset('js/forms/scripts.js') }}"></script>
 @endsection
 
 @section('content')
-    @php
-        $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
-    @endphp
-    <div id="guide">
-        <div id="guide_box" class="clearfix">
+@php
+$user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+@endphp
+<div id="guide">
+    <div id="guide_box" class="clearfix">
             <img src="{{ asset('img/i_guide02.jpg') }}" alt="Guide Image">
             <p>こちらのページは請求書編集の画面です。<br />必要な情報を入力の上「保存する」ボタンを押すと請求書を作成できます。</p>
         </div>
@@ -34,4 +35,7 @@
     </div>
     <!-- contents_End -->
     <div id="itemlist" style="display:none;">{!! nl2br(e($itemlist)) !!}</div>
+
+    @include('elements.form.scripts')
 @endsection
+

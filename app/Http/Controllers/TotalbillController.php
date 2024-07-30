@@ -73,6 +73,10 @@ class TotalbillController extends Controller
         $billfrag = 0;
         $i = 0;
         $stat = 0;
+        $user = Auth::user();
+        $totalbill = new Totalbill;
+        $serial = new Serial;
+
 
         if ($request->has('select')) {
             foreach ($request->input('Totalbill') as $key => $val) {
@@ -96,8 +100,8 @@ class TotalbillController extends Controller
 
         if ($request->has('cancel_x') || $request->input('form') == null || $request->has('search_x')) {
             $totalbill = new Totalbill();
-            $user_ID = $totalbill->get_user_id();
-            $user_auth = $this->getUserAuthority();
+            $user_ID = $totalbill->get_user_id($user);
+            $user_auth = $this->getUserAuthority($user);
 
             if ($request->isMethod('post')) {
                 if (!$request->has('cancel_x')) {
@@ -182,13 +186,18 @@ class TotalbillController extends Controller
                     }
                 } else {
                     $i = 0;
-                    foreach ($request->input('Totalbill') as $key => $val) {
+                    foreach ($request->input('Totalbill', []) as $key => $val) {
                         if (preg_match("/^[0-9]*$/", $key) && $val == 1) {
                             $bill_id[$i] = $key;
                             $data[$i] = Bill::where('MBL_ID', $key)->first();
-                            $subtotal += $data[$i]['Bill']['SUBTOTAL'];
-                            $total += $data[$i]['Bill']['TOTAL'];
-                            $tax += $data[$i]['Bill']['SALES_TAX'];
+
+                            // Check if data is not null and use object properties
+                            if ($data) {
+                                $subtotal += $data->SUBTOTAL; // Correct way to access Eloquent attributes
+                                $total += $data->TOTAL;
+                                $tax += $data->SALES_TAX;
+                            }
+
                             $i++;
                         }
                     }
@@ -210,15 +219,17 @@ class TotalbillController extends Controller
                     $request->merge(['Totalbill.DATE' => date('Y-m-d')]);
 
                     $company_ID = 1;
-                    if ($default_honor = Bill::getHonor($company_ID)) {
+                    $bill = new Bill;
+                    $default_honor = $bill->getHonor($company_ID);
+                    if(is_array($default_honor) && !empty($default_honor) && isset($default_honor[0]['Company']['HONOR_CODE'])) {
                         $request->merge([
                             'Totalbill.HONOR_CODE' => $default_honor[0]['Company']['HONOR_CODE'],
                             'Totalbill.HONOR_TITLE' => $default_honor[0]['Company']['HONOR_TITLE'],
                         ]);
                     }
 
-                    if (Totalbill::getSerial($company_ID) == 0) {
-                        $request->merge(['Totalbill.NO' => Serial::getNumber('TotalBill')]);
+                    if ($totalbill->get_serial($company_ID) == 0) {
+                        $request->merge(['Totalbill.NO' => $serial->get_number('TotalBill')]);
                     }
                 }
 
@@ -487,6 +498,14 @@ class TotalbillController extends Controller
         ]);
 
         return $pdf->download('invoice.pdf');
+    }
+
+    private function getUserAuthority()
+    {
+        if (auth()->check()) {
+            return auth()->user()->authority;
+        }
+        return null;
     }
 
 }

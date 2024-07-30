@@ -91,6 +91,7 @@ class AdministerController extends Controller
         $authority = [
             1 => "自分のデータのみ",
             2 => "他人のデータ閲覧可能",
+            3 => "他人のデータ編集可能",
         ];
         // $authority = config('authority_code');
 

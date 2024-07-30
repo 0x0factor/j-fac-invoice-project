@@ -1,8 +1,5 @@
 @extends('layout.default')
 
-@section('scripts')
-    <script src="{{ asset('js/forms/script.js') }}"></script>
-@endsection
 @section('content')
     @php
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
@@ -30,4 +27,6 @@
     <div id="itemlist" style="display:none;">
         {!! nl2br(e($itemlist)) !!}
     </div>
+    @include('elements.form.scripts')
+
 @endsection

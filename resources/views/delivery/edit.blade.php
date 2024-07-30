@@ -1,8 +1,5 @@
 @extends('layout.default')
 
-@section('scripts')
-    @include('elements.form.scripts')
-@endsection
 
 @section('content')
     @if (session()->has('status'))
@@ -31,4 +28,6 @@
     <!-- contents_End -->
 
     <div id="itemlist" style="display:none;">{!! nl2br(e($itemlist)) !!}</div>
+    @include('elements.form.scripts')
+
 @endsection
