@@ -29,8 +29,8 @@ class AdministerController extends Controller
         // Retrieve all users except those with AUTHORITY 0
         $administers = Administer::where('AUTHORITY', '!=', 0)->paginate(15);
         $list = $administers->items();
-
-        return view('administer.index', compact('main_title', 'title_text', 'title', 'administers', 'list'));
+        $status = config('constants.StatusCode');
+        return view('administer.index', compact('main_title', 'title_text', 'title', 'administers', 'list', 'status'));
     }
 
     // 登録用
@@ -82,18 +82,9 @@ class AdministerController extends Controller
             }
         }
 
-        $status = [
-            1 => "有効",
-            2 => "無効",
-        ]; // Placeholder for status options
-        // $status = config('status_code');
+        $status = config('constants.StatusCode');
 
-        $authority = [
-            1 => "自分のデータのみ",
-            2 => "他人のデータ閲覧可能",
-            3 => "他人のデータ編集可能",
-        ];
-        // $authority = config('authority_code');
+        $authority = config('constants.AuthorityCode');
 
         return view('administer.add', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority'));
     }
@@ -163,8 +154,8 @@ class AdministerController extends Controller
             $requestData['Administer']['CHANGEFLG'] = 0;
         }
 
-        $status = config('status_code');
-        $authority = config('authority_code');
+        $status = config('constants.StatusCode');
+        $authority = config('constants.AuthorityCode');
 
         return view('administer.edit', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority', 'requestData'));
     }
@@ -182,8 +173,8 @@ class AdministerController extends Controller
             return redirect('/administers');
         }
 
-        $status = config('status_code');
-        $authority = config('authority_code');
+        $status = config('constants.StatusCode');
+        $authority = config('constants.AuthorityCode');
 
         return view('administer.check', compact('main_title', 'title_text', 'title', 'administer', 'status', 'authority'));
     }

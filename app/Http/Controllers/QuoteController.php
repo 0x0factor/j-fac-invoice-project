@@ -83,7 +83,7 @@ class QuoteController extends AppController
         $title = "抹茶請求書";
 
         $user = Auth::user();
-        $action = Config::get('ActionCode');
+        $action = config('constants.ActionCode');
 
 
         $name = $user['NAME'];
@@ -98,7 +98,7 @@ class QuoteController extends AppController
         }
 
         $company_ID = 1;
-        $error = Config::get('ItemErrorCode');
+        $error = config('constants.ItemErrorCode');
         $count = 1;
 
         if ($request->isMethod('post')) {
@@ -235,7 +235,7 @@ class QuoteController extends AppController
                 ]);
             }
             // Tax settings by date
-            $taxOperationDate = Config::get('TaxOperationDate');
+            $taxOperationDate = config('constants.TaxOperationDate');
             if ($taxOperationDate && is_array($taxOperationDate)) {
                 foreach ($taxOperationDate as $key => $value) {
                     if ($request->input('Quote.DATE') >= $value['start']) {
@@ -304,18 +304,18 @@ class QuoteController extends AppController
             }
         }
 
-        $honor = is_null(Config::get('HonorCode')) ? [] : Config::get('HonorCode') ;
-        $seal_flg = is_null(Config::get('SealFlg')) ? [] : Config::get('SealFlg') ;
-        $taxClass = is_null(Config::get('TaxClass')) ? [] : Config::get('TaxClass') ;
+        $honor = is_null(config('constants.HonorCode')) ? [] : config('constants.HonorCode') ;
+        $seal_flg = is_null(config('constants.SealFlg')) ? [] : config('constants.SealFlg') ;
+        $taxClass = is_null(config('constants.TaxClass')) ? [] : config('constants.TaxClass') ;
         return view('quote.add', [
             'main_title' => $main_title,
             'title_text' => $title_text,
             'title' => $title,
-            'excises' => Config::get('ExciseCode'),
-            'fractions' => Config::get('FractionCode'),
-            "discount" => Config::get('DiscountCode'),
-            "status" => Config::get('IssuedStatCode'),
-            "decimal" => Config::get('DecimalCode'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            "discount" => config('constants.DiscountCode'),
+            "status" => config('constants.IssuedStatCode'),
+            "decimal" => config('constants.DecimalCode'),
             "itemlist" => $itemlist ? json_encode($itemlist) : false,
             "error" => $error,
             "dataline" => $count,
@@ -325,10 +325,10 @@ class QuoteController extends AppController
             "hidden" => $hidden,
             'collapse_other' => $collapse['other'],
             'collapse_management' => $collapse['management'],
-            'lineAttribute' => Config::get('LineAttribute'),
+            'lineAttribute' => config('constants.LineAttribute'),
             'taxClass' => $taxClass,
-            'taxRates' => Config::get('TaxRates'),
-            'taxOperationDate' => Config::get('TaxOperationDate'),
+            'taxRates' => config('constants.TaxRates'),
+            'taxOperationDate' => config('constants.TaxOperationDate'),
             'seal_flg' => $seal_flg,
             'name' => $name,
             'action' => $action,
@@ -375,7 +375,7 @@ class QuoteController extends AppController
         }
 
         $companyId = 1;
-        $error = config('app.ItemErrorCode'); // Assuming you have ItemErrorCode config
+        $error = config('constants.ItemErrorCode'); // Assuming you have ItemErrorCode config
         $count = 1;
 
         if (!$request->isMethod('post')) {
@@ -565,7 +565,7 @@ class QuoteController extends AppController
             $param['CustomerCharge'] = $customer_charge->toArray();
         }
 
-        $color = config('colorcode');
+        $color = config('constants.colorcode');
 
         if ($param['Company']['SEAL']) {
             $param['Company']['SEAL_IMAGE'] = $this->getTmpImagePath(null, true);
@@ -577,7 +577,7 @@ class QuoteController extends AppController
 
         $param = $this->getCompatibleItems($param);
         $item_count = $param['count'];
-        $county = config('prefecturecode');
+        $county = config('constants.prefecturecode');
 
         $pages = $this->calculatePages($param, $item_count);
 

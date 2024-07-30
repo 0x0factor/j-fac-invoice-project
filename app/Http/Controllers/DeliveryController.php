@@ -70,7 +70,7 @@ class DeliveryController extends Controller
             '6' => '入金対象外',
         ];
 
-        $action = Config::get('ActionCode');
+        $action = config('constants.ActionCode');
         $name = Auth::user()->NAME;
 
         $condition = [];
@@ -85,8 +85,8 @@ class DeliveryController extends Controller
         $this->data['paginator'] = $paginator;
         $this->data['list'] = $list;
 
-        $this->data['mailstatus'] = config('app.MailStatusCode');
-        $this->data['status'] = config('app.IssuedStatCode');
+        $this->data['mailstatus'] = config('constants.MailStatusCode');
+        $this->data['status'] = config('constants.IssuedStatCode');
 
         return view('delivery.index', $this->data);
     }
@@ -104,7 +104,7 @@ class DeliveryController extends Controller
         }
 
         $company_ID = 1;
-        $error = config('app.ItemErrorCode');
+        $error = config('constants.ItemErrorCode');
         $count = 1;
 
         if ($request->isMethod('post')) {
@@ -228,7 +228,7 @@ class DeliveryController extends Controller
             }
 
             // Set tax operation date
-            $taxOperationDate = config('app.TaxOperationDate');
+            $taxOperationDate = config('constants.TaxOperationDate');
 
             if (is_array($taxOperationDate) || is_object($taxOperationDate))
             foreach ($taxOperationDate as $key => $value) {
@@ -267,18 +267,18 @@ class DeliveryController extends Controller
         }
 
         $user = Auth::user();
-        $action = Config::get('ActionCode');
+        $action = config('constants.ActionCode');
 
 
         $name = $user['NAME'];
 
         // Set data for the view
-        $this->data['excises'] = config('app.ExciseCode');
-        $this->data['fractions'] = config('app.FractionCode');
-        $this->data['tax_fraction_timing'] = config('app.TaxFractionTimingCode');
-        $this->data['discount'] = config('app.DiscountCode');
-        $this->data['decimal'] = config('app.DecimalCode');
-        $this->data['status'] = config('app.IssuedStatCode');
+        $this->data['excises'] = config('constants.ExciseCode');
+        $this->data['fractions'] = config('constants.FractionCode');
+        $this->data['tax_fraction_timing'] = config('constants.TaxFractionTimingCode');
+        $this->data['discount'] = config('constants.DiscountCode');
+        $this->data['decimal'] = config('constants.DecimalCode');
+        $this->data['status'] = config('constants.IssuedStatCode');
         $this->data['companys'] = $delivery->get_customer($company_ID, $cst_condition);
         $this->data['error'] = $error;
         $this->data['dataline'] = $count;
@@ -286,15 +286,15 @@ class DeliveryController extends Controller
         $this->data['user'] = $user;
         $this->data['item'] = $items->pluck('ITEM', 'ITM_ID')->prepend('＋アイテム選択＋', 'default')->prepend('＋アイテム追加＋', 'item');
         $this->data['itemlist'] = !empty($itemList) ? json_encode($itemList) : false;
-        $this->data['honor'] = config('app.HonorCode');
+        $this->data['honor'] = config('constants.HonorCode');
         $this->data['hidden'] = $delivery->get_payment($company_ID);
         $this->data['collapse_other'] = $collaspe['other'];
         $this->data['collapse_management'] = $collaspe['management'];
-        $this->data['lineAttribute'] = config('app.LineAttribute');
-        $this->data['taxClass'] = config('app.TaxClass');
-        $this->data['taxRates'] = config('app.TaxRates');
-        $this->data['taxOperationDate'] = config('app.TaxOpera  tionDate');
-        $this->data['seal_flg'] = config('app.SealFlg');
+        $this->data['lineAttribute'] = config('constants.LineAttribute');
+        $this->data['taxClass'] = config('constants.TaxClass');
+        $this->data['taxRates'] = config('constants.TaxRates');
+        $this->data['taxOperationDate'] = config('constants.TaxOpera  tionDate');
+        $this->data['seal_flg'] = config('constants.SealFlg');
 
         return view('delivery.add', $this->data);
     }

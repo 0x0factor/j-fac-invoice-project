@@ -20,7 +20,7 @@ class ItemController extends Controller
     public function index()
     {
         $list = 5;
-        $excises = Config::get('ExciseCode');
+        $excises = config('constants.ExciseCode');
         $main_title = "商品管理";
         $title_text = "自社情報設定";
         $title = "抹茶請求書";
@@ -68,7 +68,7 @@ class ItemController extends Controller
         $company = Company::first();
         $request->merge(['Item.TAX_CLASS' => $company->EXCISE + 1]);
 
-        $excises = Config::get('ExciseCode');
+        $excises = config('constants.ExciseCode');
 
         return view('item.add', compact('main_title', 'title_text', 'title', 'excises'));
     }
@@ -96,7 +96,7 @@ class ItemController extends Controller
             return redirect('/items');
         }
 
-        $excises = Config::get('ExciseCode');
+        $excises = config('constants.ExciseCode');
 
         return view('item.check', compact('main_title', 'title_text', 'title', 'excises', 'editauth', 'data'));
     }
@@ -136,7 +136,7 @@ class ItemController extends Controller
             }
         }
 
-        $excises = Config::get('ExciseCode');
+        $excises = config('constants.ExciseCode');
 
         return view('item.edit', compact('main_title', 'title_text', 'title', 'excises'));
     }

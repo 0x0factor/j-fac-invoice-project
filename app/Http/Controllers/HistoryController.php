@@ -45,7 +45,7 @@ class HistoryController extends Controller
             }
         }
 
-        $action = Config::get('ActionCode');
+        $action = config('constants.ActionCode');
 
         return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'action'));
     }

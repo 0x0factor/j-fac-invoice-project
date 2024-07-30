@@ -18,8 +18,8 @@ class ChargeController extends Controller
     // 一覧用
     public function index()
     {
-        $status = config('app.status_code');
-        $seal = config('app.seal_code');
+        $status = config('constants.StatusCode');
+        $seal = config('constants.SealCode');
 
         $condition = [];
         $paginator = Charge::where($condition)
@@ -31,6 +31,8 @@ class ChargeController extends Controller
             ->with('main_title', '自社担当者一覧')
             ->with('title_text', '自社情報設定')
             ->with('title', '抹茶請求書')
+            ->with('status', 'status')
+            ->with('seal', 'seal')
             ->with('page_title', 'Company');
     }
 
@@ -75,15 +77,19 @@ class ChargeController extends Controller
             }
         }
 
-        $status = config('app.status_code');
-        $countys = config('app.prefecture_code');
-        $seal_method = config('app.seal_method');
-        $seal_flg = config('app.seal_flg');
+        $status = config('constants.StatusCode');
+        $countys = config('constants.PrefectureCode');
+        $seal_method = config('constants.SealMethod');
+        $seal_flg = config('constants.SealFlg');
 
         return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
             ->with('main_title', '自社担当者登録')
             ->with('title_text', '自社情報設定')
-            ->with('page_title', 'Company');
+            ->with('page_title', 'Company')
+            ->with('status', 'status')
+            ->with('countys', 'countys')
+            ->with('seal_method', 'seal_method')
+            ->with('seal_flg', 'seal_flg');
     }
 
     // 削除用
@@ -154,9 +160,18 @@ class ChargeController extends Controller
 
             $image = $charge['Charge']['SEAL'] ?? null;
 
+            $status = config('constants.StatusCode');
+            $countys = config('constants.PrefectureCode');
+            $seal_method = config('constants.SealMethod');
+            $seal_flg = config('constants.SealFlg');
+
             return view('charge.edit', compact('image', 'phone_error', 'fax_error', 'charge_ID'))
                 ->with('main_title', '自社担当者編集')
                 ->with('title_text', '自社情報設定')
+                ->with('status', 'status')
+                ->with('countys', 'countys')
+                ->with('seal_method', 'seal_method')
+                ->with('seal_flg', 'seal_flg')
                 ->with('page_title', 'Company');
         }
     }
@@ -182,9 +197,16 @@ class ChargeController extends Controller
 
         $image = $charge['Charge']['SEAL'] ?? null;
 
+        $status = config('constants.StatusCode');
+        $countys = config('constants.PrefectureCode');
+        $seal_flg = config('constants.SealFlg');
+
         return view('charge.check', compact('charge', 'image', 'charge_ID'))
             ->with('main_title', '自社担当者確認')
             ->with('title_text', '自社情報設定')
+            ->with('status', 'status')
+            ->with('countys', 'countys')
+            ->with('seal_flg', 'seal_flg')
             ->with('page_title', 'Company');
     }
 

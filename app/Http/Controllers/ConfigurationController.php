@@ -31,12 +31,12 @@ class ConfigurationController extends Controller
             'title',
             'params'
         ))
-        ->with('security', Config::get('constants.SmtpSecurityCode'))
+        ->with('security', config('constants.SmtpSecurityCode'))
         ->with('status', [
             0 => '無効',
             1 => '有効'
         ])
-        ->with('protocol', Config::get('constants.MailProtocolCode'));
+        ->with('protocol', config('constants.MailProtocolCode'));
     }
 
     // 編集用
@@ -84,7 +84,7 @@ class ConfigurationController extends Controller
 
         $protocol = [
             'type' => 'radio',
-            'options' => Config::get('constants.MailProtocolCode'),
+            'options' => config('constants.MailProtocolCode'),
             'div' => false,
             'label' => false,
             'legend' => false,
@@ -94,7 +94,7 @@ class ConfigurationController extends Controller
 
         $security = [
             'type' => 'radio',
-            'options' => Config::get('constants.SmtpSecurityCode'),
+            'options' => config('constants.SmtpSecurityCode'),
             'div' => false,
             'label' => false,
             'legend' => false,

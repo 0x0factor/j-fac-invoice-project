@@ -56,9 +56,9 @@ class TotalbillController extends Controller
             'main_title' => '合計請求書管理',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
-            'edit_stat' => config('app.Edit_StatProtocolCode'),
-            'mailstatus' => config('app.MailStatusCode'),
-            'status' => config('app.IssuedStatCode'),
+            'edit_stat' => config('constants.Edit_StatProtocolCode'),
+            'mailstatus' => config('constants.MailStatusCode'),
+            'status' => config('constants.IssuedStatCode'),
             'paginator' => $paginator,
             'list' => $list,
         ]);
@@ -244,9 +244,9 @@ class TotalbillController extends Controller
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
                     'title' => '抹茶請求書',
-                    'mailstatus' => config('app.MailStatusCode'),
-                    'status' => config('app.IssuedStatCode'),
-                    'honor' => config('app.HonorCode'),
+                    'mailstatus' => config('constants.MailStatusCode'),
+                    'status' => config('constants.IssuedStatCode'),
+                    'honor' => config('constants.HonorCode'),
                 ]);
             }
         }
@@ -281,7 +281,7 @@ class TotalbillController extends Controller
         return view('totalbill.check', [
             'editauth' => $editauth,
             'param' => $param,
-            'honor' => config('app.HonorCode'),
+            'honor' => config('constants.HonorCode'),
             'main_title' => '合計請求書確認',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
@@ -355,9 +355,9 @@ class TotalbillController extends Controller
                 'cst_name' => $request->input('Totalbill.CUSTOMER_NAME'),
                 'cst_id' => $request->input('Totalbill.CST_ID'),
                 'tbl_id' => $request->input('Totalbill.TBL_ID'),
-                'edit_stat' => config('app.Edit_StatProtocolCode'),
-                'mailstatus' => config('app.MailStatusCode'),
-                'status' => config('app.IssuedStatCode'),
+                'edit_stat' => config('constants.Edit_StatProtocolCode'),
+                'mailstatus' => config('constants.MailStatusCode'),
+                'status' => config('constants.IssuedStatCode'),
             ]);
         }
 
@@ -394,9 +394,9 @@ class TotalbillController extends Controller
                 'tbl_id' => $tbl_ID,
                 'bill_id' => $bill_id ?? [],
                 'edit_stat' => $request->input('Totalbill.EDIT_STAT'),
-                'mailstatus' => config('app.MailStatusCode'),
-                'status' => config('app.IssuedStatCode'),
-                'honor' => config('app.HonorCode'),
+                'mailstatus' => config('constants.MailStatusCode'),
+                'status' => config('constants.IssuedStatCode'),
+                'honor' => config('constants.HonorCode'),
                 'cst_name' => $cst_name,
                 'cst_id' => $cst_id,
             ]);
@@ -404,7 +404,7 @@ class TotalbillController extends Controller
 
         $edit_stat = [
             'type' => 'radio',
-            'options' => config('app.Edit_StatProtocolCode'),
+            'options' => config('constants.Edit_StatProtocolCode'),
             'value' => $edit,
             'div' => false,
             'label' => false,
@@ -415,8 +415,8 @@ class TotalbillController extends Controller
 
         return view('totalbill.edit_search', [
             'edit_stat' => $edit_stat,
-            'mailstatus' => config('app.MailStatusCode'),
-            'status' => config('app.IssuedStatCode')
+            'mailstatus' => config('constants.MailStatusCode'),
+            'status' => config('constants.IssuedStatCode')
         ]);
     }
 
@@ -472,7 +472,7 @@ class TotalbillController extends Controller
         $bill = Totalbill::getBillID($tbl_ID);
         $count = count($bill);
 
-        $Color = config('app.ColorCode');
+        $Color = config('constants.ColorCode');
         $items_a = [];
         $discounts_a = [];
         $item_count_a = [];

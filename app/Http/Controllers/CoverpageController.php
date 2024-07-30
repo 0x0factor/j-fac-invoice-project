@@ -25,17 +25,17 @@ class CoverpageController extends Controller
         if ($request->has('cancel_x')) {
             return redirect('/homes');
         }
-        $usernavi = config('app.user_navigate');
+        $usernavi = config('constants.user_navigate');
         $main_title = "送付状作成";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
 
-        $maxline = Config::get('constants.CoverpageMaxFormLine');
+        $maxline = config('constants.CoverpageMaxFormLine');
 
         if ($maxline == null) {
             $maxline = 1;
         }
-        $SendMethod = Config::get('constants.SendMethod');
+        $SendMethod = config('constants.SendMethod');
 
         $errors = null;
         $data = $request->all();
@@ -68,7 +68,7 @@ class CoverpageController extends Controller
                     }
                 }
 
-                $Color = Config::get('constants.ColorCode');
+                $Color = config('constants.ColorCode');
                 $dataline = $count;
 
                 // Retrieve company information
@@ -99,8 +99,8 @@ class CoverpageController extends Controller
                 }
 
                 // Retrieve prefecture and account type information
-                $county = Config::get('constants.PrefectureCode');
-                $accounttype = Config::get('constants.AccountTypeCode');
+                $county = config('constants.PrefectureCode');
+                $accounttype = config('constants.AccountTypeCode');
 
                 // Browser detection
                 $browser = $request->server('HTTP_USER_AGENT');

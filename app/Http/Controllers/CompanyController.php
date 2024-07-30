@@ -35,7 +35,7 @@ class CompanyController extends Controller
         // 色設定
         $color = [];
 
-        $colorCodes = Config::get('constants.ColorCode', []);
+        $colorCodes = config('constants.ColorCode', []);
 
         foreach ($colorCodes as $key => $value) {
             $color[$key] = $value['name'];
@@ -52,20 +52,20 @@ class CompanyController extends Controller
             'image',
             'color'
         ))
-        ->with('account_type', Config::get('constants.AccountTypeCode'))
-        ->with('countys', Config::get('constants.PrefectureCode'))
-        ->with('payment', Config::get('constants.PaymentMonth'))
-        ->with('direction', Config::get('constants.DirectionCode'))
+        ->with('account_type', config('constants.AccountTypeCode'))
+        ->with('countys', config('constants.PrefectureCode'))
+        ->with('payment', config('constants.PaymentMonth'))
+        ->with('direction', config('constants.DirectionCode'))
         ->with('cutooff_select', [0 => '末日', 1 => '指定'])
         ->with('payment_select', [0 => '末日', 1 => '指定'])
-        ->with('decimals', Config::get('constants.DecimalCode'))
-        ->with('excises', Config::get('constants.ExciseCode'))
-        ->with('fractions', Config::get('constants.FractionCode'))
-        ->with('tax_fraction_timing', Config::get('constants.TaxFractionTimingCode'))
-        ->with('numbering_format', Config::get('constants.NumberingFormat'))
-        ->with('honor', Config::get('constants.HonorCode'))
-        ->with('serial_option', Config::get('constants.Serial'))
-        ->with('seal_flg', Config::get('constants.SealFlg'));
+        ->with('decimals', config('constants.DecimalCode'))
+        ->with('excises', config('constants.ExciseCode'))
+        ->with('fractions', config('constants.FractionCode'))
+        ->with('tax_fraction_timing', config('constants.TaxFractionTimingCode'))
+        ->with('numbering_format', config('constants.NumberingFormat'))
+        ->with('honor', config('constants.HonorCode'))
+        ->with('serial_option', config('constants.Serial'))
+        ->with('seal_flg', config('constants.SealFlg'));
     }
 
     public function edit(Request $request)
@@ -140,7 +140,7 @@ class CompanyController extends Controller
         // 小数点処理
         $decimal = [
             'type' => 'radio',
-            'options' => Config::get('constants.DecimalCode'),
+            'options' => config('constants.DecimalCode'),
             'div' => false,
             'label' => false,
             'legend' => false,
@@ -151,7 +151,7 @@ class CompanyController extends Controller
         // 消費税
         $excise = [
             'type' => 'radio',
-            'options' => Config::get('constants.ExciseCode'),
+            'options' => config('constants.ExciseCode'),
             'div' => false,
             'label' => false,
             'legend' => false,
@@ -162,7 +162,7 @@ class CompanyController extends Controller
         // 端数処理
         $fraction = [
             'type' => 'radio',
-            'options' => Config::get('constants.FractionCode'),
+            'options' => config('constants.FractionCode'),
             'div' => false,
             'label' => false,
             'legend' => false,
@@ -173,7 +173,7 @@ class CompanyController extends Controller
         // 消費税端数計算
         $tax_fraction_timing = [
             'type' => 'radio',
-            'options' => Config::get('constants.TaxFractionTimingCode'),
+            'options' => config('constants.TaxFractionTimingCode'),
             'div' => false,
             'label' => false,
             'legend' => false,
@@ -183,7 +183,7 @@ class CompanyController extends Controller
 
         // 色設定
         $color = [];
-        foreach (Config::get('constants.ColorCode') as $key => $value) {
+        foreach (config('constants.ColorCode') as $key => $value) {
             $color[$key] = $value['name'];
         }
 
@@ -225,16 +225,16 @@ class CompanyController extends Controller
             'tax_fraction_timing',
             'color'
         ))
-        ->with('numbering_format', Config::get('constants.NumberingFormat'))
-        ->with('serial', Config::get('constants.Serial'))
-        ->with('account_type', Config::get('constants.AccountTypeCode'))
-        ->with('countys', Config::get('constants.PrefectureCode'))
-        ->with('payment', Config::get('constants.PaymentMonth'))
-        ->with('direction', Config::get('constants.DirectionCode'))
+        ->with('numbering_format', config('constants.NumberingFormat'))
+        ->with('serial', config('constants.Serial'))
+        ->with('account_type', config('constants.AccountTypeCode'))
+        ->with('countys', config('constants.PrefectureCode'))
+        ->with('payment', config('constants.PaymentMonth'))
+        ->with('direction', config('constants.DirectionCode'))
         ->with('cutooff_select', $cutooff_select)
         ->with('payment_select', $payment_select)
-        ->with('honor', Config::get('constants.HonorCode'))
-        ->with('seal_flg', Config::get('constants.SealFlg'));
+        ->with('honor', config('constants.HonorCode'))
+        ->with('seal_flg', config('constants.SealFlg'));
     }
 
     // 画像表示用

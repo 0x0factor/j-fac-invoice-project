@@ -2,7 +2,7 @@
 
 return [
     // Version
-    'Version' => '2.6.5',
+    'Version' => '2.7.0',
 
     // Pagination lines per page
     'Paginate' => [

@@ -63,15 +63,6 @@ class BillController extends Controller
             ]);
         }
 
-        $status = [
-            1 => "作成済み",
-            2 => "下書き",
-            3 => "破棄",
-            4 => "未入金",
-            5 => "入金済み",
-            6 => "入金対象外"
-        ]; // Placeholder for status options
-
         return view('bill.index', [
             'bills' => $bills,
             'authority' => $authority,
@@ -80,8 +71,8 @@ class BillController extends Controller
             'title' => "抹茶請求書",
             'list' => $list,
             'status' => $status,
-            'mailstatus' => config('app.MailStatusCode'),
-            // 'status' => config('app.IssuedStatCode')
+            'mailstatus' => config('constants.MailStatusCode'),
+            'status' => config('constants.IssuedStatCode')
         ]);
     }
 
@@ -103,7 +94,7 @@ class BillController extends Controller
             $data['Bill']['DISCOUNT'] = '';
         }
 
-        $error = config('app.ItemErrorCode');
+        $error = config('constants.ItemErrorCode');
         $count = 1;
 
         if ($data && $this->isCorrectToken($data['Security']['token'])) {
@@ -180,7 +171,7 @@ class BillController extends Controller
                 }
             }
 
-            $taxOperationDate = config('app.TaxOperationDate');
+            $taxOperationDate = config('constants.TaxOperationDate');
             $taxOperationDate = $taxOperationDate ?? [];
             foreach ($taxOperationDate as $key => $value) {
                 if ($data['Bill']['DATE'] >= $value['start'] && $data['Bill']['DATE'] <= $value['end']) {
@@ -197,7 +188,7 @@ class BillController extends Controller
         $hidden = $bill->getPayment($companyID);
         $defaultCompany = $bill->getCompanyPayment($companyID);
         $user = Auth::user();
-        $action = Config::get('ActionCode');
+        $action = config('constants.ActionCode');
 
 
         $name = $user['NAME'];
@@ -216,27 +207,27 @@ class BillController extends Controller
             'name' => $name,
             'action' => $action,
             'user' => $user,
-            'excises' => config('app.ExciseCode'),
-            'fractions' => config('app.FractionCode'),
-            'tax_fraction_timing' => config('app.TaxFractionTimingCode'),
-            'discount' => config('app.DiscountCode'),
-            'status' => config('app.IssuedStatCode'),
-            'decimal' => config('app.DecimalCode'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'discount' => config('constants.DiscountCode'),
+            'status' => config('constants.IssuedStatCode'),
+            'decimal' => config('constants.DecimalCode'),
             'itemlist' => json_encode($items),
             'companys' => $company,
             'error' => $error,
             'dataline' => $count,
             'item' => array_merge(['＋アイテム追加＋', '＋アイテム選択＋'], $items),
             'hidden' => $hidden,
-            'honor' => config('app.HonorCode'),
+            'honor' => config('constants.HonorCode'),
             'page_title' => 'Bill',
             'collapse_other' => $collaspe['other'],
             'collapse_management' => $collaspe['management'],
-            'lineAttribute' => config('app.LineAttribute'),
-            'taxClass' => config('app.TaxClass'),
-            'taxRates' => config('app.TaxRates'),
-            'taxOperationDate' => config('app.TaxOperationDate'),
-            'seal_flg' => config('app.SealFlg')
+            'lineAttribute' => config('constants.LineAttribute'),
+            'taxClass' => config('constants.TaxClass'),
+            'taxRates' => config('constants.TaxRates'),
+            'taxOperationDate' => config('constants.TaxOperationDate'),
+            'seal_flg' => config('constants.SealFlg')
         ]);
     }
 
@@ -276,16 +267,16 @@ class BillController extends Controller
             'main_title' => '請求書確認',
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
-            'status' => Config::get('constants.IssuedStatCode'),
-            'decimals' => Config::get('constants.DecimalCode'),
-            'excises' => Config::get('constants.ExciseCode'),
-            'fractions' => Config::get('constants.FractionCode'),
-            'tax_fraction_timing' => Config::get('constants.TaxFractionTimingCode'),
-            'honor' => Config::get('constants.HonorCode'),
+            'status' => config('constants.IssuedStatCode'),
+            'decimals' => config('constants.DecimalCode'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'honor' => config('constants.HonorCode'),
             'param' => $param,
             'dataline' => $count,
             'editauth' => $editauth,
-            'seal_flg' => Config::get('constants.SealFlg')
+            'seal_flg' => config('constants.SealFlg')
         ]);
     }
 
@@ -299,6 +290,7 @@ class BillController extends Controller
             return redirect('/bills');
         }
 
+        $error = config('constants.ItemErrorCode');
         $user_ID = $this->getUserID();
         $user_auth = $this->getUserAuthority();
 
@@ -412,25 +404,25 @@ class BillController extends Controller
         }
 
         return view('bill.edit', [
-            'excises' => config('constants.excise_code'),
-            'fractions' => config('constants.fraction_code'),
-            'tax_fraction_timing' => config('constants.tax_fraction_timing_code'),
-            'discount' => config('constants.discount_code'),
-            'decimal' => config('constants.decimal_code'),
-            'status' => config('constants.issued_stat_code'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'discount' => config('constants.DiscountCode'),
+            'decimal' => config('constants.DecimalCode'),
+            'status' => config('constants.IssuedStatCode'),
             'itemlist' => $itemList,
             'error' => $error,
             'dataline' => $count,
             'item' => $items,
             'hidden' => $hidden,
-            'honor' => config('constants.honor_code'),
+            'honor' => config('constants.HonorCode'),
             'collapse_other' => $collaspe['other'],
             'collapse_management' => $collaspe['management'],
-            'lineAttribute' => config('constants.line_attribute'),
-            'seal_flg' => config('constants.seal_flg'),
-            'taxClass' => config('constants.tax_class'),
-            'taxRates' => config('constants.tax_rates'),
-            'taxOperationDate' => config('constants.tax_operation_date'),
+            'lineAttribute' => config('constants.LineAttribute'),
+            'seal_flg' => config('constants.SealFlg'),
+            'taxClass' => config('constants.TaxClass'),
+            'taxRates' => config('constants.TaxRates'),
+            'taxOperationDate' => config('constants.TaxOperationDate'),
         ]);
     }
     public function action(Request $request)
@@ -610,7 +602,7 @@ class BillController extends Controller
             return redirect()->route('bills.index');
         }
 
-        $Color = config('constants.color_code'); // Assuming color code is stored in config/constants.php
+        $Color = config('constants.ColorCode'); // Assuming color code is stored in config/constants.php
 
         $customerCharge = (new CustomerCharge())->select(['CHRC_ID' => $param['Bill']['CHRC_ID']]);
 
@@ -634,6 +626,8 @@ class BillController extends Controller
         $direction = $param['Company']['DIRECTION'];
 
         $pages = 1;
+        $county = config('constants.PrefectureCode');
+        $accounttype = config('constants.AccountTypeCode');
 
         // Calculate pages
         for ($i = 0, $itemCountPerPage = 0; $i < $itemCount; $i++) {
@@ -765,7 +759,8 @@ class BillController extends Controller
             $param = array_merge($param, $request->all());
 
             // Get color code
-            $Color = config('constants.color_code'); // Assuming color code is stored in config/constants.php
+            $Color = config('constants.ColorCode'); // Assuming color code is stored in config/constants.php
+            $county = config('constants.PrefectureCode');
 
             // Browser identification
             $browser = $request->server('HTTP_USER_AGENT');
