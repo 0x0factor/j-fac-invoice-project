@@ -6,9 +6,13 @@
             initTableRollovers('index_table');
         });
 
-        $(document).ready(function() {
-            var formId = '{{ $this->name . ucfirst($this->action) }}Form';
-            setBeforeSubmit(formId);
+
+        $(function() {
+            @if (isset($name) && isset($action))
+                setBeforeSubmit('{{ $name . ucfirst($action) . 'Form' }}');
+            @else
+                console.error("Name or action is not set.");
+            @endif
         });
     </script>
 @endsection
@@ -68,7 +72,7 @@
     </div>
 
     <div class="new_document">
-        <a href="{{ route('administer.add') }}">
+        <a href="{{ route('administer.add') }}" method="GET">
             <img src="{{ asset('img/bt_new.jpg') }}" alt="">
         </a>
     </div>

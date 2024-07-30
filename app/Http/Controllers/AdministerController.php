@@ -82,8 +82,17 @@ class AdministerController extends Controller
             }
         }
 
-        $status = config('status_code');
-        $authority = config('authority_code');
+        $status = [
+            1 => "有効",
+            2 => "無効",
+        ]; // Placeholder for status options
+        // $status = config('status_code');
+
+        $authority = [
+            1 => "自分のデータのみ",
+            2 => "他人のデータ閲覧可能",
+        ];
+        // $authority = config('authority_code');
 
         return view('administer.add', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority'));
     }

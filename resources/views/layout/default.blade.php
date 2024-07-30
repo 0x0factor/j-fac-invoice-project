@@ -74,7 +74,7 @@
             <div id="logout">
                 <form action="{{ url('logout') }}" method="POST" id="logging-out">
                     @csrf
-                    <button type="submit" style="background: none; border: none; padding: 0;">
+                    <button type="submit" style="border: none;">
                         <img src="{{ asset('img/bt_logout.jpg') }}" alt="ログアウト" class="imgover">
                     </button>
                 </form>
@@ -87,8 +87,7 @@
                     @if (preg_match('/^home/', $controller))
                         <li><img src="{{ asset('img/bt_menu01_on.jpg') }}" alt="HOME"></li>
                     @else
-                        <li><a href="{{ route('home') }}"><img src="{{ asset('img/bt_menu01.jpg') }}" alt="HOME"
-                                    class="imgover"></a></li>
+                        <li><a href="{{ route('home') }}"><img src="{{ asset('img/bt_menu01.jpg') }}" alt="HOME" class="imgover"></a></li>
                     @endif
                     <li>
                         @if (preg_match(

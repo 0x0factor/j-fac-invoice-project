@@ -53,14 +53,22 @@ class QuoteController extends AppController
         ->orderBy('INSERT_DATE')
         ->paginate(20);
         $quotes = $paginator->items();
-        $status = []; // Placeholder for status options
+        $status = [
+            1 => "作成済み",
+            2 => "下書き",
+            3 => "破棄",
+            4 => "未入金",
+            5 => "入金済み",
+            6 => "入金対象外"
+        ]; // Placeholder for status options
 
         return view('quote.index', [
             'main_title' => '見積書管理',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
             'mailstatus' => config('constants.MailStatusCode'),
-            'status' => config('constants.IssuedStatCode'),
+            // 'status' => config('constants.IssuedStatCode'),
+            'status' => $status,
             'customer_id' => $customer_id,
             'paginator' => $paginator,
             'quotes' => $quotes,

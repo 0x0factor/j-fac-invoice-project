@@ -51,11 +51,10 @@
                             <td colspan="3">
                                 @if (isset($status))
                                     @foreach ($status as $key => $value)
-                                        <label><input type="checkbox" name="STATUS[]" value="{{ $key }}">
-                                            {{ $value }}</label>
-                                        <div class="checkbox"><input type="checkbox" name="STATUS[]"
-                                                value="{{ $key }}" id="QuoteSTATUS{{ $key }}"><label
-                                                for="QuoteSTATUS{{ $key }}"> {{ $value }}</label></div>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="QuoteSTATUS{{ $key }}">
+                                            <label for="QuoteSTATUS{{ $key }}"> {{ $value }} </label>
+                                        </div>
                                     @endforeach
                                 @endif
                             </td>
@@ -237,7 +236,16 @@
                                             <td class="v50">{{ $quote->user->NAME }} /
                                                 {{ $quote->updateUser->NAME ?? '&nbsp;' }}</td>
                                         @endif
-                                        <td class="v50">{{ $status[$quote->STATUS] }}</td>
+
+                                        @if($quote->STATUS == 1)
+                                            <td class="v50">
+                                                作成済み
+                                            </td>
+                                        @else
+                                            <td class="v50">
+                                                下書き
+                                            </td>
+                                        @endif
                                         <td class="v100">{{ $quote->MEMO ?? '&nbsp;' }}</td>
                                     </tr>
                                 @endforeach

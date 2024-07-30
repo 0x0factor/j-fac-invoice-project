@@ -170,50 +170,52 @@
                         </thead>
                         <tbody>
                             @foreach ($list as $key => $val)
+
                                 <tr>
                                     <td>
-                                        @if (!$delcheck[$val['Customer']['CST_ID']])
-                                            <input type="checkbox" name="{{ $val['Customer']['CST_ID'] }}" class="chk">
+                                        @if (!$val['CST_ID'])
+                                            <input type="checkbox" name="{{ $val['CST_ID'] }}" class="chk">
                                         @endif
                                     </td>
-                                    <td>{{ $val['Customer']['CST_ID'] }}</td>
+                                    <td>{{ $val['CST_ID'] }}</td>
                                     <td>
-                                        @if ($authcheck[$val['Customer']['CST_ID']] == 1)
+                                        @if ($val['CST_ID'] == 1)
                                             <a
-                                                href="{{ route('customer.check', ['id' => $val['Customer']['CST_ID']]) }}">{{ $val['Customer']['NAME'] }}</a>
+                                                href="{{ route('customer.check', ['id' => $val['CST_ID']]) }}">{{ $val['NAME'] }}</a>
                                         @else
-                                            {{ $customHtml->ht2br($val['Customer']['NAME']) }}
+                                            {{ $val['NAME'] }}
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($val['Customer']['CNT_ID'] || $customHtml->ht2br($val['Customer']['ADDRESS'], 'Customer', 'ADDRESS'))
-                                            @if ($val['Customer']['CNT_ID'])
-                                                {{ $countys[$val['Customer']['CNT_ID']] }}
+                                        @if ($val['CNT_ID'] || $val['ADDRESS'] || $val['SEARCH_ADDRESS'])
+                                            <!-- @if ($val['CNT_ID'])
+                                                {{ $val['CNT_ID'] }}
                                             @endif
-                                            {{ $customHtml->ht2br($val['Customer']['ADDRESS'], 'Customer', 'ADDRESS') }}
+                                            {{ $val['ADDRESS'] }} -->
+                                            {{ $val['SEARCH_ADDRESS'] }}
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     <td>
                                         @if (
-                                            !empty($val['Customer']['PHONE_NO1']) ||
-                                                !empty($val['Customer']['PHONE_NO2']) ||
-                                                !empty($val['Customer']['PHONE_NO3']))
-                                            {{ $val['Customer']['PHONE_NO1'] . '-' . $val['Customer']['PHONE_NO2'] . '-' . $val['Customer']['PHONE_NO3'] }}
+                                            !empty($val['PHONE_NO1']) ||
+                                                !empty($val['PHONE_NO2']) ||
+                                                !empty($val['PHONE_NO3']))
+                                            {{ $val['PHONE_NO1'] . '-' . $val['PHONE_NO2'] . '-' . $val['PHONE_NO3'] }}
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($val['Customer']['CHR_ID'])
-                                            {{ $customHtml->ht2br($charges[$val['Customer']['CHR_ID']], 'Charge', 'CHARGE_NAME') }}
+                                        @if ($val['CHR_ID'])
+                                            {{ $charges[$val['CHR_ID']], 'Charge', 'CHARGE_NAME' }}
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     @if ($user['AUTHORITY'] != 1)
-                                        <td>{{ $val['User']['NAME'] }}</td>
+                                        <td>{{ $user['NAME'] }}</td>
                                     @endif
                                 </tr>
                             @endforeach

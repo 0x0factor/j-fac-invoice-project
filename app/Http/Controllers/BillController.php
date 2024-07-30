@@ -63,6 +63,15 @@ class BillController extends Controller
             ]);
         }
 
+        $status = [
+            1 => "作成済み",
+            2 => "下書き",
+            3 => "破棄",
+            4 => "未入金",
+            5 => "入金済み",
+            6 => "入金対象外"
+        ]; // Placeholder for status options
+
         return view('bill.index', [
             'bills' => $bills,
             'authority' => $authority,
@@ -70,8 +79,9 @@ class BillController extends Controller
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'list' => $list,
+            'status' => $status,
             'mailstatus' => config('app.MailStatusCode'),
-            'status' => config('app.IssuedStatCode')
+            // 'status' => config('app.IssuedStatCode')
         ]);
     }
 

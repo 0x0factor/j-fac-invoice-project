@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layout.default')
 
 @section('content')
     <div id="guide">
@@ -21,7 +21,7 @@
             <div class="edit_01_administer"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form method="POST" action="{{ route('administer.store') }}" class="Administer">
+        <form method="POST" action="{{ route('administer.add') }}" class="Administer">
             @csrf
 
             <div class="contents_box">

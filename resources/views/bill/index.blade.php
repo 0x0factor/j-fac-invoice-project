@@ -65,8 +65,10 @@
                             <td colspan="3">
                                 @if (is_array($status) || is_object($status))
                                     @foreach ($status as $key => $value)
-                                        <input type="checkbox" name="STATUS[]" value="{{ $key }}">
-                                        {{ $value }}
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="BillSTATUS{{ $key }}">
+                                        <label for="BillSTATUS{{ $key }}"> {{ $value }} </label>
+                                    </div>
                                     @endforeach
                                 @else
                                     <p>No status available.</p>
@@ -132,12 +134,12 @@
                         <table style="margin:0 auto">
                             <tr>
                                 <td style="border:none;">
-                                    <button type="submit">
+                                    <button type="submit" style="border: none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="検索">
                                     </button>
                                 </td>
                                 <td style="border:none;">
-                                    <button type="button" onclick="reset_forms();">
+                                    <button type="button" onclick="reset_forms();" style="border: none; ">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
                                     </button>
                                 </td>

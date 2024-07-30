@@ -65,7 +65,7 @@ Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])
 
 Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
-Route::get('quotes/create', [QuoteController::class, 'create'])->name('quote.create');
+Route::get('quotes/edit', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
 

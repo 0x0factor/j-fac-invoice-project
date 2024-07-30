@@ -117,42 +117,42 @@
                         <tbody>
                             @foreach ($list as $val)
                                 <tr>
-                                    <td>{{ $val['Customer']['CST_ID'] }}</td>
+                                    <td>{{ $val['CST_ID'] }}</td>
                                     <td>
-                                        @if (isset($authcheck[$val['Customer']['CST_ID']]) && $authcheck[$val['Customer']['CST_ID']] == 1)
+                                        @if (isset($authcheck[$val['CST_ID']]) && $authcheck[$val['CST_ID']] == 1)
                                             <a
-                                                href="{{ route('customers.check', ['id' => $val['Customer']['CST_ID']]) }}">{{ $val['Customer']['NAME'] }}</a>
+                                                href="{{ route('customers.check', ['id' => $val['CST_ID']]) }}">{{ $val['NAME'] }}</a>
                                         @else
-                                            {!! nl2br(e($val['Customer']['NAME'])) !!}
+                                            {!! nl2br(e($val['NAME'])) !!}
                                         @endif
                                     </td>
                                     <td>
                                         @if (
-                                            !empty($val['Customer']['PHONE_NO1']) ||
-                                                !empty($val['Customer']['PHONE_NO2']) ||
-                                                !empty($val['Customer']['PHONE_NO3']))
-                                            {{ $val['Customer']['PHONE_NO1'] }}-{{ $val['Customer']['PHONE_NO2'] }}-{{ $val['Customer']['PHONE_NO3'] }}
+                                            !empty($val['PHONE_NO1']) ||
+                                                !empty($val['PHONE_NO2']) ||
+                                                !empty($val['PHONE_NO3']))
+                                            {{ $val['PHONE_NO1'] }}-{{ $val['PHONE_NO2'] }}-{{ $val['PHONE_NO3'] }}
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($val['Customer']['CHR_ID'])
-                                            {!! nl2br(e($charges[$val['Customer']['CHR_ID']]['CHARGE_NAME'])) !!}
+                                        @if ($val['CHR_ID'])
+                                            {!! nl2br(e($charges[$val['CHR_ID']]['CHARGE_NAME'])) !!}
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     <td>
                                         <a
-                                            href="{{ route('quotes.index', ['customer' => $val['Customer']['CST_ID']]) }}">見積書</a>
-                                        ({{ $inv_num[$val['Customer']['CST_ID']]['Quote'] }}件) /
+                                            href="{{ route('quote.index', ['customer' => $val['CST_ID']]) }}">見積書</a>
+                                        ({{ $inv_num[$val['CST_ID']]['Quote'] }}件) /
                                         <a
-                                            href="{{ route('bills.index', ['customer' => $val['Customer']['CST_ID']]) }}">請求書</a>
-                                        ({{ $inv_num[$val['Customer']['CST_ID']]['Bill'] }}件) /
+                                            href="{{ route('bill.index', ['customer' => $val['CST_ID']]) }}">請求書</a>
+                                        ({{ $inv_num[$val['CST_ID']]['Bill'] }}件) /
                                         <a
-                                            href="{{ route('deliveries.index', ['customer' => $val['Customer']['CST_ID']]) }}">納品書</a>
-                                        ({{ $inv_num[$val['Customer']['CST_ID']]['Delivery'] }}件)
+                                            href="{{ route('delivery.index', ['customer' => $val['CST_ID']]) }}">納品書</a>
+                                        ({{ $inv_num[$val['CST_ID']]['Delivery'] }}件)
                                     </td>
                                 </tr>
                             @endforeach

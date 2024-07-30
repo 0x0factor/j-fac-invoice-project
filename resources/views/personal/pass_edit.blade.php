@@ -44,9 +44,9 @@
             </div>
             <div class="edit_btn">
                 @csrf
-                <button type="submit" name="submit" class="imgover"><img src="{{ asset('img/bt_change.jpg') }}"
+                <button type="submit" name="submit" class="imgover" style="border:none;padding:0;"><img src="{{ asset('img/bt_change.jpg') }}"
                         alt="変更する"></button>
-                <button type="submit" name="cancel" class="imgover"><img src="{{ asset('img/bt_cancel.jpg') }}"
+                <button type="submit" name="cancel" class="imgover" style="border:none;padding:0;"><img src="{{ asset('img/bt_cancel.jpg') }}"
                         alt="キャンセル"></button>
             </div>
         </form>

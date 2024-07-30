@@ -97,12 +97,12 @@
                     <dl>
                         @if ($quote)
                             @foreach ($quote as $value)
-                                <dt>{{ $customHtml->dtf($value['Quote']['LAST_UPDATE']) }}</dt>
+                                <dt>{{ $value['LAST_UPDATE'] }}</dt>
                                 @if ($user['AUTHORITY'] != 1)
-                                    <dd>作成者 ： {{ $value['Quote']['USR_NAME'] }}</dd>
+                                    <dd>作成者 ： {{ $user['NAME'] }}</dd>
                                 @endif
                                 <dd class="sub">件名 ：
-                                    <a href="{{ url('/quotes/check/' . $value['Quote']['MQT_ID']) }}">{{ $value['Quote']['SUBJECT'] }}</a>
+                                    <a href="{{ url('/quotes/check/' . $value['MQT_ID']) }}">{{ $value['SUBJECT'] }}</a>
 
                                 </dd>
                             @endforeach
@@ -119,13 +119,13 @@
                     <dl>
                         @if ($bill)
                             @foreach ($bill as $value)
-                                <dt>{{ $customHtml->dtf($value['Bill']['LAST_UPDATE']) }}</dt>
+                                <dt>{{ $value['LAST_UPDATE'] }}</dt>
                                 @if ($user['AUTHORITY'] != 1)
-                                    <dd>作成者 ： {{ $value['Bill']['USR_NAME'] }}</dd>
+                                    <dd>作成者 ： {{ $user['NAME'] }}</dd>
                                 @endif
                                 <dd class="sub">件名 ：
-                                    {{ $html->link($value['Bill']['SUBJECT'], '/bills/check/' . $value['Bill']['MBL_ID']) }}
-                                </dd>
+                                    <a href="{{ url('/bills/check/' . $value['MBL_ID']) }}">{{ $value['SUBJECT'] }}</a>
+                                    </dd>
                             @endforeach
                         @else
                             <dt></dt>
@@ -140,12 +140,12 @@
                     <dl>
                         @if ($delivery)
                             @foreach ($delivery as $value)
-                                <dt>{{ $customHtml->dtf($value['Delivery']['LAST_UPDATE']) }}</dt>
+                                <dt>{{ $$value['LAST_UPDATE'] }}</dt>
                                 @if ($user['AUTHORITY'] != 1)
-                                    <dd>作成者 ： {{ $value['Delivery']['USR_NAME'] }}</dd>
+                                    <dd>作成者 ： {{ $user['NAME'] }}</dd>
                                 @endif
                                 <dd class="sub">件名 ：
-                                    {{ $html->link($value['Delivery']['SUBJECT'], '/deliveries/check/' . $value['Delivery']['MDV_ID']) }}
+                                    <a href="{{ url('/deliveries/check/' . $value['MDV_ID']) }}">{{ $value['SUBJECT'] }}</a>
                                 </dd>
                             @endforeach
                         @else
