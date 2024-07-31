@@ -25,7 +25,6 @@ class CoverpageController extends Controller
         if ($request->has('cancel_x')) {
             return redirect('/homes');
         }
-        $usernavi = config('constants.user_navigate');
         $main_title = "送付状作成";
         $title_text = "帳票管理";
         $title = "抹茶請求書";

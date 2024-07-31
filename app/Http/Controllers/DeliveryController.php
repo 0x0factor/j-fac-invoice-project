@@ -521,7 +521,7 @@ class DeliveryController extends Controller
             return redirect('/deliveries/')->with('error', '帳票を閲覧する権限がありません');
         }
 
-        $county = config('prefecture_code');
+        $county = config('constants.PrefectureCode');
         $direction = $param['Company']['DIRECTION'];
         $pages = $this->calculatePages($param, $direction);
 

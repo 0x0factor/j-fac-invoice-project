@@ -39,8 +39,8 @@ class CustomerChargeController extends Controller
         }
 
         $customers = Customer::all();
-        $status = config('constants.statusCode');
-        $countys = config('constants.prefectureCode');
+        $status = config('constants.StatusCode');
+        $countys = config('constants.PrefectureCode');
 
         $condition = [];
         $paginator = CustomerCharge::where($condition)
@@ -67,8 +67,8 @@ class CustomerChargeController extends Controller
         $customer = Customer::find($chargeAry->CST_ID);
         $editauth = $this->Get_Edit_Authority($chargeAry->USR_ID);
 
-        $status = config('constants.statusCode');
-        $countys = config('constants.prefectureCode');
+        $status = config('constants.StatusCode');
+        $countys = config('constants.PrefectureCode');
 
         return view('customer_charge.check', compact('main_title', 'title_text', 'title', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
     }
@@ -101,8 +101,8 @@ class CustomerChargeController extends Controller
         }
 
         $user_id = Auth::id();
-        $countys = config('constants.prefectureCode');
-        $status = config('constants.statusCode');
+        $countys = config('constants.PrefectureCode');
+        $status = config('constants.StatusCode');
 
         return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
     }
@@ -147,8 +147,8 @@ class CustomerChargeController extends Controller
         }
 
         $customer = Customer::find($this->data['CustomerCharge']['CST_ID']);
-        $status = config('constants.statusCode');
-        $countys = config('constants.prefectureCode');
+        $status = config('constants.StatusCode');
+        $countys = config('constants.PrefectureCode');
 
         return view('customer_charge.edit', compact('main_title', 'title_text', 'title', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
     }
