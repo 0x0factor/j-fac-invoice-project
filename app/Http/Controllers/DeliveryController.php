@@ -60,15 +60,7 @@ class DeliveryController extends Controller
             }
         }
 
-         // Example data for $status
-        $status = [
-            '1' => '作成済み',
-            '2' => '下書き',
-            '3' => '破棄',
-            '4' => '未入金',
-            '5' => '入金済み',
-            '6' => '入金対象外',
-        ];
+
 
         $action = config('constants.ActionCode');
         $name = Auth::user()->NAME;
@@ -79,12 +71,10 @@ class DeliveryController extends Controller
         ->paginate(20);
         $list = $paginator->items();
 
-        // $this->data['status'] = $status;
-        $this->data['action'] = $action;
-        $this->data['name'] = $name;
+        // $this->data['action'] = $action;
+        // $this->data['name'] = $name;
         $this->data['paginator'] = $paginator;
         $this->data['list'] = $list;
-
         $this->data['mailstatus'] = config('constants.MailStatusCode');
         $this->data['status'] = config('constants.IssuedStatCode');
 
@@ -100,7 +90,7 @@ class DeliveryController extends Controller
         $this->data['title'] = "抹茶請求書";
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('deliveries.index');
+            return redirect()->route('delivery.index');
         }
 
         $company_ID = 1;
@@ -149,7 +139,7 @@ class DeliveryController extends Controller
                 // Increment serial
                 Serial::serial_increment('Delivery');
 
-                return redirect()->route('deliveries.check', ['id' => $result]);
+                return redirect()->route('delivery.check', ['id' => $result]);
             } else {
                 // Failure
                 $count = count($request->input('data')) - 2 > 1 ? count($request->input('data')) - 2 : 1;
@@ -301,246 +291,427 @@ class DeliveryController extends Controller
 
     public function check(Request $request, $id)
     {
-        $delivery = Delivery::find($id);
+        // Set the main title and title text
+        $main_title = "納品書確認";
+        $title_text = "帳票管理";
+        $title = "抹茶請求書";
 
+        // IDの取得
+        if (!$delivery_ID) {
+            // エラー処理
+            Session::flash('error', '指定の納品書が存在しません');
+            return redirect()->route('delivery.index');
+        }
+
+        // 初期データの取得
+        $delivery = Delivery::edit_select($delivery_ID);
+
+        // 顧客に紐付けられた自社担当者を取得
+        $charge_name = Charge::get_charge($delivery->CHR_ID);
+        $delivery->Charge->NAME = $charge_name;
+
+        $customer_charge = CustomerCharge::where('CHRC_ID', $delivery->CHRC_ID)->first();
+        if ($customer_charge) {
+            $delivery->CustomerCharge = $customer_charge;
+        }
+
+        // データが取得できない場合
         if (!$delivery) {
-            abort(404);
+            Session::flash('error', '指定の納品書が削除されたか、存在しない可能性があります');
+            return redirect()->route('delivery.index');
         }
 
-        if (!$this->checkViewAuthority($delivery->USR_ID)) {
-            return redirect('/deliveries/')->with('error', '帳票を閲覧する権限がありません');
+        if (!$this->getCheckAuthority($delivery->USR_ID)) {
+            Session::flash('error', '帳票を閲覧する権限がありません');
+            return redirect()->route('delivery.index');
         }
 
-        // Load data necessary for the check view
-        $items = $delivery->items; // Assuming there is a relationship defined
-        $customerCharge = CustomerCharge::find($delivery->CHRC_ID);
-        if ($customerCharge) {
-            $delivery->CustomerCharge = $customerCharge;
-        }
+        // バージョン2.3.0追加 、割引の変換
+        $delivery = $this->getCompatibleItems($delivery);
+        $count = $delivery->count;
 
-        $data = [
-            'delivery' => $delivery,
-            'items' => $items,
-            'customerCharge' => $delivery->CustomerCharge,
-        ];
+        $editauth = $this->getEditAuthority($delivery->USR_ID);
 
-        return view('delivery.check', $data);
+        // Pass data to the view
+        return view('delivery.check', [
+            'main_title' => $main_title,
+            'title_text' => $title_text,
+            'title' => $title,
+            'decimals' => config('constants.DecimalCode'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'status' => config('constants.IssuedStatCode'),
+            'editauth' => $editauth,
+            'param' => $delivery,
+            'honor' => config('constants.HonorCode'),
+            'dataline' => $count,
+            'seal_flg' => config('constants.SealFlg'),
+        ]);
     }
     public function edit(Request $request, $id = null)
     {
-        $data = [];
-        $error = config('itemErrorCode');
+        // Set the main title and title text
+        $main_title = "納品書編集";
+        $title_text = "帳票管理";
+        $title = "抹茶請求書";
+
+        // Handle cancel action
+        if ($request->has('cancel_x')) {
+            return redirect()->route('delivery.index');
+        }
+
+        // テスト用データ
+        $company_ID = 1;
+
+        $error = Config::get('constants.ItemErrorCode');
         $count = 1;
 
         if (!$request->isMethod('post')) {
-            // Fetch the delivery data if not a POST request
-            $delivery = Delivery::find($id);
-            if (!$delivery) {
-                return redirect('/deliveries')->with('error', '指定の納品書が存在しません');
+            // 折りたたみ設定
+            $collapse = [
+                'management' => 1,
+                'other' => 1
+            ];
+
+            // IDの取得
+            if ($delivery_ID) {
+                $delivery = Delivery::edit_select($delivery_ID, $count);
+            } else {
+                // エラー処理
+                Session::flash('error', '指定の納品書が存在しません');
+                return redirect()->route('delivery.check');
             }
 
-            $data = $delivery->toArray();
+            // 初期データの取得
+            $data = $this->getCompatibleItems($delivery);
             $count = $data['count'];
-            $customerCharge = CustomerCharge::find($data['Delivery']['CHRC_ID']);
-            if ($customerCharge) {
-                $data['Delivery']['CUSTOMER_CHARGE_NAME'] = $customerCharge->CHARGE_NAME;
-                $data['Delivery']['CUSTOMER_CHARGE_UNIT'] = $customerCharge->UNIT;
+
+            // データが取得できない場合
+            if (!$data) {
+                Session::flash('error', '指定の納品書が削除されたか、存在しない可能性があります');
+                return redirect()->route('delivery.index');
             }
 
+            $customer_charge = CustomerCharge::where('CHRC_ID', $data['Delivery']['CHRC_ID'])->first();
+            if ($customer_charge) {
+                $data['Delivery']['CUSTOMER_CHARGE_NAME'] = $customer_charge->CHARGE_NAME;
+                $data['Delivery']['CUSTOMER_CHARGE_UNIT'] = $customer_charge->UNIT;
+            }
             $data['Delivery']['item'] = 'default';
 
-            if (!$this->checkEditAuthority($data['Delivery']['USR_ID'])) {
-                return redirect('/deliveries/')->with('error', '帳票を編集する権限がありません');
+            if (!$this->getEditAuthority($data['Delivery']['USR_ID'])) {
+                Session::flash('error', '帳票を編集する権限がありません');
+                return redirect()->route('delivery.index');
             }
-        } else {
-            // Handle the POST request
-            $request->validate([
-                'Security.token' => 'required',
-                'Delivery.MDV_ID' => 'required_if:del_x,1',
-                // Add other validation rules as needed
-            ]);
 
-            if ($request->input('del_x')) {
-                Delivery::destroy($request->input('Delivery.MDV_ID'));
-                History::create([
-                    'user_id' => Auth::id(),
-                    'action_type' => 10,
-                    'delivery_id' => $request->input('Delivery.MDV_ID'),
-                ]);
-                return redirect()->route('deliveries.index')->with('success', '削除しました。');
+        } else {
+            // トークンチェック
+            $this->isCorrectToken($request->input('Security.token'));
+
+            if ($request->has('del_x')) {
+                Delivery::where('MDV_ID', $request->input('Delivery.MDV_ID'))->delete();
+                Session::flash('success', '削除しました。');
+                return redirect()->route('delivery.index');
             }
 
             $user = Auth::user();
-            $error = $this->itemValidation($request->input('data'), 'Deliveryitem');
-            $error['DISCOUNT'] = $this->validateDiscount($request->input('data'));
 
-            if ($request->input('Delivery.DISCOUNT_TYPE') != config('DISCOUNT_TYPE_PERCENT')) {
+            // バリデーション
+            $error = $this->itemValidation($request->all(), 'Deliveryitem');
+
+            // 割引のバリデーション
+            $error['DISCOUNT'] = $this->validateDiscount($request->all());
+
+            if ($request->input('Delivery.DISCOUNT_TYPE') != DISCOUNT_TYPE_PERCENT) {
                 $discount = mb_strlen($request->input('Delivery.DISCOUNT'));
-                if ($discount > 2 || $request->input('Delivery.DISCOUNT') == '100' || !preg_match("/^[0-9]+$/", $request->input('Delivery.DISCOUNT'))) {
+                if ($discount > 2) {
                     $error['DISCOUNT'] = 1;
+                }
+                if ($request->input('Delivery.DISCOUNT') == '100') {
+                    $error['DISCOUNT'] = 0;
+                }
+                if (!preg_match("/^[0-9]+$/", $request->input('Delivery.DISCOUNT')) && $request->input('Delivery.DISCOUNT') != NULL) {
+                    $error['DISCOUNT'] = 2;
                 }
             }
 
             if ($request->input('Delivery.HONOR_CODE') != 2) {
-                $request->merge(['Delivery.HONOR_TITLE' => '']);
+                $request->merge(['Delivery.HONOR_TITLE' => ""]);
             }
 
-            $delivery = Delivery::updateOrCreate(
-                ['MDV_ID' => $request->input('Delivery.MDV_ID')],
-                $request->input('data')
-            );
-
-            if ($delivery) {
-                History::create([
-                    'user_id' => $user->id,
-                    'action_type' => 9,
-                    'delivery_id' => $delivery->MDV_ID,
-                ]);
-                return redirect()->route('deliveries.check', ['id' => $delivery->MDV_ID])->with('success', '納品書を保存しました');
+            if ($MDV_ID = $this->setData($request->all(), 'update', $error)) {
+                // アクションログ
+                $this->reportAction($user->id, 9, $request->input('Delivery.MDV_ID'));
+                // 成功
+                Session::flash('success', '納品書を保存しました');
+                return redirect()->route('delivery.check', ['delivery_ID' => $MDV_ID]);
             } else {
-                return back()->withInput()->withErrors($error);
+                // 失敗
+                $count = count($request->all()) - 2 > 1 ? count($request->all()) - 2 : 1;
+
+                // その他情報に何も入力されていなければ非表示
+                if (empty($data['Delivery']['DELIVERY'])) {
+                    $collapse['other'] = 1;
+                } else {
+                    $collapse['other'] = 0;
+                }
+
+                // 管理情報に何も入力されていなければ非表示
+                if (empty($data['Delivery']['MEMO'])) {
+                    $collapse['management'] = 1;
+                } else {
+                    $collapse['management'] = 0;
+                }
             }
         }
 
-        $items = Item::where('USR_ID', Auth::id())->pluck('ITEM', 'ITM_ID')->toArray();
-        $hidden = Delivery::getPayment(Auth::id());
-        $hidden['default'] = Delivery::getDefaultPayment();
+        // 企業情報の取得
+        if ($this->getUserAuthority() == 1) {
+            $cst_condition = [
+                'CMP_ID' => $company_ID,
+                'USR_ID' => $this->getUserID()
+            ];
+            $items = Item::where('USR_ID', $this->getUserID())->get();
+        } else {
+            $cst_condition = [
+                'CMP_ID' => $company_ID
+            ];
+            $items = Item::all();
+        }
 
-        $this->data['Delivery']['DECIMAL_QUANTITY'] = Delivery::getDecimalQuantity(Auth::id());
-        $this->data['Delivery']['DECIMAL_UNITPRICE'] = Delivery::getDecimalUnitPrice(Auth::id());
+        $hidden = $this->getPayment($company_ID);
+        if ($default_cmp = $this->getCompanyPayment($company_ID)) {
+            $hidden['default']['EXCISE'] = $default_cmp->EXCISE;
+            $hidden['default']['FRACTION'] = $default_cmp->FRACTION;
+            $hidden['default']['TAX_FRACTION'] = $default_cmp->TAX_FRACTION;
+            $hidden['default']['TAX_FRACTION_TIMING'] = $default_cmp->TAX_FRACTION_TIMING;
+        } else {
+            $hidden['default']['EXCISE'] = 1;
+            $hidden['default']['FRACTION'] = 1;
+            $hidden['default']['TAX_FRACTION'] = 1;
+            $hidden['default']['TAX_FRACTION_TIMING'] = 0;
+        }
 
-        $this->data['itemlist'] = $items;
-        $this->data['hidden'] = $hidden;
-        $this->data['error'] = $error;
-        $this->data['dataline'] = $count;
+        if (!$request->has(['Delivery.DECIMAL_QUANTITY', 'Delivery.DECIMAL_UNITPRICE'])) {
+            if ($default_dec = $this->getDecimal($company_ID)) {
+                $request->merge([
+                    'Delivery.DECIMAL_QUANTITY' => $default_dec[0]['Company']['DECIMAL_QUANTITY'],
+                    'Delivery.DECIMAL_UNITPRICE' => $default_dec[0]['Company']['DECIMAL_UNITPRICE']
+                ]);
+            } else {
+                $request->merge([
+                    'Delivery.DECIMAL_QUANTITY' => 0,
+                    'Delivery.DECIMAL_UNITPRICE' => 0
+                ]);
+            }
+        }
 
-        return view('delivery.edit', $this->data);
+        $items_array = ['item' => '＋アイテム追加＋', 'default' => '＋アイテム選択＋'];
+        $itemlist = [];
+
+        if ($items) {
+            foreach ($items as $item) {
+                $items_array[$item->ITM_ID] = $item->ITEM;
+                $itemlist[$item->ITM_ID] = [
+                    'ITEM' => $item->ITEM,
+                    'UNIT' => $item->UNIT,
+                    'UNIT_PRICE' => $item->UNIT_PRICE
+                ];
+            }
+        }
+
+        if (isset($data['Customer']['NAME'])) {
+            $data['Delivery']['CUSTOMER_NAME'] = $data['Customer']['NAME'];
+            $data['Delivery']['CHARGE_NAME'] = Charge::get_charge($data['Delivery']['CHR_ID']);
+        }
+
+        // Pass data to the view
+        return view('deliveries.edit', [
+            'main_title' => $main_title,
+            'title_text' => $title_text,
+            'title' => $title,
+            'status' => config('constants.IssuedStatCode'),
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'discount' => config('constants.DiscountCode'),
+            'decimal' => config('constants.DecimalCode'),
+            'itemlist' => json_encode($itemlist),
+            'error' => $error,
+            'dataline' => $count,
+            'item' => $items_array,
+            'hidden' => $hidden,
+            'honor' => config('constants.HonorCode'),
+            'collapse_other' => $collapse['other'],
+            'collapse_management' => $collapse['management'],
+            'lineAttribute' => config('constants.LineAttribute'),
+            'taxClass' => config('constants.TaxClass'),
+            'taxRates' => config('constants.TaxRates'),
+            'taxOperationDate' => config('constants.TaxOperationDate'),
+            'seal_flg' => config('constants.SealFlg'),
+        ]);
     }
 
     public function action(Request $request)
     {
-        $customer_id = $request->input('Customer.id');
+        $customer_id = $request->input('Customer.id', null);
+        $form_check = $request->has('Action.type');
 
-        if ($request->input('delete_x')) {
-            if (!$request->input('data.Delivery')) {
-                return redirect()->route('deliveries.index', ['customer' => $customer_id])->with('error', '納品書が選択されていません');
+        // Token validation (assuming this is handled in middleware or custom logic)
+        // $this->validateToken($request->input('Security.token'));
+
+        $user_id = Auth::id();
+
+        if ($request->has('delete_x')) {
+            $selectedDeliveries = $request->input('data.Delivery', []);
+            if (empty($selectedDeliveries)) {
+                return redirect()->route('delivery.index', ['customer' => $customer_id])
+                    ->with('error', '納品書が選択されていません');
             }
 
-            foreach ($request->input('data.Delivery') as $key => $val) {
+            foreach ($selectedDeliveries as $key => $val) {
                 if ($val == 1) {
-                    $delivery = Delivery::find($key);
-                    if ($delivery && !$this->checkEditAuthority($delivery->USR_ID)) {
-                        return redirect()->route('deliveries.index', ['customer' => $customer_id])->with('error', '削除できない請求書が含まれていました');
+                    $delivery = Delivery::where('MDV_ID', $key)->first();
+                    if ($delivery && !$this->hasEditAuthority($delivery->USR_ID)) {
+                        return redirect()->route('delivery.index', ['customer' => $customer_id])
+                            ->with('error', '削除できない請求書が含まれていました');
                     }
                 }
             }
 
-            Delivery::destroy(array_keys($request->input('data.Delivery')));
-
-            foreach ($request->input('data.Delivery') as $key => $value) {
-                if ($value == 1) {
-                    History::create([
-                        'user_id' => Auth::id(),
-                        'action_type' => 10,
-                        'delivery_id' => $key,
-                    ]);
+            if ($this->deleteDeliveries($selectedDeliveries)) {
+                // Log the action
+                foreach ($selectedDeliveries as $key => $value) {
+                    if ($value == 1) {
+                        History::create([
+                            'USR_ID' => $user_id,
+                            'action_type' => 10, // Assuming 10 represents the delete action
+                            'reference_id' => $key,
+                        ]);
+                    }
                 }
+                return redirect()->route('delivery.index', ['customer' => $customer_id])
+                    ->with('success', '納品書を削除しました');
             }
 
-            return redirect()->route('deliveries.index', ['customer' => $customer_id])->with('success', '納品書を削除しました');
+            return redirect()->route('delivery.index', ['customer' => $customer_id]);
         }
 
-        if ($request->input('reproduce_quote_x')) {
-            $result = Delivery::reproduceCheck($request->input('data'));
-            if ($result && Quote::insertReproduce($result, Auth::id())) {
-                return redirect()->route('quote.index', ['customer' => $customer_id])->with('success', '見積書に転記しました');
+        if ($request->has('reproduce_quote_x')) {
+            $result = $this->reproduceCheck($request->input('data'));
+            if ($result && $this->insertReproduceIntoQuote($result, $user_id)) {
+                return redirect()->route('quotes.index', ['customer' => $customer_id])
+                    ->with('success', '見積書に転記しました');
             }
-            return redirect()->route('deliveries.index', ['customer' => $customer_id]);
+            return redirect()->route('delivery.index', ['customer' => $customer_id]);
         }
 
-        if ($request->input('reproduce_bill_x')) {
-            $result = Delivery::reproduceCheck($request->input('data'));
-            if ($result && Bill::insertReproduce($result, Auth::id())) {
-                return redirect()->route('bills.index', ['customer' => $customer_id])->with('success', '請求書に転記しました');
+        if ($request->has('reproduce_bill_x')) {
+            $result = $this->reproduceCheck($request->input('data'));
+            if ($result && $this->insertReproduceIntoBill($result, $user_id)) {
+                return redirect()->route('bills.index', ['customer' => $customer_id])
+                    ->with('success', '請求書に転記しました');
             }
-            return redirect()->route('deliveries.index', ['customer' => $customer_id]);
+            return redirect()->route('delivery.index', ['customer' => $customer_id]);
         }
 
-        if ($request->input('reproduce_delivery_x')) {
-            $result = Delivery::reproduceCheck($request->input('data'), Serial::getSerialConf(), 'Delivery');
-            if ($result && $inv_id = Delivery::insertReproduce($result, Auth::id())) {
-                if ($request->input('form_check')) {
-                    return redirect()->route('deliveries.edit', ['id' => $inv_id])->with('success', '納品書に転記しました');
-                }
-                return redirect()->route('deliveries.index', ['customer' => $customer_id])->with('success', '納品書に転記しました');
+        if ($request->has('reproduce_delivery_x')) {
+            $result = $this->reproduceCheck($request->input('data'));
+            if ($result && $inv_id = $this->insertReproduceIntoDelivery($result, $user_id)) {
+                $redirectUrl = $form_check ? route('delivery.edit', ['id' => $inv_id]) : route('delivery.index', ['customer' => $customer_id]);
+                return redirect($redirectUrl)
+                    ->with('success', '納品書に転記しました');
             }
-            return redirect()->route('deliveries.index', ['customer' => $customer_id]);
+            return redirect()->route('delivery.index', ['customer' => $customer_id]);
         }
 
-        if ($request->input('status_change_x')) {
-            return $this->statusChange($request->input('data.Delivery'), ['controller' => 'deliveries', 'action' => 'index', 'customer' => $customer_id]);
+        if ($request->has('status_change_x')) {
+            return $this->statusChange($request->input('data.Delivery'), route('delivery.index', ['customer' => $customer_id]));
         }
     }
 
     public function export(Request $request)
     {
-        if ($request->input('download_x')) {
-            if ($request->input('data.Delivery')) {
-                $error = "";
-                $data = Delivery::export($request->input('data.Delivery'), $error, 'term', Auth::user()->auth_level, Auth::id());
+        if ($request->has('download_x') && $request->has('data.Delivery')) {
+            $selectedDeliveries = $request->input('data.Delivery');
+            $error = "";
 
-                if ($data) {
-                    $fileName = "納品書";
-                    if (preg_match("/MSIE/", $request->header('User-Agent')) || preg_match('/Trident\/[0-9]\.[0-9]/', $request->header('User-Agent'))) {
-                        return Excel::download(new DeliveryExport($data), $fileName . '.xls');
-                    } else {
-                        return Excel::download(new DeliveryExport($data), $fileName . '.xlsx');
-                    }
+            $data = $this->exportDeliveries($selectedDeliveries, $error);
+
+            if ($data) {
+                $filename = '納品書.xlsx';
+                $export = new DeliveriesExport($data);
+
+                // Browser check for compatibility
+                $browser = $request->server('HTTP_USER_AGENT');
+                if (preg_match("/MSIE/", $browser) || preg_match('/Trident\/[0-9]\.[0-9]/', $browser)) {
+                    // MSIE or Trident (Edge) specific handling if needed
+                    return Excel::download($export, $filename, \Maatwebsite\Excel\Excel::XLSX);
                 } else {
-                    return redirect('/deliveries/export')->with('error', $error);
+                    return Excel::download($export, $filename, \Maatwebsite\Excel\Excel::XLSX);
                 }
+            } else {
+                return redirect()->route('delivery.export')->with('error', $error);
             }
         }
 
+        $main_title = "納品書Excel出力";
+        $title_text = "帳票管理";
+        $title = "抹茶請求書";
 
-        return view('delivery.export', ['main_title' => '納品書Excel出力', 'title_text' => '帳票管理', 'title' => "抹茶請求書" ]);
+        return view('deliveries.export', compact('main_title', 'title_text', 'title'));
     }
 
     public function pdf(Request $request, $id)
     {
-        $delivery = Delivery::find($id);
-        if (!$delivery) {
+        if (!$delivery_ID) {
             abort(404);
         }
 
         $items = 0;
         $discounts = 0;
-        $param = Delivery::previewData($id, $items, $discounts);
 
-        if (!$this->checkViewAuthority($param['Delivery']['USR_ID'])) {
-            return redirect('/deliveries/')->with('error', '帳票を閲覧する権限がありません');
+        // Fetch delivery data
+        $param = $this->getPreviewData($delivery_ID, $items, $discounts);
+
+        if (!$param) {
+            abort(404);
         }
 
-        $county = config('constants.PrefectureCode');
+        if (!$this->hasAuthority($param['Delivery']['USR_ID'])) {
+            return redirect('/deliveries/')->with('error', 'You do not have permission to view this document.');
+        }
+
+        // Load company and customer charge information
+        $param['CustomerCharge'] = CustomerCharge::find($param['Delivery']['CHRC_ID']);
+
+        // Determine PDF orientation
         $direction = $param['Company']['DIRECTION'];
         $pages = $this->calculatePages($param, $direction);
 
-        $pdf = PDF::loadView('pdf.delivery', [
+        // Load the PDF view
+        $pdf = Pdf::loadView('pdf.delivery', [
             'param' => $param,
-            'county' => $county,
             'direction' => $direction,
+            'items' => $items,
             'pages' => $pages,
-            'items' => $items
+            'county' => config('constants.PrefectureCode'), // Update with your actual config
         ]);
 
+        // Handle download or view
         $fileName = "納品書_{$param['Delivery']['SUBJECT']}.pdf";
 
-        if ($request->input('pass.1') === 'download_with_coverpage') {
-            $pdf->setOption('coverpage', true);
+        if ($request->has('download_with_coverpage')) {
+            $pdf->loadView('pdf.coverpage', ['param' => $param, 'county' => config('constants.PrefectureCode')]);
             $fileName = "送付状_{$param['Delivery']['SUBJECT']}.pdf";
         }
 
-        return $pdf->download($fileName);
+        if ($request->has('download')) {
+            return $pdf->download($fileName);
+        }
+
+        return $pdf->stream($fileName);
     }
 
     private function getUserAuthority()
@@ -557,6 +728,26 @@ class DeliveryController extends Controller
             return auth()->user()->id;
         }
         return null;
+    }
+    private function getCheckAuthority($user_id)
+    {
+        // Implement the method to check user authority
+        // For example:
+        return Auth::user()->id == $user_id || Auth::user()->AUTHORITY == 1;
+    }
+
+    private function getEditAuthority($user_id)
+    {
+        // Implement the method to get edit authority
+        // For example:
+        return Auth::user()->id == $user_id || Auth::user()->AUTHORITY == 1;
+    }
+
+    private function getCompatibleItems($delivery)
+    {
+        // Implement your discount conversion logic here
+        // For now, we'll just return the delivery object as is
+        return $delivery;
     }
 
 }

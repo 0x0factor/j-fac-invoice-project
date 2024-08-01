@@ -19,6 +19,7 @@
                 console.error("Name or action is not set.");
             @endif
         });
+
     </script>
 @endsection
 
@@ -45,7 +46,7 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300"></td>
+                            <td><input type="text" name="NO" class="w300" id=""></td>
                             <th>件名</th>
                             <td><input type="text" name="SUBJECT" class="w300"></td>
                         </tr>
@@ -134,7 +135,7 @@
                             <tr>
                                 <td style="border:none;">
                                     <a href="#"
-                                        >
+                                    onclick="document.querySelector('#{{ $name . ucfirst($action) }}Form').submit(); return false;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="" class="imgover">
                                     </a>
                                 </td>
@@ -172,26 +173,26 @@
                     <!-- Previous Page Link -->
                     @if ($paginator->onFirstPage())
                         <span class="disabled">
-                            << {{ __('前へ') }}</span> |
+                            << {{ __('前へ') }}</span>
                             @else
                                 <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a> |
+                                    << {{ __('前へ') }}</a>
                     @endif
 
                     <!-- Pagination Elements -->
                     @foreach ($paginator->links()->elements as $element)
                         <!-- "Three Dots" Separator -->
                         @if (is_string($element))
-                            <span class="disabled">{{ $element }}</span> |
+                            <span class="disabled">{{ $element }}</span>
                         @endif
 
                         <!-- Array Of Links -->
                         @if (is_array($element))
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
-                                    <span class="active">{{ $page }}</span> |
+                                    <span class="active">{{ $page }}</span>
                                 @else
-                                    <a href="{{ $url }}">{{ $page }}</a> |
+                                    <a href="{{ $url }}">{{ $page }}</a>
                                 @endif
                             @endforeach
                         @endif
@@ -248,7 +249,7 @@
                                 <tbody>
                                     @foreach ($list as $key => $val)
                                         <tr>
-                                            <td><input type="checkbox" name="{{ $val['MDV_ID'] }}"
+                                            <td><input type="checkbox" name="{{ $val['Delivery']['MDV_ID'] }}"
                                                     class="chk"></td>
                                             {{-- Assuming $authcheck is defined --}}
                                             @if (isset($authcheck[$key]))
@@ -256,27 +257,27 @@
                                                     {{ $authcheck[$key] }}
                                                 </div>
                                             @endif
-                                            <td>{{ ht2br($val['MDV_ID'], 'Delivery', 'MDV_ID') }}
+                                            <td>{{ $customHtml->ht2br($val['Delivery']['MDV_ID'], 'Delivery', 'MDV_ID') }}
                                             </td>
-                                            <td>{{ ht2br($val['Customer']['NAME'], 'Customer', 'NAME') }}</td>
+                                            <td>{{ $customHtml->ht2br($val['Customer']['NAME'], 'Customer', 'NAME') }}</td>
                                             <td>
-                                                <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
-                                                    {{ $val['SUBJECT'] }}
+                                                <a href="{{ route('delivery.check', $val['Delivery']['MDV_ID']) }}">
+                                                    {{ $val['Delivery']['SUBJECT'] }}
                                                 </a>
                                             </td>
                                             <td>
-                                                {{ isset($val['TOTAL']) ? ht2br($val['TOTAL'], 'Delivery', 'TOTAL') . '円' : '&nbsp;' }}
+                                                {{ isset($val['Delivery']['TOTAL']) ? $customHtml->ht2br($val['Delivery']['TOTAL'], 'Delivery', 'TOTAL') . '円' : '&nbsp;' }}
                                             </td>
-                                            <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '&nbsp;' }}
+                                            <td>{{ $val['Delivery']['ISSUE_DATE'] ? $val['Delivery']['ISSUE_DATE'] : '&nbsp;' }}
                                             </td>
                                             @if ($user['AUTHORITY'] != 1)
                                                 <td>
-                                                    {{ ht2br($val['User']['NAME'], 'Delivery', 'NAME') }} /
+                                                    {{ $customHtml->ht2br($val['User']['NAME'], 'Delivery', 'NAME') }} /
                                                     {{ $val['UpdateUser']['NAME'] ?? '&nbsp;' }}
                                                 </td>
                                             @endif
-                                            <td>{{ $status[$val['STATUS']] }}</td>
-                                            <td>{{ $val['MEMO'] ? ht2br($val['MEMO'], 'Delivery', 'MEMO') : '&nbsp;' }}
+                                            <td>{{ $status[$val['Delivery']['STATUS']] }}</td>
+                                            <td>{{ $val['Delivery']['MEMO'] ? $customHtml->ht2br($val['Delivery']['MEMO'], 'Delivery', 'MEMO') : '&nbsp;' }}
                                             </td>
                                         </tr>
                                     @endforeach

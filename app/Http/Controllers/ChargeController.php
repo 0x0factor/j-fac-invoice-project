@@ -24,7 +24,7 @@ class ChargeController extends Controller
         $condition = [];
         $paginator = Charge::where($condition)
             ->orderBy('INSERT_DATE')
-            ->paginate(15);
+            ->paginate(20);
 
         $list = Charge::All();
         return view('charge.index', compact('status', 'seal', 'paginator', 'list'))

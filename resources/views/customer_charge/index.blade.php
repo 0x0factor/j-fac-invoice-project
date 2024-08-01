@@ -117,32 +117,32 @@
 
             <div class="contents_box mb40">
                 <div id='pagination'>
-                    {{ $paginator->total() }}件中 0 - 0 件を表示
+                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
                 </div>
                 <div id='pagination'>
                     <!-- Previous Page Link -->
                     @if ($paginator->onFirstPage())
                         <span class="disabled">
-                            << {{ __('前へ') }}</span>
+                            << {{ __('前へ') }}</span> |
                             @else
                                 <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a>
+                                    << {{ __('前へ') }}</a> |
                     @endif
 
                     <!-- Pagination Elements -->
                     @foreach ($paginator->links()->elements as $element)
                         <!-- "Three Dots" Separator -->
                         @if (is_string($element))
-                            <span class="disabled">{{ $element }}</span>
+                            <span class="disabled">{{ $element }}</span> |
                         @endif
 
                         <!-- Array Of Links -->
                         @if (is_array($element))
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
-                                    <span class="active">{{ $page }}</span>
+                                    <span class="active">{{ $page }}</span> |
                                 @else
-                                    <a href="{{ $url }}">{{ $page }}</a>
+                                    <a href="{{ $url }}">{{ $page }}</a> |
                                 @endif
                             @endforeach
                         @endif
@@ -211,7 +211,7 @@
                                                         : null;
                                                 @endphp
                                                 {!! $chargeNameLink ? '<a href="' . $chargeNameLink . '">' : '' !!}
-                                                {{ $customHtml->ht2br($val['CustomerCharge']['CHARGE_NAME'], 'CustomerCharge', 'CHARGE_NAME') }}
+                                                {{ ht2br($val['CustomerCharge']['CHARGE_NAME'], 'CustomerCharge', 'CHARGE_NAME') }}
                                                 {!! $chargeNameLink ? '</a>' : '' !!}
                                             </td>
                                             <td>{{ $val['CustomerCharge']['CST_ID'] != 0 ? $customer[$val['CustomerCharge']['CST_ID']] : '&nbsp;' }}

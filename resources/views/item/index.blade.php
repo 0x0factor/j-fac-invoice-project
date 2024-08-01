@@ -98,7 +98,7 @@
 
             <div class="contents_box mb40">
                 <div id='pagination'>
-                    {{ $paginator->total() }}件中 0 - 0 件を表示
+                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
 
                 </div>
                 <div id='pagination'>

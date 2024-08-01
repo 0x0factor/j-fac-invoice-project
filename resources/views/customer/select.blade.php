@@ -34,14 +34,14 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w350" value=""></td>
+                            <td><input type="text" name="NAME" class="w350" value="{{$search_name}}"></td>
                         </tr>
                     </table>
 
                     <div class="search_btn">
-                        <a href="#" onclick="$('#CustomerSelectForm').submit();" class="btn btn-primary">
+                        <button onclick="$('#CustomerSelectForm').submit();" class="btn btn-primary" style="border: none;">
                             <img src="{{ asset('img/bt_search.jpg') }}">
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <img src="{{ asset('/img/document/bg_search_bottom.jpg') }}" class='block'>
@@ -52,7 +52,7 @@
             <div class="edit_02_customer"><span class="edit_txt">&nbsp;</span></div>
         </h3>
         <div class="contents_box mb40">
-            <div id="pagination"> {{ $paginator->total() }} 件中 0 - 0 件を表示</div>
+            <div id="pagination"> {{ $paginator->total() }}  件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中</div>
             <div id='pagination'>
                 <!-- Previous Page Link -->
                 @if ($paginator->onFirstPage())

@@ -27,7 +27,7 @@ class HistoryController extends Controller
         $histories = History::where($condition)
             ->orderBy('ACTION_DATE')
             ->orderBy('ACTION')
-            ->paginate(15); // Adjust pagination limit as needed
+            ->paginate(20); // Adjust pagination limit as needed
         $paginator = $histories;
 
         // dd($paginator);

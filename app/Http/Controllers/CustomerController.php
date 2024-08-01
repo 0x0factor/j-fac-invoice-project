@@ -46,12 +46,12 @@ class CustomerController extends Controller
         $condition = [];
         $paginator = Customer::where($condition)
         ->orderBy('INSERT_DATE')
-        ->paginate(15);
+        ->paginate(20);
         $list = $paginator->items();
         $charge = $this->customer->select_charge($company_ID, $condition);
         $countys = config('constants.PrefectureCode');
-
-        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list', 'countys'));
+        $search_name = "";
+        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list', 'countys', 'search_name'));
     }
 
     public function select(Request $request)
@@ -65,15 +65,16 @@ class CustomerController extends Controller
         // Handle search and pagination logic
 
         $company_ID = 1;
-        $condition = [];
-        $paginator = Customer::where($condition)
+        $condition = $request->NAME == null  ? "" : 'NAME like %' . $request->NAME . '%';
+        $paginator = Customer::where('NAME', 'like', '%'.$request->NAME.'%')
         ->orderBy('INSERT_DATE')
-        ->paginate(15);
-        $list = $paginator->items();
-        $charge = $this->customer->select_charge($company_ID, $condition);
-        $countys = config('constants.PrefectureCode');
+        ->paginate(20);
 
-        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge', 'paginator', 'list', 'countys'));
+        $list = $paginator->items();
+        $charge = $this->customer->select_charge($company_ID, []);
+        $countys = config('constants.PrefectureCode');
+        $search_name = $request->NAME;
+        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge', 'paginator', 'list', 'countys', 'search_name'));
     }
 
     public function check($customer_ID)

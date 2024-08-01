@@ -109,33 +109,33 @@
 
             <div class="contents_box mb40">
                 <div id='pagination'>
-                    {{ $paginator->total() }}
+                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
                 </div>
 
                 <div id='pagination'>
                     <!-- Previous Page Link -->
                     @if ($paginator->onFirstPage())
                         <span class="disabled">
-                            << {{ __('前へ') }}</span>
+                            << {{ __('前へ') }}</span> |
                             @else
                                 <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a>
+                                    << {{ __('前へ') }}</a> |
                     @endif
 
                     <!-- Pagination Elements -->
                     @foreach ($paginator->links()->elements as $element)
                         <!-- "Three Dots" Separator -->
                         @if (is_string($element))
-                            <span class="disabled">{{ $element }}</span>
+                            <span class="disabled">{{ $element }}</span> |
                         @endif
 
                         <!-- Array Of Links -->
                         @if (is_array($element))
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
-                                    <span class="active">{{ $page }}</span>
+                                    <span class="active">{{ $page }}</span> |
                                 @else
-                                    <a href="{{ $url }}">{{ $page }}</a>
+                                    <a href="{{ $url }}">{{ $page }}</a> |
                                 @endif
                             @endforeach
                         @endif
@@ -191,7 +191,7 @@
                                                     {{ nl2br($val['Charge']['CHARGE_NAME']) }}
                                                 @endif
                                             </td>
-                                            <td>{{ $customHtml->ht2br($val['Charge']['UNIT']) ?: '&nbsp;' }}</td>
+                                            <td>{{ ht2br($val['Charge']['UNIT']) ?: '&nbsp;' }}</td>
                                             <td>
                                                 @if (!empty($val['Charge']['PHONE_NO1']) || !empty($val['Charge']['PHONE_NO2']) || !empty($val['Charge']['PHONE_NO3']))
                                                     {{ $val['Charge']['PHONE_NO1'] . '-' . $val['Charge']['PHONE_NO2'] . '-' . $val['Charge']['PHONE_NO3'] }}

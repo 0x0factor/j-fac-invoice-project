@@ -27,7 +27,7 @@ class AdministerController extends Controller
         $companyID = 1;
 
         // Retrieve all users except those with AUTHORITY 0
-        $administers = Administer::where('AUTHORITY', '!=', 0)->paginate(15);
+        $administers = Administer::where('AUTHORITY', '!=', 0)->paginate(20);
         $list = $administers->items();
         $status = config('constants.StatusCode');
         return view('administer.index', compact('main_title', 'title_text', 'title', 'administers', 'list', 'status'));

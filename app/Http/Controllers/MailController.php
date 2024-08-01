@@ -30,7 +30,7 @@ class MailController extends Controller
         $condition = [];
         $paginator = Mail::where($condition)
         ->orderBy('INSERT_DATE')
-        ->paginate(15);
+        ->paginate(20);
 
         $mailstatus = $paginator->items();
         $list = $paginator->items();

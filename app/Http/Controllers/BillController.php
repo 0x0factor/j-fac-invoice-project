@@ -70,7 +70,6 @@ class BillController extends Controller
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'list' => $list,
-            'status' => $status,
             'mailstatus' => config('constants.MailStatusCode'),
             'status' => config('constants.IssuedStatCode')
         ]);

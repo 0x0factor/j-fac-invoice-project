@@ -83,33 +83,33 @@
 
     <div class="contents_box mb40">
         <div id='pagination'>
-            {{ $administers->total() }}
+            {{ $administers->total() }} 件中 {{ ($administers->count() * ($administers-> currentPage() - 1) + 1) }} - {{ ($administers->count() * $administers-> currentPage()) }} 件表示中
         </div>
 
         <div id='pagination'>
             <!-- Previous Page Link -->
             @if ($administers->onFirstPage())
                 <span class="disabled">
-                    << {{ __('前へ') }}</span>
+                    << {{ __('前へ') }}</span> |
                     @else
                         <a href="{{ $administers->previousPageUrl() }}" rel="prev">
-                            << {{ __('前へ') }}</a>
+                            << {{ __('前へ') }}</a> |
             @endif
 
             <!-- Pagination Elements -->
             @foreach ($administers->links()->elements as $element)
                 <!-- "Three Dots" Separator -->
                 @if (is_string($element))
-                    <span class="disabled">{{ $element }}</span>
+                    <span class="disabled">{{ $element }}</span> |
                 @endif
 
                 <!-- Array Of Links -->
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $administers->currentPage())
-                            <span class="active">{{ $page }}</span>
+                            <span class="active">{{ $page }}</span> |
                         @else
-                            <a href="{{ $url }}">{{ $page }}</a>
+                            <a href="{{ $url }}">{{ $page }}</a> |
                         @endif
                     @endforeach
                 @endif

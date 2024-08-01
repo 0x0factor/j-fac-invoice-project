@@ -17,6 +17,10 @@
 @endsection
 @section('content')
 
+    @php
+        $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
+    @endphp
+
     <div id="contents">
         <div class="arrow_under">
             <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow Under">
@@ -114,12 +118,14 @@
                         <table style="margin:0 auto">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#" onclick="$('#QuoteIndexForm').submit();"><img
-                                            src="{{ asset('img/bt_search.jpg') }}" alt="検索する"></a>
+                                    <button onclick="$('#QuoteIndexForm').submit();" style="border:none;">
+                                        <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();"><img
-                                            src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット"></a>
+                                    <button onclick="reset_forms();" style="border:none;">
+                                        <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
+                                    </button>
                                 </td>
                             </tr>
                         </table>
@@ -141,15 +147,15 @@
 
         <div class="contents_box mb40">
             <div id='pagination'>
-                {{ $paginator->total() }}件中 0 - 0 件を表示
+                {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
             </div>
             <div id='pagination'>
                 @if ($paginator->onFirstPage())
                     <span class="disabled">
-                        << {{ __('前へ') }}</span>
+                        << {{ __('前へ') }}</span> |
                         @else
                             <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                << {{ __('前へ') }}</a>
+                                << {{ __('前へ') }}</a> |
                 @endif
 
 
@@ -157,16 +163,16 @@
                 @foreach ($paginator->links()->elements as $element)
                     <!-- "Three Dots" Separator -->
                     @if (is_string($element))
-                        <span class="disabled">{{ $element }}</span>
+                        <span class="disabled">{{ $element }}</span> |
                     @endif
 
                     <!-- Array Of Links -->
                     @if (is_array($element))
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
-                                <span class="active">{{ $page }}</span>
+                                <span class="active">{{ $page }}</span> |
                             @else
-                                <a href="{{ $url }}">{{ $page }}</a>
+                                <a href="{{ $url }}">{{ $page }}</a> |
                             @endif
                         @endforeach
                     @endif
@@ -207,7 +213,7 @@
                                     <th class="w100">
                                         <a href="{{ route('quote.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
                                     </th>
-                                    @if (auth()->check() && auth()->user()->AUTHORITY != 1)
+                                    @if ($user->AUTHORITY != 1)
                                         <th class="w150">
                                             <a href="{{ route('quote.index', ['sort' => 'USR_ID']) }}">作成者</a>/
                                             <a href="{{ route('quote.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
@@ -260,6 +266,12 @@
                                 alt="複製" class="mr5">
                             <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery"
                                 alt="複製" class="mr5">
+
+
+                                @include('elements.status_change')
+                                @if (isset($customer_id))
+                                    <input type="hidden" name="Customer.id" value="{{ $customer_id }}">
+                                @endif
                         </div>
                     </form>
                 @endif
