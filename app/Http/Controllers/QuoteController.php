@@ -47,12 +47,45 @@ class QuoteController extends AppController
         } else {
             $customer_id = null;
         }
-        $condition = [];
 
-        $paginator = Quote::where($condition)
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+
+        $query = Quote::query();
+        // Apply filters based on request input
+        if ($request->NO) {
+            $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
+        }
+
+        if ($request->SUBJECT) {
+            $query->where('SUBJECT', 'like', '%' . $request->SUBJECT . '%');
+        }
+
+        // if ($request->NAME) {
+        //     $query->where('NAME', 'like', '%' . $request->NAME . '%');
+        // }
+
+        if ($request->CHR_USR_NAME) {
+            $query->where('CHR_ID', 'like', '%' . $request->CHR_USR_NAME . '%');
+        }
+
+        if ($request->USR_NAME) {
+            $query->where('USR_ID', 'like', '%' . $request->USR_NAME . '%');
+        }
+
+        if ($request->UPD_USR_NAME) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->UPD_USR_NAME . '%');
+        }
+
+        if ($request->STATUS) {
+            $query->whereIn('STATUS', $request->STATUS);
+        }
+
+
+        $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $quotes = $paginator->items();
+
+        $searchData = $request ? $request: "";
+        $searchStatus = $request->STATUS;
+
 
         return view('quote.index', [
             'main_title' => '見積書管理',
@@ -63,6 +96,8 @@ class QuoteController extends AppController
             'customer_id' => $customer_id,
             'paginator' => $paginator,
             'quotes' => $quotes,
+            'searchData' => $searchData,
+            'searchStatus' => $searchStatus,
 
         ]);
     }
@@ -204,7 +239,6 @@ class QuoteController extends AppController
 
             // Honor settings
 
-            $quote = new Quote(); // Instantiate the Quote model
 
             $default_honor = $quote->getHonor($company_ID); // Call the method on the instance
 
@@ -262,7 +296,6 @@ class QuoteController extends AppController
 
         // Call the instance method get_customer
         $company = $quote->get_customer($company_ID, $cst_condition);
-        $quote = new Quote();
         $hidden = $quote->getPayment($company_ID);
         if ($default_cmp) {
             $hidden['default'] = [
@@ -299,6 +332,16 @@ class QuoteController extends AppController
         $honor = is_null(config('constants.HonorCode')) ? [] : config('constants.HonorCode') ;
         $seal_flg = is_null(config('constants.SealFlg')) ? [] : config('constants.SealFlg') ;
         $taxClass = is_null(config('constants.TaxClass')) ? [] : config('constants.TaxClass') ;
+        $condition = [];
+        $paginator = Quote::where($condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(20);
+        $customer_condition = [];
+        $customer = Customer::where($customer_condition)
+        ->orderBy('INSERT_DATE')
+        ->paginate(10);;
+
+
         return view('quote.add', [
             'main_title' => $main_title,
             'title_text' => $title_text,
@@ -324,6 +367,8 @@ class QuoteController extends AppController
             'seal_flg' => $seal_flg,
             'name' => $name,
             'action' => $action,
+            'customer' => $customer,
+            'paginator' => $paginator,
         ]);
     }
 

@@ -213,7 +213,11 @@
         <div id="main">
             @yield('content')
             <div id="popup-bg"></div>
-            <div id="popup"></div>
+            <div id="popup">
+            @yield('ajax')
+
+
+            </div>
         </div>
 
         <!-- footer_Start -->

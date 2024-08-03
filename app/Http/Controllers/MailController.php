@@ -19,32 +19,56 @@ class MailController extends Controller
         $this->middleware('auth')->except(['login', 'customer', 'logout']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
         $type = [
             1 => '見積書',
             2 => '請求書',
             3 => '納品書'
         ];
+         // Initialize the query builder
+        $query = Mail::query();
 
-        $condition = [];
-        $paginator = Mail::where($condition)
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+        // Apply filters based on the request parameters
+        if ($request->SUBJECT) {
+            $query->where('SUBJECT', 'like', '%' . $request->SUBJECT . '%');
+        }
 
-        $mailstatus = $paginator->items();
+        if ($request->CUSTOMER_CHARGE) {
+            $query->where('RCV_NAME', 'like', '%' . $request->CUSTOMER_CHARGE . '%');
+        }
+
+        if ($request->STATUS) {
+            $query->whereIn('STATUS', $request->STATUS);
+        }
+
+        if ($request->TYPE) {
+            $query->whereIn('TYPE', $request->TYPE);
+        }
+
+        // Fetch the paginated results
+        $paginator = $query->orderBy('RCV_DATE')->paginate(20);
+
         $list = $paginator->items();
 
+        $searchData = $request ? $request: "";
+        $searchStatus = $request->STATUS;
+        $searchType = $request->TYPE;
+
+        // dd($request->STATUS);
 
         return view('mail.index', [
-            'mailstatus' => Config::get('MailStatusCode'),
+            'mailstatus' => config('constants.MailStatusCode'),
             'type' => $type,
             'main_title' => '確認メール',
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'list' => $list,
-            'mailstatus' => $mailstatus,
             'paginator' => $paginator,
+            'searchData' => $searchData,
+            'searchStatus' => $searchStatus,
+            'searchType' => $searchType,
         ]);
     }
 
@@ -61,7 +85,7 @@ class MailController extends Controller
             return redirect('/mails');
         }
 
-        $status = Config::get('MailStatusCode');
+        $status = config('constants.MailStatusCode');
         $title = '';
 
         switch ($result->TYPE) {
@@ -114,7 +138,7 @@ class MailController extends Controller
                 $param = $request->input('Mail');
                 $param['RCV_MESSAGE'] = $param['COMMENT'];
 
-                $time_limit = Carbon::now()->subDays(Config::get('MailLoginTerm'))->toDateTimeString();
+                $time_limit = Carbon::now()->subDays(config('constants.MailLoginTerm'))->toDateTimeString();
 
                 $check = Mail::where('TOKEN', $param['TOKEN'])
                              ->where('SND_DATE', '>=', $time_limit)
@@ -155,7 +179,7 @@ class MailController extends Controller
                 ]);
 
             default:
-                $time_limit = Carbon::now()->subDays(Config::get('MailLoginTerm'))->toDateTimeString();
+                $time_limit = Carbon::now()->subDays(config('constants.MailLoginTerm'))->toDateTimeString();
 
                 $token = $request->input('Mail.TOKEN');
                 $pass = $request->input('Mail.PASSWORD');
@@ -190,7 +214,7 @@ class MailController extends Controller
 
     public function login($token)
     {
-        $time_limit = Carbon::now()->subDays(Config::get('MailLoginTerm'))->toDateTimeString();
+        $time_limit = Carbon::now()->subDays(config('constants.MailLoginTerm'))->toDateTimeString();
 
         $check = Mail::where('TOKEN', $token)
                      ->where('SND_DATE', '>=', $time_limit)
@@ -272,7 +296,7 @@ class MailController extends Controller
 
             default:
                 $tkn = $this->Common->createOneTimeToken('_ml');
-                $time_limit = Carbon::now()->subDays(Config::get('MailSendTerm'))->toDateTimeString();
+                $time_limit = Carbon::now()->subDays(config('constants.MailSendTerm'))->toDateTimeString();
 
                 $all_quotes = Quote::where('USR_ID', Auth::id())
                                   ->where('SND_DATE', '>=', $time_limit)

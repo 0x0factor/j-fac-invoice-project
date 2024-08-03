@@ -140,28 +140,59 @@
                     <tr>
                         <td colspan="{{ $user['AUTHORITY'] != 1 ? '3' : '2' }}" class="w40 center">
                             @if ($user['AUTHORITY'] != 1)
-                                <a href="#" onclick="return popupclass.popupajax('customer');"
-                                    class="float_l lmargin20">
-                                    <img src="{{ asset('bt_new2.jpg') }}" alt="">
-                                </a>
+                                <button onclick="return popupclass.popupajax('customer');" class="float_l lmargin20" style="border:none;">
+                                    <img src="{{ asset('img/bt_new2.jpg') }}" alt="">
+                                </button>
                             @else
-                                <a href="#" onclick="return popupclass.popupajax('customer');"
-                                    class="float_l lmargin40">
-                                    <img src="{{ asset('bt_new2.jpg') }}" alt="">
-                                </a>
+                                <button onclick="return popupclass.popupajax('customer');" class="float_l lmargin40" style="border:none;">
+                                    <img src="{{ asset('img/bt_new2.jpg') }}" alt="">
+                                </button>
                             @endif
-                            {{ $nowpage }}
-                            {{ $paging }}
+
+                            <!-- Display current page and total records -->
+                            {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
+
+                            <div id='pagination'>
+                                @if ($paginator->onFirstPage())
+                                    <span class="disabled"><< {{ __('前へ') }}</span> |
+                                @else
+                                    <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a> |
+                                @endif
+
+                                <!-- Pagination Elements -->
+                                @foreach ($paginator->links()->elements as $element)
+                                    <!-- "Three Dots" Separator -->
+                                    @if (is_string($element))
+                                        <span class="disabled">{{ $element }}</span> |
+                                    @endif
+
+                                    <!-- Array Of Links -->
+                                    @if (is_array($element))
+                                        @foreach ($element as $page => $url)
+                                            @if ($page == $paginator->currentPage())
+                                                <span class="active">{{ $page }}</span> |
+                                            @else
+                                                <a href="{{ $url }}">{{ $page }}</a> |
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+
+                                @if ($paginator->hasMorePages())
+                                    <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                                @else
+                                    <span class="disabled">{{ __('次へ') }} >></span>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="{{ $user['AUTHORITY'] != 1 ? '3' : '2' }}">
-                            <a href="javascript:void(0)" onclick="return sorting('NAME_KANA');">顧客名(カナ)</a>/<a
-                                href="javascript:void(0)" onclick="return sorting('LAST_UPDATE');">更新日順</a>
+                            <a href="javascript:void(0)" onclick="return sorting('NAME_KANA');">顧客名(カナ)</a>/<a href="javascript:void(0)" onclick="return sorting('LAST_UPDATE');">更新日順</a>
                             <input type="text" name="CST_KEYWORD" class="w200 p2">
-                            <a href="#" onclick="return popupclass.popupajax('select_customer');">
-                                <img src="{{ asset('bt_search.jpg') }}" alt="">
-                            </a>
+                            <button onclick="return popupclass.popupajax('select_customer');" style="border:none;">
+                                <img src="{{ asset('img/bt_search.jpg') }}" alt="">
+                            </button>
                         </td>
                     </tr>
                     <tr class="bgti">
@@ -174,63 +205,92 @@
                     @foreach ($customer as $key => $value)
                         <tr {{ $loop->odd ? 'class="bgcl"' : '' }}>
                             <td class="center" id="id{{ $key }}">
-                                <a href="#" onclick="return insert({{ $key }});"
-                                    class="float_l lmargin20">
-                                    <img src="{{ asset('bt_insert.jpg') }}" alt="">
-                                </a>
-                                <input type="hidden" name="CST_ID" value="{{ $value['Customer']['CST_ID'] }}">
-                                <input type="hidden" name="EXCISE" value="{{ $value['Customer']['EXCISE'] }}">
-                                <input type="hidden" name="FRACTION" value="{{ $value['Customer']['FRACTION'] }}">
-                                <input type="hidden" name="TAX_FRACTION"
-                                    value="{{ $value['Customer']['TAX_FRACTION'] }}">
-                                <input type="hidden" name="TAX_FRACTION_TIMING"
-                                    value="{{ $value['Customer']['TAX_FRACTION_TIMING'] }}">
-                                <input type="hidden" name="HONOR_CODE" value="{{ $value['Customer']['HONOR_CODE'] }}">
-                                <input type="hidden" name="HONOR_TITLE"
-                                    value="{{ $value['Customer']['HONOR_TITLE'] }}">
+                                <button onclick="return insert({{ $key }});" class="float_l lmargin20" style="border:none;">
+                                    <img src="{{ asset('img/bt_insert.jpg') }}" alt="">
+                                </button>
+                                <input type="hidden" name="CST_ID" value="{{ $value['CST_ID'] }}">
+                                <input type="hidden" name="EXCISE" value="{{ $value['EXCISE'] }}">
+                                <input type="hidden" name="FRACTION" value="{{ $value['FRACTION'] }}">
+                                <input type="hidden" name="TAX_FRACTION" value="{{ $value['TAX_FRACTION'] }}">
+                                <input type="hidden" name="TAX_FRACTION_TIMING" value="{{ $value['TAX_FRACTION_TIMING'] }}">
+                                <input type="hidden" name="HONOR_CODE" value="{{ $value['HONOR_CODE'] }}">
+                                <input type="hidden" name="HONOR_TITLE" value="{{ $value['HONOR_TITLE'] }}">
                                 <input type="hidden" name="CHR_ID" value="{{ $value['Charge']['CHR_ID'] ?? '' }}">
-                                <input type="hidden" name="CHARGE_NAME"
-                                    value="{{ $value['Charge']['CHARGE_NAME'] ?? '' }}">
-                                <input type="hidden" name="C_SEARCH_ADDRESS"
-                                    value="{{ $value['Customer']['SEARCH_ADDRESS'] }}">
+                                <input type="hidden" name="CHARGE_NAME" value="{{ $value['Charge']['CHARGE_NAME'] ?? '' }}">
+                                <input type="hidden" name="C_SEARCH_ADDRESS" value="{{ $value['SEARCH_ADDRESS'] }}">
                                 @php
                                     $post_code = '';
-                                    if ($value['Customer']['POSTCODE1'] && $value['Customer']['POSTCODE2']) {
-                                        $post_code =
-                                            '〒' .
-                                            $value['Customer']['POSTCODE1'] .
-                                            '-' .
-                                            $value['Customer']['POSTCODE2'];
+                                    if ($value['POSTCODE1'] && $value['POSTCODE2']) {
+                                        $post_code = '〒' . $value['POSTCODE1'] . '-' . $value['POSTCODE2'];
                                     }
                                 @endphp
                                 <input type="hidden" name="C_POSTCODE" value="{{ $post_code }}">
-                                <input type="hidden" name="C_ADDRESS" value="{{ $value['Customer']['ADDRESS'] }}">
-                                <input type="hidden" name="C_POSTCODE1" value="{{ $value['Customer']['POSTCODE1'] }}">
-                                <input type="hidden" name="C_POSTCODE2" value="{{ $value['Customer']['POSTCODE2'] }}">
-                                <input type="hidden" name="C_CNT_ID" value="{{ $value['Customer']['CNT_ID'] }}">
-                                <input type="hidden" name="C_BUILDING" value="{{ $value['Customer']['BUILDING'] }}">
+                                <input type="hidden" name="C_ADDRESS" value="{{ $value['ADDRESS'] }}">
+                                <input type="hidden" name="C_POSTCODE1" value="{{ $value['POSTCODE1'] }}">
+                                <input type="hidden" name="C_POSTCODE2" value="{{ $value['POSTCODE2'] }}">
+                                <input type="hidden" name="C_CNT_ID" value="{{ $value['CNT_ID'] }}">
+                                <input type="hidden" name="C_BUILDING" value="{{ $value['BUILDING'] }}">
                             </td>
                             <td {{ $user['AUTHORITY'] != 1 ? 'class="w80"' : '' }} id="name{{ $key }}">
-                                {{ $value['Customer']['NAME'] }}</td>
+                                {{ $value['NAME'] }}
+                            </td>
                             @if ($user['AUTHORITY'] != 1)
                                 <td id="user{{ $key }}">{{ $value['User']['NAME'] }}</td>
                             @endif
                         </tr>
                     @endforeach
-                    @if ($paging)
+
+                    @if ($paginator)
                         <tr>
                             <td colspan="{{ $user['AUTHORITY'] != 1 ? '3' : '2' }}" class="w40 center">
-                                {{ $paging }}
+                                <!-- Display pagination information -->
+                                <div id='pagination'>
+                                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
+                                </div>
+
+                                <div id='pagination'>
+                                    @if ($paginator->onFirstPage())
+                                        <span class="disabled"><< {{ __('前へ') }}</span> |
+                                    @else
+                                        <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a> |
+                                    @endif
+
+                                    <!-- Pagination Elements -->
+                                    @foreach ($paginator->links()->elements as $element)
+                                        <!-- "Three Dots" Separator -->
+                                        @if (is_string($element))
+                                            <span class="disabled">{{ $element }}</span> |
+                                        @endif
+
+                                        <!-- Array Of Links -->
+                                        @if (is_array($element))
+                                            @foreach ($element as $page => $url)
+                                                @if ($page == $paginator->currentPage())
+                                                    <span class="active">{{ $page }}</span> |
+                                                @else
+                                                    <a href="{{ $url }}">{{ $page }}</a> |
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+
+                                    @if ($paginator->hasMorePages())
+                                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                                    @else
+                                        <span class="disabled">{{ __('次へ') }} >></span>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endif
                 </table>
+
                 <div class="save_btn">
                     <input type="hidden" name="sort">
                     <input type="hidden" name="desc">
-                    <a href="#" onclick="return popupclass.popup_close();">
-                        <img src="{{ asset('bt_cancel_s.jpg') }}" alt="">
-                    </a>
+                    <button type="button" onclick="return popupclass.popup_close();" style="border: none;">
+                        <img src="{{ asset('img/bt_cancel_s.jpg') }}" alt="">
+                    </button>
                 </div>
             </div>
         </div>

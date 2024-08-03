@@ -364,7 +364,7 @@ class DeliveryController extends Controller
         // テスト用データ
         $company_ID = 1;
 
-        $error = Config::get('constants.ItemErrorCode');
+        $error = config('constants.ItemErrorCode');
         $count = 1;
 
         if (!$request->isMethod('post')) {

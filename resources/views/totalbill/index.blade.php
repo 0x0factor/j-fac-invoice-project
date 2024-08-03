@@ -92,17 +92,17 @@
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#" onclick="$('#TotalbillIndexForm').submit();">
+                                    <button onclick="$('#TotalbillIndexForm').submit();" style="border: none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="Search">
-                                    </a>
+                                    </button>
                                     <!-- <button type="submit">
                                             <img src="{{ asset('img/bt_search.jpg') }}" alt="Search">
                                     </button> -->
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();">
+                                    <button href="#" onclick="reset_forms();" style="border: none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="Reset">
-                                    </a>
+                                    </button>
 
                                 </td>
                             </tr>

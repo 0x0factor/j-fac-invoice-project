@@ -40,35 +40,44 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w350"></td>
+                            <td><input type="text" name="SUBJECT" class="w350" value="{{$searchData->SUBJECT}}"></td>
                         </tr>
                         <tr>
                             <th>送付先</th>
-                            <td><input type="text" name="CUSTOMER_CHARGE" class="w350"></td>
+                            <td><input type="text" name="CUSTOMER_CHARGE" class="w350" value="{{$searchData->CUSTOMER_CHARGE}}"></td>
                         </tr>
+
                         <tr>
                             <th>ステータス</th>
                             <td>
+
+                                <input type="hidden" name="STATUS" value="" id="MailSTATUS">
                                 @foreach ($mailstatus as $key => $value)
-                                    <label><input type="checkbox" name="STATUS[]" value="{{ $key }}">
-                                        {{ $value }}</label>
+                                <div class="checkbox">
+
+                                    <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="MailSTATUS{{ $key }}" {{ in_array($key, request('STATUS', $searchStatus) ?? []) ? 'checked' : '' }}>
+                                    <label for="MailSTATUS{{ $key }}">{{ $value }}</label>
+                                </div>
                                 @endforeach
                             </td>
                         </tr>
                         <tr>
                             <th>種別</th>
                             <td>
+                                <input type="hidden" name="TYPE" value="" id="MailTYPE">
                                 @foreach ($type as $key => $value)
-                                    <label><input type="checkbox" name="TYPE[]" value="{{ $key }}">
-                                        {{ $value }}</label>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="TYPE[]" value="{{ $key }}" id="MailTYPE{{ $key }}" {{ in_array($key, request('TYPE', $searchType) ?? []) ? 'checked' : '' }}>
+                                    <label for="MailTYPE{{ $key }}">{{ $value }}</label>
+                                </div>
                                 @endforeach
                             </td>
                         </tr>
                     </table>
                     <div class="search_btn">
-                        <a href="#" onclick="document.forms[0].submit();">
+                        <button onclick="document.forms[0].submit();" style="border: none;">
                             <img src="{{ asset('img/bt_search.jpg') }}" alt="">
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <img src="{{ asset('img/document/bg_search_bottom.jpg') }}" class="block" alt="">

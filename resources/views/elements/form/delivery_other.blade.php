@@ -22,7 +22,7 @@
                     @if (request()->route()->getActionMethod() == 'edit')
 
                         <select name="STATUS" class="form-control">
-                            @foreach (config('constants.issued_stat_code') as $key => $value)
+                            @foreach (config('constants.IssuedStatCode') as $key => $value)
                                 <option value="{{ $key }}"
                                     {{ old('STATUS', $status) == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
@@ -30,7 +30,7 @@
                     @else
                         @php
                             // Retrieve the config value and ensure it's an array
-                            $issuedStatCode = config('constants.issued_stat_code', []);
+                            $issuedStatCode = config('constants.IssuedStatCode', []);
                         @endphp
                         <select name="STATUS" class="form-control">
                             @foreach ($issuedStatCode as $key => $value)

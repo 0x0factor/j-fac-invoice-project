@@ -34,21 +34,21 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300"></td>
+                            <td><input type="text" name="NO" class="w300" value="{{$searchData->NO}}"></td>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w300"></td>
+                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData->SUBJECT}}"></td>
                         </tr>
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w300"></td>
+                            <td><input type="text" name="NAME" class="w300" value="{{$searchData->NAME}}"></td>
                             <th>自社担当者</th>
-                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300"></td>
+                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData->CHR_USR_NAME}}"></td>
                         </tr>
                         <tr>
                             <th>作成者</th>
-                            <td><input type="text" name="USR_NAME" class="w300"></td>
+                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData->USR_NAME}}"></td>
                             <th>更新者</th>
-                            <td><input type="text" name="UPD_USR_NAME" class="w300"></td>
+                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData->UPD_USR_NAME}}"></td>
                         </tr>
                         <tr>
                             <th>発行ステータス</th>
@@ -56,7 +56,7 @@
                                 @if (isset($status))
                                     @foreach ($status as $key => $value)
                                         <div class="checkbox">
-                                            <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="QuoteSTATUS{{ $key }}">
+                                            <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="QuoteSTATUS{{ $key }}" {{ in_array($key, request('STATUS', $searchStatus) ?? []) ? 'checked' : '' }}>
                                             <label for="QuoteSTATUS{{ $key }}"> {{ $value }} </label>
                                         </div>
                                     @endforeach
@@ -233,8 +233,8 @@
                                                 value="{{ $quote->MQT_ID }}" class="chk"></td>
                                         <td class="v50">{{ $quote->MQT_ID }}</td>
                                         <td class="v100">{{ $quote->customer->NAME }}</td>
-                                        <td class="v100"><a
-                                                href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a>
+                                        <td class="v100">
+                                            <a href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a>
                                         </td>
                                         <td class="v150">{{ $quote->TOTAL }}円</td>
                                         <td class="v150">{{ $quote->ISSUE_DATE }}</td>

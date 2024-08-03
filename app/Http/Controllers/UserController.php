@@ -99,8 +99,8 @@ class UserController extends BaseController
             $user->save();
 
             $url = route('users.passEdit', ['k' => $key]);
-            $body = Config::get('mail.txt.passEdit') . "\n" . $url;
-            if (!$this->mailService->sendMail($user->MAIL, Config::get('mail.subject.passEdit'), $body)) {
+            $body = config('constants.Mail.Txt.PassEdit') . "\n" . $url;
+            if (!$this->mailService->sendMail($user->MAIL, config('constants.Mail.Subject.PassEdit'), $body)) {
                 Session::flash('message', 'メールの送信に失敗しました');
                 return redirect()->route('users.reset');
             }

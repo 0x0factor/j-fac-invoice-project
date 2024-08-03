@@ -101,12 +101,12 @@
                             value="{{ old('CUSTOMER_NAME') }}" readonly>
                         <input type="hidden" name="CST_ID" value="{{ old('CST_ID') }}"
                             id="{{ $formType }}CSTID">
-                        <a href="#" onclick="return popupclass.popupajax('select_customer');">
+                        <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
                             <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
-                        </a>
-                        <a href="#" onclick="return customer_reset();">
+                        </button>
+                        <button onclick="return customer_reset();" style="border: none;">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">
-                        </a>
+                        </button>
                         <br><span class="usernavi">{{ $usernavi['CST_ID'] }}</span>
                         <br><span class="must">{{ $errors->first('CST_ID') }}</span>
                     </td>
@@ -116,12 +116,12 @@
                             class="w120 p2{{ $errors->has('CHRC_ID') ? ' error' : '' }}" maxlength="30"
                             value="{{ old('CUSTOMER_CHARGE_NAME') }}" readonly>
                         <input type="hidden" name="CHRC_ID" value="{{ old('CHRC_ID') }}">
-                        <a href="#" onclick="return popupclass.popupajax('customer_charge');">
+                        <button onclick="return popupclass.popupajax('customer_charge');" style="border: none;">
                             <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
-                        </a>
-                        <a href="#" onclick="return cstchr_reset();">
+                        </button>
+                        <button onclick="return cstchr_reset();" style="border: none;">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">
-                        </a>
+                        </button>
                         <br><span class="must">{{ $errors->first('CHRC_ID') }}</span>
                     </td>
                 </tr>
@@ -137,12 +137,12 @@
                             class="w120 p2{{ $errors->has('CHR_ID') ? ' error' : '' }}" maxlength="30" readonly
                             value="{{ old('CHARGE_NAME') }}">
                         <input type="hidden" name="CHR_ID" value="{{ old('CHR_ID') }}">
-                        <a href="#" onclick="return popupclass.popupajax('charge');">
+                        <button onclick="return popupclass.popupajax('charge');" style="border: none;">
                             <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
-                        </a>
-                        <a href="#" onclick="return chr_reset();">
+                        </button>
+                        <button onclick="return chr_reset();" style="border: none;">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">
-                        </a>
+                        </button>
                         <br><span class="must">{{ $errors->first('CHR_ID') }}</span>
                     </td>
                 </tr>
