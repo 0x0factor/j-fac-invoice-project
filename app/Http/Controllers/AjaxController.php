@@ -196,50 +196,7 @@ class AjaxController extends Controller
         }
     }
 
-    public function popupInsert(Request $request)
-    {
-        $phoneError = 0;
-        $userId = Auth::id();
-
-        parse_str($request->input('params'), $param);
-
-        // トークンチェック
-        if (isset($param['data']['type']) && $param['data']['type']) {
-            $this->isCorrectToken($param['data']['Security']['token']);
-        }
-
-        if ($param['data']['type'] === 'customer') {
-            $data['Customer'] = $param['data'];
-            $data['Customer']['USR_ID'] = $userId;
-            $data = array_merge_recursive($data, Customer::getPayment(1));
-
-            // 電話番号のバリデーション
-            $phoneError = $this->phoneValidation($data['Customer']);
-            $json = Customer::setData($data, 1, 'new', $phoneError, 0);
-            if ($json) {
-                return response()->json($json);
-            }
-        } elseif ($param['data']['type'] === 'item') {
-            $data['Item'] = $param['data'];
-            $data['Item']['USR_ID'] = $userId;
-            if ($json = Item::setData($data)) {
-                return response()->json($json);
-            }
-        } elseif ($param['data']['type'] === 'customer_charge') {
-            $data['CustomerCharge'] = $param['data'];
-            $data['CustomerCharge']['USR_ID'] = $userId;
-            $cstId = $data['CustomerCharge']['CST_ID'];
-
-            // 電話番号のバリデーション
-            $phoneError = $this->phoneValidation($data['CustomerCharge'], 'CustomerCharge');
-            $json = CustomerCharge::setData($data, 'new', $phoneError, 0, $cstId);
-            $json['pe'] = $phoneError;
-            if ($json) {
-                return response()->json($json);
-            }
-        }
-    }
-
+    
     public function charge($id)
     {
         $charge = Charge::select('MAIL', 'UNIT', 'CHARGE_NAME')
