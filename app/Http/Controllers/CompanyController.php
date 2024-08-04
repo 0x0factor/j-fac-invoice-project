@@ -117,7 +117,8 @@ class CompanyController extends Controller
                 if (in_array($result, [1, 2, 3])) {
                     // 画像登録失敗
                     $image_error = $result;
-                    $image = Company::get_image($company_ID);
+                    $company = new Company;
+                    $image = $company->get_image($company_ID);
                 } else {
                     // 成功
                     Session::flash('message', '自社情報設定を保存しました');
@@ -128,7 +129,8 @@ class CompanyController extends Controller
             // 通常時処理
             // 自社情報の取得
             $data = Company::find($company_ID);
-            $data['SERIAL'] = Serial::get_data();
+            $serial = new Serial;
+            $data['SERIAL'] = $serial->get_data();
         }
 
         // 画像をセット
@@ -234,7 +236,8 @@ class CompanyController extends Controller
         ->with('cutooff_select', $cutooff_select)
         ->with('payment_select', $payment_select)
         ->with('honor', config('constants.HonorCode'))
-        ->with('seal_flg', config('constants.SealFlg'));
+        ->with('seal_flg', config('constants.SealFlg'))
+        ->with('status', config('constants.StatusCode'));
     }
 
     // 画像表示用

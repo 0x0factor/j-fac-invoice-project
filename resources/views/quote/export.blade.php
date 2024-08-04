@@ -8,7 +8,7 @@
     <script type="text/javascript">
         <!--
         /*
-    var url = "{{ url('/ajax/excel') }}";   
+    var url = "{{ url('/ajax/excel') }}";
 
     $(document).ready(function($){
 
@@ -43,7 +43,7 @@
     });
     */
 
-        // 
+        //
         -->
     </script>
 
@@ -69,7 +69,7 @@
                     <div id="test"></div>
 
                     <div class="search_btn">
-                        <button type="submit" name="download">
+                        <button type="submit" name="download" style="border: none;">
                             <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
                         </button>
                     </div>

@@ -173,7 +173,7 @@
 
                                 <tr>
                                     <td>
-                                        @if (!$val['CST_ID'])
+                                        @if ($val['CST_ID'])
                                             <input type="checkbox" name="{{ $val['CST_ID'] }}" class="chk">
                                         @endif
                                     </td>
