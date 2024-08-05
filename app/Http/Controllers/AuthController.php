@@ -52,7 +52,7 @@ class AuthController extends Controller
             'passwordConfirm' => 'required|same:PASSWORD'
         ]);
 
-        qq(Hash::make(a));
+        // qq(Hash::make(InvoiceTool2));
         $val = Hash::make($request['PASSWORD']);
         $validated['PASSWORD'] = $val;
         $validated['CMP_ID'] = 1;

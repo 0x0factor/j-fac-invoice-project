@@ -152,7 +152,8 @@ class EloquentUserProvider implements UserProvider
         if (is_null($plain = $credentials['PASSWORD'])) {
             return false;
         }
-        // var_export(Hash::make('a'));
+        // dd(Hash::make('InvoiceTool2'));
+        // var_export(Hash::make('InvoiceTool2'));die();
         // var_export($user->getAuthPassword());die();
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
