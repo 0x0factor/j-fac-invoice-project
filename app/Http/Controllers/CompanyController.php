@@ -211,6 +211,13 @@ class CompanyController extends Controller
             'class' => 'txt_mid'
         ];
 
+        $payment_month = config('constants.PaymentMonth');
+        $perror = 1;
+        $ferror = 1;
+        $ierror = 1;
+
+
+
         return view('company.edit', compact(
             'main_title',
             'title_text',
@@ -225,6 +232,10 @@ class CompanyController extends Controller
             'excise',
             'fraction',
             'tax_fraction_timing',
+            'payment_month',
+            'perror',
+            'ferror',
+            'ierror',
             'color'
         ))
         ->with('numbering_format', config('constants.NumberingFormat'))

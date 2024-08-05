@@ -23,7 +23,7 @@ class AjaxController extends Controller
     }
 
     // ユーザーIDが使用可能かどうかを検索
-    public function searchid(Request $request)
+    public function searchId(Request $request)
     {
         $usercode = $request->input('usercode', 0);
         $logincode = $request->input('logincode');
@@ -196,7 +196,7 @@ class AjaxController extends Controller
         }
     }
 
-    
+
     public function charge($id)
     {
         $charge = Charge::select('MAIL', 'UNIT', 'CHARGE_NAME')
