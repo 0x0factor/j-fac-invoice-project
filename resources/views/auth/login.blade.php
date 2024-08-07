@@ -23,7 +23,7 @@
             <div id="login_btn">
                 <input type="image" src="{{ asset('/img/login/bt_login.jpg') }}" name="submit" alt="ログイン"
                     class="imgover" /> <a href="/users/reset">パスワードお忘れの方</a>
-                <a href="/register" class="text-center">Register a new membership</a>
+                <!-- <a href="/register" class="text-center">Register a new membership</a> -->
             </div>
         </div>
     </form>

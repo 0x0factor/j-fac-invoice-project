@@ -21,6 +21,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TotalbillController;
 use App\Http\Controllers\View_optionController;
 use App\Http\Controllers\ZipcodeController;
+use App\Http\Controllers\PasswordController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,12 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'process']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::get('/users/reset', [AuthController::class, 'reset'])->name('users.reset');
+Route::post('/users/reset', [AuthController::class, 'resetPost'])->name('users.reset');
+Route::post('/users/pass_edit', [AuthController::class, 'resetPost'])->name('users.pass_edit');
+Route::get('/users/reset_end', [AuthController::class, 'resetEnd'])->name('users.reset_end');
+Route::get('/users/pass_edit_end', [AuthController::class, 'passEditEnd'])->name('users.pass_edit_end');
+
 
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');

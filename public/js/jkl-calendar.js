@@ -242,7 +242,7 @@ JKL.Calendar.prototype.addEvent = function ( elem, ev, func ) {
 JKL.Calendar.prototype.write = function () {
     $('.cal').removeClass('cal');
     $('input[name="'+this.valname+'"]').addClass('cal');
-    
+
 	var date = new Date();
 	if ( ! this.date ) this.initDate();
 	date.setTime( this.date.getTime() );

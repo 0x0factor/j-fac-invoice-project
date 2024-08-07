@@ -48,12 +48,32 @@
                         <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r">
                     </th>
                     <td width="320">
-                        <input type="text" name="DATE"
+                        <script language="JavaScript">
+                            //<![CDATA[
+                            var lastDate = '';
+                            var cal1 = new JKL.Calendar("calid", "{{ $formType.$action }}Form", "data[{{ $formType }}][DATE]");
+
+                            setInterval(function() {
+                                var date = document.querySelector('input.cal.date').value;
+                                if (lastDate != date) {
+                                    lastDate = date;
+                                    var calcDate = new Date(date);
+                                    if (calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)) {
+                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING1').setAttribute('disabled', true);
+                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING0').click();
+                                    } else {
+                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING1').removeAttribute('disabled');
+                                    }
+                                }
+                            }, 1000);
+                            //]]>
+                        </script>
+                        <input type="text" name="DATE" id="DATE"
                             class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly
                             value="{{ old('DATE') }}">
                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
-                            onclick="return cal1.write();">
+                                            onclick="return cal1.write();">
                         <div id="calid"></div>
                     </td>
                 </tr>

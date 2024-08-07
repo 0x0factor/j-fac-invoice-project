@@ -55,7 +55,7 @@
                         <tr>
                             <th>発行日</th>
                             <td width="320">
-                                <input type="text" name="DATE"
+                                <input type="text" name="DATE" id="DATE"
                                     class="w100 p2 date cal{{ $errors->has('ISSUE_DATE') ? ' error' : '' }}" readonly
                                     onchange="cal1.getFormValue(); cal1.hide();">
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">

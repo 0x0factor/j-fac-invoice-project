@@ -85,7 +85,7 @@
                                 <script language="JavaScript">
                                     var cal1 = new JKL.Calendar("calid", "HistoryIndexForm", "ACTION_DATE_FROM");
                                 </script>
-                                <input type="text" name="ACTION_DATE_FROM" value="{{ request('ACTION_DATE_FROM') }}"
+                                <input type="text" name="ACTION_DATE_FROM" id="ACTION_DATE_FROM" value="{{ request('ACTION_DATE_FROM') }}"
                                     readonly class="w100 p2 date cal" onchange="cal1.getFormValue(); cal1.hide();"
                                     id="HistoryACTIONDATEFROM">
                                 <a href="#"><img src="{{ asset('img/bt_now.jpg') }}" alt="現在"
@@ -99,7 +99,7 @@
                         <tr>
                             <th>日付 To</th>
                             <td>
-                                <input type="text" name="ACTION_DATE_TO" value="{{ request('ACTION_DATE_TO') }}" readonly
+                                <input type="text" name="ACTION_DATE_TO" id="ACTION_DATE_TO" value="{{ request('ACTION_DATE_TO') }}" readonly
                                     class="w100 p2 date" onchange="cal2.getFormValue(); cal2.hide();"
                                     id="HistoryACTIONDATETO">
                                 <a href="#"><img src="{{ asset('img/bt_now.jpg') }}" alt="現在"

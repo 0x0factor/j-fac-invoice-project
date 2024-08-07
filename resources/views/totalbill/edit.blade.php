@@ -57,7 +57,7 @@
                             <th class="{{ $errors->has('DATE') ? 'txt_top' : '' }}"><span class="float_l">発行日</span><img
                                     src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r"></th>
                             <td width="320">
-                                <input type="text" id="issue_date" name="DATE"
+                                <input type="text" id="issue_date" name="DATE" id="DATE"
                                     value="{{ old('DATE', $totalbill->DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DATE') ? 'error' : '' }}" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
@@ -159,7 +159,7 @@
                             <th class="{{ $errors->has('DUE_DATE') ? 'txt_top' : '' }}"><span class="float_l">振込期限</span>
                             </th>
                             <td colspan="3">
-                                <input type="text" name="DUE_DATE"
+                                <input type="text" name="DUE_DATE" id="DUE_DATE"
                                     value="{{ old('DUE_DATE', $totalbill->DUE_DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DUE_DATE') ? 'error' : '' }}" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DUE_DATE').value = new Date().toISOString().split('T')[0];">

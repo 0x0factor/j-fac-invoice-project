@@ -1,21 +1,35 @@
-<div id="login">
-<?php echo $form->create('User', array('type' => 'post', 'action' => 'login', 'name' => 'UserLoginForm'));?>
-	<div class="login"><?php echo $html->image('/img/login/tl_login.jpg',array('alt' => 'ログイン画面'));?></div>
-	<div id="login_box">
-		<div id="login_logo"><?php echo $html->image('/img/login/i_logo_login.jpg'); ?></div>
-		<div id="login_id"><?php echo $html->image('/img/login/tm_id.gif', array('alt' => 'ID', 'class' => 'mr10')); ?>
-			<?php echo $form->text("LOGIN_ID", array('class' => "w320", 'value' => '')); ?>
-		</div>
+@extends('layout.app')
 
-		<div id="login_pw"><?php echo $html->image('/img/login/tm_pw.gif', array('alt' => 'パスワード', 'class' => 'mr10')); ?>
-			<?php echo $form->password("PASSWORD", array('class' => "w320")); ?>
-		</div>
-		<div id="login_btn">
-		<?php echo $form->submit('/img/login/bt_login.jpg', array('div' => false , 'name' => 'submit', 'alt' => 'ログイン', 'class' => 'imgover')); ?>
-		<?php echo $html->link('パスワードお忘れの方',array('action' => 'reset'))?>
-		</div>
-		<?php if ($session->check('Message.flash')){ echo "<span class=\"must\">{$session->flash()}</span>";} ?>
-	</div>
-<?php echo $form->end();?>
+@section('content')
+<div id="login">
+    <form method="POST" action="{{ route('login') }}" name="UserLoginForm">
+        @csrf
+        <div class="login">
+            <img src="{{ asset('img/login/tl_login.jpg') }}" alt="ログイン画面">
+        </div>
+        <div id="login_box">
+            <div id="login_logo">
+                <img src="{{ asset('img/login/i_logo_login.jpg') }}">
+            </div>
+            <div id="login_id">
+                <img src="{{ asset('img/login/tm_id.gif') }}" alt="ID" class="mr10">
+                <input type="text" name="LOGIN_ID" class="w320" value="{{ old('LOGIN_ID') }}">
+            </div>
+
+            <div id="login_pw">
+                <img src="{{ asset('img/login/tm_pw.gif') }}" alt="パスワード" class="mr10">
+                <input type="password" name="PASSWORD" class="w320">
+            </div>
+            <div id="login_btn">
+                <button type="submit" class="imgover">
+                    <img src="{{ asset('img/login/bt_login.jpg') }}" alt="ログイン">
+                </button>
+                <a href="{{ route('password.request') }}">パスワードお忘れの方</a>
+            </div>
+            @if (Session::has('error'))
+                <span class="must">{{ Session::get('error') }}</span>
+            @endif
+        </div>
+    </form>
 </div>
-<!-- contents_End -->
+@endsection
