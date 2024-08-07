@@ -163,7 +163,7 @@
                                 <input type="text" name="DATE" value="{{ old('DATE') }}"
                                     class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly>
                                 <a href="#" class="nowtime">
-                                    <img src="{{ asset('img/bt_now.jpg') }}" alt="現在">
+                                    <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
                                 </a>
                                 <a href="#" onclick="return cal1.write();">
                                     <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー">

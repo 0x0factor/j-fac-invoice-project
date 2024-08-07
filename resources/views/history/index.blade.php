@@ -21,7 +21,7 @@
                             <th>日付 FROM</th>
                             <td width="320">
                                 <input type="text" name="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="openCalendar('ACTION_DATE_FROM')">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_FROM')">
                             </td>
@@ -30,14 +30,14 @@
                             <th>日付 TO</th>
                             <td width="320">
                                 <input type="text" name="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="openCalendar('ACTION_DATE_TO')">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_TO')">
                             </td>
                         </tr>
                         <tr>
                             <th>ユーザ名</th>
-                            <td><input type="text" name="NAME" class="w350"></td>
+                            <td><input type="text" name="NAME" class="w350" value="{{$searchData['NAME']}}"></td>
                         </tr>
                         <tr>
                             <th>動作種別</th>
@@ -60,12 +60,12 @@
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <button type="submit">
+                                    <button type="submit" style="border:none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="検索">
                                     </button>
                                 </td>
                                 <td style="border:none;">
-                                    <button type="button" onclick="resetForms()">
+                                    <button type="button" onclick="resetForms()" style="border:none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
                                     </button>
                                 </td>
@@ -150,39 +150,40 @@
                                         @elseif($history->ACTION == '1')
                                             ログアウトしました
                                         @elseif($history->ACTION == '2')
-                                            見積書のID(<a href="{{ route('quotes.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+
+                                            見積書のID(<a href="{{ route('quote.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '3')
-                                            見積書のID(<a href="{{ route('quotes.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            見積書のID(<a href="{{ route('quote.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '4')
                                             見積書のID({{ implode(',', $ids[$key]) }})を削除しました
                                         @elseif($history->ACTION == '5')
-                                            請求書のID(<a href="{{ route('bills.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            請求書のID(<a href="{{ route('bill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '6')
-                                            請求書のID(<a href="{{ route('bills.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            請求書のID(<a href="{{ route('bill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '7')
                                             請求書のID({{ implode(',', $ids[$key]) }})を削除しました
                                         @elseif($history->ACTION == '8')
-                                            納品書のID(<a href="{{ route('deliveries.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            納品書のID(<a href="{{ route('delivery.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '9')
-                                            納品書のID(<a href="{{ route('deliveries.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            納品書のID(<a href="{{ route('delivery.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '10')
                                             納品書のID({{ implode(',', $ids[$key]) }})を削除しました
                                         @elseif($history->ACTION == '11')
-                                            合計請求書のID(<a href="{{ route('totalbills.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            合計請求書のID(<a href="{{ route('totalbill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '12')
-                                            合計請求書のID(<a href="{{ route('totalbills.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            合計請求書のID(<a href="{{ route('totalbill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '13')
                                             合計請求書のID({{ implode(',', $ids[$key]) }})を削除しました
                                         @elseif($history->ACTION == '14')
-                                            定期請求書雛形のID(<a href="{{ route('regularbill.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            定期請求書雛形のID(<a href="{{ route('regularbill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '15')
-                                            定期請求書雛形のID(<a href="{{ route('regularbill.check', ['id' => $val['History']['RPT_ID']]) }}">{{ $val['History']['RPT_ID'] }}</a>)を作成しました
+                                            定期請求書雛形のID(<a href="{{ route('regularbill.check', ['id' => $history['RPT_ID']]) }}">{{ $history['RPT_ID'] }}</a>)を作成しました
                                         @elseif($history->ACTION == '16')
                                             定期請求書雛形のID({{ implode(',', $ids[$key]) }})を削除しました
                                         @elseif($history->ACTION == '17')
                                             定期請求書雛形から請求書のID(
                                             @foreach($ids[$key] as $id)
-                                                {{ $loop->first ? '' : ', ' }}<a href="{{ route('bills.check', ['id' => $id]) }}">{{ $id }}</a>
+                                                {{ $loop->first ? '' : ', ' }}<a href="{{ route('bill.check', ['id' => $id]) }}">{{ $id }}</a>
                                             @endforeach
                                             )を作成しました
                                         @endif
@@ -193,7 +194,6 @@
                     </table>
 
                     <div class="list_btn">
-                        <button type="submit">アクション</button>
                     </div>
                 </form>
             </div>

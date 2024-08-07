@@ -86,15 +86,15 @@
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#"
-                                        onclick="event.preventDefault(); document.getElementById('searchForm').submit();">
+                                    <button
+                                        onclick="document.getElementById('searchForm').submit();" style="border: none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="">
-                                    </a>
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();">
+                                    <button onclick="reset_forms();" style="border: none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="">
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </table>
@@ -193,40 +193,40 @@
                                     @foreach ($list as $key => $val)
                                         <tr>
                                             <td>
-                                                @if (!isset($delcheck[$val['CustomerCharge']['CHRC_ID']]) || !$delcheck[$val['CustomerCharge']['CHRC_ID']])
-                                                    <input type="checkbox" name="{{ $val['CustomerCharge']['CHRC_ID'] }}"
+                                                @if (!empty([$val['CHRC_ID']]) || ![$val['CHRC_ID']])
+                                                    <input type="checkbox" name="{{ $val['CHRC_ID'] }}"
                                                         class="chk">
                                                 @else
                                                     &nbsp;
                                                 @endif
                                             </td>
-                                            <td>{{ $val['CustomerCharge']['CHRC_ID'] }}</td>
+                                            <td>{{ $val['CHRC_ID'] }}</td>
                                             <td>
                                                 @php
-                                                    $chargeNameLink = $authcheck[$val['CustomerCharge']['CHRC_ID']]
+                                                    $chargeNameLink = $val['CHRC_ID']
                                                         ? route(
                                                             'customer_charge.check',
-                                                            $val['CustomerCharge']['CHRC_ID'],
+                                                            $val['CHRC_ID'],
                                                         )
                                                         : null;
                                                 @endphp
                                                 {!! $chargeNameLink ? '<a href="' . $chargeNameLink . '">' : '' !!}
-                                                {{ ht2br($val['CustomerCharge']['CHARGE_NAME'], 'CustomerCharge', 'CHARGE_NAME') }}
+                                                {{ nl2br(htmlspecialchars($val['CHARGE_NAME'])) }}
                                                 {!! $chargeNameLink ? '</a>' : '' !!}
                                             </td>
-                                            <td>{{ $val['CustomerCharge']['CST_ID'] != 0 ? $customer[$val['CustomerCharge']['CST_ID']] : '&nbsp;' }}
+                                            <td>{{ $val['CST_ID'] != 0 ? $val['CST_ID'] : '&nbsp;' }}
                                             </td>
                                             <td>
                                                 @if (
-                                                    !empty($val['CustomerCharge']['PHONE_NO1']) ||
-                                                        !empty($val['CustomerCharge']['PHONE_NO2']) ||
-                                                        !empty($val['CustomerCharge']['PHONE_NO3']))
-                                                    {{ $val['CustomerCharge']['PHONE_NO1'] . '-' . $val['CustomerCharge']['PHONE_NO2'] . '-' . $val['CustomerCharge']['PHONE_NO3'] }}
+                                                    !empty($val['PHONE_NO1']) ||
+                                                        !empty($val['PHONE_NO2']) ||
+                                                        !empty($val['PHONE_NO3']))
+                                                    {{ $val['PHONE_NO1'] . '-' . $val['PHONE_NO2'] . '-' . $val['PHONE_NO3'] }}
                                                 @else
                                                     &nbsp;
                                                 @endif
                                             </td>
-                                            <td>{{ $status[$val['CustomerCharge']['STATUS']] }}</td>
+                                            <td>{{ $status[$val['STATUS']] }}</td>
                                             @if ($user['AUTHORITY'] != 1)
                                                 <td>{{ $val['User']['NAME'] }}</td>
                                             @endif

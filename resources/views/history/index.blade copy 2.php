@@ -89,7 +89,7 @@
                                     readonly class="w100 p2 date cal" onchange="cal1.getFormValue(); cal1.hide();"
                                     id="HistoryACTIONDATEFROM">
                                 <a href="#"><img src="{{ asset('img/bt_now.jpg') }}" alt="現在"
-                                        class="nowtime"></a>
+                                        class="nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];"></a>
                                 <a href="#"><img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー"
                                         class="pl5" onclick="return cal1.write();"></a>
                                 <a href="#"><img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在"
@@ -103,7 +103,7 @@
                                     class="w100 p2 date" onchange="cal2.getFormValue(); cal2.hide();"
                                     id="HistoryACTIONDATETO">
                                 <a href="#"><img src="{{ asset('img/bt_now.jpg') }}" alt="現在"
-                                        class="nowtime"></a>
+                                        class="nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];"></a>
                                 <a href="#"><img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー"
                                         class="pl5" onclick="return cal2.write();"></a>
                                 <a href="#"><img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在"

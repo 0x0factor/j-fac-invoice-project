@@ -59,22 +59,22 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>商品名</th>
-                            <td><input type="text" name="ITEM" value="{{ old('ITEM') }}" class="w350"></td>
+                            <td><input type="text" name="ITEM" value="{{$search_name}}" class="w350"></td>
                         </tr>
                     </table>
                     <div class="search_btn">
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#"
-                                        onclick="event.preventDefault(); document.getElementById('itemForm').submit();">
+                                    <button
+                                        onclick="document.getElementById('itemForm').submit();" style="border:none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
-                                    </a>
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();">
+                                    <button onclick="reset_forms();" style="border:none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </table>

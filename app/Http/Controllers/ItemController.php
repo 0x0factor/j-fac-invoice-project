@@ -17,7 +17,7 @@ class ItemController extends Controller
     }
 
     // 一覧用
-    public function index()
+    public function index(Request $request)
     {
         $list = 5;
         $excises = config('constants.ExciseCode');
@@ -27,13 +27,13 @@ class ItemController extends Controller
 
         $page_title = "Company";
 
-        $condition = [];
-        $paginator = Item::where($condition)
+        $paginator = Item::where('ITEM', 'like', '%'.$request->ITEM.'%')
         ->orderBy('INSERT_DATE')
         ->paginate(20);
         $list = $paginator->items();
-// dd($paginator);
-        return view('item.index', compact('excises', 'main_title', 'title_text', 'title', 'page_title', 'paginator', 'list'));
+        $search_name = $request->ITEM;
+// dd($search_name);
+        return view('item.index', compact('excises', 'main_title', 'title_text', 'title', 'page_title', 'paginator', 'list', 'search_name'));
     }
 
     // 登録用

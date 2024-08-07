@@ -9,7 +9,7 @@
             $('#SETCUSTOMER').children('input[type=hidden]').val('');
             return false;
         }
-        // 
+        //
         -->
     </script>
 
@@ -54,20 +54,20 @@
                             <th>日付 FROM</th>
                             <td width="320">
                                 <input type="text" name="FROM" id="FROM" class="w100 p2 date cal" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('FROM').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal1.write();">
-                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('FROM')">
                             </td>
                         </tr>
                         <tr>
                             <th>日付 TO</th>
                             <td width="320">
                                 <input type="text" name="TO" id="TO" class="w100 p2 date cal" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('TO').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal2.write();">
-                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('TO')">
                             </td>
                         </tr>
                     </table>

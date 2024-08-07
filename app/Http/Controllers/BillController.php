@@ -63,6 +63,61 @@ class BillController extends Controller
             ]);
         }
 
+        $query = Bill::query();
+
+        if ($request->NO) {
+            $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
+        }
+
+        if ($request->SUBJECT) {
+            $query->where('SUBJECT', 'like', '%' . $request->SUBJECT . '%');
+        }
+
+        if ($request->CHR_USR_NAME) {
+            $query->where('CHR_ID', 'like', '%' . $request->CHR_USR_NAME . '%');
+        }
+
+        if ($request->USR_NAME) {
+            $query->where('USR_ID', 'like', '%' . $request->USR_NAME . '%');
+        }
+
+        if ($request->UPD_USR_NAME) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->UPD_USR_NAME . '%');
+        }
+
+        if ($request->STATUS) {
+            $query->whereIn('STATUS', $request->STATUS);
+        }
+
+        if ($request->ITEM_NAME) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->ITEM_NAME . '%');
+        }
+        if ($request->ITEM_CODE) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->ITEM_CODE . '%');
+        }
+        if ($request->TOTAL_FROM) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->TOTAL_FROM . '%');
+        }
+        if ($request->TOTAL_TO) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->TOTAL_TO . '%');
+        }
+        if ($request->ACTION_DATE_FROM) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->ACTION_DATE_FROM . '%');
+        }
+        if ($request->ACTION_DATE_TO) {
+            $query->where('UPDATE_USR_ID', 'like', '%' . $request->ACTION_DATE_TO . '%');
+        }
+        if ($request->NOTE) {
+            $query->where('NOTE', 'like', '%' . $request->NOTE . '%');
+        }
+        if ($request->MEMO) {
+            $query->where('MEMO', 'like', '%' . $request->MEMO . '%');
+        }
+
+        $searchData = $request ? $request: "";
+        $searchStatus = $request->STATUS;
+
+
         return view('bill.index', [
             'bills' => $bills,
             'authority' => $authority,
@@ -70,6 +125,8 @@ class BillController extends Controller
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'list' => $list,
+            'searchData' => $searchData,
+            'searchStatus' => $searchStatus,
             'mailstatus' => config('constants.MailStatusCode'),
             'status' => config('constants.IssuedStatCode')
         ]);

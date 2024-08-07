@@ -54,7 +54,7 @@
                                 <input type="text" name="DATE" value="{{ old('DATE') }}"
                                     class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly
                                     onchange="cal1.getFormValue(); cal1.hide();">
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal1.write();">
                                 <div id="calid"></div>

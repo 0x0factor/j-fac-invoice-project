@@ -67,6 +67,7 @@ Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::get('quotes/edit', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
+Route::get('quotes/check', [QuoteController::class, 'check'])->name('quote.check');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
 
 
@@ -83,6 +84,7 @@ Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbi
 Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
 Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
+Route::get('deliveries/check', [DeliveryController::class, 'check'])->name('delivery.check');
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
@@ -95,6 +97,7 @@ Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete
 Route::get('mails', [MailController::class, 'index'])->name('mail.index');
 Route::get('customercharges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
 Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
+Route::get('customercharges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
 
 Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
 Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');

@@ -87,6 +87,14 @@ class User extends Authenticatable
         ],
     ];
     /**
+     * @author Sam
+     * @return * Userdata
+     */
+    public function deliveries()
+    {
+        return $this->hasMany(Delivery::class, 'UPDATE_USR_ID', 'USR_ID');
+    }
+    /**
      * Hash the password before saving the model.
      *
      * @param  array  $data

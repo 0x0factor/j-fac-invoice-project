@@ -18,7 +18,7 @@
             $('#SETCCUNIT').children('input[type=text]').removeAttr('readonly')
             return false;
         }
-        // 
+        //
         -->
     </script>
     @extends('layouts.app')
@@ -60,7 +60,7 @@
                                 <input type="text" id="issue_date" name="DATE"
                                     value="{{ old('DATE', $totalbill->DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DATE') ? 'error' : '' }}" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     id="show_calendar">
                                 <div id="calid"></div>
@@ -162,7 +162,7 @@
                                 <input type="text" name="DUE_DATE"
                                     value="{{ old('DUE_DATE', $totalbill->DUE_DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DUE_DATE') ? 'error' : '' }}" readonly>
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DUE_DATE').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     id="show_calendar2">
                                 <div id="calid2"></div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CustomerCharge;
 use App\Models\Customer;
+use App\Models\Company;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class CustomerChargeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $main_title = "取引先担当者一覧";
         $title_text = "顧客管理";
@@ -42,10 +43,24 @@ class CustomerChargeController extends Controller
         $status = config('constants.StatusCode');
         $countys = config('constants.PrefectureCode');
 
-        $condition = [];
-        $paginator = CustomerCharge::where($condition)
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+
+        $cus_query = Company::query();
+        $res = $cus_query->where('COMPANY_NAME', 'like', '%' . $request->COMPANY_NAME . '%');
+        $query = CustomerCharge::query();
+
+        if ($request->CHARGE_NAME) {
+            $query->where('CHARGE_NAME', 'like', '%' . $request->CHARGE_NAME . '%');
+        }
+
+        // if ($request->COMPANY_NAME) {
+        //     $query->where('COMPANY_NAME', 'like', '%' . $request->COMPANY_NAME . '%');
+        // }
+
+        if ($request->STATUS) {
+            $query->where('STATUS', 'like', '%' . $request->STATUS . '%');
+        }
+
+        $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $list = $paginator->items();
 
         return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys', 'paginator', 'list'));

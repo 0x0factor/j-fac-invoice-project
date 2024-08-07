@@ -44,21 +44,21 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300"></td>
+                            <td><input type="text" name="NO" class="w300" value="{{$searchData['NO']}}"></td>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w300"></td>
+                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData['SUBJECT']}}"></td>
                         </tr>
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w300"></td>
+                            <td><input type="text" name="NAME" class="w300" value="{{$searchData['NAME']}}"></td>
                             <th>自社担当者</th>
-                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300"></td>
+                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData['CHR_USR_NAME']}}"></td>
                         </tr>
                         <tr>
                             <th>作成者</th>
-                            <td><input type="text" name="USR_NAME" class="w300"></td>
+                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData['USR_NAME']}}"></td>
                             <th>更新者</th>
-                            <td><input type="text" name="UPD_USR_NAME" class="w300"></td>
+                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData['UPD_USR_NAME']}}"></td>
                         </tr>
                         <tr>
                             <th>発行ステータス</th>
@@ -66,7 +66,7 @@
                                 @if (is_array($status) || is_object($status))
                                     @foreach ($status as $key => $value)
                                     <div class="checkbox">
-                                        <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="BillSTATUS{{ $key }}">
+                                        <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="BillSTATUS{{ $key }}" {{ in_array($key, request('STATUS', $searchStatus) ?? []) ? 'checked' : '' }}>
                                         <label for="BillSTATUS{{ $key }}"> {{ $value }} </label>
                                     </div>
                                     @endforeach
@@ -91,40 +91,40 @@
                             <table width="940" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <th>商品名</th>
-                                    <td><input type="text" name="ITEM_NAME" class="w300"></td>
+                                    <td><input type="text" name="ITEM_NAME" class="w300" value="{{$searchData['ITEM_NAME']}}"></td>
                                     <th>商品コード</th>
-                                    <td><input type="text" name="ITEM_CODE" class="w300"></td>
+                                    <td><input type="text" name="ITEM_CODE" class="w300" value="{{$searchData['ITEM_CODE']}}"></td>
                                 </tr>
                                 <tr>
                                     <th>合計金額</th>
                                     <td>
-                                        <input type="text" name="TOTAL_FROM" class="w100"> 円 ～
-                                        <input type="text" name="TOTAL_TO" class="w100"> 円
+                                        <input type="text" name="TOTAL_FROM" class="w100" value="{{$searchData['TOTAL_FROM']}}"> 円 ～
+                                        <input type="text" name="TOTAL_TO" class="w100" value="{{$searchData['TOTAL_TO']}}"> 円
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>発行日 開始日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal1.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_FROM')">
                                     </td>
                                     <th>発行日 終了日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal2.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_TO')">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>備考</th>
-                                    <td><input type="text" name="NOTE" class="w300"></td>
+                                    <td><input type="text" name="NOTE" class="w300" value="{{$searchData['NOTE']}}"></td>
                                     <th>メモ</th>
-                                    <td><input type="text" name="MEMO" class="w300"></td>
+                                    <td><input type="text" name="MEMO" class="w300" value="{{$searchData['MEMO']}}"></td>
                                 </tr>
                             </table>
                         </div>
@@ -139,7 +139,7 @@
                                     </button>
                                 </td>
                                 <td style="border:none;">
-                                    <button type="button" onclick="reset_forms();" style="border: none; ">
+                                    <button type="button" onclick="return reset_forms();" style="border: none; ">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
                                     </button>
                                 </td>
@@ -308,9 +308,9 @@
 
             </form>
             @endif
+            <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
         </div>
     </div>
 
-    <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
     </div>
 @endsection

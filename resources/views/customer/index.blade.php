@@ -53,26 +53,26 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w350" value="{{ old('NAME') }}"></td>
+                            <td><input type="text" name="NAME" class="w350" value="{{ $search_name['NAME'] }}"></td>
                         </tr>
                         <tr>
                             <th>住所</th>
-                            <td><input type="text" name="ADDRESS" class="w350" value="{{ old('ADDRESS') }}"></td>
+                            <td><input type="text" name="ADDRESS" class="w350" value="{{ $search_name['ADDRESS'] }}"></td>
                         </tr>
                     </table>
                     <div class="search_btn">
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#"
-                                        onclick="event.preventDefault(); document.getElementById('CustomerIndexForm').submit();">
+                                    <button
+                                        onclick="document.getElementById('CustomerIndexForm').submit();" style="border: none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="" />
-                                    </a>
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();">
+                                    <button onclick="reset_forms();" style="border: none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="" />
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </table>

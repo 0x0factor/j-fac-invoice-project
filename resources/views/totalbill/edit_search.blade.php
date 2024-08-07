@@ -9,7 +9,7 @@
             $('#SETCUSTOMER').children('input[type=hidden]').val('');
             return false;
         }
-        // 
+        //
         -->
     </script>
 
@@ -59,7 +59,7 @@
                                 </script>
                                 <input type="text" name="FROM" class="w100 p2 date cal" readonly
                                     onChange="cal1.getFormValue(); cal1.hide();">
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('FROM').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal1.write();">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="リセット" class="pl5 cleartime">
@@ -73,7 +73,7 @@
                                 </script>
                                 <input type="text" name="TO" class="w100 p2 date cal" readonly
                                     onChange="cal2.getFormValue(); cal2.hide();">
-                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('TO').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal2.write();">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="リセット" class="pl5 cleartime">

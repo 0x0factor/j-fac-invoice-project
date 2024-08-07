@@ -16,23 +16,35 @@ class ChargeController extends Controller
     }
 
     // 一覧用
-    public function index()
+    public function index(Request $request)
     {
         $status = config('constants.StatusCode');
         $seal = config('constants.SealCode');
+
+        $query = Charge::query();
+        // Apply filters based on request input
+        if ($request->CHARGE_NAME) {
+            $query->where('MQT_ID', 'like', '%' . $request->CHARGE_NAME . '%');
+        }
+
+        if ($request->UNIT) {
+            $query->where('UNIT', 'like', '%' . $request->UNIT . '%');
+        }
 
         $condition = [];
         $paginator = Charge::where($condition)
             ->orderBy('INSERT_DATE')
             ->paginate(20);
 
-        $list = Charge::All();
-        return view('charge.index', compact('status', 'seal', 'paginator', 'list'))
+        $list = $paginator->items();
+
+        $searchData = $request ? $request: "";
+        $searchStatus = $request->STATUS;
+
+        return view('charge.index', compact('status', 'seal', 'paginator', 'list', 'searchData', 'searchStatus' ))
             ->with('main_title', '自社担当者一覧')
             ->with('title_text', '自社情報設定')
             ->with('title', '抹茶請求書')
-            ->with('status', 'status')
-            ->with('seal', 'seal')
             ->with('page_title', 'Company');
     }
 

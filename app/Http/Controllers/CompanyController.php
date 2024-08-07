@@ -212,9 +212,9 @@ class CompanyController extends Controller
         ];
 
         $payment_month = config('constants.PaymentMonth');
-        $perror = 1;
-        $ferror = 1;
-        $ierror = 1;
+        $perror = 0;
+        $ferror = 0;
+        $ierror = 0;
 
 
 

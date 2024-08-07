@@ -43,14 +43,23 @@ class CustomerController extends Controller
             return redirect()->route('customer.index');
         }
 
+        $query = Customer::query();
+        // Apply filters based on request input
+        if ($request->NAME) {
+            $query->where('NAME', 'like', '%' . $request->NAME . '%');
+        }
+
+        if ($request->ADDRESS) {
+            $query->where('ADDRESS', 'like', '%' . $request->ADDRESS . '%');
+        }
+
         $condition = [];
-        $paginator = Customer::where($condition)
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+        $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $list = $paginator->items();
         $charge = $this->customer->select_charge($company_ID, $condition);
         $countys = config('constants.PrefectureCode');
-        $search_name = "";
+        $search_name = $request;
+
         return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list', 'countys', 'search_name'));
     }
 

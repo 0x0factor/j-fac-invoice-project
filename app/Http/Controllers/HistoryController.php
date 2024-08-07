@@ -23,6 +23,20 @@ class HistoryController extends Controller
         $title = "抹茶請求書";
 
         // Fetching paginated data
+
+        $query = History::query();
+        // Apply filters based on request input
+        if ($request->NAME) {
+            $query->where('NAME', 'like', '%' . $request->NAME . '%');
+        }
+
+        if ($request->SUBJECT) {
+            $query->where('SUBJECT', 'like', '%' . $request->SUBJECT . '%');
+        }
+
+        if ($request->STATUS) {
+            $query->whereIn('STATUS', $request->STATUS);
+        }
         $condition = [];
         $histories = History::where($condition)
             ->orderBy('ACTION_DATE')
@@ -30,7 +44,10 @@ class HistoryController extends Controller
             ->paginate(20); // Adjust pagination limit as needed
         $paginator = $histories;
 
-        // dd($paginator);
+        $searchData = $request ? $request: "";
+        $searchStatus = $request->STATUS;
+
+        // dd($searchData['NAME']);
 
         $ids = [];
         foreach ($histories as $key => $val) {
@@ -47,6 +64,6 @@ class HistoryController extends Controller
 
         $action = config('constants.ActionCode');
 
-        return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'action'));
+        return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'action', 'searchData', 'searchStatus'));
     }
 }

@@ -55,24 +55,21 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>担当者名</th>
-                            <td><input type="text" name="CHARGE_NAME" class="w350"></td>
+                            <td><input type="text" name="CHARGE_NAME" class="w350" value="{{$search_name}}"></td>
                         </tr>
                         <tr>
                             <th>部署名</th>
-                            <td><input type="text" name="UNIT" class="w350"></td>
+                            <td><input type="text" name="UNIT" class="w350" value="{{$searchData['UNIT']}}"></td>
                         </tr>
                         <tr>
                             <th>ステータス</th>
                             <td>
                                 <select name="STATUS">
                                     <option value="" disabled selected>項目を選んでください</option>
-                                    @if (!empty($status) && (is_array($status) || is_object($status)))
-                                        @foreach ($status as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
-                                    @else
-                                        <option value=""></option>
-                                    @endif
+                                    @foreach ($status as $key => $value)
+                                        <option value="{{ $key }}" {{ in_array($key, (array)request('STATUS', $searchStatus)) ? 'selected' : '' }}>{{ $value }}</option>
+                                    @endforeach
+
                                 </select>
                             </td>
                         </tr>
@@ -82,14 +79,14 @@
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#" onclick="document.getElementById('chargeSearchForm').submit();">
+                                    <button onclick="document.getElementById('chargeSearchForm').submit();" style="border:none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="">
-                                    </a>
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms();">
+                                    <button onclick="reset_forms();" style="border:none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="">
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </table>
@@ -152,7 +149,7 @@
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
                 <div class="list_area">
                     @if (is_array($list))
-                        <form method="POST" action="{{ route('charge.delete') }}">
+                        <form method="POST" action="{{ route('charge.index') }}">
                             @csrf
                             <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                                 <thead>

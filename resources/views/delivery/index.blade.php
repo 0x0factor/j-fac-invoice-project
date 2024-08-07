@@ -45,34 +45,33 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300"></td>
+                            <td><input type="text" name="NO" class="w300" value="{{$searchData['NO']}}"></td>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w300"></td>
+                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData['SUBJECT']}}"></td>
                         </tr>
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w300"></td>
+                            <td><input type="text" name="NAME" class="w300" value="{{$searchData['NAME']}}"></td>
                             <th>自社担当者</th>
-                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300"></td>
+                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData['CHR_USR_NAME']}}"></td>
                         </tr>
                         <tr>
                             <th>作成者</th>
-                            <td><input type="text" name="USR_NAME" class="w300"></td>
+                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData['USR_NAME']}}"></td>
                             <th>更新者</th>
-                            <td><input type="text" name="UPD_USR_NAME" class="w300"></td>
+                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData['UPD_USR_NAME']}}"></td>
                         </tr>
                         <tr>
                             <th>発行ステータス</th>
                             <td colspan="3">
-                                <select name="STATUS[]" multiple class="w300">
-                                    @if (!empty($status))
-                                        @foreach ($status as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
-                                    @else
-                                        <option value="">No status available</option>
-                                    @endif
-                                </select>
+
+                                @foreach ($status as $key => $value)
+                                <div class="checkbox">
+
+                                    <input type="checkbox" name="STATUS[]" value="{{ $key }}" id="DeliverySTATUS{{ $key }}" {{ in_array($key, request('STATUS', $searchStatus) ?? []) ? 'checked' : '' }}>
+                                    <label for="DeliverySTATUS{{ $key }}">{{ $value }}</label>
+                                </div>
+                                @endforeach
                             </td>
                         </tr>
                     </table>
@@ -92,38 +91,38 @@
                             <table width="940" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <th>商品名</th>
-                                    <td><input type="text" name="ITEM_NAME" class="w300"></td>
+                                    <td><input type="text" name="ITEM_NAME" class="w300" value="{{$searchData['ITEM_NAME']}}"></td>
                                     <th>商品コード</th>
-                                    <td><input type="text" name="ITEM_CODE" class="w300"></td>
+                                    <td><input type="text" name="ITEM_CODE" class="w300" value="{{$searchData['ITEM_CODE']}}"></td>
                                 </tr>
                                 <tr>
                                     <th>合計金額</th>
-                                    <td><input type="text" name="TOTAL_FROM" class="w100"> 円 ～ <input type="text"
-                                            name="TOTAL_TO" class="w100"> 円</td>
+                                    <td><input type="text" name="TOTAL_FROM" class="w100" value="{{$searchData['TOTAL_FROM']}}"> 円 ～ <input type="text"
+                                            name="TOTAL_TO" class="w100" value="{{$searchData['TOTAL_TO']}}"> 円</td>
                                 </tr>
                                 <tr>
                                     <th>発行日 開始日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal1.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_FROM')">
                                     </td>
                                     <th>発行日 終了日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal2.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_TO')">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>備考</th>
-                                    <td><input type="text" name="NOTE" class="w300"></td>
+                                    <td><input type="text" name="NOTE" class="w300" value="{{$searchData['NOTE']}}"></td>
                                     <th>メモ</th>
-                                    <td><input type="text" name="MEMO" class="w300"></td>
+                                    <td><input type="text" name="MEMO" class="w300" value="{{$searchData['MEMO']}}"></td>
                                 </tr>
                             </table>
                         </div>
@@ -133,16 +132,15 @@
                         <table style="margin:0 auto">
                             <tr>
                                 <td style="border:none;">
-                                    <a href="#"
-                                        >
+                                    <button onclick="document.getElementById('searchForm').submit();" style="border:none;">
                                         <img src="{{ asset('img/bt_search.jpg') }}" alt="" class="imgover">
-                                    </a>
+                                    </button>
                                 </td>
                                 <td style="border:none;">
-                                    <a href="#" onclick="reset_forms(); return false;">
+                                    <button onclick="reset_forms(); return false;" style="border:none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt=""
                                             class="imgover">
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </table>
@@ -250,33 +248,34 @@
                                         <tr>
                                             <td><input type="checkbox" name="{{ $val['MDV_ID'] }}"
                                                     class="chk"></td>
-                                            {{-- Assuming $authcheck is defined --}}
+
                                             @if (isset($authcheck[$key]))
                                                 <div class="auth{{ $val['Delivery']['MDV_ID'] }}" style="display:none;">
                                                     {{ $authcheck[$key] }}
                                                 </div>
                                             @endif
-                                            <td>{{ ht2br($val['MDV_ID'], 'Delivery', 'MDV_ID') }}
+                                            <td>{{ nl2br($val['MDV_ID']) }}
                                             </td>
-                                            <td>{{ ht2br($val['Customer']['NAME'], 'Customer', 'NAME') }}</td>
+                                            <td>{{ nl2br($val['Customer']['NAME'] ?? "") }}</td>
                                             <td>
                                                 <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
                                                     {{ $val['SUBJECT'] }}
                                                 </a>
                                             </td>
                                             <td>
-                                                {{ isset($val['TOTAL']) ? ht2br($val['TOTAL'], 'Delivery', 'TOTAL') . '円' : '&nbsp;' }}
+                                                {{ isset($val['TOTAL']) ? nl2br($val['TOTAL']) . '円' : '&nbsp;' }}
                                             </td>
                                             <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '&nbsp;' }}
                                             </td>
                                             @if ($user['AUTHORITY'] != 1)
+
                                                 <td>
-                                                    {{ ht2br($val['User']['NAME'], 'Delivery', 'NAME') }} /
-                                                    {{ $val['UpdateUser']['NAME'] ?? '&nbsp;' }}
+                                                    {{ nl2br($val['USER']['NAME']) }} /
+                                                    {{ $val['UPDATEUSER']['NAME'] ?? '&nbsp;' }}
                                                 </td>
                                             @endif
                                             <td>{{ $status[$val['STATUS']] }}</td>
-                                            <td>{{ $val['MEMO'] ? ht2br($val['MEMO'], 'Delivery', 'MEMO') : '&nbsp;' }}
+                                            <td>{{ $val['MEMO'] ? nl2br($val['MEMO']) : '&nbsp;' }}
                                             </td>
                                         </tr>
                                     @endforeach

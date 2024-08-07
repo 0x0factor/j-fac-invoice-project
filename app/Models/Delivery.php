@@ -25,6 +25,16 @@ class Delivery extends Model
     protected $primaryKey = 'MDV_ID';
     public $timestamps = false;
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'USR_ID', 'USR_ID');
+    }
+
+    public function updateUser()
+    {
+        return $this->belongsTo(User::class, 'UPDATE_USR_ID', 'USR_ID');
+    }
+
     // アクセス可能なカラム
     protected $accessible = [
     	'Delivery' => [

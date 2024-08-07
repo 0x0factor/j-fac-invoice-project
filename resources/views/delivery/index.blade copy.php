@@ -106,18 +106,18 @@
                                     <th>発行日 開始日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal1.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_TO')">
                                     </td>
                                     <th>発行日 終了日</th>
                                     <td width="320">
                                         <input type="text" name="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
-                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime">
+                                        <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal2.write();">
-                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime">
+                                        <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('ACTION_DATE_TO')">
                                     </td>
                                 </tr>
                                 <tr>

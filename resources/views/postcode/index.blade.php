@@ -1,6 +1,7 @@
 @extends('layout.default')
 
 @section('content')
+    
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -45,7 +46,7 @@
                             <th style="width:200px;">CSVデータアップロード</th>
                             <td>
                                 <input type="file" name="Post[Csv]">
-                                <button type="submit" onclick="this.style.display='none'">アップロード</button>
+                                <div class="submit"><input onclick="$(this).hide();" type="submit" value="アップロード"></div>
                             </td>
                         </tr>
                         <tr>
