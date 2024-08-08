@@ -204,7 +204,12 @@ class Totalbill extends Model
 
     public function search_bill($param, $user_id = null)
     {
-        $query = Bill::groupBy('mbl_id');
+
+        // $query = Bill::select('mbl_id')
+        //      ->groupBy('mbl_id')
+        //      ->get();
+
+        $query = Bill::query();
 
         if (isset($param['totalbill']['from']) && $param['totalbill']['from']) {
             $query->where('issue_date', '>=', $param['totalbill']['from']);

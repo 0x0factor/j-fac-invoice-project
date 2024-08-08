@@ -23,9 +23,8 @@
             <div class="edit_01_item"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form action="{{ route('item.add') }}" method="POST" class="Item">
+        <form action="{{ route('item.store') }}" method="POST" class="Item">
             @csrf
-
             <div class="contents_box">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
                 <div class="contents_area">

@@ -38,6 +38,7 @@
 
     {{-- Form Start --}}
     <form method="GET" action="{{ route('totalbill.index') }}">
+        @csrf
         <div id="contents">
             <div class="arrow_under">
                 <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow Under">
@@ -109,7 +110,7 @@
                         </table>
                     </div>
                 </div>
-                <img src="{{ asset('/img/document/bg_search_bottom.jpg') }}" class="block" alt="Search Bottom">
+                <img src="{{ asset('img/document/bg_search_bottom.jpg') }}" class="block" alt="Search Bottom">
             </div>
 
             <div id="calid"></div>
@@ -118,9 +119,13 @@
     </form>
 
     <div class="new_document">
-        <a href="{{ route('totalbill.add') }}">
-            <img src="{{ asset('img/bt_new.jpg') }}" alt="New">
-        </a>
+
+        <form method="POST" action="{{ route('totalbill.add') }}">
+        @csrf
+            <button type="submit" name="SAVE" class="ml5" style="border: none;">
+                <img src="{{ asset('img/bt_new.jpg') }}" alt="新規作成">
+            </button>
+        </form>
     </div>
 
     <h3>

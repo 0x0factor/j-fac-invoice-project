@@ -99,16 +99,21 @@ class TotalbillController extends Controller
         }
 
         if ($request->has('cancel_x') || $request->input('form') == null || $request->has('search_x')) {
+
             $totalbill = new Totalbill();
             $user_ID = $totalbill->get_user_id($user);
             $user_auth = $this->getUserAuthority($user);
 
+
+            // var_export($request);
+            // dd($request->method());
             if ($request->isMethod('post')) {
+
                 if (!$request->has('cancel_x')) {
                     if ($user_auth != 1) {
-                        $data = Totalbill::searchBill($request->all());
+                        $data = $totalbill->search_bill($request->all());
                     } else {
-                        $data = Totalbill::searchBill($request->all(), $user_ID);
+                        $data = $totalbill->search_bill($request->all(), $user_ID);
                     }
                 } else {
                     $i = 0;
@@ -135,11 +140,22 @@ class TotalbillController extends Controller
                     }
                 }
 
+                $edit_stat = [
+                    'type' => 'radio',
+                    'options' => config('constants.Edit_StatProtocolCode'),
+                    'value' => $stat,
+                    'div' => false,
+                    'label' => false,
+                    'legend' => false,
+                    'style' => 'width:30px;',
+                    'class' => 'txt_mid'
+                ];
+
                 return view('totalbill.search', [
                     'billlist' => $data,
                     'cst_name' => $request->input('Totalbill.CUSTOMER_NAME'),
                     'cst_id' => $request->input('Totalbill.CST_ID'),
-                    'edit_stat' => $this->getEditStatOptions($stat),
+                    'edit_stat' => $edit_stat,
                     'billfrag' => $billfrag,
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
@@ -320,8 +336,8 @@ class TotalbillController extends Controller
 
             if ($request->isMethod('post') && !$request->has('cancel_x')) {
                 $data = ($user_auth != 1)
-                    ? Totalbill::searchBill($request->all())
-                    : Totalbill::searchBill($request->all(), $user_ID);
+                    ? Totalbill::search_bill($request->all())
+                    : Totalbill::search_bill($request->all(), $user_ID);
             } else {
                 $data = [];
                 foreach ($request->input('Totalbill', []) as $key => $val) {

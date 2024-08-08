@@ -32,36 +32,48 @@ class ItemController extends Controller
         ->paginate(20);
         $list = $paginator->items();
         $search_name = $request->ITEM;
-// dd($search_name);
         return view('item.index', compact('excises', 'main_title', 'title_text', 'title', 'page_title', 'paginator', 'list', 'search_name'));
     }
 
+    public function add(Request $request){
+        $main_title = "商品登録";
+        $title_text = "自社情報設定";
+        $title = "抹茶請求書";
+        $excises = config('constants.ExciseCode');
+
+
+        return view('item.add', compact('main_title', 'title_text', 'title', 'excises'));
+    }
+
     // 登録用
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $main_title = "商品登録";
         $title_text = "自社情報設定";
         $title = "抹茶請求書";
 
-        if ($request->has('cancel_x')) {
-            return redirect('/items');
-        }
+        // if ($request->has('cancel_x')) {
+        //     return redirect('/items');
+        // }
 
         if ($request->has('submit_x')) {
             // トークンチェック
-            $this->validate($request, [
-                'Security.token' => 'required|csrf_token'
-            ]);
+            // var_export($request);die;
+            // $this->validate($request, [
+            //     'Security.token' => 'required|csrf_token'
+            // ]);
 
+            // dd("after validate");
             // データのインサート
-            $setdata = Item::set_data($request->input('data'));
+            $item = new Item();
+            $setdata = $item->set_data($request->input('data'));
             if (!isset($setdata['error'])) {
                 // 成功
                 Session::flash('status', '商品を保存しました');
                 return redirect('/items/check/' . $setdata['Item']['ITM_ID']);
             }
         }
-
+        dd("end if");
 
 
         $user = Auth::user();

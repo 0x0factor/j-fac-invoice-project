@@ -54,6 +54,14 @@
                             var cal1 = new JKL.Calendar("calid", "{{ $formType.$action }}Form", "data[{{ $formType }}][DATE]");
 
                             setInterval(function() {
+                                var dateInput = $('input.cal.date');
+                                console.log(dateInput);
+
+                                if (dateInput.length > 0) {
+                                var date = dateInput.val();
+                                } else {
+                                console.log('Date input element not found');
+                                }
                                 var date = document.querySelector('input.cal.date').value;
                                 if (lastDate != date) {
                                     lastDate = date;

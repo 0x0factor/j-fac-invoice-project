@@ -57,7 +57,7 @@
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('FROM').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal1.write();">
-                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('FROM')">
+                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="document.getElementById('FROM').value = '';">
                             </td>
                         </tr>
                         <tr>
@@ -67,7 +67,7 @@
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('TO').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                     onclick="return cal2.write();">
-                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="clearDate('TO')">
+                                <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="document.getElementById('TO').value = '';">
                             </td>
                         </tr>
                     </table>
@@ -77,7 +77,7 @@
                     </div>
                 </form>
             </div>
-            <img src="{{ asset('img/bg_search_bottom.jpg') }}" class="block">
+            <img src="{{ asset('img/document/bg_search_bottom.jpg') }}" class="block">
         </div>
         <div id="calid"></div>
 

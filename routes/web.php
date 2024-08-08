@@ -57,6 +57,33 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
 Route::get('/homes', [HomeController::class, 'index'])->name('home');
 
+Route::get('administers', [AdministerController::class, 'index'])->name('administer.index');
+Route::get('administers/add', [AdministerController::class, 'add'])->name('administer.add');
+Route::get('administers/edit', [AdministerController::class, 'edit'])->name('administer.edit');
+Route::get('administers/check', [AdministerController::class, 'check'])->name('administer.check');
+
+
+Route::get('bills', [BillController::class, 'index'])->name('bill.index');
+Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
+Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
+Route::get('bills/check', [BillController::class, 'check'])->name('bill.check');
+Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
+Route::get('bills/export', [BillController::class, 'index'])->name('bill.export');
+Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name('bill.download-pdf');
+
+Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
+Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
+Route::get('charges/check', [ChargeController::class, 'check'])->name('charge.check');
+Route::get('charges/edit', [ChargeController::class, 'edit'])->name('charge.edit');
+
+Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
+Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
+
+Route::get('configurations', [ConfigurationController::class, 'index'])->name('configuration.index');
+Route::get('configurations/edit', [ConfigurationController::class, 'edit'])->name('configuration.edit');
+
+Route::get('coverpages', [CoverpageController::class, 'index'])->name('coverpage.index');
+Route::get('coverpages/store', [CoverpageController::class, 'store'])->name('coverpage.store');
 
 // Route::get('customers/add', [CustomerController::class, 'addCustomers'])->name('customers.add');
 
@@ -68,7 +95,31 @@ Route::post('/customers/add', [CustomerController::class ,'add'])->name('custome
 Route::get('/customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
 
+Route::get('customercharges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
+Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
+Route::get('customercharges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
+Route::get('customercharges/edit', [CustomerchargeController::class, 'edit'])->name('customer_charge.edit');
 
+Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
+Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
+Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
+Route::get('deliveries/check', [DeliveryController::class, 'check'])->name('delivery.check');
+Route::get('deliveries/edit', [DeliveryController::class, 'edit'])->name('delivery.edit');
+
+Route::get('histories', [HistoryController::class, 'index'])->name('history.index');
+
+Route::get('items', [ItemController::class, 'index'])->name('item.index');
+Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
+Route::post('items/store', [ItemController::class, 'store'])->name('item.store');
+Route::post('items/check', [ItemController::class, 'check'])->name('item.check');
+Route::get('items/edit', [ItemController::class, 'edit'])->name('item.edit');
+
+Route::get('mails', [MailController::class, 'index'])->name('mail.index');
+Route::get('mails/check', [MailController::class, 'check'])->name('mail.check');
+
+Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
+
+Route::get('postcode', [PostcodeController::class, 'index'])->name('postcode.index');
 
 Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
@@ -77,51 +128,17 @@ Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.exp
 Route::get('quotes/check', [QuoteController::class, 'check'])->name('quote.check');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
 
-
-Route::get('bills', [BillController::class, 'index'])->name('bill.index');
-Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
-Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
-Route::get('bills/export', [BillController::class, 'index'])->name('bill.export');
-Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name('bill.download-pdf');
-
 Route::get('totalbills', [TotalbillController::class, 'index'])->name('totalbill.index');
 Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
-
-
-Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
-Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
-Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
-Route::get('deliveries/check', [DeliveryController::class, 'check'])->name('delivery.check');
-
-Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
-Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
-
-Route::get('items', [ItemController::class, 'index'])->name('item.index');
-Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
-Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete');
-
-
-Route::get('mails', [MailController::class, 'index'])->name('mail.index');
-Route::get('customercharges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
-Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
-Route::get('customercharges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
-
-Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
-Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
-
-Route::get('coverpages', [CoverpageController::class, 'index'])->name('coverpage.index');
-Route::get('coverpages/store', [CoverpageController::class, 'store'])->name('coverpage.store');
-
-Route::get('administers', [AdministerController::class, 'index'])->name('administer.index');
-Route::get('administers/add', [AdministerController::class, 'add'])->name('administer.add');
-Route::get('histories', [HistoryController::class, 'index'])->name('history.index');
-Route::get('configurations', [ConfigurationController::class, 'index'])->name('configuration.index');
-Route::get('postcode', [PostcodeController::class, 'index'])->name('postcode.index');
+Route::post('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
+Route::get('totalbills/store', [TotalbillController::class, 'store'])->name('totalbill.store');
+Route::get('totalbills/check', [TotalbillController::class, 'check'])->name('totalbill.check');
+Route::get('totalbills/edit', [TotalbillController::class, 'edit'])->name('totalbill.edit');
+Route::get('totalbills/edit_search', [TotalbillController::class, 'edit_search'])->name('totalbill.edit_search');
+Route::get('totalbills/search', [TotalbillController::class, 'search'])->name('totalbill.search');
 
 Route::get('view_options', [View_optionController::class, 'index'])->name('view_option.index');
 Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
-
-Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
 
 Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
 Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');

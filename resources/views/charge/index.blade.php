@@ -55,7 +55,8 @@
                     <table width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>担当者名</th>
-                            <td><input type="text" name="CHARGE_NAME" class="w350" value="{{$search_name}}"></td>
+                            <td><input type="text" name="CHARGE_NAME" class="w350" value="{{$searchData['CHARGE_NAME']}}"></td>
+
                         </tr>
                         <tr>
                             <th>部署名</th>
