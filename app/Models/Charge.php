@@ -7,7 +7,7 @@ use App\Models\Customer; // Adjust based on your actual model namespace
 
 class Charge extends Model
 {
-    protected $table = 't_charge'; // Table name
+    protected $table = 'T_CHARGE'; // Table name
 
     protected $primaryKey = 'CHR_ID'; // Primary key
 

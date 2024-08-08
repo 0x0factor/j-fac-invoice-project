@@ -32,6 +32,7 @@ class AuthController extends Controller
             'LOGIN_ID' => 'required',
             'PASSWORD' => 'required'
         ]);
+        
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/homes');

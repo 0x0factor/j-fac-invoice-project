@@ -21,7 +21,7 @@ use App\Traits\CustomValidation;
 class Delivery extends Model
 {
 
-    protected $table = 't_delivery';
+    protected $table = 'T_DELIVERY';
     protected $primaryKey = 'MDV_ID';
     public $timestamps = false;
 

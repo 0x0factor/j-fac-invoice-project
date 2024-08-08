@@ -10,7 +10,7 @@ use App\Vendors\model\OtherModel;
 
 class Company extends Model
 {
-    protected $table = 't_company';
+    protected $table = 'T_COMPANY';
     protected $primaryKey = 'CMP_ID';
     public $timestamps = false;
 

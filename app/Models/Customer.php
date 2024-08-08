@@ -11,7 +11,7 @@ use App\Models\Charge;
 
 class Customer extends Model
 {
-    protected $table = 't_customer';
+    protected $table = 'T_CUSTOMER';
     protected $primaryKey = 'CST_ID';
     public $timestamps = false;
 

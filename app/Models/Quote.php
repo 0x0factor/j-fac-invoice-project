@@ -17,7 +17,7 @@ use App\Vendors\model\Form;
  */
 class Quote extends Model
 {
-    protected $table = 't_quote';
+    protected $table = 'T_QUOTE';
     protected $primaryKey = 'MQT_ID';
     public $timestamps = false;
     // Validation

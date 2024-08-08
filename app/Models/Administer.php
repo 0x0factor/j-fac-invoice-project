@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Administer extends Model
 {
-    protected $table = 't_user';
+    protected $table = 'T_USER';
     protected $primaryKey = 'USR_ID';
     protected $fillable = [
         'USR_ID',

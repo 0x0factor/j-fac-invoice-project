@@ -16,7 +16,7 @@ use App\Traits\CustomValidation;
 class Bill extends Model
 {
 
-    protected $table = 't_bill';
+    protected $table = 'T_BILL';
     protected $primaryKey = 'MBL_ID';
 
     protected $fillable = [
