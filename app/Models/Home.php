@@ -18,15 +18,15 @@ class Home extends Model
         $primaryId = null;
 
         switch ($modelName) {
-            case 't_bill':
+            case 'T_BILL':
                 $model = new Bill();
                 $primaryId = 'MBL_ID';
                 break;
-            case 't_quote':
+            case 'T_QUOTE':
                 $model = new Quote();
                 $primaryId = 'MQT_ID';
                 break;
-            case 't_delivery':
+            case 'T_DELIVERY':
                 $model = new Delivery();
                 $primaryId = 'MDV_ID';
                 break;

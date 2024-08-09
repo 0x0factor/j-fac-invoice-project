@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('content')
-    
+
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -28,7 +28,7 @@
             <div class="edit_02_edit_postcode"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form action="{{ route('zipcode.update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('postcode.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="contents_box">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
@@ -57,7 +57,7 @@
                             <th style="width:200px;">郵便番号の修復</th>
                             <td>
                                 更新に失敗した場合は、
-                                <a href="{{ route('zipcode.reset') }}">こちら</a>をクリックすると郵便番号を初期状態に戻すことができます。
+                                <a href="{{ route('postcode.reset') }}">こちら</a>をクリックすると郵便番号を初期状態に戻すことができます。
                             </td>
                         </tr>
                     </table>

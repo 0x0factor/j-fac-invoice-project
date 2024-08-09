@@ -107,7 +107,7 @@ class Bill extends Model
     public function indexDelete($_param)
     {
         $form = new Form();
-        return $form->Delete_Replication_Data($_param, 't_bill', 'MBL_ID');
+        return $form->Delete_Replication_Data($_param, 'T_BILL', 'MBL_ID');
     }
 
     /**
@@ -118,20 +118,20 @@ class Bill extends Model
      * @param string $modelFrom
      * @return array|boolean
      */
-    public function reproduceCheck($_param, $autoSerial = true, $modelFrom = 't_bill')
+    public function reproduceCheck($_param, $autoSerial = true, $modelFrom = 'T_BILL')
     {
         $form = new Form();
-        unset($_param['t_bill']['STATUS_CHANGE']);
+        unset($_param['T_BILL']['STATUS_CHANGE']);
 
         // Check if any copy item is not numeric
-        foreach ($_param['t_bill'] as $key => $val) {
+        foreach ($_param['T_BILL'] as $key => $val) {
             if (!is_numeric($key)) {
                 return false;
             }
         }
 
         // Organize copy item IDs
-        $form->Sort_Replication_ID($_param, 't_bill');
+        $form->Sort_Replication_ID($_param, 'T_BILL');
         if (!$_param) {
             return false;
         }
@@ -145,7 +145,7 @@ class Bill extends Model
         }
 
         // Get copy item information
-        $form->getReplicationItem($_param, 't_bill', $autoSerial, $modelFrom);
+        $form->getReplicationItem($_param, 'T_BILL', $autoSerial, $modelFrom);
         if (!$_param) {
             return false;
         }
@@ -165,10 +165,10 @@ class Bill extends Model
         $form = new Form();
 
         $tableBefore = "Table";
-        $tableAfter = "t_bill";
+        $tableAfter = "T_BILL";
 
         $itemBefore = "Item";
-        $itemAfter = "Bt_bill_item";
+        $itemAfter = "T_BILL_ITEM";
 
         // Organize copy item data
         $form->Sort_Replication_Data($_param, $tableBefore, $tableAfter, $itemBefore, $itemAfter);
@@ -176,7 +176,7 @@ class Bill extends Model
             return false;
         }
 
-        return $form->Copy_Replication_Data($_param, 't_bill', 'MBL_ID', $itemAfter, $_userId);
+        return $form->Copy_Replication_Data($_param, 'T_BILL', 'MBL_ID', $itemAfter, $_userId);
     }
 
     /**
@@ -288,7 +288,7 @@ class Bill extends Model
     public function previewData($billId, &$items = null, &$discounts = null)
     {
         $form = new Form();
-        return $form->Get_Preview_Data($billId, 't_bill', $items, $discounts);
+        return $form->Get_Preview_Data($billId, 'T_BILL', $items, $discounts);
     }
 
     /**
@@ -300,7 +300,7 @@ class Bill extends Model
     public function sendMail($params)
     {
         $form = new Form();
-        return $form->Send_Mail($params, 't_bill');
+        return $form->Send_Mail($params, 'T_BILL');
     }
 
     /**
@@ -314,7 +314,7 @@ class Bill extends Model
     public function getMailParams($billId, &$customerCharge = null, &$charge = null)
     {
         $form = new Form();
-        return $form->Get_Mail_Param($billId, 't_bill', $customerCharge, $charge);
+        return $form->Get_Mail_Param($billId, 'T_BILL', $customerCharge, $charge);
     }
 
     /**
@@ -330,7 +330,7 @@ class Bill extends Model
     public function export($params, &$error, $type = 'term', $userAuth = null, $userId = null)
     {
         $form = new Form();
-        return $form->Export_Excel('t_bill', $params, $error, $type, $userAuth, $userId);
+        return $form->Export_Excel('T_BILL', $params, $error, $type, $userAuth, $userId);
     }
 
     /**
@@ -342,7 +342,7 @@ class Bill extends Model
     public function getUser($id)
     {
         $form = new Form();
-        return $form->Get_User_Data('t_bill', $id);
+        return $form->Get_User_Data('T_BILL', $id);
     }
 
     /**
@@ -381,23 +381,23 @@ class Bill extends Model
         $lineAttrNormal = 0;
 
         // If no discount type, skip the check
-        if ($discountCodeNone == $data['t_bill']['DISCOUNT_TYPE']) {
+        if ($discountCodeNone == $data['T_BILL']['DISCOUNT_TYPE']) {
             return;
         }
 
-        unset($data['t_bill']);
+        unset($data['T_BILL']);
         unset($data['Security']);
 
         $prevTaxRate = null;
         foreach ($data as $key => $item) {
-            if ($item['t_bill_item']['LINE_ATTRIBUTE'] != 0) {
+            if ($item['T_BILL_ITEM']['LINE_ATTRIBUTE'] != 0) {
                 continue;
             }
-            if ($item['t_bill_item']['TAX_CLASS'] == $taxClassFree) {
+            if ($item['T_BILL_ITEM']['TAX_CLASS'] == $taxClassFree) {
                 continue;
             }
 
-            $taxRate = intval($item['t_bill_item']['TAX_CLASS'] / 10);
+            $taxRate = intval($item['T_BILL_ITEM']['TAX_CLASS'] / 10);
 
             if (is_null($prevTaxRate)) {
                 $prevTaxRate = $taxRate;

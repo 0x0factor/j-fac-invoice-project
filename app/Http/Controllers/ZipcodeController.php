@@ -10,7 +10,8 @@ class ZipcodeController extends Controller
     public function index()
     {
         $count = $this->getZipcodeCount();
-        return view('zipcode', compact('count'));
+        return view('postcode.index', compact('count'));
+
     }
 
     public function update(Request $request)
@@ -24,13 +25,13 @@ class ZipcodeController extends Controller
             // Add your CSV processing logic here
         }
 
-        return redirect()->route('zipcode.index')->with('status', 'CSV file uploaded successfully.');
+        return redirect()->route('postcode.index')->with('status', 'CSV file uploaded successfully.');
     }
 
     public function reset()
     {
         // Handle the reset logic here
-        return redirect()->route('zipcode.index')->with('status', 'Zipcodes have been reset to initial state.');
+        return redirect()->route('postcode.index')->with('status', 'Zipcodes have been reset to initial state.');
     }
 
     private function getZipcodeCount()

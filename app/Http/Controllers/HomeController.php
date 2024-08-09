@@ -11,13 +11,13 @@ class HomeController extends Controller
     public function index()
     {
         if ($this->getUserAuthority() != 1) {
-            $bill = Home::getRecentForms('t_bill');
-            $quote = Home::getRecentForms('t_quote');
-            $delivery = Home::getRecentForms('t_delivery');
+            $bill = Home::getRecentForms('T_BILL');
+            $quote = Home::getRecentForms('T_QUOTE');
+            $delivery = Home::getRecentForms('T_DELIVERY');
         } else {
-            $bill = Home::getRecentForms('t_bill', $this->getUserId());
-            $quote = Home::getRecentForms('t_quote', $this->getUserId());
-            $delivery = Home::getRecentForms('t_delivery', $this->getUserId());
+            $bill = Home::getRecentForms('T_BILL', $this->getUserId());
+            $quote = Home::getRecentForms('T_QUOTE', $this->getUserId());
+            $delivery = Home::getRecentForms('T_DELIVERY', $this->getUserId());
         }
 
         $users = User::select('USR_ID', 'NAME')->get();

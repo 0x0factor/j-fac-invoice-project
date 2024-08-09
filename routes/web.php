@@ -65,10 +65,10 @@ Route::get('administers/check', [AdministerController::class, 'check'])->name('a
 
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
-Route::get('bills/index', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/check', [BillController::class, 'check'])->name('bill.check');
 Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
-Route::get('bills/export', [BillController::class, 'index'])->name('bill.export');
+Route::get('bills/export', [BillController::class, 'export'])->name('bill.export');
+Route::get('bills/delete', [BillController::class, 'delete'])->name('bill.delete');
 Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name('bill.download-pdf');
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
@@ -92,6 +92,7 @@ Route::get('/customers/select', [CustomerController::class,"select"])->name('cus
 Route::get('/customers/check/{customer_ID}', [CustomerController::class, "check"])->name('customer.check');
 Route::get('/customers/add', [CustomerController::class,"add"])->name('customer.add');
 Route::post('/customers/add', [CustomerController::class ,'add'])->name('customer.save');
+Route::post('/customers/delete', [CustomerController::class ,'delete'])->name('customer.delete');
 Route::get('/customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
 
@@ -99,6 +100,7 @@ Route::get('customercharges', [CustomerchargeController::class, 'index'])->name(
 Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
 Route::get('customercharges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
 Route::get('customercharges/edit', [CustomerchargeController::class, 'edit'])->name('customer_charge.edit');
+Route::get('customercharges/delete', [CustomerchargeController::class, 'delete'])->name('customer_charge.delete');
 
 Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
@@ -113,6 +115,7 @@ Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
 Route::post('items/store', [ItemController::class, 'store'])->name('item.store');
 Route::post('items/check', [ItemController::class, 'check'])->name('item.check');
 Route::get('items/edit', [ItemController::class, 'edit'])->name('item.edit');
+Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete');
 
 Route::get('mails', [MailController::class, 'index'])->name('mail.index');
 Route::get('mails/check', [MailController::class, 'check'])->name('mail.check');
@@ -127,12 +130,14 @@ Route::get('quotes/edit', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::get('quotes/check', [QuoteController::class, 'check'])->name('quote.check');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
+Route::get('quotes/delete', [QuoteController::class, 'delete'])->name('quote.delete');
 
 Route::get('totalbills', [TotalbillController::class, 'index'])->name('totalbill.index');
 Route::get('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
 Route::post('totalbills/add', [TotalbillController::class, 'add'])->name('totalbill.add');
 Route::get('totalbills/store', [TotalbillController::class, 'store'])->name('totalbill.store');
 Route::get('totalbills/check', [TotalbillController::class, 'check'])->name('totalbill.check');
+Route::get('totalbills/delete', [TotalbillController::class, 'delete'])->name('totalbill.delete');
 Route::get('totalbills/edit', [TotalbillController::class, 'edit'])->name('totalbill.edit');
 Route::get('totalbills/edit_search', [TotalbillController::class, 'edit_search'])->name('totalbill.edit_search');
 Route::get('totalbills/search', [TotalbillController::class, 'search'])->name('totalbill.search');
@@ -140,9 +145,9 @@ Route::get('totalbills/search', [TotalbillController::class, 'search'])->name('t
 Route::get('view_options', [View_optionController::class, 'index'])->name('view_option.index');
 Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
 
-Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
-Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');
-Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.reset');
+Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('postcode.index');
+Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('postcode.update');
+Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('postcode.reset');
 
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
