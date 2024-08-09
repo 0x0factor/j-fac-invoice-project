@@ -287,7 +287,7 @@ class TotalbillController extends Controller
             return redirect('/totalbills/');
         }
 
-        $editauth = $this->getEditAuthority($param['Totalbill']['USR_ID']);
+        $editauth = $this->Get_Edit_Authority($param['Totalbill']['USR_ID']);
 
         if ($customer_charge = CustomerCharge::where('CHRC_ID', $param['Totalbill']['CHRC_ID'])->first()) {
             $param['CustomerCharge']['CHARGE_NAME'] = $customer_charge->CHARGE_NAME;
@@ -397,7 +397,7 @@ class TotalbillController extends Controller
                 $cst_id = $cst['Customer']['CST_ID'];
             }
 
-            if (!$this->getEditAuthority($tbl_user_id)) {
+            if (!$this->Get_Edit_Authority($tbl_user_id)) {
                 $request->session()->flash('error', '帳票を編集する権限がありません');
                 return redirect('/totalbills/');
             }
@@ -454,7 +454,7 @@ class TotalbillController extends Controller
             foreach ($request->input('Totalbill') as $key => $val) {
                 if ($val == 1) {
                     $id = Totalbill::where('TBL_ID', $key)->pluck('USR_ID')->first();
-                    if (!$this->getEditAuthority($id)) {
+                    if (!$this->Get_Edit_Authority($id)) {
                         $request->session()->flash('error', '削除できない合計請求書が含まれていました');
                         return redirect('/totalbills/index');
                     }

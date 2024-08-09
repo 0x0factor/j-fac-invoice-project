@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Session;
 
 
 
-class BillController extends Controller
+class BillController extends Appcontroller
 {
     const DISCOUNT_TYPE_PERCENT = 0;
     const DISCOUNT_TYPE_NONE = 2;
@@ -50,7 +50,7 @@ class BillController extends Controller
         $list = $bills->items();
 
         foreach ($bills as $bill) {
-            $authority[$bill->user->USR_ID] = $this->getEditAuthority($bill->user->USR_ID) ? true : false;
+            $authority[$bill->user->USR_ID] = $this->Get_Edit_Authority($bill->user->USR_ID) ? true : false;
         }
 
         if ($request->has('customer')) {
@@ -316,7 +316,7 @@ class BillController extends Controller
         $param = $this->getCompatibleItems($param);
         $count = $param['count'];
 
-        $editauth = $this->getEditAuthority($param['Bill']['USR_ID']);
+        $editauth = $this->Get_Edit_Authority($param['Bill']['USR_ID']);
 
         // Set data for the view
         return view('bill.check', [

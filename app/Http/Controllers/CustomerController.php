@@ -273,7 +273,7 @@ class CustomerController extends Controller
         }
 
         // Check edit authority
-        if (!$this->getEditAuthority($customer->USR_ID)) {
+        if (!$this->Get_Edit_Authority($customer->USR_ID)) {
             Session::flash('error', 'ページを開く権限がありません');
             return Redirect::to("/customers/index/");
         }

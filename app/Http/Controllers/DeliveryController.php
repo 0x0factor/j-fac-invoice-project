@@ -389,7 +389,7 @@ class DeliveryController extends Controller
         $delivery = $this->getCompatibleItems($delivery);
         $count = $delivery->count;
 
-        $editauth = $this->getEditAuthority($delivery->USR_ID);
+        $editauth = $this->Get_Edit_Authority($delivery->USR_ID);
 
         // Pass data to the view
         return view('delivery.check', [
@@ -459,7 +459,7 @@ class DeliveryController extends Controller
             }
             $data['Delivery']['item'] = 'default';
 
-            if (!$this->getEditAuthority($data['Delivery']['USR_ID'])) {
+            if (!$this->Get_Edit_Authority($data['Delivery']['USR_ID'])) {
                 Session::flash('error', '帳票を編集する権限がありません');
                 return redirect()->route('delivery.index');
             }
@@ -795,7 +795,7 @@ class DeliveryController extends Controller
         return Auth::user()->id == $user_id || Auth::user()->AUTHORITY == 1;
     }
 
-    private function getEditAuthority($user_id)
+    private function Get_Edit_Authority($user_id)
     {
         // Implement the method to get edit authority
         // For example:

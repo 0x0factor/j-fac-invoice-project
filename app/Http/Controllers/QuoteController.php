@@ -391,7 +391,7 @@ class QuoteController extends AppController
             'fractions' => config('constants.FractionCode'),
             'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
             'status' => config('constants.IssuedStatCode'),
-            'editauth' => $this->getEditAuthority($quote->USR_ID),
+            'editauth' => $this->Get_Edit_Authority($quote->USR_ID),
             'param' => $quote,
             'dataline' => $count, // Ensure $count is defined
             'honor' => config('constants.HonorCode'),
