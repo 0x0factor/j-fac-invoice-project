@@ -390,6 +390,8 @@ JKL.Calendar.prototype.write = function () {
 	cal1.style.width = this.style.frame_width;
 	cal1.style.position = "absolute";
 	cal1.innerHTML = src1;
+    // console.log($('.cal').position().top);
+
 	cal1.style.top  = $('.cal').position().top  + $('.cal').height() + 8 + 'px';
 	cal1.style.left = $('.cal').position().left + 'px';
 

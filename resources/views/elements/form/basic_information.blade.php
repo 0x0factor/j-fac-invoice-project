@@ -232,8 +232,10 @@
     //<![CDATA[
         var lastDate = '';
         var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
-        setInterval(function(){
+        // setInterval(function(){
             var date = $('input.cal.date').val();
+            console.log("test==>", date);
+
             if(lastDate != date){
                 lastDate = date;
                 var calcDate = new Date(date);
@@ -244,6 +246,6 @@
                     $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
                 }
             }
-        },1);
+        // },1000);
     //]]>
 </script>

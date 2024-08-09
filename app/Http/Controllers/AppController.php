@@ -114,8 +114,8 @@ class AppController extends Controller {
 
 	function Get_Check_Authority($_id){
 		$user= Auth::user();
-		if($user['User']['AUTHORITY']==1){
-			if($_id!=$user['User']['USR_ID']){
+		if($user['AUTHORITY']==1){
+			if($_id!=$user['USR_ID']){
 				return false;
 			}
 		}
@@ -124,8 +124,8 @@ class AppController extends Controller {
 
 	function Get_Edit_Authority($_id){
 		$user= Auth::user();
-		if($user['User']['AUTHORITY']==2||$user['User']['AUTHORITY']==1){
-			if($_id!=$user['User']['USR_ID']){
+		if($user['AUTHORITY']==2||$user['AUTHORITY']==1){
+			if($_id!=$user['USR_ID']){
 				return false;
 			}
 		}
@@ -133,11 +133,11 @@ class AppController extends Controller {
 	}
 	function Get_User_ID(){
 		$user= Auth::user();
-		return $user['User']['USR_ID'];
+		return $user['USR_ID'];
 	}
 	function Get_User_AUTHORITY(){
 		$user= Auth::user();
-		return $user['User']['AUTHORITY'];
+		return $user['AUTHORITY'];
 	}
 
 	function item_validation($_param,$_field){
@@ -295,7 +295,7 @@ class AppController extends Controller {
 
 	function createTmpImage() {
 		$user= Auth::user();
-		$dir = TMP.'images'.DS.$user['User']['USR_ID'];
+		$dir = TMP.'images'.DS.$user['USR_ID'];
 		$flag = true;
 		if (is_dir($dir)) {
 			$dh = opendir($dir);

@@ -98,6 +98,8 @@ class QuoteController extends AppController
             'quotes' => $quotes,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
+            'searchStatus' => $searchStatus,
+            'controller_name' => "Quote",
 
         ]);
     }
