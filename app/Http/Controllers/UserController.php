@@ -47,7 +47,6 @@ class UserController extends BaseController
     return back()->withErrors(['LOGIN_ID' => 'Invalid credentials.']);
 
     $value = Cookie::get('userid');
-    dd($value);
     if ($value != null) {
         $user = $this->Auth->user();
         $this->historyService->h_logout($value[0]);

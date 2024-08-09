@@ -10,7 +10,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 
 class AppController extends Controller {
@@ -29,7 +31,7 @@ class AppController extends Controller {
 		$this->header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 		$this->header('Pragma: no-cache');
 
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		$this->set('usernavi', configure('constants.UserNavigate'));
 		$this->set('user',$user['User']);
 		$value = $this->Cookie->read('userid');
@@ -94,7 +96,7 @@ class AppController extends Controller {
 
 
 	function Get_User_Data(){
-		return $this->Auth->user();
+		return  Auth::user();
 	}
 
 	function Set_View_Option(){
@@ -111,7 +113,7 @@ class AppController extends Controller {
 	}
 
 	function Get_Check_Authority($_id){
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		if($user['User']['AUTHORITY']==1){
 			if($_id!=$user['User']['USR_ID']){
 				return false;
@@ -121,7 +123,7 @@ class AppController extends Controller {
 	}
 
 	function Get_Edit_Authority($_id){
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		if($user['User']['AUTHORITY']==2||$user['User']['AUTHORITY']==1){
 			if($_id!=$user['User']['USR_ID']){
 				return false;
@@ -130,11 +132,11 @@ class AppController extends Controller {
 		return true;
 	}
 	function Get_User_ID(){
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		return $user['User']['USR_ID'];
 	}
 	function Get_User_AUTHORITY(){
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		return $user['User']['AUTHORITY'];
 	}
 
@@ -292,7 +294,7 @@ class AppController extends Controller {
 	}
 
 	function createTmpImage() {
-		$user=$this->Auth->user();
+		$user= Auth::user();
 		$dir = TMP.'images'.DS.$user['User']['USR_ID'];
 		$flag = true;
 		if (is_dir($dir)) {
