@@ -59,6 +59,7 @@ Route::get('/homes', [HomeController::class, 'index'])->name('home');
 
 Route::get('administers', [AdministerController::class, 'index'])->name('administer.index');
 Route::get('administers/add', [AdministerController::class, 'add'])->name('administer.add');
+Route::post('administers/add', [AdministerController::class, 'add'])->name('administer.add');
 Route::get('administers/edit', [AdministerController::class, 'edit'])->name('administer.edit');
 Route::get('administers/check', [AdministerController::class, 'check'])->name('administer.check');
 

@@ -58,10 +58,12 @@ class AdministerController extends Controller
             ]);
 
             $requestData = $request->all();
-            $requestData['Administer']['PASSWORD'] = bcrypt($requestData['Administer']['EDIT_PASSWORD']);
+
+
+            $requestData['EDIT_PASSWORD'] = bcrypt($requestData['EDIT_PASSWORD']);
 
             // Validation
-            $validator = Validator::make($requestData['Administer'], [
+            $validator = Validator::make($requestData, [
                 'LOGIN_ID' => 'unique:administers',
                 'MAIL' => 'email'
             ]);
@@ -70,15 +72,15 @@ class AdministerController extends Controller
                 $error = $validator->errors()->toArray();
             }
 
-            $requestData['Administer']['CMP_ID'] = $company_ID;
-            $administer = Administer::create($requestData['Administer']);
+            $requestData['CMP_ID'] = $company_ID;
+            $administer = Administer::create($requestData);
 
             if ($administer) {
                 Session::flash('success', 'ユーザを保存しました');
                 return redirect("/administers/check/{$administer->USR_ID}");
             } else {
-                $requestData['Administer']['EDIT_PASSWORD'] = null;
-                $requestData['Administer']['EDIT_PASSWORD1'] = null;
+                $requestData['EDIT_PASSWORD'] = null;
+                $requestData['EDIT_PASSWORD1'] = null;
             }
         }
 
@@ -116,18 +118,18 @@ class AdministerController extends Controller
             $requestData = $request->all();
             $administer = Administer::find($usr_ID);
 
-            if ($requestData['Administer']['CHANGEFLG'] == 1) {
-                if (empty($requestData['Administer']['EDIT_PASSWORD'])) {
+            if ($requestData['CHANGEFLG'] == 1) {
+                if (empty($requestData['EDIT_PASSWORD'])) {
                     $error['PASSWORD'] = 1;
                 }
                 // Update password
-                $requestData['Administer']['PASSWORD'] = bcrypt($requestData['Administer']['EDIT_PASSWORD']);
-                $requestData['Administer']['PASSWORD_NOW'] = bcrypt($requestData['Administer']['PASSWORD_NOW']);
+                $requestData['PASSWORD'] = bcrypt($requestData['EDIT_PASSWORD']);
+                $requestData['PASSWORD_NOW'] = bcrypt($requestData['PASSWORD_NOW']);
             } else {
-                $requestData['Administer']['PASSWORD_NOW'] = $administer->PASSWORD;
+                $requestData['PASSWORD_NOW'] = $administer->PASSWORD;
             }
 
-            $validator = Validator::make($requestData['Administer'], [
+            $validator = Validator::make($requestData, [
                 'MAIL' => 'email'
             ]);
 
@@ -135,13 +137,13 @@ class AdministerController extends Controller
                 $error['MAIL'] = 2;
             }
 
-            if ($administer->update($requestData['Administer'])) {
+            if ($administer->update($requestData)) {
                 Session::flash('success', 'ユーザを保存しました');
-                return redirect("/administers/check/{$requestData['Administer']['USR_ID']}");
+                return redirect("/administers/check/{$requestData['USR_ID']}");
             } else {
-                $requestData['Administer']['PASSWORD_NOW'] = null;
-                $requestData['Administer']['EDIT_PASSWORD'] = null;
-                $requestData['Administer']['EDIT_PASSWORD1'] = null;
+                $requestData['PASSWORD_NOW'] = null;
+                $requestData['EDIT_PASSWORD'] = null;
+                $requestData['EDIT_PASSWORD1'] = null;
             }
         } else {
             $administer = Administer::find($usr_ID);
@@ -150,8 +152,8 @@ class AdministerController extends Controller
                 return redirect('/administers');
             }
 
-            $requestData['Administer'] = $administer->toArray();
-            $requestData['Administer']['CHANGEFLG'] = 0;
+            $requestData = $administer->toArray();
+            $requestData['CHANGEFLG'] = 0;
         }
 
         $status = config('constants.StatusCode');

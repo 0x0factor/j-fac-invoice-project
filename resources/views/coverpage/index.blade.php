@@ -71,7 +71,10 @@
                                 <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10">
                             </th>
                             <td style="width:710px;" colspan="3">
-                                <input type="radio" name="SEND_METHOD" value="0" class="ml20 mr5 txt_mid">
+                                @foreach ($SendMethod as $key => $value)
+                                    <input type="radio" name="SEND_METHOD" id="CoverpagesSENDMETHOD{{ $key }}" value="{{ $key }}" class="ml20 mr5 txt_mid">
+                                    <label for="">{{ $value }}</label>
+                                @endforeach
                             </td>
                         </tr>
                         <tr>
