@@ -53,10 +53,10 @@
     <script src="{{ asset('js/dropdown.js') }}"></script>
     <script src="{{ asset('js/alphafilter.js') }}" defer></script>
 
-    <script src="{{ asset('js/ready.js') }}"></script>
     <script src="{{ asset('js/rollover.js') }}"></script>
     <script src="{{ asset('js/rollover-table.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/ready.js') }}"></script>
 
     <link href="{{ asset('css/import.css') }}" rel="stylesheet">
     @yield('link')

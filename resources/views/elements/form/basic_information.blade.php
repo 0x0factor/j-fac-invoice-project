@@ -48,34 +48,7 @@
                         <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r">
                     </th>
                     <td width="320">
-                        <script language="JavaScript">
-                            //<![CDATA[
-                            var lastDate = '';
-                            var cal1 = new JKL.Calendar("calid", "{{ $formType.$action }}Form", "data[{{ $formType }}][DATE]");
 
-                            setInterval(function() {
-                                var dateInput = $('input.cal.date');
-                                console.log(dateInput);
-
-                                if (dateInput.length > 0) {
-                                var date = dateInput.val();
-                                } else {
-                                console.log('Date input element not found');
-                                }
-                                var date = document.querySelector('input.cal.date').value;
-                                if (lastDate != date) {
-                                    lastDate = date;
-                                    var calcDate = new Date(date);
-                                    if (calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)) {
-                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING1').setAttribute('disabled', true);
-                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING0').click();
-                                    } else {
-                                        document.getElementById('{{ $name }}TAXFRACTIONTIMING1').removeAttribute('disabled');
-                                    }
-                                }
-                            }, 1000);
-                            //]]>
-                        </script>
                         <input type="text" name="DATE" id="DATE"
                             class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly
                             value="{{ old('DATE') }}">
@@ -255,25 +228,22 @@
         <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
     </div>
 </form>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+<script language="JavaScript">
+    //<![CDATA[
         var lastDate = '';
-        setInterval(function() {
-            var date = document.querySelector('input.cal.date').value;
-            if (lastDate !== date) {
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
                 lastDate = date;
                 var calcDate = new Date(date);
-                if (calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate
-                        .getMonth() >= 9)) {
-                    document.getElementById('{{ $formType }}TAXFRACTIONTIMING1').setAttribute(
-                        'disabled', true);
-                    document.getElementById('{{ $formType }}TAXFRACTIONTIMING0').click();
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
                 } else {
-                    document.getElementById('{{ $formType }}TAXFRACTIONTIMING1').removeAttribute(
-                        'disabled');
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
                 }
             }
-        }, 1000);
-    });
+        },1);
+    //]]>
 </script>

@@ -78,6 +78,7 @@ class Item extends Model
 
         $this->fill($this->permit_params($_param['Item']));
 
+
         $param = $this->save();
 
         if (!$param) {
@@ -159,5 +160,13 @@ class Item extends Model
     public static function validate($_param)
     {
         return Validator::make($_param, static::$rules)->validate();
+    }
+
+
+    public function permit_params($params)
+    {
+        return array_filter($params, function ($key) {
+            return in_array($key, $this->fillable);
+        }, ARRAY_FILTER_USE_KEY);
     }
 }

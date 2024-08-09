@@ -481,7 +481,7 @@ class BillController extends Controller
             'taxOperationDate' => config('constants.TaxOperationDate'),
         ]);
     }
-    public function action(Request $request)
+    public function delete(Request $request)
     {
         // 絞り込みした場合の顧客IDを取得
         $customer_id = $request->input('Customer.id');

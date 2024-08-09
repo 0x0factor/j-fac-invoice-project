@@ -10,7 +10,12 @@ class ZipcodeController extends Controller
     public function index()
     {
         $count = $this->getZipcodeCount();
-        return view('postcode.index', compact('count'));
+
+        $main_title = "郵便番号の管理";
+        $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
+
+        return view('postcode.index', compact('count', 'main_title', 'title_text', 'title'));
 
     }
 

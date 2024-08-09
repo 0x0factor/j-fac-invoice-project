@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdministerController;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\CustomerController;
@@ -63,6 +64,15 @@ Route::post('administers/add', [AdministerController::class, 'add'])->name('admi
 Route::get('administers/edit', [AdministerController::class, 'edit'])->name('administer.edit');
 Route::get('administers/check', [AdministerController::class, 'check'])->name('administer.check');
 
+Route::get('ajax/searchId', [AjaxController::class, 'searchId'])->name('administer.searchId');
+Route::get('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
+Route::get('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
+Route::post('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
+Route::get('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
+Route::get('ajax/charge', [AjaxController::class, 'charge'])->name('ajax.charge');
+Route::get('ajax/customerCharge', [AjaxController::class, 'customerCharge'])->name('ajax.customerCharge');
+Route::get('ajax/excel', [AjaxController::class, 'excel'])->name('ajax.excel');
+
 
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
@@ -74,6 +84,7 @@ Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name(
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
+Route::get('charges/delete', [ChargeController::class, 'delete'])->name('charge.delete');
 Route::get('charges/check', [ChargeController::class, 'check'])->name('charge.check');
 Route::get('charges/edit', [ChargeController::class, 'edit'])->name('charge.edit');
 
@@ -124,6 +135,8 @@ Route::get('mails/check', [MailController::class, 'check'])->name('mail.check');
 Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
 
 Route::get('postcode', [PostcodeController::class, 'index'])->name('postcode.index');
+Route::get('postcode/update', [PostcodeController::class, 'update'])->name('postcode.update');
+Route::get('postcode/reset', [PostcodeController::class, 'reset'])->name('postcode.reset');
 
 Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
@@ -146,9 +159,9 @@ Route::get('totalbills/search', [TotalbillController::class, 'search'])->name('t
 Route::get('view_options', [View_optionController::class, 'index'])->name('view_option.index');
 Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
 
-Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('postcode.index');
-Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('postcode.update');
-Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('postcode.reset');
+Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
+Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');
+Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.reset');
 
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');

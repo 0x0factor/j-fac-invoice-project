@@ -59,6 +59,7 @@ class AdministerController extends Controller
 
             $requestData = $request->all();
 
+            var_export($requestData);die;
 
             $requestData['EDIT_PASSWORD'] = bcrypt($requestData['EDIT_PASSWORD']);
 
@@ -118,18 +119,18 @@ class AdministerController extends Controller
             $requestData = $request->all();
             $administer = Administer::find($usr_ID);
 
-            if ($requestData['CHANGEFLG'] == 1) {
-                if (empty($requestData['EDIT_PASSWORD'])) {
+            if ($requestData['Administer']['CHANGEFLG'] == 1) {
+                if (empty($requestData['Administer']['EDIT_PASSWORD'])) {
                     $error['PASSWORD'] = 1;
                 }
                 // Update password
-                $requestData['PASSWORD'] = bcrypt($requestData['EDIT_PASSWORD']);
-                $requestData['PASSWORD_NOW'] = bcrypt($requestData['PASSWORD_NOW']);
+                $requestData['Administer']['PASSWORD'] = bcrypt($requestData['Administer']['EDIT_PASSWORD']);
+                $requestData['Administer']['PASSWORD_NOW'] = bcrypt($requestData['Administer']['PASSWORD_NOW']);
             } else {
-                $requestData['PASSWORD_NOW'] = $administer->PASSWORD;
+                $requestData['Administer']['PASSWORD_NOW'] = $administer->PASSWORD;
             }
 
-            $validator = Validator::make($requestData, [
+            $validator = Validator::make($requestData['Administer'], [
                 'MAIL' => 'email'
             ]);
 
@@ -137,13 +138,13 @@ class AdministerController extends Controller
                 $error['MAIL'] = 2;
             }
 
-            if ($administer->update($requestData)) {
+            if ($administer->update($requestData['Administer'])) {
                 Session::flash('success', 'ユーザを保存しました');
-                return redirect("/administers/check/{$requestData['USR_ID']}");
+                return redirect("/administers/check/{$requestData['Administer']['USR_ID']}");
             } else {
-                $requestData['PASSWORD_NOW'] = null;
-                $requestData['EDIT_PASSWORD'] = null;
-                $requestData['EDIT_PASSWORD1'] = null;
+                $requestData['Administer']['PASSWORD_NOW'] = null;
+                $requestData['Administer']['EDIT_PASSWORD'] = null;
+                $requestData['Administer']['EDIT_PASSWORD1'] = null;
             }
         } else {
             $administer = Administer::find($usr_ID);
@@ -152,8 +153,8 @@ class AdministerController extends Controller
                 return redirect('/administers');
             }
 
-            $requestData = $administer->toArray();
-            $requestData['CHANGEFLG'] = 0;
+            $requestData['Administer'] = $administer->toArray();
+            $requestData['Administer']['CHANGEFLG'] = 0;
         }
 
         $status = config('constants.StatusCode');

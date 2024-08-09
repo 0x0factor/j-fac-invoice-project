@@ -66,6 +66,7 @@ class ItemController extends Controller
             // dd("after validate");
             // データのインサート
             $item = new Item();
+
             $setdata = $item->set_data($request->input('data'));
             if (!isset($setdata['error'])) {
                 // 成功
@@ -73,7 +74,6 @@ class ItemController extends Controller
                 return redirect('/items/check/' . $setdata['Item']['ITM_ID']);
             }
         }
-        dd("end if");
 
 
         $user = Auth::user();
