@@ -255,7 +255,7 @@
                                                 class="chk"></td>
                                         <td>{{ $val->MBL_ID }}</td>
                                         <td>{{ $val->customer->NAME }}</td>
-                                        <td><a href="{{ route('val.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
+                                        <td><a href="{{ route('bill.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
                                         <td>{{ $val->TOTAL ?? '&nbsp;' }}円</td>
                                         <td>{{ $val->ISSUE_DATE ?? '&nbsp;' }}</td>
                                         @if ($user->AUTHORITY != 1)
