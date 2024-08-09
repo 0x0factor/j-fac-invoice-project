@@ -11,6 +11,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Vendors\model\Form;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Traits\AddValidationRule;
 use App\Traits\CustomValidation;
 class Bill extends Model

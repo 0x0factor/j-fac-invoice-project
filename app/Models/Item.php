@@ -77,8 +77,7 @@ class Item extends Model
         $_param['Item']['LAST_UPDATE'] = Carbon::now();
 
         $this->fill($this->permit_params($_param['Item']));
-
-
+        // var_export($_param);die;
         $param = $this->save();
 
         if (!$param) {
