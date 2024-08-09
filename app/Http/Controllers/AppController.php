@@ -10,6 +10,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class AppController extends Controller {
 
 	public $autoLayout = false;
