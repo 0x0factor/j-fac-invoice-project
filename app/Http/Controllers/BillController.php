@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Session;
 
 
 
-class BillController extends Appcontroller
+class BillController extends AppController
 {
     const DISCOUNT_TYPE_PERCENT = 0;
     const DISCOUNT_TYPE_NONE = 2;
