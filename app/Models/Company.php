@@ -134,7 +134,7 @@ class Company extends Model
             ],
         ];
     }
-public function indexSetData($params, $perror, $ferror, $serror)
+    public function indexSetData($params, $perror, $ferror, $serror)
     {
         if ($serror['ERROR']) {
             return false;

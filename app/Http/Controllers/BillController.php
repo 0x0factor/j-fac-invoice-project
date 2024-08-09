@@ -63,6 +63,7 @@ class BillController extends AppController
             ]);
         }
 
+        $name = Auth::user()->NAME;
         $query = Bill::query();
 
         if ($request->NO) {

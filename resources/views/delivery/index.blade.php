@@ -271,7 +271,7 @@
 
                                                 <td>
                                                     {{ nl2br($val['USER']['NAME']) }} /
-                                                    {{ $val['UPDATEUSER']['NAME'] ?? '&nbsp;' }}
+                                                    {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}
                                                 </td>
                                             @endif
                                             <td>{{ $status[$val['STATUS']] }}</td>

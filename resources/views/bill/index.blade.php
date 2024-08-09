@@ -254,12 +254,13 @@
                                         <td><input type="checkbox" name="selected[]" value="{{ $val->MBL_ID }}"
                                                 class="chk"></td>
                                         <td>{{ $val->MBL_ID }}</td>
-                                        <td>{{ $val->customer->NAME }}</td>
+                                        <td>{{ nl2br($val['Customer']['NAME'] ?? "") }}</td>
                                         <td><a href="{{ route('bill.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
                                         <td>{{ $val->TOTAL ?? '&nbsp;' }}円</td>
                                         <td>{{ $val->ISSUE_DATE ?? '&nbsp;' }}</td>
                                         @if ($user->AUTHORITY != 1)
-                                            <td>{{ $val->user->USR_NAME }} / {{ $val->updater->USR_NAME }}</td>
+                                            <td> {{ nl2br($val['USER']['NAME']) }} /
+                                            {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}</td>
                                         @endif
                                         <td>{{ $status[$val->STATUS] ?? '' }}</td>
                                         <td>{{ $val->MEMO }}</td>

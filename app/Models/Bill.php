@@ -11,7 +11,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Vendors\model\Form;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Traits\AddValidationRule;
 use App\Traits\CustomValidation;
 class Bill extends Model
@@ -30,22 +29,22 @@ class Bill extends Model
         'TEN_RATE_TOTAL',
     ];
 
-    public function customer(): BelongsTo
+    public function customer()
     {
         return $this->belongsTo(Customer::class, 'CST_ID');
     }
 
-    public function user(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(User::class, 'USR_ID');
+        return $this->belongsTo(User::class, 'USR_ID', 'USR_ID');
     }
 
-    public function updateUser(): BelongsTo
+    public function updateUser()
     {
-        return $this->belongsTo(User::class, 'UPDATE_USR_ID');
+        return $this->belongsTo(User::class, 'UPDATE_USR_ID', 'USR_ID');
     }
 
-    public function charge(): BelongsTo
+    public function charge()
     {
         return $this->belongsTo(Charge::class, 'CHR_ID');
     }
