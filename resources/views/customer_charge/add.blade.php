@@ -38,16 +38,13 @@
                         <tr>
                             <th>ステータス</th>
                             <td>
-                                <select name="STATUS" class="{{ $form->error('STATUS') ? 'error' : '' }}">
+                                <select name="STATUS" class="{{ $errors->hass->has('STATUS') ? 'error' : '' }}">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}" {{ old('STATUS') == $key ? 'selected' : '' }}>
                                             {{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <br>
-                                <span class="usernavi">{{ $usernavi['STATUS'] }}</span>
-                                <br>
-                                <span class="must">{{ $form->error('STATUS') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -79,19 +76,19 @@
                         </tr>
 
                         <tr>
-                            <th style="width:150px;" class="{{ $form->error('CHARGE_NAME') ? 'txt_top' : '' }}">
+                            <th style="width:150px;" class="{{ $errors->has('CHARGE_NAME') ? 'txt_top' : '' }}">
                                 <span class="float_l">担当者名</span>
-                                @if ($form->error('CHARGE_NAME'))
+                                @if ($errors->first('CHARGE_NAME'))
                                     <img src="{{ asset('i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r">
                                 @endif
                             </th>
                             <td style="width:730px;">
                                 <input type="text" name="CHARGE_NAME" value="{{ old('CHARGE_NAME') }}"
-                                    class="w300{{ $form->error('CHARGE_NAME') ? ' error' : '' }}" maxlength="60">
+                                    class="w300{{ $errors->has('CHARGE_NAME') ? ' error' : '' }}" maxlength="60">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['CHARGE_NAME'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('CHARGE_NAME') }}</span>
+                                <span class="must">{{ $errors->first('CHARGE_NAME') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -100,16 +97,16 @@
                         </tr>
 
                         <tr>
-                            <th style="width:150px;" class="{{ $form->error('CHARGE_NAME_KANA') ? 'txt_top' : '' }}">
+                            <th style="width:150px;" class="{{ $errors->has('CHARGE_NAME_KANA') ? 'txt_top' : '' }}">
                                 <span class="float_l">担当者名カナ</span>
                             </th>
                             <td style="width:730px;">
                                 <input type="text" name="CHARGE_NAME_KANA" value="{{ old('CHARGE_NAME_KANA') }}"
-                                    class="w300{{ $form->error('CHARGE_NAME_KANA') ? ' error' : '' }}" maxlength="60">
+                                    class="w300{{ $errors->has('CHARGE_NAME_KANA') ? ' error' : '' }}" maxlength="60">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['CHARGE_NAME_KANA'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('CHARGE_NAME_KANA') }}</span>
+                                <span class="must">{{ $errors->first('CHARGE_NAME_KANA') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -118,16 +115,16 @@
                         </tr>
 
                         <tr>
-                            <th style="width:150px;" class="{{ $form->error('UNIT') ? 'txt_top' : '' }}">
+                            <th style="width:150px;" class="{{ $errors->has('UNIT') ? 'txt_top' : '' }}">
                                 <span class="float_l">部署名</span>
                             </th>
                             <td style="width:730px;">
                                 <input type="text" name="UNIT" value="{{ old('UNIT') }}"
-                                    class="w300{{ $form->error('UNIT') ? ' error' : '' }}" maxlength="60">
+                                    class="w300{{ $errors->has('UNIT') ? ' error' : '' }}" maxlength="60">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['UNIT'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('UNIT') }}</span>
+                                <span class="must">{{ $errors->first('UNIT') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -136,14 +133,14 @@
                         </tr>
 
                         <tr>
-                            <th class="{{ $form->error('POST') ? 'txt_top' : '' }}">役職名</th>
+                            <th class="{{ $errors->has('POST') ? 'txt_top' : '' }}">役職名</th>
                             <td>
                                 <input type="text" name="POST" value="{{ old('POST') }}"
-                                    class="w300{{ $form->error('POST') ? ' error' : '' }}" maxlength="60">
+                                    class="w300{{ $errors->has('POST') ? ' error' : '' }}" maxlength="60">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['POST'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('POST') }}</span>
+                                <span class="must">{{ $errors->first('POST') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -152,12 +149,12 @@
                         </tr>
 
                         <tr>
-                            <th class="{{ $form->error('MAIL') ? 'txt_top' : '' }}">メールアドレス</th>
+                            <th class="{{ $errors->has('MAIL') ? 'txt_top' : '' }}">メールアドレス</th>
                             <td>
                                 <input type="text" name="MAIL" value="{{ old('MAIL') }}"
-                                    class="w300{{ $form->error('MAIL') ? ' error' : '' }}" maxlength="256">
+                                    class="w300{{ $errors->has('MAIL') ? ' error' : '' }}" maxlength="256">
                                 <br>
-                                <span class="must">{{ $form->error('MAIL') }}</span>
+                                <span class="must">{{ $errors->first('MAIL') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -167,26 +164,26 @@
 
                         <tr>
                             <th style="width:150px;"
-                                class="{{ $form->error('POSTCODE1') || $form->error('POSTCODE2') ? 'txt_top' : '' }}">
+                                class="{{ $errors->has('POSTCODE1') || $errors->has('POSTCODE2') ? 'txt_top' : '' }}">
                                 <span class="float_l">郵便番号</span>
                             </th>
                             <td style="width:730px;">
                                 <input type="text" name="POSTCODE1" value="{{ old('POSTCODE1') }}"
-                                    class="w60{{ $form->error('POSTCODE1') || $form->error('POSTCODE2') ? ' error' : '' }}"
+                                    class="w60{{ $errors->has('POSTCODE1') || $errors->has('POSTCODE2') ? 'txt_top' : '' }}"
                                     maxlength="3">
                                 <span class="pl5 pr5">-</span>
                                 <input type="text" name="POSTCODE2" value="{{ old('POSTCODE2') }}"
-                                    class="w60{{ $form->error('POSTCODE1') || $form->error('POSTCODE2') ? ' error' : '' }}"
+                                    class="w60{{ $errors->has('POSTCODE1') || $errors->has('POSTCODE2') ? 'txt_top' : '' }}"
                                     maxlength="4">
                                 <div id="target"></div>
                                 <br>
                                 <span class="usernavi">{{ $usernavi['POSTCODE'] }}</span>
                                 <br>
                                 <span class="must">
-                                    @if ($form->error('POSTCODE1'))
-                                        {{ $form->error('POSTCODE1') }}
-                                    @elseif ($form->error('POSTCODE2'))
-                                        {{ $form->error('POSTCODE2') }}
+                                    @if ($errors->first('POSTCODE1'))
+                                        {{ $errors('POSTCODE1') }}
+                                    @elseif ($errors->first('POSTCODE2'))
+                                        {{ $errors('POSTCODE2') }}
                                     @endif
                                 </span>
                             </td>
@@ -199,7 +196,7 @@
                         <tr>
                             <th style="width:150px;"><span class="float_l">都道府県</span></th>
                             <td style="width:730px;">
-                                <select name="CNT_ID" class="{{ $form->error('CNT_ID') ? 'error' : '' }}">
+                                <select name="CNT_ID" class="{{ $errors->has('CNT_ID') ? 'error' : '' }}">
                                     @foreach ($countys as $key => $value)
                                         <option value="{{ $key }}"
                                             {{ old('CNT_ID') == $key ? 'selected' : '' }}>{{ $value }}</option>
@@ -213,15 +210,15 @@
                         </tr>
 
                         <tr>
-                            <th style="width:150px;" class="{{ $form->error('ADDRESS') ? 'txt_top' : '' }}"><span
+                            <th style="width:150px;" class="{{ $errors->has('ADDRESS') ? 'txt_top' : '' }}"><span
                                     class="float_l">住所</span></th>
                             <td style="width:730px;">
                                 <input type="text" name="ADDRESS" value="{{ old('ADDRESS') }}"
-                                    class="w600{{ $form->error('ADDRESS') ? ' error' : '' }}" maxlength="100">
+                                    class="w600{{ $errors->has('ADDRESS') ? ' error' : '' }}" maxlength="100">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['ADDRESS'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('ADDRESS') }}</span>
+                                <span class="must">{{ $errors->first('ADDRESS') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -230,14 +227,14 @@
                         </tr>
 
                         <tr>
-                            <th class="{{ $form->error('BUILDING') ? 'txt_top' : '' }}">建物名</th>
+                            <th class="{{ $errors->has('BUILDING') ? 'txt_top' : '' }}">建物名</th>
                             <td>
                                 <input type="text" name="BUILDING" value="{{ old('BUILDING') }}"
-                                    class="w600{{ $form->error('BUILDING') ? ' error' : '' }}" maxlength="100">
+                                    class="w600{{ $errors->has('BUILDING') ? ' error' : '' }}" maxlength="100">
                                 <br>
                                 <span class="usernavi">{{ $usernavi['BUILDING'] }}</span>
                                 <br>
-                                <span class="must">{{ $form->error('BUILDING') }}</span>
+                                <span class="must">{{ $errors->first('BUILDING') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -300,5 +297,5 @@
     </div>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="USR_ID" value="{{ $user['USR_ID'] }}">
-    <input type="hidden" name="UPDATE_USR_ID" value="{{ $user['USR_ID'] }}">
+    <input type="hidden" name="UPDATE_USR_ID" value="{{ $user['UPDATE_USR_ID'] }}">
 @endsection

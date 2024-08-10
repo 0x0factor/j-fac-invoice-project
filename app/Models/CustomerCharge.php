@@ -61,6 +61,22 @@ class CustomerCharge extends Model
         'BUILDING' => ['nullable', 'string', 'max:50'],
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'USR_ID', 'USR_ID');
+    }
+
+
+    public function updateUser()
+    {
+        return $this->belongsTo(User::class, 'UPDATE_USR_ID', 'USR_ID');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'CST_ID');
+    }
+
     /**
      * Set data and perform data writing process.
      *
@@ -220,24 +236,7 @@ class CustomerCharge extends Model
         return $result;
     }
 
-    /**
-     * Define the relationship with User model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'USR_ID');
-    }
 
-    /**
-     * Define the relationship with Customer model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class, 'CST_ID');
-    }
+
 }
 

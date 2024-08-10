@@ -64,14 +64,14 @@ Route::post('administers/add', [AdministerController::class, 'add'])->name('admi
 Route::get('administers/edit', [AdministerController::class, 'edit'])->name('administer.edit');
 Route::get('administers/check', [AdministerController::class, 'check'])->name('administer.check');
 
-Route::get('ajax/searchId', [AjaxController::class, 'searchId'])->name('administer.searchId');
-Route::get('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
-Route::get('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
+Route::post('ajax/searchId', [AjaxController::class, 'searchId'])->name('administer.searchId');
+Route::post('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
+Route::post('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
 Route::post('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
-Route::get('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
-Route::get('ajax/charge', [AjaxController::class, 'charge'])->name('ajax.charge');
-Route::get('ajax/customerCharge', [AjaxController::class, 'customerCharge'])->name('ajax.customerCharge');
-Route::get('ajax/excel', [AjaxController::class, 'excel'])->name('ajax.excel');
+Route::post('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
+Route::post('ajax/charge', [AjaxController::class, 'charge'])->name('ajax.charge');
+Route::post('ajax/customerCharge', [AjaxController::class, 'customerCharge'])->name('ajax.customerCharge');
+Route::post('ajax/excel', [AjaxController::class, 'excel'])->name('ajax.excel');
 
 
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');

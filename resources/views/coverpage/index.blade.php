@@ -36,7 +36,7 @@
 
     <div id="guide">
         <div id="guide_box" class="clearfix">
-            <img src="{{ asset('images/i_guide02.jpg') }}" alt="">
+            <img src="{{ asset('img/i_guide02.jpg') }}" alt="">
             <p>こちらのページは送付状作成の画面です。<br>必要な情報を入力の上「保存する」ボタンを押すと送付状を作成できます。</p>
         </div>
     </div>
@@ -50,7 +50,7 @@
         <form action="{{ route('coverpage.store') }}" method="POST" class="Coverpages">
             @csrf
             <div class="arrow_under">
-                <img src="{{ asset('images/i_arrow_under.jpg') }}" alt="">
+                <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
             </div>
 
             <h3>

@@ -49,7 +49,7 @@
                     </th>
                     <td width="320">
 
-                        <input type="text" name="DATE" id="DATE"
+                        <input type="text" name="data[Quote][DATE]" id="DATE"
                             class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly
                             value="{{ old('DATE') }}">
                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
@@ -232,10 +232,9 @@
     //<![CDATA[
         var lastDate = '';
         var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
-        // setInterval(function(){
-            var date = $('input.cal.date').val();
-            console.log("test==>", date);
 
+        setInterval(function(){
+            var date = $('input.cal.date').val();
             if(lastDate != date){
                 lastDate = date;
                 var calcDate = new Date(date);
@@ -246,6 +245,6 @@
                     $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
                 }
             }
-        // },1000);
+        },1000);
     //]]>
 </script>

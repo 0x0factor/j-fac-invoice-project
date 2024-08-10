@@ -98,6 +98,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Delivery::class, 'UPDATE_USR_ID', 'USR_ID');
     }
+    public function customer_charge()
+    {
+        return $this->hasMany(Delivery::class, 'UPDATE_USR_ID', 'USR_ID');
+    }
     /**
      * Hash the password before saving the model.
      *

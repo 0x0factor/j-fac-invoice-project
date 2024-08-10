@@ -114,12 +114,13 @@ class CustomerChargeController extends Controller
                 return redirect()->route('customer_charges.check', ['chargeID' => $result['CustomerCharge']['CHRC_ID']]);
             }
         }
-
-        $user_id = Auth::id();
+        $user = Auth::user();
         $countys = config('constants.PrefectureCode');
         $status = config('constants.StatusCode');
+        $perror = $phone_error;
+        $ferror = $fax_error;
 
-        return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'user_id', 'phone_error', 'fax_error', 'countys', 'status'));
+        return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'perror', 'ferror', 'countys', 'status', 'user'));
     }
 
     public function edit(Request $request, $chargeID)
