@@ -109,11 +109,11 @@ Route::post('/customers/delete', [CustomerController::class ,'delete'])->name('c
 Route::get('/customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
 
-Route::get('customercharges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
-Route::get('customercharges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
-Route::get('customercharges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
-Route::get('customercharges/edit', [CustomerchargeController::class, 'edit'])->name('customer_charge.edit');
-Route::get('customercharges/delete', [CustomerchargeController::class, 'delete'])->name('customer_charge.delete');
+Route::get('customer_charges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
+Route::get('customer_charges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
+Route::get('customer_charges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
+Route::get('customer_charges/edit', [CustomerchargeController::class, 'edit'])->name('customer_charge.edit');
+Route::get('customer_charges/delete', [CustomerchargeController::class, 'delete'])->name('customer_charge.delete');
 
 Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
