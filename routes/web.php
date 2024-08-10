@@ -76,6 +76,7 @@ Route::get('ajax/excel', [AjaxController::class, 'excel'])->name('ajax.excel');
 
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
+Route::post('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::get('bills/check', [BillController::class, 'check'])->name('bill.check');
 Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
 Route::get('bills/export', [BillController::class, 'export'])->name('bill.export');

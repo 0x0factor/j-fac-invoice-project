@@ -586,7 +586,7 @@ class DeliveryController extends Controller
         }
 
         // Pass data to the view
-        return view('deliveries.edit', [
+        return view('delivery.edit', [
             'main_title' => $main_title,
             'title_text' => $title_text,
             'title' => $title,
@@ -719,7 +719,7 @@ class DeliveryController extends Controller
         $title_text = "帳票管理";
         $title = "抹茶請求書";
 
-        return view('deliveries.export', compact('main_title', 'title_text', 'title'));
+        return view('delivery.export', compact('main_title', 'title_text', 'title'));
     }
 
     public function pdf(Request $request, $id)

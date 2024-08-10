@@ -57,26 +57,26 @@
                 <!-- Previous Page Link -->
                 @if ($paginator->onFirstPage())
                     <span class="disabled">
-                        << {{ __('前へ') }}</span>
+                        << {{ __('前へ') }}</span> |
                         @else
                             <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                << {{ __('前へ') }}</a>
+                                << {{ __('前へ') }}</a> |
                 @endif
 
                 <!-- Pagination Elements -->
                 @foreach ($paginator->links()->elements as $element)
                     <!-- "Three Dots" Separator -->
                     @if (is_string($element))
-                        <span class="disabled">{{ $element }}</span>
+                        <span class="disabled">{{ $element }}</span> |
                     @endif
 
                     <!-- Array Of Links -->
                     @if (is_array($element))
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
-                                <span class="active">{{ $page }}</span>
+                                <span class="active">{{ $page }}</span> |
                             @else
-                                <a href="{{ $url }}">{{ $page }}</a>
+                                <a href="{{ $url }}">{{ $page }}</a> |
                             @endif
                         @endforeach
                     @endif

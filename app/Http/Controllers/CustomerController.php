@@ -161,8 +161,9 @@ class CustomerController extends Controller
                 return redirect()->route('customer.check', ['customer_ID' => $customer_ID])->with('success', '取引先を保存しました');
             }
         } else {
-            $customer = Customer::getPayment($company_ID);
-            if ($default_honor = Customer::getHonor($company_ID)) {
+            $Cus = new Customer;
+            $customer = $Cus->getPayment($company_ID);
+            if ($default_honor = $Cus->getHonor($company_ID)) {
                 $customer['Customer']['HONOR_CODE'] = $default_honor[0]['Company']['HONOR_CODE'];
                 if ($default_honor[0]['Company']['HONOR_CODE'] == 2) {
                     $customer['Customer']['HONOR_TITLE'] = $default_honor[0]['Company']['HONOR_TITLE'];
