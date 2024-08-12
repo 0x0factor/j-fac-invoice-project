@@ -21,6 +21,7 @@ class ConfigurationController extends Controller
         $main_title = "環境設定";
         $title_text = "管理者メニュー";
         $title = "抹茶請求書";
+        $controller_name = "Configration";
 
         $config = new Configuration();
         $params = $config->index_select(1);
@@ -29,6 +30,7 @@ class ConfigurationController extends Controller
             'main_title',
             'title_text',
             'title',
+            'controller_name',
             'params'
         ))
         ->with('security', config('constants.SmtpSecurityCode'))
@@ -45,6 +47,7 @@ class ConfigurationController extends Controller
         $main_title = "環境設定";
         $title_text = "管理者メニュー";
         $title = "抹茶請求書";
+        $controller_name = "Configration";
 
         $error = [];
 
@@ -106,6 +109,7 @@ class ConfigurationController extends Controller
             'main_title',
             'title_text',
             'title',
+            'controller_name',
             'data'
         ))
         ->with('security', $security)

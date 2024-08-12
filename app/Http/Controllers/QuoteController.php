@@ -109,6 +109,7 @@ class QuoteController extends AppController
         $main_title = "見積書登録";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
+        $controller_name = "Quote";
 
         $user = Auth::user();
         $action = config('constants.ActionCode');
@@ -348,6 +349,7 @@ class QuoteController extends AppController
             'main_title' => $main_title,
             'title_text' => $title_text,
             'title' => $title,
+            'controller_name' => $controller_name,
             'excises' => config('constants.ExciseCode'),
             'fractions' => config('constants.FractionCode'),
             "discount" => config('constants.DiscountCode'),
@@ -388,6 +390,7 @@ class QuoteController extends AppController
             'main_title' => '見積書確認',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
+            'controller_name' => "Quote",
             'decimals' => config('constants.DecimalCode'),
             'excises' => config('constants.ExciseCode'),
             'fractions' => config('constants.FractionCode'),
@@ -576,6 +579,7 @@ class QuoteController extends AppController
             'main_title' => '見積書Excel出力',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
+            'controller_name' => "Quote",
         ]);
     }
 

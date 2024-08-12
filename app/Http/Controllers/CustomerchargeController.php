@@ -62,8 +62,10 @@ class CustomerChargeController extends Controller
 
         $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $list = $paginator->items();
+        $controller_name = "Customercharge";
 
-        return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys', 'paginator', 'list'));
+
+        return view('customer_charge.index', compact('main_title', 'title_text', 'title', 'customers', 'status', 'countys', 'paginator', 'list', 'controller_name'));
     }
 
     public function check($chargeID)
@@ -71,6 +73,7 @@ class CustomerChargeController extends Controller
         $main_title = "取引先担当者確認";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customercharge";
 
         $chargeAry = CustomerCharge::find($chargeID);
 
@@ -85,7 +88,7 @@ class CustomerChargeController extends Controller
         $status = config('constants.StatusCode');
         $countys = config('constants.PrefectureCode');
 
-        return view('customer_charge.check', compact('main_title', 'title_text', 'title', 'chargeAry', 'customer', 'editauth', 'status', 'countys'));
+        return view('customer_charge.check', compact('main_title', 'title_text', 'title', 'chargeAry', 'customer', 'editauth', 'status', 'countys', 'controller_name'));
     }
 
     public function add(Request $request)
@@ -93,6 +96,7 @@ class CustomerChargeController extends Controller
         $main_title = "取引先担当者登録";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customercharge";
 
         if ($request->has('cancel_x')) {
             return redirect()->route('customer_charges.index');
@@ -120,7 +124,7 @@ class CustomerChargeController extends Controller
         $perror = $phone_error;
         $ferror = $fax_error;
 
-        return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'perror', 'ferror', 'countys', 'status', 'user'));
+        return view('customer_charge.add', compact('main_title', 'title_text', 'title', 'perror', 'ferror', 'countys', 'status', 'user', 'controller_name'));
     }
 
     public function edit(Request $request, $chargeID)
@@ -128,6 +132,7 @@ class CustomerChargeController extends Controller
         $main_title = "取引先担当者編集";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customercharge";
 
         if ($request->has('cancel_x')) {
             return redirect()->route('customer_charges.index');
@@ -166,6 +171,6 @@ class CustomerChargeController extends Controller
         $status = config('constants.StatusCode');
         $countys = config('constants.PrefectureCode');
 
-        return view('customer_charge.edit', compact('main_title', 'title_text', 'title', 'customer', 'phone_error', 'fax_error', 'status', 'countys'));
+        return view('customer_charge.edit', compact('main_title', 'title_text', 'title', 'customer', 'phone_error', 'fax_error', 'status', 'countys', 'controller_name'));
     }
 }

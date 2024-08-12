@@ -42,12 +42,15 @@ class CompanyController extends Controller
         }
 
         $company = $data;
+        $controller_name = "Quote";
+
 
         return view('company.index', compact(
             'main_title',
             'title_text',
             'title',
             'company',
+            'controller_name',
             'data',
             'image',
             'color'
@@ -216,6 +219,7 @@ class CompanyController extends Controller
         $ferror = 0;
         $ierror = 0;
 
+        $controller_name = "Quote";
 
 
         return view('company.edit', compact(
@@ -233,6 +237,7 @@ class CompanyController extends Controller
             'fraction',
             'tax_fraction_timing',
             'payment_month',
+            'controller_name',
             'perror',
             'ferror',
             'ierror',

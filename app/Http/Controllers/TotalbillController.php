@@ -56,6 +56,7 @@ class TotalbillController extends Controller
             'main_title' => '合計請求書管理',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
+            'controller_name' => 'Totalbill',
             'edit_stat' => config('constants.Edit_StatProtocolCode'),
             'mailstatus' => config('constants.MailStatusCode'),
             'status' => config('constants.IssuedStatCode'),
@@ -160,6 +161,7 @@ class TotalbillController extends Controller
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
                     'title' => '帳票管理',
+                    'controller_name' => 'Totalbill',
                 ]);
             } else {
                 $i = 0;
@@ -260,6 +262,7 @@ class TotalbillController extends Controller
                     'main_title' => '合計請求書管理',
                     'title_text' => '帳票管理',
                     'title' => '抹茶請求書',
+                    'controller_name' => 'Totalbill',
                     'mailstatus' => config('constants.MailStatusCode'),
                     'status' => config('constants.IssuedStatCode'),
                     'honor' => config('constants.HonorCode'),
@@ -301,6 +304,7 @@ class TotalbillController extends Controller
             'main_title' => '合計請求書確認',
             'title_text' => '帳票管理',
             'title' => '抹茶請求書',
+            'controller_name' => 'Totalbill',
         ]);
     }
 
@@ -366,6 +370,7 @@ class TotalbillController extends Controller
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
                 'title' => '抹茶請求書',
+                'controller_name' => 'Totalbill',
                 'billlist' => $data,
                 'billfrag' => $billfrag,
                 'cst_name' => $request->input('Totalbill.CUSTOMER_NAME'),
@@ -406,6 +411,7 @@ class TotalbillController extends Controller
                 'main_title' => '合計請求書編集',
                 'title_text' => '帳票管理',
                 'title' => '抹茶請求書',
+                'controller_name' => 'Totalbill',
                 'billlist' => $data,
                 'tbl_id' => $tbl_ID,
                 'bill_id' => $bill_id ?? [],

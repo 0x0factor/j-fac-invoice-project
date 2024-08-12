@@ -125,6 +125,7 @@ class BillController extends AppController
             'main_title' => '請求書管理',
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
+            'controller_name' => "Bill",
             'list' => $list,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
@@ -138,6 +139,7 @@ class BillController extends AppController
         $mainTitle = '請求書登録';
         $titleText = '帳票管理';
         $title = "抹茶請求書";
+        $controller_name = "Bill";
 
         $companyID = 1;
 
@@ -261,6 +263,7 @@ class BillController extends AppController
             'main_title' => $mainTitle,
             'title_text' => $titleText,
             'title' => $title,
+            'controller_name' => $controller_name,
             'name' => $name,
             'action' => $action,
             'user' => $user,
@@ -285,8 +288,6 @@ class BillController extends AppController
             'taxRates' => config('constants.TaxRates'),
             'taxOperationDate' => config('constants.TaxOperationDate'),
             'seal_flg' => config('constants.SealFlg'),
-            'controller_name' => "Bill",
-
         ]);
     }
 
@@ -335,6 +336,7 @@ class BillController extends AppController
             'param' => $param,
             'dataline' => $count,
             'editauth' => $editauth,
+            'controller_name' => "Bill",
             'seal_flg' => config('constants.SealFlg')
         ]);
     }
@@ -481,6 +483,7 @@ class BillController extends AppController
             'seal_flg' => config('constants.SealFlg'),
             'taxClass' => config('constants.TaxClass'),
             'taxRates' => config('constants.TaxRates'),
+            'controller_name' => "Bill",
             'taxOperationDate' => config('constants.TaxOperationDate'),
         ]);
     }
@@ -634,7 +637,8 @@ class BillController extends AppController
 
         // return view('bill.export')->with([
         //     'main_title' => '請求書Excel出力',
-        //     'title_text' => '帳票管理'
+        //     'title_text' => '帳票管理',
+        //      'controller_name' => "Bill",
         // ]);
     }
 
@@ -882,6 +886,7 @@ class BillController extends AppController
         return view('bill.receipt')->with([
             'main_title' => $mainTitle,
             'title_text' => $titleText,
+            'controller_name' => "Bill",
             'error' => $errors,
             'companys' => $company
         ]);

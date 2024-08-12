@@ -45,7 +45,8 @@ class ChargeController extends Controller
             ->with('main_title', '自社担当者一覧')
             ->with('title_text', '自社情報設定')
             ->with('title', '抹茶請求書')
-            ->with('page_title', 'Company');
+            ->with('page_title', 'Company')
+            ->with('controller_name', 'Charge');
     }
 
     // 登録用
@@ -97,6 +98,7 @@ class ChargeController extends Controller
         return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
             ->with('main_title', '自社担当者登録')
             ->with('title_text', '自社情報設定')
+            ->with('controller_name', 'Charge')
             ->with('page_title', 'Company')
             ->with('status', 'status')
             ->with('countys', 'countys')
@@ -180,6 +182,7 @@ class ChargeController extends Controller
             return view('charge.edit', compact('image', 'phone_error', 'fax_error', 'charge_ID'))
                 ->with('main_title', '自社担当者編集')
                 ->with('title_text', '自社情報設定')
+                ->with('controller_name', 'Charge')
                 ->with('status', 'status')
                 ->with('countys', 'countys')
                 ->with('seal_method', 'seal_method')
@@ -219,6 +222,7 @@ class ChargeController extends Controller
             ->with('status', 'status')
             ->with('countys', 'countys')
             ->with('seal_flg', 'seal_flg')
+            ->with('controller_name', 'Charge')
             ->with('page_title', 'Company');
     }
 

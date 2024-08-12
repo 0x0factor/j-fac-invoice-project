@@ -36,8 +36,6 @@
         </title>
     @endif
     <script>
-        console.log('here is right');
-
         var controller_name =
             @isset($controller_name)
                 '{{ $controller_name }}'
@@ -57,8 +55,8 @@
 
     <script src="{{ asset('js/rollover.js') }}"></script>
     <script src="{{ asset('js/rollover-table.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('js/ready.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <link href="{{ asset('css/import.css') }}" rel="stylesheet">
     @yield('link')

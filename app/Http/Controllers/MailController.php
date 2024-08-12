@@ -65,6 +65,7 @@ class MailController extends Controller
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'list' => $list,
+            'controller_name' => 'Mail',
             'paginator' => $paginator,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
@@ -111,7 +112,8 @@ class MailController extends Controller
             'subject' => $result->SUBJECT,
             'main_title' => "{$title}確認メール",
             'title_text' => '帳票管理',
-            'title' => '抹茶請求書'
+            'title' => '抹茶請求書',
+            'controller_name' => 'Mail',
         ]);
     }
 
@@ -266,6 +268,7 @@ class MailController extends Controller
                         'main_title' => '確認依頼',
                         'title_text' => '帳票管理',
                         'title' => '抹茶請求書',
+                        'controller_name' => 'Mail',
                         'pass' => $pass
                     ]);
                 } else {
@@ -291,6 +294,7 @@ class MailController extends Controller
                     'main_title' => '確認依頼',
                     'title_text' => '帳票管理',
                     'title' => '抹茶請求書',
+                    'controller_name' => 'Mail',
                     'param' => $param
                 ]);
 
@@ -318,6 +322,8 @@ class MailController extends Controller
                     'main_title' => '確認依頼',
                     'title_text' => '帳票管理',
                     'title' => '抹茶請求書',
+                    'controller_name' => 'Mail',
+
                 ]);
         }
     }

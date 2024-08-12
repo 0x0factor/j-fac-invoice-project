@@ -23,13 +23,15 @@ class HomeController extends Controller
         $users = User::select('USR_ID', 'NAME')->get();
 
         $title = '抹茶請求書';
+        $controller_name = 'Home';
         return view('homes.index', [
             'title'=>$title,
             'main_title' => 'HOME',
             'bill' => $bill,
             'quote' => $quote,
             'delivery' => $delivery,
-            'users' => $users
+            'users' => $users,
+            'controller_name' => $controller_name,
         ]);
     }
 

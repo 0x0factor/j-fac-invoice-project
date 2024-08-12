@@ -25,6 +25,8 @@ class CustomerController extends Controller
         $title = "抹茶請求書";
 
         $company_ID = 1;
+        $controller_name = "Customer";
+
 
         if ($request->input('delete_x')) {
             // Handle delete action
@@ -60,7 +62,7 @@ class CustomerController extends Controller
         $countys = config('constants.PrefectureCode');
         $search_name = $request;
 
-        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list', 'countys', 'search_name'));
+        return view('customer.index', compact('main_title', 'title_text', 'title', 'charge', 'paginator', 'list', 'countys', 'search_name', 'controller_name'));
     }
 
     public function select(Request $request)
@@ -68,6 +70,7 @@ class CustomerController extends Controller
         $main_title = "顧客から絞り込み";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
+        $controller_name = "Customer";
 
         $inv_num = $this->customer->getInvoiceNum();
 
@@ -83,7 +86,7 @@ class CustomerController extends Controller
         $charge = $this->customer->select_charge($company_ID, []);
         $countys = config('constants.PrefectureCode');
         $search_name = $request->NAME;
-        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge', 'paginator', 'list', 'countys', 'search_name'));
+        return view('customer.select', compact('main_title', 'title_text', 'title', 'inv_num', 'charge', 'paginator', 'list', 'countys', 'search_name', 'controller_name'));
     }
 
     public function check($customer_ID)
@@ -91,6 +94,7 @@ class CustomerController extends Controller
         $main_title = "取引先確認";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customer";
 
         $company_ID = 1;
 
@@ -116,7 +120,7 @@ class CustomerController extends Controller
         $tax_fraction_timing = config('constants.TaxFractionTimingCode');
         $honor = config('constants.HonorCode');
 
-        return view('customer.check', compact('main_title', 'title_text', 'title', 'editauth', 'customer_ID', 'customer', 'charge', 'countys'));
+        return view('customer.check', compact('main_title', 'title_text', 'title', 'editauth', 'customer_ID', 'customer', 'charge', 'countys', 'controller_name'));
     }
 
     public function add(Request $request)
@@ -124,6 +128,7 @@ class CustomerController extends Controller
         $main_title = "取引先登録";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customer";
 
         $company_ID = 1;
         $phone_error = 0;
@@ -217,7 +222,7 @@ class CustomerController extends Controller
         $countys = config('constants.PrefectureCode');
         $honor = config('constants.HonorCode');
 
-        return view('customer.add', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooffSelect', 'paymentSelect', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.add', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooffSelect', 'paymentSelect', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error', 'controller_name'));
     }
 
     public function edit(Request $request, $customer_ID)
@@ -225,6 +230,7 @@ class CustomerController extends Controller
         $main_title = "取引先編集";
         $title_text = "顧客管理";
         $title = "抹茶請求書";
+        $controller_name = "Customer";
 
         if ($request->input('cancel_x')) {
             return redirect()->route('customer.index');
@@ -342,31 +348,8 @@ class CustomerController extends Controller
         $honor = config('constants.HonorCode');
 
         // Return view with data
-        return view('customer.edit', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooff_select', 'payment_select', 'excise', 'fraction', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error'));
+        return view('customer.edit', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooff_select', 'payment_select', 'excise', 'fraction', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error', 'controller_name'));
 
     }
-    // Custom methods for validation and authorities
-    private function phone_validation($data)
-    {
-        // Implement phone validation logic here
-        return 0; // Return error count or boolean indicating validation status
-    }
 
-    private function fax_validation($data)
-    {
-        // Implement fax validation logic here
-        return 0; // Return error count or boolean indicating validation status
-    }
-
-    private function Get_Edit_Authority($user_id)
-    {
-        // Implement authority check logic here
-        return true; // Return boolean indicating authority status
-    }
-
-    private function Get_Check_Authority($user_id)
-    {
-        // Implement authority check logic here
-        return true; // Return boolean indicating authority status
-    }
 }

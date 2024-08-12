@@ -24,6 +24,11 @@
 
 @section('content')
     @php
+        $formType = $formType ?? 'Bill';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
+    @php
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
     @endphp
 
@@ -314,4 +319,22 @@
     </div>
 
     </div>
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
+    </script>
 @endsection

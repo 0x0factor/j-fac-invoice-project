@@ -130,6 +130,8 @@ class DeliveryController extends Controller
 
         // $this->data['action'] = $action;
         // $this->data['name'] = $name;
+
+        $this->data['controller_name'] = 'Delivery';
         $this->data['searchStatus'] = $searchStatus;
         $this->data['searchData'] = $searchData;
         $this->data['paginator'] = $paginator;
@@ -322,6 +324,7 @@ class DeliveryController extends Controller
         $name = $user['NAME'];
 
         // Set data for the view
+        $this->data['controller_name'] = 'Delivery';
         $this->data['excises'] = config('constants.ExciseCode');
         $this->data['fractions'] = config('constants.FractionCode');
         $this->data['tax_fraction_timing'] = config('constants.TaxFractionTimingCode');
@@ -396,6 +399,7 @@ class DeliveryController extends Controller
             'main_title' => $main_title,
             'title_text' => $title_text,
             'title' => $title,
+            'controller_name' => "Delivery",
             'decimals' => config('constants.DecimalCode'),
             'excises' => config('constants.ExciseCode'),
             'fractions' => config('constants.FractionCode'),
@@ -414,6 +418,7 @@ class DeliveryController extends Controller
         $main_title = "納品書編集";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
+        $controller_name = "Delivery";
 
         // Handle cancel action
         if ($request->has('cancel_x')) {
@@ -590,6 +595,7 @@ class DeliveryController extends Controller
             'main_title' => $main_title,
             'title_text' => $title_text,
             'title' => $title,
+            'controller_name' => 'Delivery',
             'status' => config('constants.IssuedStatCode'),
             'excises' => config('constants.ExciseCode'),
             'fractions' => config('constants.FractionCode'),
@@ -718,8 +724,9 @@ class DeliveryController extends Controller
         $main_title = "納品書Excel出力";
         $title_text = "帳票管理";
         $title = "抹茶請求書";
+        $controller_name = "Delivery";
 
-        return view('delivery.export', compact('main_title', 'title_text', 'title'));
+        return view('delivery.export', compact('main_title', 'title_text', 'title', 'controller_name'));
     }
 
     public function pdf(Request $request, $id)

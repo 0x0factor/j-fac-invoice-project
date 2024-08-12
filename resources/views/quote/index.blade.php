@@ -19,6 +19,12 @@
 @section('content')
 
     @php
+        $formType = $formType ?? 'Quote';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
+
+    @php
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
     @endphp
 
@@ -101,7 +107,7 @@
                                         <input type="text" name="ACTION_DATE_TO" id="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
-                                            onclick="return cal2.write();">
+                                            onclick="return cal1.write();">
                                         <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在"
                                             class="pl5 cleartime" onclick="document.getElementById('ACTION_DATE_TO').value = '';">
                                     </td>
@@ -280,4 +286,23 @@
             <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="Contents Bottom" class="block">
         </div>
     </div>
+
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
+    </script>
 @endsection

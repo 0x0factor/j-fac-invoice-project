@@ -21,12 +21,13 @@ class View_optionController extends Controller
         $main_title = "デザイン設定確認";
         $title_text = "管理者メニュー";
         $title = "抹茶請求書";
+        $controller_name = "View_option";
 
 
         $viewOption = new ViewOption();
         $options = $viewOption->get_option(); // Implement this method in your ViewOption model
 
-        return view('view_options.index', compact('main_title', 'title_text', 'title', 'options'));
+        return view('view_options.index', compact('main_title', 'title_text', 'title', 'options', 'controller_name'));
     }
 
     // 編集用
@@ -35,6 +36,7 @@ class View_optionController extends Controller
         $main_title = "デザイン設定編集";
         $title_text = "管理者メニュー";
         $title = "抹茶請求書";
+        $controller_name = "View_option";
 
         $options = ViewOption::get_option(); // Implement this method in your ViewOption model
 
@@ -68,7 +70,7 @@ class View_optionController extends Controller
                         return redirect()->route('view_options.index');
                     }
                 } else {
-                    return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError'));
+                    return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError', 'controller_name'));
                 }
             } else if ($request->has('ViewOption.logo') && empty($request->file('ViewOption.logo'))) {
                 ViewOption::update_data($request->all()); // Implement this method in your ViewOption model
@@ -79,7 +81,7 @@ class View_optionController extends Controller
                 return redirect()->route('view_options.index');
             }
         } else {
-            return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'errors'));
+            return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'errors', 'controller_name'));
         }
     }
 

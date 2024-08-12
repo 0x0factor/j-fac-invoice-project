@@ -229,22 +229,20 @@
     </div>
 </form>
 <script language="JavaScript">
-    //<![CDATA[
-        var lastDate = '';
-        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+    var lastDate = '';
+    var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
 
-        setInterval(function(){
-            var date = $('input.cal.date').val();
-            if(lastDate != date){
-                lastDate = date;
-                var calcDate = new Date(date);
-                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
-                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
-                    $('#TAXFRACTIONTIMING0').click();
-                } else {
-                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
-                }
+    setInterval(function(){
+        var date = $('input.cal.date').val();
+        if(lastDate != date){
+            lastDate = date;
+            var calcDate = new Date(date);
+            if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                $('#TAXFRACTIONTIMING0').click();
+            } else {
+                $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
             }
-        },1000);
-    //]]>
+        }
+    },1000);
 </script>

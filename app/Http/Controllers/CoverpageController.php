@@ -125,6 +125,7 @@ class CoverpageController extends Controller
                     'maxline' => $maxline,
                     'SendMethod' => $SendMethod,
                     'data' => $data,
+                    'controller_name' => 'Coverpage',
                 ]);
             }
         } else {
@@ -134,6 +135,7 @@ class CoverpageController extends Controller
                 'main_title' => $main_title,
                 'title_text' => $title_text,
                 'title' => $title,
+                'controller_name' => 'Coverpage',
                 'maxline' => $maxline,
                 'SendMethod' => $SendMethod,
                 'data' => $data,
