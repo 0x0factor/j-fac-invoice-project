@@ -549,6 +549,10 @@ var PopupClass = function (win) {
                 no: no,
                 id: id,
                 keyword: keyword,
+                // data: {
+                //     key: "value",
+                //     _token: "{{ csrf_token() }}",
+                // },
             });
         }
 
@@ -580,6 +584,15 @@ var PopupClass = function (win) {
         }
 
         var win = this.win;
+
+        // $.ajaxSetup({
+        //     headers: {
+        //         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        //         "X-Requested-With": "XMLHttpRequest",
+        //     },
+        // });
+        var csrftoken = "<?=csrf_token()?>";
+        console.log("csrftoken", csrftoken);
 
         $.post("/ajax/popup", { params: param }, function (d) {
             //IE6対策

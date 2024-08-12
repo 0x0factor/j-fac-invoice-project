@@ -48,9 +48,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}" alt="">
-                            </td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
+
 
                         <tr>
                             <th style="width:150px;">顧客名</th>
@@ -71,15 +72,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}" alt="">
-                            </td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
                             <th style="width:150px;" class="{{ $errors->has('CHARGE_NAME') ? 'txt_top' : '' }}">
                                 <span class="float_l">担当者名</span>
+                                <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r">
                                 @if ($errors->first('CHARGE_NAME'))
-                                    <img src="{{ asset('i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r">
                                 @endif
                             </th>
                             <td style="width:730px;">
@@ -92,8 +93,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}" alt="">
-                            </td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -110,8 +111,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}" alt="">
-                            </td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -128,8 +129,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -144,8 +145,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -158,8 +159,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -189,8 +190,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -205,8 +206,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -222,8 +223,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -238,8 +239,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>
@@ -262,8 +263,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="line"><img src="{{ asset('i_line_solid.gif') }}"
-                                    alt=""></td>
+                            <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
+                                    alt="Line"></td>
                         </tr>
 
                         <tr>

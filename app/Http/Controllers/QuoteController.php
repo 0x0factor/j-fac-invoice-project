@@ -133,10 +133,10 @@ class QuoteController extends AppController
             // Token check (Laravel handles CSRF automatically)
 
             // Validation
-            $error = $this->itemValidation($request->input(), 'Quoteitem');
+            $error = $this->item_validation($request, 'Quoteitem');
 
             // Discount validation
-            $error['DISCOUNT'] = $this->validateDiscount($request);
+            // $error['DISCOUNT'] = $this->validateDiscount($request);
 
             if ($request->input('Quote.DISCOUNT_TYPE') == config('constants.DISCOUNT_TYPE_PERCENT')) {
                 $discount = strlen($request->input('Quote.DISCOUNT'));

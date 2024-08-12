@@ -284,7 +284,9 @@ class BillController extends AppController
             'taxClass' => config('constants.TaxClass'),
             'taxRates' => config('constants.TaxRates'),
             'taxOperationDate' => config('constants.TaxOperationDate'),
-            'seal_flg' => config('constants.SealFlg')
+            'seal_flg' => config('constants.SealFlg'),
+            'controller_name' => "Bill",
+
         ]);
     }
 

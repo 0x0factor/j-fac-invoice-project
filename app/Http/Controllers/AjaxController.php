@@ -63,6 +63,8 @@ class AjaxController extends Controller
 
     public function popup(Request $request)
     {
+        var_export("here is popup");
+        dd($request);
         $type = $request->input('type');
         $params = $request->input('params', []);
         $page = $params['page'] ?? 0;

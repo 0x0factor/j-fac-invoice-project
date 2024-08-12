@@ -10,11 +10,11 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="copyright" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="index,follow" />
     <meta http-equiv="imagetoolbar" content="no" />
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-store">
-    <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="-1">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     @php
@@ -36,6 +36,8 @@
         </title>
     @endif
     <script>
+        console.log('here is right');
+
         var controller_name =
             @isset($controller_name)
                 '{{ $controller_name }}'
