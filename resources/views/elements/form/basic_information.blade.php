@@ -228,6 +228,7 @@
         <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
     </div>
 </form>
+@section('script')
 <script language="JavaScript">
     var lastDate = '';
     var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
@@ -246,3 +247,4 @@
         }
     },1000);
 </script>
+@endsection

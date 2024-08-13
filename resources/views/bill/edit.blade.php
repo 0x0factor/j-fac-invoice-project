@@ -28,6 +28,9 @@
     <!-- contents_End -->
 
     <div id="itemlist" style="display:none;">{!! nl2br($itemlist) !!}</div>
-    @include('elements.form.scripts')
 
 @endsection
+@section('script')
+    @include('elements.form.scripts')
+@endsection
+

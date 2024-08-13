@@ -24,11 +24,11 @@
 @endphp
 
 <script type="text/javascript">
-    var form = {
-        tax_rates: @json($taxRates),
-        tax_rates_option: @json($taxClassforJson),
-        tax_operation_date: @json($taxOperationDate)
-    };
+    // var form = {
+    //     tax_rates: @json($taxRates),
+    //     tax_rates_option: @json($taxClassforJson),
+    //     tax_operation_date: @json($taxOperationDate)
+    // };
 </script>
 
 <h3>
@@ -175,7 +175,7 @@
             <tr>
                 <td colspan="8" class="pl30">
                     <img src="{{ asset('img/bt_add.jpg') }}" alt="行を追加する" url="javascript:void(0)"
-                        onclick="return form.f_addline(null);">
+                        onclick="form.f_addline(null);">
                     <img src="{{ asset('img/button/insert.png') }}" alt="行を挿入する" url="javascript:void(0)"
                         onclick="form.f_insert(); return false;">
                     <img src="{{ asset('img/bt_break.png') }}" alt="改ページを挿入する" url="javascript:void(0)"

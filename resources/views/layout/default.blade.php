@@ -35,28 +35,7 @@
             {!! nl2br(e($title)) !!}
         </title>
     @endif
-    <script>
-        var controller_name =
-            @isset($controller_name)
-                '{{ $controller_name }}'
-            @endisset ;
-    </script>
-    <script src="{{ asset('js/jquery-1.4.4.min.js') }}"></script>
-    @if (isset($rb_flag) && $rb_flag)
-        <script src="{{ asset('regularbill/js/jkl-calendar.js') }}"></script>
-    @else
-        <script src="{{ asset('js/jkl-calendar.js') }}"></script>
-    @endif
-    <script src="{{ asset('js/mathcontext.js') }}"></script>
-    <script src="{{ asset('js/bigdecimal.js') }}"></script>
-    <script src="{{ asset('js/forms.js') }}"></script>
-    <script src="{{ asset('js/dropdown.js') }}"></script>
-    <script src="{{ asset('js/alphafilter.js') }}" defer></script>
 
-    <script src="{{ asset('js/rollover.js') }}"></script>
-    <script src="{{ asset('js/rollover-table.js') }}"></script>
-    <script src="{{ asset('js/ready.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
 
     <link href="{{ asset('css/import.css') }}" rel="stylesheet">
     @yield('link')
@@ -231,6 +210,29 @@
 
         <!-- footer_End -->
     </div>
+
+    <script>
+        var controller_name =
+            @isset($controller_name)
+                '{{ $controller_name }}'
+            @endisset ;
+    </script>
+    <script src="{{ asset('js/jquery-1.4.4.min.js') }}"></script>
+    @if (isset($rb_flag) && $rb_flag)
+        <script src="{{ asset('regularbill/js/jkl-calendar.js') }}"></script>
+    @else
+        <script src="{{ asset('js/jkl-calendar.js') }}"></script>
+    @endif
+    <script src="{{ asset('js/mathcontext.js') }}"></script>
+    <script src="{{ asset('js/bigdecimal.js') }}"></script>
+    <script src="{{ asset('js/forms.js') }}"></script>
+    <script src="{{ asset('js/dropdown.js') }}"></script>
+    <script src="{{ asset('js/alphafilter.js') }}" defer></script>
+
+    <script src="{{ asset('js/rollover.js') }}"></script>
+    <script src="{{ asset('js/rollover-table.js') }}"></script>
+    <script src="{{ asset('js/ready.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     @yield('script')
 </body>
 <!-- wrapper_End -->

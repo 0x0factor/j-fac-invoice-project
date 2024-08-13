@@ -1891,16 +1891,18 @@ var FormClass = function () {
         var excise = $(
             'input[name="data[' + this.maintype + '][EXCISE]"]:checked'
         ).val();
-
-        $.each(form.tax_operation_date, function (per, dates) {
-            //IE8 対応
-            dates["start"] = dates["start"].replace(/-/, "/").replace(/-/, "/");
-            if (Date.parse(dates["start"]) <= Date.parse(issue_date)) {
-                var prefix = "";
-                if (Number(excise) != 3 && per > 5) prefix = per;
-                currentRate = prefix + "" + excise;
-            }
-        });
+        if (form.tax_operation_date && form.tax_operation_date.length)
+            $.each(form.tax_operation_date, function (per, dates) {
+                //IE8 対応
+                dates["start"] = dates["start"]
+                    .replace(/-/, "/")
+                    .replace(/-/, "/");
+                if (Date.parse(dates["start"]) <= Date.parse(issue_date)) {
+                    var prefix = "";
+                    if (Number(excise) != 3 && per > 5) prefix = per;
+                    currentRate = prefix + "" + excise;
+                }
+            });
 
         return currentRate;
     };
@@ -2518,7 +2520,7 @@ var FormClass = function () {
         this.bt_del;
         this.bt_set;
         this.bt_can;
-        var bt_select = $("#INSERT_ITEM_IMG0 a img").attr("src");
+        var bt_select = $("#INSERT_ITEM_IMG0 img").attr("src");
         var bt_up = $("tr.row_0 td img.btn_up").attr("src");
         var bt_down = $("tr.row_0 td img.btn_down").attr("src");
         var html;
@@ -2660,17 +2662,28 @@ var FormClass = function () {
             "'," +
             _no +
             ', value);" style="display: inline">';
-        html += '<option value="0">------</option>';
 
+            html += '<option value="0">------</option>';
+            html += '<option value="2">外税(5%)</option>';
+            html += '<option value="1">内税(5%)</option>';
+            html += '<option value="82">外税(8%)</option>';
+            html += '<option value="81">内税(8%)</option>';
+            html += '<option value="92">軽減外税(8%)</option>';
+            html += '<option value="91">軽減内税(8%)</option>';
+            html += '<option value="102">外税(10%)</option>';
+            html += '<option value="101">内税(10%)</option>';
+            html += '<option value="3">非課税</option>';
+        
         var currentRate = this.getRateByIssueDate();
 
-        $.each(form.tax_rates_option, function (index, tax_class) {
-            html += '<option value="' + tax_class["key"] + '"';
-            if (tax_class["key"] == currentRate) {
-                html += 'selected = "selected"';
-            }
-            html += ">" + tax_class["name"] + "</option>";
-        });
+        if (form.tax_operation_date && form.tax_operation_date.length)
+            $.each(form.tax_rates_option, function (index, tax_class) {
+                html += '<option value="' + tax_class["key"] + '"';
+                if (tax_class["key"] == currentRate) {
+                    html += 'selected = "selected"';
+                }
+                html += ">" + tax_class["name"] + "</option>";
+            });
 
         html += "</select>";
 
@@ -3784,8 +3797,6 @@ var FormClass = function () {
 
     //行の挿入
     this.f_insert = function (type) {
-        console.log("rcsh");
-
         if (!type) {
             type = 0; // 通常
         }
@@ -4675,7 +4686,7 @@ function recalculation(type) {
     }
 
     setReadOnly(type);
-    this.f_subtotal();
+    form.f_subtotal();
 }
 
 function fix_fraction(num, dec) {

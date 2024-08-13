@@ -37,6 +37,9 @@ $user = Auth::user(); // Assuming you are using Laravel's built-in authenticatio
     <!-- contents_End -->
     <div id="itemlist" style="display:none;">{!! nl2br(e($itemlist)) !!}</div>
 
+@endsection
+@section('script')
     @include('elements.form.scripts')
 @endsection
+
 

@@ -21,6 +21,7 @@
         @include('elements.form.quote_other')
         @include('elements.arrow_under')
         @include('elements.form.management')
+
     </div>
     <!-- contents_End -->
 
@@ -34,5 +35,4 @@
 
 @section('ajax')
     @include('ajax.select_customer')
-
 @endsection
