@@ -57,7 +57,7 @@
                                 <script>
                                     var cal1 = new JKL.Calendar("calid", "TotalbillEditForm", "data[Totalbill][FROM]");
                                 </script>
-                                <input type="text" name="FROM" id="FROM" class="w100 p2 date cal" readonly
+                                <input type="text" name="data[{{$formType}}][FROM]" id="FROM" class="w100 p2 date cal" readonly
                                     onChange="cal1.getFormValue(); cal1.hide();">
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('FROM').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
@@ -71,7 +71,7 @@
                                 <script>
                                     var cal2 = new JKL.Calendar("calid", "TotalbillEditForm", "data[Totalbill][TO]");
                                 </script>
-                                <input type="text" name="TO" id="TO" class="w100 p2 date cal" readonly
+                                <input type="text" name="data[{{$formType}}][TO]" id="TO" class="w100 p2 date cal" readonly
                                     onChange="cal2.getFormValue(); cal2.hide();">
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('TO').value = new Date().toISOString().split('T')[0];">
                                 <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
@@ -173,4 +173,25 @@
         </div>
     </div>
 
+@endsection
+@section('script')
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][FROM]");
+        var cal2 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][TO]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
+    </script>
 @endsection

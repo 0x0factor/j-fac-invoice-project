@@ -57,7 +57,7 @@
                             <th class="{{ $errors->has('DATE') ? 'txt_top' : '' }}"><span class="float_l">発行日</span><img
                                     src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10 mr10 float_r"></th>
                             <td width="320">
-                                <input type="text" id="issue_date" name="DATE" id="DATE"
+                                <input type="text" id="issue_date" name="data[{{$formType}}][DATE]" id="DATE"
                                     value="{{ old('DATE', $totalbill->DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DATE') ? 'error' : '' }}" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
@@ -159,7 +159,7 @@
                             <th class="{{ $errors->has('DUE_DATE') ? 'txt_top' : '' }}"><span class="float_l">振込期限</span>
                             </th>
                             <td colspan="3">
-                                <input type="text" name="DUE_DATE" id="DUE_DATE"
+                                <input type="text" name="data[{{$formType}}][DUE_DATE]" id="DUE_DATE"
                                     value="{{ old('DUE_DATE', $totalbill->DUE_DATE) }}"
                                     class="w100 p2 date cal {{ $errors->has('DUE_DATE') ? 'error' : '' }}" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('DUE_DATE').value = new Date().toISOString().split('T')[0];">
@@ -215,4 +215,25 @@
         }
     </script>
 
+@endsection
+@section('script')
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+        var cal2 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DUE_DATE]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
+    </script>
 @endsection

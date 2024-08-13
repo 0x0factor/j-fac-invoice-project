@@ -96,18 +96,18 @@
                                 <tr>
                                     <th>発行日 開始日</th>
                                     <td width="320">
-                                        <input type="text" name="data[Quote][DATE]" id="ACTION_DATE_FROM" class="w100 p2 date cal" value="{{ request('ACTION_DATE_FROM') }}" readonly>
+                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_FROM]" id="ACTION_DATE_FROM" class="w100 p2 date cal" value="{{ request('ACTION_DATE_FROM') }}" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
-                                            onclick="return cal1.write('ACTION_DATE_FROM');">
+                                            onclick="return cal1.write();">
                                         <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="document.getElementById('ACTION_DATE_FROM').value = '';">
                                     </td>
                                     <th>発行日 終了日</th>
                                     <td width="320">
-                                        <input type="text" name="ACTION_DATE_TO" id="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
+                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_TO]" id="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
-                                            onclick="return cal1.write();">
+                                            onclick="return cal2.write();">
                                         <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在"
                                             class="pl5 cleartime" onclick="document.getElementById('ACTION_DATE_TO').value = '';">
                                     </td>
@@ -287,9 +287,12 @@
         </div>
     </div>
 
+@endsection
+@section('script')
     <script language="JavaScript">
         var lastDate = '';
-        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_FROM]");
+        var cal2 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_TO]");
 
         setInterval(function(){
             var date = $('input.cal.date').val();

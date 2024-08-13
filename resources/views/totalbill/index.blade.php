@@ -4,6 +4,11 @@
     @php
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
     @endphp
+    @php
+        $formType = $formType ?? 'Totalbill';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
     <script>
         try {
             window.addEventListener("load", initTableRollovers('index_table'), false);
@@ -64,7 +69,7 @@
                         <tr>
                             <th>発行日 開始日</th>
                             <td width="320">
-                                <input type="text" id="ACTION_DATE_FROM" name="ACTION_DATE_FROM" class="w100 p2 date cal"
+                                <input type="text" id="ACTION_DATE_FROM" name="data[{{$formType}}][ACTION_DATE_FROM]" class="w100 p2 date cal"
                                     readonly value="{{ request('ACTION_DATE_FROM') }}">
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime"
                                     onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
@@ -77,7 +82,7 @@
                         <tr>
                             <th>発行日 終了日</th>
                             <td width="320">
-                                <input type="text" id="ACTION_DATE_TO" name="ACTION_DATE_TO" class="w100 p2 date cal"
+                                <input type="text" id="ACTION_DATE_TO" name="data[{{$formType}}][ACTION_DATE_TO]" class="w100 p2 date cal"
                                     readonly value="{{ request('ACTION_DATE_TO') }}">
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime"
                                     onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
@@ -258,5 +263,26 @@
         function selectAll() {
             document.querySelectorAll('.chk').forEach(checkbox => checkbox.checked = true);
         }
+    </script>
+@endsection
+@section('script')
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_FROM]");
+        var cal2 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_TO]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
     </script>
 @endsection

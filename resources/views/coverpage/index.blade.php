@@ -34,6 +34,12 @@
 
 @section('content')
 
+@php
+        $formType = $formType ?? 'Coverpage';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
+
     <div id="guide">
         <div id="guide_box" class="clearfix">
             <img src="{{ asset('img/i_guide02.jpg') }}" alt="">
@@ -160,10 +166,7 @@
                                 <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10">
                             </th>
                             <td colspan="4">
-                                <script language="JavaScript">
-                                    var cal1 = new JKL.Calendar("calid", "CoverpagesIndexForm", "data[Coverpages][DATE]");
-                                </script>
-                                <input type="text" name="DATE" id="DATE" value="{{ old('DATE') }}"
+                                <input type="text" name="data[{{$formType}}][DATE]" id="DATE" value="{{ old('DATE') }}"
                                     class="w100 p2 date cal{{ $errors->has('DATE') ? ' error' : '' }}" readonly>
                                 <a href="#" class="nowtime">
                                     <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" onclick="document.getElementById('DATE').value = new Date().toISOString().split('T')[0];">
@@ -339,4 +342,24 @@
             onclick="return form.coverpage_addline(null);" /></a>
     <a href="#"><img src="{{ asset('img/bt_reset.jpg') }}" alt="リセット"
             onclick="return form.f_reset('null');" /></a>
+@endsection
+@section('script')
+    <script language="JavaScript">
+        var lastDate = '';
+        var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][DATE]");
+
+        setInterval(function(){
+            var date = $('input.cal.date').val();
+            if(lastDate != date){
+                lastDate = date;
+                var calcDate = new Date(date);
+                if(calcDate.getFullYear() >= 2024 || (calcDate.getFullYear() >= 2023 && calcDate.getMonth() >= 9)){
+                    $('#TAXFRACTIONTIMING1').attr('disabled', true);
+                    $('#TAXFRACTIONTIMING0').click();
+                } else {
+                    $('#TAXFRACTIONTIMING1').removeAttr('disabled', true);
+                }
+            }
+        },1000);
+    </script>
 @endsection

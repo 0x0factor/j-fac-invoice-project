@@ -506,7 +506,7 @@ class BillController extends AppController
         if ($request->has('delete_x')) {
             if (empty($request->input('Bill'))) {
                 Session::flash('error', '請求書が選択されていません');
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
 
             // 削除
@@ -515,7 +515,7 @@ class BillController extends AppController
                     $bill = Bill::where('MBL_ID', $key)->first(['USR_ID']);
                     if (! $this->Get_Edit_Authority($bill->USR_ID)) {
                         Session::flash('error', '削除できない請求書が含まれていました');
-                        return redirect()->route('bills.index', ['customer' => $customer_id]);
+                        return redirect()->route('bill.index', ['customer' => $customer_id]);
                     }
                 }
             }
@@ -530,10 +530,10 @@ class BillController extends AppController
                 }
                 // 成功
                 Session::flash('success', '請求書を削除しました');
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             } else {
                 // 失敗
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
         }
 
@@ -545,11 +545,11 @@ class BillController extends AppController
                     Session::flash('success', '見積書に転記しました');
                     return redirect()->route('quote.index', ['customer' => $customer_id]);
                 } else {
-                    return redirect()->route('bills.index', ['customer' => $customer_id]);
+                    return redirect()->route('bill.index', ['customer' => $customer_id]);
                 }
             } else {
                 // 失敗
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
         }
 
@@ -562,15 +562,15 @@ class BillController extends AppController
                     if ($form_check) {
                         return redirect("/bills/edit/$inv_id");
                     } else {
-                        return redirect()->route('bills.index', ['customer' => $customer_id]);
+                        return redirect()->route('bill.index', ['customer' => $customer_id]);
                     }
                 } else {
                     // 失敗
-                    return redirect()->route('bills.index', ['customer' => $customer_id]);
+                    return redirect()->route('bill.index', ['customer' => $customer_id]);
                 }
             } else {
                 // 失敗
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
         }
 
@@ -583,11 +583,11 @@ class BillController extends AppController
                     return redirect()->route('deliveries.index', ['customer' => $customer_id]);
                 } else {
                     // 失敗
-                    return redirect()->route('bills.index', ['customer' => $customer_id]);
+                    return redirect()->route('bill.index', ['customer' => $customer_id]);
                 }
             } else {
                 // 失敗
-                return redirect()->route('bills.index', ['customer' => $customer_id]);
+                return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
         }
 
@@ -630,7 +630,7 @@ class BillController extends AppController
         //             }
         //         } else {
         //             Session::flash('error', $error);
-        //             return redirect()->route('bills.export');
+        //             return redirect()->route('bill.export');
         //         }
         //     }
         // }
@@ -662,7 +662,7 @@ class BillController extends AppController
 
         if (!$this->Get_Check_Authority($param['Bill']['USR_ID'])) {
             Session::flash('error', '帳票を閲覧する権限がありません');
-            return redirect()->route('bills.index');
+            return redirect()->route('bill.index');
         }
 
         $Color = config('constants.ColorCode'); // Assuming color code is stored in config/constants.php
@@ -799,7 +799,7 @@ class BillController extends AppController
 
         // Handle cancel button press
         if ($request->filled('cancel_x')) {
-            return redirect()->route('bills.index');
+            return redirect()->route('bill.index');
         }
 
         // Handle form submission
@@ -845,7 +845,7 @@ class BillController extends AppController
         $billId = $request->route('id');
 
         if (!$billId) {
-            return redirect()->route('bills.index');
+            return redirect()->route('bill.index');
         }
 
         $data = (new Bill())->preview_data($billId);
@@ -862,12 +862,12 @@ class BillController extends AppController
 
         if (isset($data['Bill']['STATUS']) && $data['Bill']['STATUS'] != 1) {
             Session::flash('error', '領収書を作成できません');
-            return redirect()->route('bills.index');
+            return redirect()->route('bill.index');
         }
 
         if (!$this->Get_Edit_Authority($data['Bill']['USR_ID'])) {
             Session::flash('error', '帳票を閲覧する権限がありません');
-            return redirect()->route('bills.index');
+            return redirect()->route('bill.index');
         }
 
         // Rounding
