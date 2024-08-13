@@ -35,7 +35,7 @@
             {!! nl2br(e($title)) !!}
         </title>
     @endif
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link href="{{ asset('css/import.css') }}" rel="stylesheet">
     @yield('link')
@@ -194,7 +194,6 @@
             <div id="popup-bg"></div>
             <div id="popup">
             @yield('ajax')
-
 
             </div>
         </div>
