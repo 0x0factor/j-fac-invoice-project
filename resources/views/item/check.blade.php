@@ -26,7 +26,7 @@
             <div class="edit_01_item"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form action="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST" class="Item">
+        <form action="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" method="POST" class="Item">
             @csrf
             <div class="contents_box">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
@@ -35,7 +35,7 @@
                         <tr>
                             <th style="width:130px;">商品</th>
                             <td style="width:750px;">
-                                {{ $params['Item']['ITEM'] }}
+                                {{ $data['ITEM'] }}
                             </td>
                         </tr>
 
@@ -48,7 +48,7 @@
                         <tr>
                             <th style="width:130px;">商品名カナ</th>
                             <td style="width:750px;">
-                                {{ $params['Item']['ITEM_KANA'] }}
+                                {{ $data['ITEM_KANA'] }}
                             </td>
                         </tr>
 
@@ -61,7 +61,7 @@
                         <tr>
                             <th style="width:130px;">商品コード</th>
                             <td style="width:750px;">
-                                {{ $params['Item']['ITEM_CODE'] }}
+                                {{ $data['ITEM_CODE'] }}
                             </td>
                         </tr>
 
@@ -74,7 +74,7 @@
                         <tr>
                             <th style="width:130px;">単位</th>
                             <td style="width:750px;">
-                                {{ $params['Item']['UNIT'] }}
+                                {{ $data['UNIT'] }}
                             </td>
                         </tr>
 
@@ -87,7 +87,7 @@
                         <tr>
                             <th style="width:130px;">価格</th>
                             <td style="width:750px;">
-                                {{ $params['Item']['UNIT_PRICE'] }}
+                                {{ $data['UNIT_PRICE'] }}
                             </td>
                         </tr>
 
@@ -100,7 +100,7 @@
                         <tr>
                             <th style="width:130px;">税区分</th>
                             <td style="width:750px;">
-                                {{ $excises[$params['Item']['TAX_CLASS']] }}
+                                {{ $excises[$data['TAX_CLASS']] }}
                             </td>
                         </tr>
                     </table>
@@ -109,16 +109,16 @@
             </div>
             <div class="edit_btn">
                 @if ($editauth)
-                    <a href="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" class="imgover"
+                    <a href="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" class="imgover"
                         onclick="event.preventDefault(); document.getElementById('editForm').submit();">
                         <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                     </a>
                 @endif
 
-                <form id="editForm" action="{{ route('item.edit', ['id' => $params['Item']['ITM_ID']]) }}" method="POST"
+                <form id="editForm" action="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" method="POST"
                     style="display:inline;">
                     @csrf
-                    <input type="hidden" name="ITM_ID" value="{{ $params['Item']['ITM_ID'] }}">
+                    <input type="hidden" name="ITM_ID" value="{{ $data['ITM_ID'] }}">
                 </form>
 
                 <form action="{{ route('item.index') }}" method="POST" style="display:inline;">

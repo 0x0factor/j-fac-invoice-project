@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
-class ItemController extends Controller
+class ItemController extends AppController
 {
     public function __construct()
     {
@@ -68,15 +68,16 @@ class ItemController extends Controller
 
             // dd("after validate");
             // データのインサート
-            var_export($request);
-            dd($request);
+            // var_export($request->input());
+            // dd($request->input());
             $item = new Item();
 
-            $setdata = $item->set_data($request->input('data'));
+            $setdata = $item->set_data($request->input());
             if (!isset($setdata['error'])) {
                 // 成功
                 Session::flash('status', '商品を保存しました');
-                return redirect('/items/check/' . $setdata['Item']['ITM_ID']);
+                return redirect()->route('item.check', ['item_ID' => $setdata['ITM_ID']]);
+
             }
         }
 
@@ -100,7 +101,8 @@ class ItemController extends Controller
 
         if (!$request->has('data')) {
             // 初期データの取得
-            $data = Item::edit_select($item_ID);
+            $item = new Item();
+            $data = $item->edit_select($item_ID);
             if (!$data) {
                 return redirect('/items');
             }
@@ -108,8 +110,9 @@ class ItemController extends Controller
             $data = $request->input('data');
         }
 
-        $editauth = $this->Get_Edit_Authority($data['Item']['USR_ID']);
-        if (!$this->Get_Check_Authority($data['Item']['USR_ID'])) {
+
+        $editauth = $this->Get_Edit_Authority($data['USR_ID']);
+        if (!$this->Get_Check_Authority($data['USR_ID'])) {
             Session::flash('status', 'ページを開く権限がありません');
             return redirect('/items');
         }

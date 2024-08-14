@@ -126,7 +126,7 @@ Route::get('histories', [HistoryController::class, 'index'])->name('history.inde
 Route::get('items', [ItemController::class, 'index'])->name('item.index');
 Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
 Route::post('items/store', [ItemController::class, 'store'])->name('item.store');
-Route::post('items/check', [ItemController::class, 'check'])->name('item.check');
+Route::get('items/check/{item_ID}', [ItemController::class, 'check'])->name('item.check');
 Route::get('items/edit', [ItemController::class, 'edit'])->name('item.edit');
 Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete');
 

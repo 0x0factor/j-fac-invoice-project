@@ -67,29 +67,35 @@ class Item extends Model
      * @param array $_param
      * @return array|bool
      */
+
     public function set_data($_param)
     {
-        dd($_param);
-        if (isset($_param['Item']['ITM_ID'])) {
-            $this->setAttribute('id', $_param['Item']['ITM_ID']);
+        // Check and set 'ITM_ID'
+        if (isset($_param['ITM_ID'])) {
+            $this->setAttribute('id', $_param['ITM_ID']);
         } else {
-            $_param['Item']['INSERT_DATE'] = Carbon::now();
+            $_param['INSERT_DATE'] = Carbon::now();
         }
-        $_param['Item']['LAST_UPDATE'] = Carbon::now();
+        $_param['LAST_UPDATE'] = Carbon::now();
 
-        $this->fill($this->permit_params($_param['Item']));
-        // var_export($_param);die;
-        $param = $this->save();
+        // Fill the object with permitted parameters
+        $this->fill($this->permit_params($_param));
 
-        if (!$param) {
+        // Attempt to save and capture the result
+        $saveResult = $this->save();
+
+        // Check if save was successful
+        if (!$saveResult) {
             return ['error' => $this->getErrors()];
         }
 
-        if (!isset($param['Item']['ITM_ID'])) {
-            $param['Item']['ITM_ID'] = $this->id;
+        // Now, check if $_param['ITM_ID'] is set, and if not, assign the ID
+        if (!isset($_param['ITM_ID'])) {
+            $_param['ITM_ID'] = $this->ITM_ID;
         }
 
-        return $param;
+        // Return $_param as it has the ITM_ID and other data
+        return $_param;
     }
 
     /**
