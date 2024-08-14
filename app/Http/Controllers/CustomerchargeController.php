@@ -32,10 +32,10 @@ class CustomerChargeController extends Controller
             // 成功
             if (CustomerCharge::destroy(request()->input('data'))) {
                 Session::flash('message', '取引先担当者を削除しました');
-                return redirect()->route('customer_charges.index');
+                return redirect()->route('customer_charge.index');
             } else {
                 Session::flash('message', '取引先担当者を削除できませんでした');
-                return redirect()->route('customer_charges.index');
+                return redirect()->route('customer_charge.index');
             }
         }
 
@@ -79,7 +79,7 @@ class CustomerChargeController extends Controller
 
         if (!$chargeAry || !$this->Get_Check_Authority($chargeAry->USR_ID)) {
             Session::flash('message', 'ページを開く権限がありません');
-            return redirect()->route('customer_charges.index');
+            return redirect()->route('customer_charge.index');
         }
 
         $customer = Customer::find($chargeAry->CST_ID);
@@ -99,7 +99,7 @@ class CustomerChargeController extends Controller
         $controller_name = "Customercharge";
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('customer_charges.index');
+            return redirect()->route('customer_charge.index');
         }
 
         $phone_error = 0;
@@ -115,7 +115,7 @@ class CustomerChargeController extends Controller
 
             if (!isset($result['error'])) {
                 Session::flash('message', '取引先担当者を保存しました');
-                return redirect()->route('customer_charges.check', ['chargeID' => $result['CustomerCharge']['CHRC_ID']]);
+                return redirect()->route('customer_charge.check', ['chargeID' => $result['CustomerCharge']['CHRC_ID']]);
             }
         }
         $user = Auth::user();
@@ -135,7 +135,7 @@ class CustomerChargeController extends Controller
         $controller_name = "Customercharge";
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('customer_charges.index');
+            return redirect()->route('customer_charge.index');
         }
 
         $phone_error = 0;
@@ -145,7 +145,7 @@ class CustomerChargeController extends Controller
             $chargeAry = CustomerCharge::find($chargeID);
 
             if (!$chargeAry) {
-                return redirect()->route('customer_charges.index');
+                return redirect()->route('customer_charge.index');
             }
 
             $customer = Customer::find($chargeAry->CST_ID);
@@ -159,12 +159,12 @@ class CustomerChargeController extends Controller
 
             $this->set_data($request->input('CustomerCharge'), 'update', $phone_error, $fax_error);
             Session::flash('message', '取引先担当者を保存しました');
-            return redirect()->route('customer_charges.check', ['chargeID' => $chargeID]);
+            return redirect()->route('customer_charge.check', ['chargeID' => $chargeID]);
         }
 
         if (!$this->Get_Edit_Authority($this->data['CustomerCharge']['USR_ID'])) {
             Session::flash('message', 'ページを開く権限がありません');
-            return redirect()->route('customer_charges.index');
+            return redirect()->route('customer_charge.index');
         }
 
         $customer = Customer::find($this->data['CustomerCharge']['CST_ID']);

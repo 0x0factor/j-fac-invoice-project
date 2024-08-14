@@ -666,7 +666,7 @@ class DeliveryController extends Controller
         if ($request->has('reproduce_quote_x')) {
             $result = $this->reproduceCheck($request->input('data'));
             if ($result && $this->insertReproduceIntoQuote($result, $user_id)) {
-                return redirect()->route('quotes.index', ['customer' => $customer_id])
+                return redirect()->route('quote.index', ['customer' => $customer_id])
                     ->with('success', '見積書に転記しました');
             }
             return redirect()->route('delivery.index', ['customer' => $customer_id]);
@@ -675,7 +675,7 @@ class DeliveryController extends Controller
         if ($request->has('reproduce_bill_x')) {
             $result = $this->reproduceCheck($request->input('data'));
             if ($result && $this->insertReproduceIntoBill($result, $user_id)) {
-                return redirect()->route('bills.index', ['customer' => $customer_id])
+                return redirect()->route('bill.index', ['customer' => $customer_id])
                     ->with('success', '請求書に転記しました');
             }
             return redirect()->route('delivery.index', ['customer' => $customer_id]);

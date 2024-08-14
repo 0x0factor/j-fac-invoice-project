@@ -85,7 +85,7 @@ class CompanyController extends Controller
 
         // キャンセルボタンを押された場合、一覧にリダイレクト
         if ($request->has('cancel')) {
-            return redirect()->route('companies.index');
+            return redirect()->route('company.index');
         }
 
         if ($request->isMethod('post')) {
@@ -125,7 +125,7 @@ class CompanyController extends Controller
                 } else {
                     // 成功
                     Session::flash('message', '自社情報設定を保存しました');
-                    return redirect()->route('companies.index');
+                    return redirect()->route('company.index');
                 }
             }
         } else {

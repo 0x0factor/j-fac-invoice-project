@@ -27,7 +27,7 @@ class View_optionController extends Controller
         $viewOption = new ViewOption();
         $options = $viewOption->get_option(); // Implement this method in your ViewOption model
 
-        return view('view_options.index', compact('main_title', 'title_text', 'title', 'options', 'controller_name'));
+        return view('view_option.index', compact('main_title', 'title_text', 'title', 'options', 'controller_name'));
     }
 
     // 編集用
@@ -43,7 +43,7 @@ class View_optionController extends Controller
         $errors = $this->validateViewOption($request->all());
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('view_options.index');
+            return redirect()->route('view_option.index');
         }
 
         if ($request->isMethod('post')) {
@@ -64,24 +64,24 @@ class View_optionController extends Controller
                         $request->merge(['ViewOption.logo' => $filename]);
                         ViewOption::update_data($request->all()); // Implement this method in your ViewOption model
                         Session::flash('status', '設定を保存しました');
-                        return redirect()->route('view_options.index');
+                        return redirect()->route('view_option.index');
                     } else {
                         Session::flash('error', 'アップロード画像の移動に失敗しました');
-                        return redirect()->route('view_options.index');
+                        return redirect()->route('view_option.index');
                     }
                 } else {
-                    return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError', 'controller_name'));
+                    return view('view_option.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError', 'controller_name'));
                 }
             } else if ($request->has('ViewOption.logo') && empty($request->file('ViewOption.logo'))) {
                 ViewOption::update_data($request->all()); // Implement this method in your ViewOption model
                 Session::flash('status', '設定を保存しました');
-                return redirect()->route('view_options.index');
+                return redirect()->route('view_option.index');
             } else {
                 Session::flash('error', '画像のアップロードに失敗しました');
-                return redirect()->route('view_options.index');
+                return redirect()->route('view_option.index');
             }
         } else {
-            return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'errors', 'controller_name'));
+            return view('view_option.edit', compact('main_title', 'title_text', 'title', 'options', 'errors', 'controller_name'));
         }
     }
 

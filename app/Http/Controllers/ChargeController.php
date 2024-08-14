@@ -59,7 +59,7 @@ class ChargeController extends Controller
         $chr_id = 0;
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
 
         if ($request->isMethod('post')) {
@@ -85,7 +85,7 @@ class ChargeController extends Controller
                     $image_error = $result;
                 } else {
                     Session::flash('message', '自社担当者を保存しました');
-                    return redirect()->route('charges.check', ['id' => $chr_id]);
+                    return redirect()->route('charge.check', ['id' => $chr_id]);
                 }
             }
         }
@@ -115,10 +115,10 @@ class ChargeController extends Controller
 
         if ($this->isCorrectToken($request->input('Security.token')) && Charge::index_delete($request->input())) {
             Session::flash('message', '自社担当者を削除しました');
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         } else {
             Session::flash('error', '自社担当者が削除できませんでした。');
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
     }
 
@@ -131,7 +131,7 @@ class ChargeController extends Controller
         $image_error = 0;
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
 
         if ($request->isMethod('post') && $this->isCorrectToken($request->input('Security.token'))) {
@@ -158,18 +158,18 @@ class ChargeController extends Controller
                         ->with('page_title', 'Company');
                 } else {
                     Session::flash('message', '自社担当者を保存しました');
-                    return redirect()->route('charges.check', ['id' => $charge_ID]);
+                    return redirect()->route('charge.check', ['id' => $charge_ID]);
                 }
             }
         } else {
             $charge = Charge::edit_select($charge_ID);
             if (!$charge) {
-                return redirect()->route('charges.index');
+                return redirect()->route('charge.index');
             }
 
             if (!$this->Get_Edit_Authority($charge['Charge']['USR_ID'])) {
                 Session::flash('error', 'ページを開く権限がありません');
-                return redirect()->route('charges.index');
+                return redirect()->route('charge.index');
             }
 
             $image = $charge['Charge']['SEAL'] ?? null;
@@ -197,17 +197,17 @@ class ChargeController extends Controller
         $company_ID = 1;
 
         if ($request->has('cancel_x')) {
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
 
         $charge = Charge::edit_select($charge_ID);
         if (!$charge) {
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
 
         if (!$this->Get_Check_Authority($charge['Charge']['USR_ID'])) {
             Session::flash('error', 'ページを開く権限がありません');
-            return redirect()->route('charges.index');
+            return redirect()->route('charge.index');
         }
 
         $image = $charge['Charge']['SEAL'] ?? null;

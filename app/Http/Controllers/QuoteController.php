@@ -528,7 +528,7 @@ class QuoteController extends AppController
             $result = $this->checkReproduce($request->all(), 'Quote');
             if ($result && $quoteId = $this->insertReproduce($result, $userId, Quote::class)) {
                 Session::flash('message', '見積書に転記しました');
-                return redirect("/quotes/edit/$quoteId");
+                return redirect("/quote/edit/$quoteId");
             }
         }
 
@@ -536,7 +536,7 @@ class QuoteController extends AppController
             $result = $this->checkReproduce($request->all());
             if ($result && $this->insertReproduce($result, $userId, Bill::class)) {
                 Session::flash('message', '請求書に転記しました');
-                return redirect()->route('bills.index', ['customer' => $customerId]);
+                return redirect()->route('bill.index', ['customer' => $customerId]);
             }
         }
 
@@ -544,7 +544,7 @@ class QuoteController extends AppController
             $result = $this->checkReproduce($request->all());
             if ($result && $this->insertReproduce($result, $userId, Delivery::class)) {
                 Session::flash('message', '納品書に転記しました');
-                return redirect()->route('deliveries.index', ['customer' => $customerId]);
+                return redirect()->route('delivery.index', ['customer' => $customerId]);
             }
         }
 
@@ -570,7 +570,7 @@ class QuoteController extends AppController
                         return $this->outputXls($data, "見積書");
                     }
                 } else {
-                    return redirect()->route('quotes.export')->with('error', $error);
+                    return redirect()->route('quote.export')->with('error', $error);
                 }
             }
         }
@@ -600,7 +600,7 @@ class QuoteController extends AppController
         }
 
         if (!$this->checkAuthority($param['Quote']['USR_ID'])) {
-            return redirect()->route('quotes.export')->with('error', '帳票を閲覧する権限がありません');
+            return redirect()->route('quote.export')->with('error', '帳票を閲覧する権限がありません');
         }
 
         $customer_charge = CustomerCharge::where('CHRC_ID', $param['Quote']['CHRC_ID'])->first();
