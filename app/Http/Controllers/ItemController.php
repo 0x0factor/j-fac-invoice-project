@@ -68,6 +68,8 @@ class ItemController extends Controller
 
             // dd("after validate");
             // データのインサート
+            var_export($request);
+            dd($request);
             $item = new Item();
 
             $setdata = $item->set_data($request->input('data'));

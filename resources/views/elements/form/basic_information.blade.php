@@ -102,8 +102,8 @@
                             value="{{ old('CUSTOMER_NAME') }}" readonly>
                         <input type="hidden" name="CST_ID" value="{{ old('CST_ID') }}"
                             id="{{ $formType }}CSTID">
-                        <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
-                            <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
+                            <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
+                                <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
                         </button>
                         <button onclick="return customer_reset();" style="border: none;">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">
@@ -135,7 +135,7 @@
                     <th style="width:170px;" class="{{ $errors->has('NO') ? 'txt_top' : '' }}">自社担当者名</th>
                     <td style="width:270px;" id="SETCHARGE" colspan="3">
                         <input type="text" name="CHARGE_NAME"
-                            class="w120 p2{{ $errors->has('CHR_ID') ? ' error' : '' }}" maxlength="30" readonly
+                        class="w120 p2{{ $errors->has('CHR_ID') ? ' error' : '' }}" maxlength="30" readonly
                             value="{{ old('CHARGE_NAME') }}">
                         <input type="hidden" name="CHR_ID" value="{{ old('CHR_ID') }}">
                         <button onclick="return popupclass.popupajax('charge');" style="border: none;">
@@ -159,18 +159,18 @@
                     <td id="HONOR" colspan="3">
 
                         @isset($honor)
-                            @foreach ($honor as $key => $value)
-                                <input type="radio" name="HONOR_CODE" value="{{ $key }}"
-                                    class="ml20 mr5 txt_mid" {{ old('HONOR_CODE') == $key ? 'checked' : '' }}>
-                                {{ $value }}
-                            @endforeach
+                        @foreach ($honor as $key => $value)
+                        <input type="radio" name="HONOR_CODE" value="{{ $key }}"
+                        class="ml20 mr5 txt_mid" {{ old('HONOR_CODE') == $key ? 'checked' : '' }}>
+                        {{ $value }}
+                        @endforeach
                         @else
-                            <p>No honor data available.</p>
+                        <p>No honor data available.</p>
                         @endisset
 
                         <input type="text" name="HONOR_TITLE"
-                            class="w160 mr10{{ $errors->has('HONOR_TITLE') ? ' error' : '' }}" maxlength="8"
-                            value="{{ old('HONOR_TITLE') }}">
+                        class="w160 mr10{{ $errors->has('HONOR_TITLE') ? ' error' : '' }}" maxlength="8"
+                        value="{{ old('HONOR_TITLE') }}">
                         <br><span class="usernavi">{{ $usernavi['HONOR'] }}</span>
                         <br><span class="must">{{ $errors->first('HONOR_TITLE') }}</span>
                     </td>
@@ -192,7 +192,7 @@
                                     class="ml20 mr5 txt_mid" {{ old('CMP_SEAL_FLG') == $key ? 'checked' : '' }}>
                                 {{ $value }}
                             @endforeach
-                        @else
+                            @else
                             <p>No seal flag data available.</p>
                         @endif
 
@@ -211,19 +211,19 @@
                     </th>
                     <td id="SET_CHR_SEAL_FLG" colspan="3">
                         @if (is_array($seal_flg) || is_object($seal_flg))
-                            @foreach ($seal_flg as $key => $value)
-                                <input type="radio" name="CHR_SEAL_FLG" value="{{ $key }}"
-                                    class="ml20 mr5 txt_mid" {{ old('CHR_SEAL_FLG') == $key ? 'checked' : '' }}>
-                                {{ $value }}
+                        @foreach ($seal_flg as $key => $value)
+                        <input type="radio" name="CHR_SEAL_FLG" value="{{ $key }}"
+                        class="ml20 mr5 txt_mid" {{ old('CHR_SEAL_FLG') == $key ? 'checked' : '' }}>
+                        {{ $value }}
                             @endforeach
-                        @else
+                            @else
                             <p>No seal flag data available.</p>
-                        @endif
-                        <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
-                        <br><span class="must">{{ $errors->first('CHR_SEAL_FLG') }}</span>
-                    </td>
-                </tr>
-            </table>
+                            @endif
+                            <br><span class="usernavi">{{ $usernavi['SEAL_FLG'] }}</span>
+                            <br><span class="must">{{ $errors->first('CHR_SEAL_FLG') }}</span>
+                        </td>
+                    </tr>
+                </table>
         </div>
         <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
     </div>
@@ -246,5 +246,8 @@
             }
         }
     },1000);
+    console.log(popupclass);
+
 </script>
 @endsection
+

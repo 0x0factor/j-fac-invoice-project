@@ -69,6 +69,7 @@ class Item extends Model
      */
     public function set_data($_param)
     {
+        dd($_param);
         if (isset($_param['Item']['ITM_ID'])) {
             $this->setAttribute('id', $_param['Item']['ITM_ID']);
         } else {

@@ -1,6 +1,11 @@
 @extends('layout.default')
 
 @section('content')
+    @php
+        $formType = $formType ?? 'History';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
 
 <!-- Flash Message -->
 @if(session()->has('flash_notification.message'))
@@ -22,7 +27,7 @@
                             <td width="320">
                                 <input type="text" name="data[{{$formType}}][ACTION_DATE_FROM]" id="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
-                                <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="openCalendar('ACTION_DATE_FROM')">
+                                <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="return cal1.write();">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="document.getElementById('ACTION_DATE_FROM').value = '';">
                             </td>
                         </tr>
@@ -31,7 +36,7 @@
                             <td width="320">
                                 <input type="text" name="data[{{$formType}}][ACTION_DATE_TO]" id="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
                                 <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
-                                <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="openCalendar('ACTION_DATE_TO')">
+                                <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5" onclick="return cal2.write();">
                                 <img src="{{ asset('img/bt_s_reset.jpg') }}" alt="現在" class="pl5 cleartime" onclick="document.getElementById('ACTION_DATE_TO').value = '';">
                             </td>
                         </tr>
@@ -42,7 +47,7 @@
                         <tr>
                             <th>動作種別</th>
                             <td>
-                            @foreach($action as $key => $value)
+                            @foreach($actions as $key => $value)
                             <div class="checkbox">
 
                                 <input type="checkbox" name="ACTION[]" value="{{ $key }}" id="HistoryACTION{{ $key }}"
@@ -215,17 +220,6 @@
             });
         });
 
-        function openCalendar(fieldId) {
-            // Implement calendar logic
-        }
-
-        function clearDate(fieldId) {
-            document.querySelector(`input[name="${fieldId}"]`).value = '';
-        }
-
-        function resetForms() {
-            document.querySelector('form').reset();
-        }
     </script>
 @endsection
 @section('script')
@@ -233,6 +227,7 @@
         var lastDate = '';
         var cal1 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_FROM]");
         var cal2 = new JKL.Calendar("calid", "{{$formType.$action}}Form", "data[{{$formType}}][ACTION_DATE_TO]");
+
 
         setInterval(function(){
             var date = $('input.cal.date').val();

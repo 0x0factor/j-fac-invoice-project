@@ -63,8 +63,8 @@ class HistoryController extends Controller
         }
 
         $controller_name = "History";
-        $action = config('constants.ActionCode');
+        $actions = config('constants.ActionCode');
 
-        return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'action', 'searchData', 'searchStatus', 'controller_name'));
+        return view('history.index', compact('main_title', 'title_text', 'title', 'paginator', 'histories', 'ids', 'actions', 'searchData', 'searchStatus', 'controller_name'));
     }
 }
