@@ -190,7 +190,6 @@ class AppController extends Controller
      */
     public function item_validation(Request $request, $_field)
     {
-        
         $_param = $request->input();
         $_error = [
             'ITEM' => [
@@ -217,9 +216,6 @@ class AppController extends Controller
 
         // ここからバリデーション
         foreach ($_param as $item) {
-            var_export($_param);
-            dd($item);
-
             // 商品名
             $item_value = mb_strwidth($item[$_field]['ITEM']) / 2;
             if ($item_value > 40) {

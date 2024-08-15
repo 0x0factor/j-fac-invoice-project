@@ -58,7 +58,7 @@ class AjaxController extends AppController
     {
         parse_str($request->input('params'), $param);
         $data = Post::candidacyPostCord($param);
-        return view('candidacy', ['data' => $data]);
+        return view('ajax.candidacy', ['data' => $data]);
     }
 
     public function popup(Request $request)
@@ -73,83 +73,235 @@ class AjaxController extends AppController
         switch ($type) {
             case 'customer':
                 $countys = config('constants.PrefectureCode');
-                return view('customer', compact('countys'));
+                return view('ajax.customer', compact('countys'));
 
             case 'add_customer_charge':
                 $cst_id = $params['no'];
                 $countys = config('constants.PrefectureCode');
-                return view('add_customer_charge', compact('cst_id', 'countys'));
+                return view('ajax.add_customer_charge', compact('cst_id', 'countys'));
 
             case 'item':
                 $company = Company::first();
                 $TaxClass = $company->EXCISE + 1;
-                return view('item', compact('TaxClass'));
+                return view('ajax.item', compact('TaxClass'));
 
             case 'select_item':
-                $item_condition = $this->getItemCondition();
-                $item_order = $this->getItemOrder();
-                $count = Item::where($item_condition)->count();
-                $items = Item::where($item_condition)
-                    ->orderByRaw($item_order)
-                    ->skip($page * $number)
-                    ->take($number)
-                    ->get();
-                // Add your paging logic here
-                $excises = config('constants.excise_code');
-                $taxOperationDate = config('constants.tax_operation_date');
-                return view('select_item', compact('items', 'excises', 'taxOperationDate', 'nowpage', 'paging'));
+                $page = $request->input('params.page', 0);
+                $number = 10;
+                $keyword = $request->input('params.keyword');
+                $sort = $request->input('params.sort', 'LAST_UPDATE');
+                $desc = $request->input('params.desc', false);
+
+                $itemCondition = [];
+                if ($keyword) {
+                    $qKana = mb_convert_kana($keyword, "C");
+                    $itemCondition[] = ['ITEM', 'LIKE', "%$keyword%"];
+                    $itemCondition[] = ['ITEM_KANA', 'LIKE', "%$qKana%"];
+                    $itemCondition[] = ['ITEM_CODE', 'LIKE', "%$keyword%"];
+                }
+
+                $query = Item::where($itemCondition);
+                if ($sort === 'UNIT_PRICE') {
+                    $query->orderByRaw("CAST($sort AS UNSIGNED) " . ($desc ? 'DESC' : 'ASC'));
+                } else {
+                    $query->orderBy($sort, $desc ? 'DESC' : 'ASC');
+                }
+
+                $count = $query->count();
+                $items = $query->skip($page * $number)->take($number)->get();
+
+                $excises = config('excise_codes'); // Assuming you have this in config
+                $taxOperationDate = config('tax_operation_date');
+
+                return view('ajax.select_item', compact('items', 'excises', 'taxOperationDate', 'page', 'number', 'count', 'sort', 'desc'));
 
             case 'to':
-                $chr_condition = $this->getToCondition();
-                $count = $this->getCount($chr_condition);
-                $charge = $this->getCharges($chr_condition, $page, $number);
-                return view('to', compact('charge', 'nowpage', 'paging'));
+                $page = $request->input('params.page', 0);
+                $number = 10;
+                $no = $request->input('params.no');
+                $ctype = $request->input('params.ctype', 0);
+                $userAuth = auth()->user()->authority; // Assuming you have this in the user model
+
+                $chargeCondition = ($userAuth == 1) ? ['Charge.USR_ID' => auth()->id()] : [];
+                $customerChargeCondition = ($userAuth == 1) ? ['CustomerCharge.CST_ID' => $no, 'CustomerCharge.USR_ID' => auth()->id()] : ['CustomerCharge.CST_ID' => $no];
+
+                if ($ctype == 1) {
+                    $count = Charge::where($chargeCondition)->count();
+                    $charges = Charge::where($chargeCondition)
+                        ->select('MAIL', 'CHARGE_NAME')
+                        ->skip($page * $number)
+                        ->take($number)
+                        ->get();
+                    $type = 1;
+                } else {
+                    $count = CustomerCharge::where($customerChargeCondition)->count();
+                    $charges = CustomerCharge::where($customerChargeCondition)
+                        ->select('MAIL', 'CHARGE_NAME')
+                        ->skip($page * $number)
+                        ->take($number)
+                        ->get();
+                    $type = 0;
+                }
+
+                return view('ajax.to', compact('charges', 'no', 'page', 'number', 'count', 'type'));
 
             case 'from':
-                $chr_condition = $this->getFromCondition();
-                $count = Charge::where($chr_condition)->count();
-                $charges = Charge::where($chr_condition)
+                $page = $request->input('params.page', 0);
+                $number = 10;
+                $userAuth = auth()->user()->authority;
+
+                $chargeCondition = ($userAuth == 1) ? ['Charge.USR_ID' => auth()->id()] : [];
+                $count = Charge::where($chargeCondition)->count();
+                $charges = Charge::where($chargeCondition)
+                    ->select('MAIL', 'CHARGE_NAME')
                     ->skip($page * $number)
                     ->take($number)
                     ->get();
-                return view('from', compact('charges', 'nowpage', 'paging'));
 
+                return view('ajax.from', compact('charges', 'page', 'number', 'count'));
             case 'charge':
-                $chr_condition = $this->getChargeCondition();
-                $chr_order = $this->getChargeOrder();
-                $count = Charge::where($chr_condition)->count();
-                $charges = Charge::where($chr_condition)
-                    ->orderByRaw($chr_order)
-                    ->skip($page * $number)
-                    ->take($number)
-                    ->get();
-                return view('charge', compact('charges', 'nowpage', 'paging'));
+                $page = $request->input('params.page', 0);
+                $number = 10;
 
+                $conditions = auth()->user()->authority != 1
+                    ? []
+                    : ['Charge.USR_ID' => auth()->id()];
+
+                if ($keyword = $request->input('params.keyword')) {
+                    $qKana = mb_convert_kana($keyword, "C");
+                    $conditions['or']['CHARGE_NAME'] = "%$keyword%";
+                    $conditions['or']['CHARGE_NAME_KANA'] = "%$qKana%";
+                    $request->session()->put('CHR_KEYWORD', $keyword);
+                }
+
+                $sort = $request->input('params.sort', 'LAST_UPDATE');
+                $desc = $request->input('params.desc', false);
+                $chrOrder = "LAST_UPDATE DESC";
+                if ($sort) {
+                    $chrOrder = "$sort " . ($desc ? "DESC" : "");
+                    $request->session()->put('sort', $sort);
+                    $request->session()->put('desc', $desc);
+                }
+
+                $count = Charge::where($conditions)->count();
+                $charges = Charge::where($conditions)
+                    ->orderByRaw($chrOrder)
+                    ->limit($number)
+                    ->offset($page * $number)
+                    ->get();
+
+                return view('ajax.charge', [
+                    'charges' => $charges,
+                    'nowpage' => $page,
+                    'paging' => $this->paginate($count, $page, $number),
+                ]);
             case 'select_customer':
-                $cst_condition = $this->getCustomerCondition();
-                $cst_order = $this->getCustomerOrder();
-                $count = Customer::where($cst_condition)->count();
-                $customers = Customer::where($cst_condition)
-                    ->orderByRaw($cst_order)
-                    ->skip($page * $number)
-                    ->take($number)
-                    ->get();
-                return view('select_customer', compact('customers', 'nowpage', 'paging'));
+                $page = $request->input('params.page', 0);
+                $number = 10;
 
+                $conditions = auth()->user()->authority != 1
+                    ? []
+                    : ['Customer.USR_ID' => auth()->id()];
+
+                if ($keyword = $request->input('params.keyword')) {
+                    $qKana = mb_convert_kana($keyword, "C");
+                    $conditions['or']['Customer.NAME'] = "%$keyword%";
+                    $conditions['or']['Customer.NAME_KANA'] = "%$qKana%";
+                    $request->session()->put('CST_KEYWORD', $keyword);
+                }
+
+                $sort = $request->input('params.sort', 'LAST_UPDATE');
+                $desc = $request->input('params.desc', false);
+                $cstOrder = "LAST_UPDATE DESC";
+                if ($sort) {
+                    $cstOrder = "$sort " . ($desc ? "DESC" : "");
+                    if ($sort === 'CUSTOMER_NAME') {
+                        $cstOrder = "Customer.NAME_KANA " . ($desc ? "DESC" : "");
+                    }
+                    $request->session()->put('sort', $sort);
+                    $request->session()->put('desc', $desc);
+                }
+
+                $count = Customer::where($conditions)->count();
+                $customers = Customer::where($conditions)
+                    ->orderByRaw($cstOrder)
+                    ->limit($number)
+                    ->offset($page * $number)
+                    ->get();
+
+                foreach ($customers as $customer) {
+                    $charge = Charge::where('CHR_ID', $customer->CHR_ID)->first();
+                    if ($charge) {
+                        $customer->Charge = $charge;
+                    }
+                }
+
+                $paginator = Customer::where($conditions)
+                            ->orderBy('INSERT_DATE')
+                            ->paginate(20);
+
+                return view('ajax.select_customer', [
+                    'customer' => $customers,
+                    'nowpage' => $page,
+                    'paging' => $this->paginate($count, $page, $number),
+                    'desc' => $desc,
+                    'paginator' => $paginator,
+                ]);
             case 'customer_charge':
-                $cst_condition = $this->getCustomerChargeCondition();
-                $cst_order = $this->getCustomerChargeOrder();
-                $count = CustomerCharge::where($cst_condition)->count();
-                $customerCharges = CustomerCharge::where($cst_condition)
-                    ->orderByRaw($cst_order)
-                    ->skip($page * $number)
-                    ->take($number)
-                    ->get();
-                return view('customercharge', compact('customerCharges', 'nowpage', 'paging'));
+                $page = $request->input('params.page', 0);
+                $number = 10;
 
+                $conditions = auth()->user()->authority != 1
+                    ? []
+                    : ['CustomerCharge.USR_ID' => auth()->id()];
+
+                if ($cstId = $request->input('params.id')) {
+                    if ($cstId !== 'default') {
+                        $conditions['CustomerCharge.CST_ID'] = $cstId;
+                    }
+                }
+
+                if ($keyword = $request->input('params.keyword')) {
+                    $qKana = mb_convert_kana($keyword, "C");
+                    $conditions['or']['CustomerCharge.CHARGE_NAME'] = "%$keyword%";
+                    $conditions['or']['Customer.NAME'] = "%$keyword%";
+                    $conditions['or']['CustomerCharge.CHARGE_NAME_KANA'] = "%$qKana%";
+                    $conditions['or']['Customer.NAME_KANA'] = "%$qKana%";
+                    $request->session()->put('CHRC_KEYWORD', $keyword);
+                }
+
+                $sort = $request->input('params.sort', 'LAST_UPDATE');
+                $desc = $request->input('params.desc', false);
+                $cstOrder = "LAST_UPDATE DESC";
+                if ($sort) {
+                    $cstOrder = "$sort " . ($desc ? "DESC" : "");
+                    if ($sort === 'CUSTOMER_NAME') {
+                        $cstOrder = "Customer.NAME_KANA " . ($desc ? "DESC" : "");
+                    }
+                    $request->session()->put('sort', $sort);
+                    $request->session()->put('desc', $desc);
+                }
+
+                $count = CustomerCharge::where($conditions)->count();
+                $customerCharges = CustomerCharge::where($conditions)
+                    ->orderByRaw($cstOrder)
+                    ->limit($number)
+                    ->offset($page * $number)
+                    ->get();
+
+                return view('ajax.customer_charge', [
+                    'customerCharges' => $customerCharges,
+                    'nowpage' => $page,
+                    'paging' => $this->paginate($count, $page, $number),
+                    'cst_id' => $cstId === 'default' ? 'undefined' : $cstId,
+                ]);
             default:
-                return response()->json(['error' => 'Invalid type'], 400);
+
+            return response()->json(['error' => 'Invalid type'], 400);
+
         }
+
+
     }
 
     public function popupInsert(Request $request)
@@ -241,6 +393,17 @@ class AjaxController extends AppController
         }
 
         return response()->json(['count' => $count . "件"]);
+    }
+
+    private function paginate($count, $page, $number)
+    {
+        $totalPages = ceil($count / $number);
+        return [
+            'total' => $count,
+            'pages' => $totalPages,
+            'current' => $page,
+            'per_page' => $number,
+        ];
     }
 
 }

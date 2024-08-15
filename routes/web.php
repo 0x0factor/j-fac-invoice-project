@@ -64,14 +64,20 @@ Route::post('administers/add', [AdministerController::class, 'add'])->name('admi
 Route::get('administers/edit', [AdministerController::class, 'edit'])->name('administer.edit');
 Route::get('administers/check', [AdministerController::class, 'check'])->name('administer.check');
 
-Route::post('ajax/searchId', [AjaxController::class, 'searchId'])->name('administer.searchId');
-Route::post('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
-Route::post('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
 Route::get('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
 Route::post('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
+Route::post('ajax/add_customer_charge', [AjaxController::class, 'add_customer_charge'])->name('ajax.add_customer_charge');
+Route::post('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
 Route::post('ajax/charge', [AjaxController::class, 'charge'])->name('ajax.charge');
-Route::post('ajax/customerCharge', [AjaxController::class, 'customerCharge'])->name('ajax.customerCharge');
-Route::post('ajax/excel', [AjaxController::class, 'excel'])->name('ajax.excel');
+Route::post('ajax/customer', [AjaxController::class, 'customer'])->name('ajax.customer');
+Route::post('ajax/customercharge', [AjaxController::class, 'customercharge'])->name('ajax.customercharge');
+Route::post('ajax/from', [AjaxController::class, 'from'])->name('ajax.from');
+Route::post('ajax/item', [AjaxController::class, 'item'])->name('ajax.item');
+Route::post('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
+Route::post('ajax/searchid', [AjaxController::class, 'searchid'])->name('administer.searchid');
+Route::post('ajax/select_customer', [AjaxController::class, 'select_customer'])->name('ajax.select_customer');
+Route::post('ajax/select_item', [AjaxController::class, 'select_item'])->name('ajax.select_item');
+Route::post('ajax/to', [AjaxController::class, 'to'])->name('ajax.to');
 
 
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
@@ -100,14 +106,14 @@ Route::get('coverpages/store', [CoverpageController::class, 'store'])->name('cov
 
 // Route::get('customers/add', [CustomerController::class, 'addCustomers'])->name('customers.add');
 
-Route::get('/customers', [CustomerController::class, "index"])->name('customer.index');
-Route::get('/customers/select', [CustomerController::class,"select"])->name('customer.select');
-Route::get('/customers/check/{customer_ID}', [CustomerController::class, "check"])->name('customer.check');
-Route::get('/customers/add', [CustomerController::class,"add"])->name('customer.add');
-Route::post('/customers/add', [CustomerController::class ,'add'])->name('customer.save');
-Route::post('/customers/delete', [CustomerController::class ,'delete'])->name('customer.delete');
-Route::get('/customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
-Route::post('/customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
+Route::get('customers', [CustomerController::class, "index"])->name('customer.index');
+Route::get('customers/select', [CustomerController::class,"select"])->name('customer.select');
+Route::get('customers/check/{customer_ID}', [CustomerController::class, "check"])->name('customer.check');
+Route::get('customers/add', [CustomerController::class,"add"])->name('customer.add');
+Route::post('customers/add', [CustomerController::class ,'add'])->name('customer.save');
+Route::post('customers/delete', [CustomerController::class ,'delete'])->name('customer.delete');
+Route::get('customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
+Route::post('customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
 
 Route::get('customer_charges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
 Route::get('customer_charges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
@@ -161,9 +167,9 @@ Route::get('totalbills/search', [TotalbillController::class, 'search'])->name('t
 Route::get('view_options', [View_optionController::class, 'index'])->name('view_option.index');
 Route::get('view_options/edit', [View_optionController::class, 'edit'])->name('view_option.edit');
 
-Route::get('/zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
-Route::post('/zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');
-Route::get('/zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.reset');
+Route::get('zipcode', [ZipcodeController::class, 'index'])->name('zipcode.index');
+Route::post('zipcode/update', [ZipcodeController::class, 'update'])->name('zipcode.update');
+Route::get('zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.reset');
 
 //route barang
-Route::resource('/barang', BarangController::class)->middleware('auth');
+Route::resource('barang', BarangController::class)->middleware('auth');

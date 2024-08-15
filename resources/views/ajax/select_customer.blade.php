@@ -131,7 +131,6 @@
     </style>
 @endsection
 
-@section('content')
 <form id="popupCharge">
     <div id="popup_contents">
         <img src="{{ asset('/img/popup/tl_customer.jpg') }}">
@@ -297,4 +296,3 @@
         </div>
     </div>
 </form>
-@endsection

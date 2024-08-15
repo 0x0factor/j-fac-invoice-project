@@ -540,6 +540,7 @@ var PopupClass = function (win) {
             type: type,
             no: no,
         });
+        
 
         if (type == "customer_charge") {
             var id = $("#SETCUSTOMER").children("input[type=hidden]").val();
