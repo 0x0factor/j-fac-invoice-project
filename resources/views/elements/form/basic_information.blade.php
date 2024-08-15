@@ -246,8 +246,6 @@
             }
         }
     },1000);
-    console.log(popupclass);
-
 </script>
 @endsection
 

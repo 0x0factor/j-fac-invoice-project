@@ -39,7 +39,6 @@ if (typeof JKL == "undefined") JKL = function () {};
 // JKL.Calendar コンストラクタの定義
 
 JKL.Calendar = function (eid, fid, valname) {
-    console.log("-------------------------", eid, fid, valname);
 
     this.eid = eid;
     this.formid = fid;

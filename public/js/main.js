@@ -591,10 +591,9 @@ var PopupClass = function (win) {
         //         "X-Requested-With": "XMLHttpRequest",
         //     },
         // });
-        var csrftoken = "<?=csrf_token()?>";
-        console.log("csrftoken", csrftoken);
+        // console.log($('meta[name="csrf-token"]').attr("content"));
 
-        $.post("/ajax/popup", { params: param }, function (d) {
+        $.get("/ajax/popup", { params: param }, function (d) {
             //IE6対策
             $("select").each(function () {
                 $(this).hide();

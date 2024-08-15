@@ -15,7 +15,7 @@ use App\Models\Delivery;
 use Illuminate\Support\Facades\Auth;
 
 
-class AjaxController extends Controller
+class AjaxController extends AppController
 {
     public function __construct()
     {
@@ -63,9 +63,7 @@ class AjaxController extends Controller
 
     public function popup(Request $request)
     {
-        var_export("here is popup");
-        dd($request);
-        $type = $request->input('type');
+        $type = $request->input('params')['type'];
         $params = $request->input('params', []);
         $page = $params['page'] ?? 0;
         $number = 10;

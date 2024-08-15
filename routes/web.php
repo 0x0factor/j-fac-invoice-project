@@ -67,7 +67,7 @@ Route::get('administers/check', [AdministerController::class, 'check'])->name('a
 Route::post('ajax/searchId', [AjaxController::class, 'searchId'])->name('administer.searchId');
 Route::post('ajax/search', [AjaxController::class, 'search'])->name('ajax.search');
 Route::post('ajax/candidacy', [AjaxController::class, 'candidacy'])->name('ajax.candidacy');
-Route::post('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
+Route::get('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
 Route::post('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
 Route::post('ajax/charge', [AjaxController::class, 'charge'])->name('ajax.charge');
 Route::post('ajax/customerCharge', [AjaxController::class, 'customerCharge'])->name('ajax.customerCharge');
