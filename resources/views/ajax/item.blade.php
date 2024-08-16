@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 
-<form id="popupForm" method="POST">
-    @csrf
+<form id="popupForm">
     <div id="popup_contents">
         <img src="{{ asset('/img/popup/tl_entry.jpg') }}" style="padding-bottom:10px;">
         <input type="hidden" name="type" value="customer">
@@ -9,7 +8,9 @@
             <div class="popup_contents_area clearfix">
                 <table width="440" cellpadding="0" cellspacing="0" border="0">
                     <tr class="popup_item">
-                        <th style="width:130px;">商品@php echo $html->image('i_must.jpg',array('alt'=>'必須','class'=>'pl10')); @endphp</th>
+                        <th style="width:130px;">商品
+                            <img src="{{ asset('img/i_must.jpg') }}" alt="必須" class="pl10">
+                        </th>
                         <td style="width:310px;"><input type="text" name="ITEM" class="w300" maxlength="60">
                         </td>
                     </tr>

@@ -32,8 +32,3 @@
     @include('elements.form.scripts')
 
 @endsection
-
-
-@section('ajax')
-    @include('ajax.select_customer')
-@endsection

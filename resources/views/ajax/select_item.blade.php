@@ -3,125 +3,126 @@
 @endphp
 <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 <script type="text/javascript">
-function insert(no) {
-    if (form.focusline === undefined) {
-        form.focusline = 0;
-    }
-    var data = JSON.parse($('#popup_itemlist').text());
-    var dec = $('input[name="data['+form.maintype+'][DECIMAL_UNITPRICE]"]:checked').val();
-    $('select[name="data['+form.focusline+']['+form.type+'][LINE_ATTRIBUTE]"]').val(0);
-    $('input[name="data['+form.focusline+']['+form.type+'][ITEM]"]').val(data[no].Item.ITEM);
-    $('input[name="data['+form.focusline+']['+form.type+'][ITEM_CODE]"]').css('color', '#000').val(data[no].Item.ITEM_CODE);
-    $('input[name="data['+form.focusline+']['+form.type+'][UNIT]"]').css('color', '#000').val(data[no].Item.UNIT);
-    var excise = $('input[name="data['+form.maintype+'][EXCISE]"]:radio:checked').val();
+    function insert(no) {
+        if (form.focusline === undefined) {
+            form.focusline = 0;
+        }
 
-    if (data[no].Item.TAX_CLASS == 3) {
-        $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(data[no].Item.TAX_CLASS);
-    } else {
-        var taxOperationDate = @json($taxOperationDate);
-        var issue_date = $("input.cal.date").val().replace(/-/g, '/');
-        var prefix = "";
-        $.each(taxOperationDate, function (per, dates) {
-            dates["start"] = dates["start"].replace(/-/, '/').replace(/-/, '/');
-            if (Date.parse(dates["start"]) <= Date.parse(issue_date)) {
-                if (per > 5) prefix = per;
-            }
-        });
-        $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(prefix + "" + data[no].Item.TAX_CLASS);
-    }
+        var data = JSON.parse($('#popup_itemlist').text());
+        var dec = $('input[name="data['+form.maintype+'][DECIMAL_UNITPRICE]"]:checked').val();
+        $('select[name="data['+form.focusline+']['+form.type+'][LINE_ATTRIBUTE]"]').val(0);
+        $('input[name="data['+form.focusline+']['+form.type+'][ITEM]"]').val(data[no].Item.ITEM);
+        $('input[name="data['+form.focusline+']['+form.type+'][ITEM_CODE]"]').css('color', '#000').val(data[no].Item.ITEM_CODE);
+        $('input[name="data['+form.focusline+']['+form.type+'][UNIT]"]').css('color', '#000').val(data[no].Item.UNIT);
+        var excise = $('input[name="data['+form.maintype+'][EXCISE]"]:radio:checked').val();
 
-    $('input[name="data['+form.focusline+']['+form.type+'][UNIT_PRICE]"]').css('color', '#000').val(number_format(data[no].Item.UNIT_PRICE));
+        if (data[no].Item.TAX_CLASS == 3) {
+            $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(data[no].Item.TAX_CLASS);
+        } else {
+            var taxOperationDate = @json($taxOperationDate);
+            var issue_date = $("input.cal.date").val().replace(/-/g, '/');
+            var prefix = "";
+            $.each(taxOperationDate, function (per, dates) {
+                dates["start"] = dates["start"].replace(/-/, '/').replace(/-/, '/');
+                if (Date.parse(dates["start"]) <= Date.parse(issue_date)) {
+                    if (per > 5) prefix = per;
+                }
+            });
+            $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(prefix + "" + data[no].Item.TAX_CLASS);
+        }
 
-    setReadOnly(form.maintype);
-    focusLine(form.maintype);
-    recalculation(form.maintype);
-    popupclass.popup_close();
-    return false;
-}
+        $('input[name="data['+form.focusline+']['+form.type+'][UNIT_PRICE]"]').css('color', '#000').val(number_format(data[no].Item.UNIT_PRICE));
 
-var url = "{{ url('/ajax/popup') }}";
-
-function paging(page) {
-    var param = {
-        "type": "select_item",
-        "page": page
-    };
-
-    if ($("#ITEM_KEYWORD").val()) {
-        param["keyword"] = $("#ITEM_KEYWORD").val();
+        setReadOnly(form.maintype);
+        focusLine(form.maintype);
+        recalculation(form.maintype);
+        popupclass.popup_close();
+        return false;
     }
 
-    if ($("#sort").val()) {
-        param["sort"] = $("#sort").val();
-        param["desc"] = $("#desc").val();
-    }
+    var url = "{{ url('/ajax/popup') }}";
 
-    $.post(url, { params: param }, function (d) {
-        $('#popup').html(d);
-    });
-}
-
-var sortBy = {
-    "ITEM_CODE": 0,
-    "UNIT_PRICE": 0,
-    "ITEM_KANA": 1,
-    "LAST_UPDATE": 0,
-    "TAX_CLASS": 0
-};
-
-function sorting(sort) {
-    var param = {
-        "type": "select_item",
-        "sort": sort,
-        "desc": sortBy[sort]
-    };
-
-    if ($("#ITEM_KEYWORD").val()) {
-        param["keyword"] = $("#ITEM_KEYWORD").val();
-    }
-
-    $.post(url, { params: param }, function (d) {
-        $('#popup').html(d);
-        sortBy = {
-            "ITEM_CODE": 0,
-            "UNIT_PRICE": 0,
-            "ITEM_KANA": 1,
-            "LAST_UPDATE": 1,
-            "TAX_CLASS": 1
+    function paging(page) {
+        var param = {
+            "type": "select_item",
+            "page": page
         };
-        sortBy[sort] = 1 - param["desc"];
-    });
-}
+
+        if ($("#ITEM_KEYWORD").val()) {
+            param["keyword"] = $("#ITEM_KEYWORD").val();
+        }
+
+        if ($("#sort").val()) {
+            param["sort"] = $("#sort").val();
+            param["desc"] = $("#desc").val();
+        }
+
+        $.post(url, { params: param }, function (d) {
+            $('#popup').html(d);
+        });
+    }
+
+    var sortBy = {
+        "ITEM_CODE": 0,
+        "UNIT_PRICE": 0,
+        "ITEM_KANA": 1,
+        "LAST_UPDATE": 0,
+        "TAX_CLASS": 0
+    };
+
+    function sorting(sort) {
+        var param = {
+            "type": "select_item",
+            "sort": sort,
+            "desc": sortBy[sort]
+        };
+
+        if ($("#ITEM_KEYWORD").val()) {
+            param["keyword"] = $("#ITEM_KEYWORD").val();
+        }
+
+        $.post(url, { params: param }, function (d) {
+            $('#popup').html(d);
+            sortBy = {
+                "ITEM_CODE": 0,
+                "UNIT_PRICE": 0,
+                "ITEM_KANA": 1,
+                "LAST_UPDATE": 1,
+                "TAX_CLASS": 1
+            };
+            sortBy[sort] = 1 - param["desc"];
+        });
+    }
 </script>
 
 <style type="text/css">
-table.tbl {
-    border: 1px #E3E3E3 solid;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+    table.tbl {
+        border: 1px #E3E3E3 solid;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
 
-table.tbl tr.bgti {
-    background: #EEEEEE;
-}
+    table.tbl tr.bgti {
+        background: #EEEEEE;
+    }
 
-table.tbl tr.bgcl {
-    background: #F5F5F5;
-}
+    table.tbl tr.bgcl {
+        background: #F5F5F5;
+    }
 
-table.tbl td {
-    padding: 10px;
-    border: 1px #E3E3E3 solid;
-    border-width: 0 0 1px 1px;
-}
+    table.tbl td {
+        padding: 10px;
+        border: 1px #E3E3E3 solid;
+        border-width: 0 0 1px 1px;
+    }
 
-table.tbl td.left {
-    text-align: left;
-}
+    table.tbl td.left {
+        text-align: left;
+    }
 
-table.tbl td.center {
-    text-align: center;
-}
+    table.tbl td.center {
+        text-align: center;
+    }
 </style>
 
 <form id="popupForm">
@@ -186,7 +187,7 @@ table.tbl td.center {
                         <a href="javascript:void(0)" onclick="return sorting('ITEM_CODE');">商品コード</a> /
                         <a href="javascript:void(0)" onclick="return sorting('UNIT_PRICE');">単価順</a> /
                         <a href="javascript:void(0)" onclick="return sorting('LAST_UPDATE');">更新日順</a> /
-                        <a href="javascript:void(0)" onclick="return sorting('TAX_CLASS');">税区分</a>　　
+                        <a href="javascript:void(0)" onclick="return sorting('TAX_CLASS');">税区分</a>
                         <input type="text" name="ITEM_KEYWORD" class="w100 p2">
                         <button onclick="return popupclass.popupajax('select_item');" style="border:none;">
                             <img src="{{ asset('img/bt_search.jpg') }}" />
@@ -204,7 +205,7 @@ table.tbl td.center {
                 @foreach($item as $key => $value)
                 <tr class="{{ ($loop->index % 2) == 1 ? 'bgcl' : '' }}">
                     <td class="w40">
-                        <button onclick="return insert('{{ $key }}');" style="border:none;">
+                        <button onclick="return insert({{ $key }});" style="border:none;">
                             <img src="{{ asset('img/bt_insert.jpg') }}" />
                         </button>
                     </td>
