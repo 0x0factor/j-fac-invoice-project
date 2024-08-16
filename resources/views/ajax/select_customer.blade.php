@@ -2,7 +2,6 @@
     $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
 @endphp
 <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
-@section('scripts')
     <script>
         function insert(no) {
             $('#SETCUSTOMER').find('input[type=text]').val($('#name' + no).html());
@@ -90,8 +89,6 @@
             });
         }
     </script>
-@endsection
-@section('link')
     <style>
         table.tbl {
             border: 1px #E3E3E3 solid;
@@ -129,7 +126,6 @@
             margin-left: 20px;
         }
     </style>
-@endsection
 
 <form id="popupCharge">
     <div id="popup_contents">

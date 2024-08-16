@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 
 <!-- JavaScript -->
-@section('scripts')
     <script>
         function insert(no) {
             $('#SETCHARGE input[type=text]').val($('#name' + no).html());
@@ -72,7 +71,6 @@
             });
         }
     </script>
-@endsection
 <!-- Inline Styles -->
 <style>
     table.tbl {
@@ -118,18 +116,52 @@
                 <table width="503" cellpadding="0" cellspacing="0" border="0" class="tbl">
                     <tr>
                         <td colspan="4" class="w40 center">
-                            {{ $nowpage }}
-                            {{ $paging }}
+                               <!-- Display current page and total records -->
+                               {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
+
+                                <div id='pagination'>
+                                    @if ($paginator->onFirstPage())
+                                        <span class="disabled"><< {{ __('前へ') }}</span> |
+                                    @else
+                                        <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a> |
+                                    @endif
+
+                                    <!-- Pagination Elements -->
+                                    @foreach ($paginator->links()->elements as $element)
+                                        <!-- "Three Dots" Separator -->
+                                        @if (is_string($element))
+                                            <span class="disabled">{{ $element }}</span> |
+                                        @endif
+
+                                        <!-- Array Of Links -->
+                                        @if (is_array($element))
+                                            @foreach ($element as $page => $url)
+                                                @if ($page == $paginator->currentPage())
+                                                    <span class="active">{{ $page }}</span> |
+                                                @else
+                                                    <a href="{{ $url }}">{{ $page }}</a> |
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+
+                                    @if ($paginator->hasMorePages())
+                                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                                    @else
+                                        <span class="disabled">{{ __('次へ') }} >></span>
+                                    @endif
+                                </div>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
                             <a href="javascript:void(0)" onclick="sorting('CHARGE_NAME_KANA')">担当者名(カナ)</a> /
                             <a href="javascript:void(0)" onclick="sorting('LAST_UPDATE')">更新日順</a>
-                            {{ Form::text('CHR_KEYWORD', null, ['class' => 'w120 p2']) }}
-                            <a href="#" onclick="return popupclass.popupajax('charge')">
-                                <img src="{{ asset('img/bt_search.jpg') }}" alt="Search">
-                            </a>
+                            <input type="text" name="CHR_KEYWORD" class="w120 p2" id="CHR_KEYWORD">
+
+                            <button onclick="return popupclass.popupajax('charge');" style="border:none;">
+                                <img src="{{ asset('img/bt_search.jpg') }}" alt="">
+                            </button>
                         </td>
                     </tr>
                     <tr class="bgti">
@@ -141,31 +173,26 @@
                     @foreach ($charge as $key => $value)
                         <tr class="{{ $loop->iteration % 2 == 1 ? 'bgcl' : '' }}">
                             <td class="w40 center" id="user{{ $key }}">
-                                <a href="#" onclick="return insert({{ $key }})">
+                                <button onclick="return insert({{ $key }})">
                                     <img src="{{ asset('img/bt_insert.jpg') }}" alt="Insert">
-                                </a>
-                                {{ Form::hidden('CHR_ID', $value['Charge']['CHR_ID']) }}
-                                {{ Form::hidden('TMP_CHR_SEAL_FLG', $value['Charge']['CHR_SEAL_FLG']) }}
+                                </button>
+                                {{ Form::hidden('CHR_ID', $value['CHR_ID']) }}
+                                {{ Form::hidden('TMP_CHR_SEAL_FLG', $value['CHR_SEAL_FLG']) }}
                             </td>
-                            <td class="w140" id="name{{ $key }}">{{ $value['Charge']['CHARGE_NAME'] }}</td>
-                            <td class="w140">{{ $value['Charge']['UNIT'] }}</td>
+                            <td class="w140" id="name{{ $key }}">{{ $value['CHARGE_NAME'] }}</td>
+                            <td class="w140">{{ $value['UNIT'] }}</td>
                             <td>{{ $value['User']['NAME'] }}</td>
                         </tr>
                     @endforeach
-                    @if ($paging)
-                        <tr>
-                            <td colspan="3" class="w40 center">
-                                {{ $paging }}
-                            </td>
-                        </tr>
-                    @endif
+                  
+
                 </table>
                 <div class="save_btn">
-                    {{ Form::hidden('sort') }}
-                    {{ Form::hidden('desc') }}
-                    <a href="#" onclick="return popupclass.popup_close()">
-                        <img src="{{ asset('img/bt_cancel_s.jpg') }}" alt="Cancel">
-                    </a>
+                    <input type="hidden" name="sort">
+                    <input type="hidden" name="desc">
+                    <button type="button" onclick="return popupclass.popup_close();" style="border: none;">
+                        <img src="{{ asset('img/bt_cancel_s.jpg') }}" alt="">
+                    </button>
                 </div>
             </div>
         </div>

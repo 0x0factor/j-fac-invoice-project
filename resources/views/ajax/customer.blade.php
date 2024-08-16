@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 
     <!-- 帳票管理の顧客登録ポップアップ画面 -->
@@ -85,4 +83,3 @@
             </div>
         </div>
     </form>
-@endsection

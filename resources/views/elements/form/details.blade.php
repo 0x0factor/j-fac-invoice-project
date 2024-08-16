@@ -108,11 +108,10 @@
                             class="w64 @if (isset($error['ITEM_CODE']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[ITEM][]" maxlength="80"
+                        <input type="text" name="{{ $formType }}item[ITEM][]" maxlength="80" id="QuoteName"
                             class="w120 hoverLine @if (isset($error['ITEM']['NO'][$i])) error @endif">
                         <span id="INSERT_ITEM_IMG{{ $i }}">
                             <img src="{{ asset('img/bt_select3.jpg') }}" style="margin: 0px 0px 2px" alt="商品選択"
-                                url="#"
                                 onclick="form.focusline = {{ $i }}; focusLine(); return popupclass.popupajax('select_item');">
                         </span>
                     </td>

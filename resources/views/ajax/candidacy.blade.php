@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <div>
         <!-- 住所検索の結果画面 -->
         @if (is_array($data))
@@ -14,4 +12,3 @@
             <p>No address data found.</p>
         @endif
     </div>
-@endsection

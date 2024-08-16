@@ -108,12 +108,15 @@ class AjaxController extends AppController
                 }
 
                 $count = $query->count();
-                $items = $query->skip($page * $number)->take($number)->get();
+                $item = $query->skip($page * $number)->take($number)->get();
 
-                $excises = config('excise_codes'); // Assuming you have this in config
-                $taxOperationDate = config('tax_operation_date');
+                $excises = config('constants.ExciseCode'); // Assuming you have this in config
+                $taxOperationDate = config('constants.TaxOperationDate');
+                $paginator = Item::where($itemCondition)
+                    ->orderBy('INSERT_DATE')
+                    ->paginate(20);
 
-                return view('ajax.select_item', compact('items', 'excises', 'taxOperationDate', 'page', 'number', 'count', 'sort', 'desc'));
+                return view('ajax.select_item', compact('item', 'excises', 'taxOperationDate', 'page', 'number', 'count', 'sort', 'desc', 'paginator'));
 
             case 'to':
                 $page = $request->input('params.page', 0);
@@ -127,7 +130,7 @@ class AjaxController extends AppController
 
                 if ($ctype == 1) {
                     $count = Charge::where($chargeCondition)->count();
-                    $charges = Charge::where($chargeCondition)
+                    $charge = Charge::where($chargeCondition)
                         ->select('MAIL', 'CHARGE_NAME')
                         ->skip($page * $number)
                         ->take($number)
@@ -135,7 +138,7 @@ class AjaxController extends AppController
                     $type = 1;
                 } else {
                     $count = CustomerCharge::where($customerChargeCondition)->count();
-                    $charges = CustomerCharge::where($customerChargeCondition)
+                    $charge = CustomerCharge::where($customerChargeCondition)
                         ->select('MAIL', 'CHARGE_NAME')
                         ->skip($page * $number)
                         ->take($number)
@@ -143,7 +146,10 @@ class AjaxController extends AppController
                     $type = 0;
                 }
 
-                return view('ajax.to', compact('charges', 'no', 'page', 'number', 'count', 'type'));
+                $paginator = CustomerCharge::where($conditions)
+                    ->orderBy('INSERT_DATE')
+                    ->paginate(20);
+                return view('ajax.to', compact('charge', 'no', 'page', 'number', 'count', 'type', 'paginator'));
 
             case 'from':
                 $page = $request->input('params.page', 0);
@@ -152,13 +158,16 @@ class AjaxController extends AppController
 
                 $chargeCondition = ($userAuth == 1) ? ['Charge.USR_ID' => auth()->id()] : [];
                 $count = Charge::where($chargeCondition)->count();
-                $charges = Charge::where($chargeCondition)
+                $charge = Charge::where($chargeCondition)
                     ->select('MAIL', 'CHARGE_NAME')
                     ->skip($page * $number)
                     ->take($number)
                     ->get();
+                $paginator = Charge::where($conditions)
+                    ->orderBy('INSERT_DATE')
+                    ->paginate(20);
 
-                return view('ajax.from', compact('charges', 'page', 'number', 'count'));
+                return view('ajax.from', compact('charge', 'page', 'number', 'count', 'paginator'));
             case 'charge':
                 $page = $request->input('params.page', 0);
                 $number = 10;
@@ -189,10 +198,14 @@ class AjaxController extends AppController
                     ->limit($number)
                     ->offset($page * $number)
                     ->get();
+                $paginator = Charge::where($conditions)
+                    ->orderBy('INSERT_DATE')
+                    ->paginate(20);
 
                 return view('ajax.charge', [
-                    'charges' => $charges,
+                    'charge' => $charges,
                     'nowpage' => $page,
+                    'paginator' => $paginator,
                     'paging' => $this->paginate($count, $page, $number),
                 ]);
             case 'select_customer':
@@ -289,9 +302,14 @@ class AjaxController extends AppController
                     ->offset($page * $number)
                     ->get();
 
-                return view('ajax.customer_charge', [
-                    'customerCharges' => $customerCharges,
+                $paginator = CustomerCharge::where($conditions)
+                        ->orderBy('INSERT_DATE')
+                        ->paginate(20);
+
+                return view('ajax.customercharge ', [
+                    'customer_charge' => $customerCharges,
                     'nowpage' => $page,
+                    'paginator' => $paginator,
                     'paging' => $this->paginate($count, $page, $number),
                     'cst_id' => $cstId === 'default' ? 'undefined' : $cstId,
                 ]);

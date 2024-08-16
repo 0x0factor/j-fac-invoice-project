@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/popup.css') }}">
-@section('link')
     <style>
         .tbl {
             border: 1px #E3E3E3 solid;
@@ -30,8 +29,7 @@
             text-align: center;
         }
     </style>
-@endsection
-@section('scripts')
+
     <script>
         $(document).ready(function($) {
             var url = "{{ url('/ajax/popup') }}";
@@ -60,7 +58,6 @@
             return false;
         }
     </script>
-@endsection
 <form id="popupForm">
     <div id="popup_contents">
         <img src="{{ asset('/img/popup/tl_allcharge.jpg') }}" alt="">
@@ -83,8 +80,41 @@
                     </tr>
                     <tr>
                         <td colspan="3" class="w40 center">
-                            {{ $nowpage }}
-                            {{ $paging }}
+                               <!-- Display current page and total records -->
+                               {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
+
+                                <div id='pagination'>
+                                    @if ($paginator->onFirstPage())
+                                        <span class="disabled"><< {{ __('前へ') }}</span> |
+                                    @else
+                                        <a href="{{ $paginator->previousPageUrl() }}" rel="prev"><< {{ __('前へ') }}</a> |
+                                    @endif
+
+                                    <!-- Pagination Elements -->
+                                    @foreach ($paginator->links()->elements as $element)
+                                        <!-- "Three Dots" Separator -->
+                                        @if (is_string($element))
+                                            <span class="disabled">{{ $element }}</span> |
+                                        @endif
+
+                                        <!-- Array Of Links -->
+                                        @if (is_array($element))
+                                            @foreach ($element as $page => $url)
+                                                @if ($page == $paginator->currentPage())
+                                                    <span class="active">{{ $page }}</span> |
+                                                @else
+                                                    <a href="{{ $url }}">{{ $page }}</a> |
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+
+                                    @if ($paginator->hasMorePages())
+                                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                                    @else
+                                        <span class="disabled">{{ __('次へ') }} >></span>
+                                    @endif
+                                </div>
                         </td>
                     </tr>
                     <tr class="bgti">

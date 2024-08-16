@@ -540,7 +540,6 @@ var PopupClass = function (win) {
             type: type,
             no: no,
         });
-        
 
         if (type == "customer_charge") {
             var id = $("#SETCUSTOMER").children("input[type=hidden]").val();
@@ -593,7 +592,6 @@ var PopupClass = function (win) {
         //     },
         // });
         // console.log($('meta[name="csrf-token"]').attr("content"));
-
         $.get("/ajax/popup", { params: param }, function (d) {
             //IE6対策
             $("select").each(function () {
