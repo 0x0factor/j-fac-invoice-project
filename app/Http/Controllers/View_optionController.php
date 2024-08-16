@@ -27,7 +27,7 @@ class View_optionController extends Controller
         $viewOption = new ViewOption();
         $options = $viewOption->get_option(); // Implement this method in your ViewOption model
 
-        return view('view_option.index', compact('main_title', 'title_text', 'title', 'options', 'controller_name'));
+        return view('view_options.index', compact('main_title', 'title_text', 'title', 'options', 'controller_name'));
     }
 
     // 編集用
@@ -70,7 +70,7 @@ class View_optionController extends Controller
                         return redirect()->route('view_option.index');
                     }
                 } else {
-                    return view('view_option.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError', 'controller_name'));
+                    return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'logoError', 'controller_name'));
                 }
             } else if ($request->has('ViewOption.logo') && empty($request->file('ViewOption.logo'))) {
                 ViewOption::update_data($request->all()); // Implement this method in your ViewOption model
@@ -81,7 +81,7 @@ class View_optionController extends Controller
                 return redirect()->route('view_option.index');
             }
         } else {
-            return view('view_option.edit', compact('main_title', 'title_text', 'title', 'options', 'errors', 'controller_name'));
+            return view('view_options.edit', compact('main_title', 'title_text', 'title', 'options', 'errors', 'controller_name'));
         }
     }
 

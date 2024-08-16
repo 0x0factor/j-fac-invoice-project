@@ -243,12 +243,12 @@
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td colspan="2">
-                                        <a href="#" onclick="return form.coverpage_addline(null);">
+                                        <a href='#' onclick="return form.coverpage_addline(null);">
                                             <img src="{{ asset('img/bt_add.jpg') }}" alt="行を追加する">
                                         </a>
                                     </td>
                                     <td colspan="2">
-                                        <a href="#" onclick="return form.f_reset('null');">
+                                        <a href='#' onclick="return form.f_reset('null');">
                                             <img src="{{ asset('img/bt_reset.jpg') }}" alt="リセット">
                                         </a>
                                     </td>
@@ -333,15 +333,6 @@
         </form>
     </div>
 
-    {{-- HTML Link and Image Links --}}
-    <a href="#" onclick="return popupclass.popupajax('select_customer');"><img
-            src="{{ asset('img/bt_select2.jpg') }}" alt="" /></a>
-    <a href="#" onclick="return customer_reset();"><img src="{{ asset('img/bt_delete2.jpg') }}"
-            alt="" /></a>
-    <a href="#"><img src="{{ asset('img/bt_add.jpg') }}" alt="行を追加する"
-            onclick="return form.coverpage_addline(null);" /></a>
-    <a href="#"><img src="{{ asset('img/bt_reset.jpg') }}" alt="リセット"
-            onclick="return form.f_reset('null');" /></a>
 @endsection
 @section('script')
     <script language="JavaScript">

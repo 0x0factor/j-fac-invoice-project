@@ -97,7 +97,7 @@
                 <tr class="row_{{ $i }}">
                     <td>
                         <img src="{{ asset('img/bt_delete.jpg') }}" alt="×" url="#" class="delbtn"
-                            onclick="return form.f_delline({{ $i }});">
+                        onclick="return form.f_delline({{ $i }});">
                     </td>
                     <td>
                         <input type="text" name="{{ $formType }}item[ITEM_NO][]" maxlength="2"
