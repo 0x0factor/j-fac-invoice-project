@@ -2,6 +2,11 @@
 
 
 @section('content')
+@php
+    $formType = $formType ?? 'Delivery';
+    $controller = strtolower($formType);
+    $action = request()->route()->getActionMethod();
+@endphp
     <div id="guide">
         <div id="guide_box" class="clearfix">
             <img src="{{ asset('img/i_guide02.jpg') }}" />

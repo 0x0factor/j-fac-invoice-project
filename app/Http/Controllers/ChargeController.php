@@ -94,16 +94,20 @@ class ChargeController extends Controller
         $countys = config('constants.PrefectureCode');
         $seal_method = config('constants.SealMethod');
         $seal_flg = config('constants.SealFlg');
+        $user = Auth::user();
 
         return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
             ->with('main_title', '自社担当者登録')
             ->with('title_text', '自社情報設定')
+            ->with('title', '抹茶請求書')
             ->with('controller_name', 'Charge')
             ->with('page_title', 'Company')
-            ->with('status', 'status')
-            ->with('countys', 'countys')
-            ->with('seal_method', 'seal_method')
-            ->with('seal_flg', 'seal_flg');
+            ->with('status', $status)
+            ->with('countys', $countys)
+            ->with('seal_method', $seal_method)
+            ->with('seal_flg', $seal_flg)
+            ->with('user', $user)
+            ->with('ierror', '0');
     }
 
     // 削除用

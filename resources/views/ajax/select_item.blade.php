@@ -4,20 +4,22 @@
 <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 <script type="text/javascript">
     function insert(no) {
+
         if (form.focusline === undefined) {
             form.focusline = 0;
         }
 
         var data = JSON.parse($('#popup_itemlist').text());
-        var dec = $('input[name="data['+form.maintype+'][DECIMAL_UNITPRICE]"]:checked').val();
-        $('select[name="data['+form.focusline+']['+form.type+'][LINE_ATTRIBUTE]"]').val(0);
-        $('input[name="data['+form.focusline+']['+form.type+'][ITEM]"]').val(data[no].Item.ITEM);
-        $('input[name="data['+form.focusline+']['+form.type+'][ITEM_CODE]"]').css('color', '#000').val(data[no].Item.ITEM_CODE);
-        $('input[name="data['+form.focusline+']['+form.type+'][UNIT]"]').css('color', '#000').val(data[no].Item.UNIT);
-        var excise = $('input[name="data['+form.maintype+'][EXCISE]"]:radio:checked').val();
 
-        if (data[no].Item.TAX_CLASS == 3) {
-            $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(data[no].Item.TAX_CLASS);
+        var dec = $('input[name="['+form.maintype+'][DECIMAL_UNITPRICE]"]:checked').val();
+        $('select[name="['+form.focusline+']['+form.type+'][LINE_ATTRIBUTE]"]').val(0);
+        $('input[name="['+form.focusline+']['+form.type+'][ITEM]"]').val(data[no].ITEM);
+        $('input[name="['+form.focusline+']['+form.type+'][ITEM_CODE]"]').css('color', '#000').val(data[no].ITEM_CODE);
+        $('input[name="['+form.focusline+']['+form.type+'][UNIT]"]').css('color', '#000').val(data[no].UNIT);
+        var excise = $('input[name="['+form.maintype+'][EXCISE]"]:radio:checked').val();
+
+        if (data[no].TAX_CLASS == 3) {
+            $('select[name="['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(data[no].TAX_CLASS);
         } else {
             var taxOperationDate = @json($taxOperationDate);
             var issue_date = $("input.cal.date").val().replace(/-/g, '/');
@@ -28,10 +30,10 @@
                     if (per > 5) prefix = per;
                 }
             });
-            $('select[name="data['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(prefix + "" + data[no].Item.TAX_CLASS);
+            $('select[name="['+form.focusline+']['+form.type+'][TAX_CLASS]"]').val(prefix + "" + data[no].TAX_CLASS);
         }
 
-        $('input[name="data['+form.focusline+']['+form.type+'][UNIT_PRICE]"]').css('color', '#000').val(number_format(data[no].Item.UNIT_PRICE));
+        $('input[name="['+form.focusline+']['+form.type+'][UNIT_PRICE]"]').css('color', '#000').val(number_format(data[no].UNIT_PRICE));
 
         setReadOnly(form.maintype);
         focusLine(form.maintype);
@@ -205,9 +207,9 @@
                 @foreach($item as $key => $value)
                 <tr class="{{ ($loop->index % 2) == 1 ? 'bgcl' : '' }}">
                     <td class="w40">
-                        <button onclick="return insert({{ $key }});" style="border:none;">
+                        <a href="#" onclick="return insert({{ $key }});" style="border:none;">
                             <img src="{{ asset('img/bt_insert.jpg') }}" />
-                        </button>
+                        </a>
                     </td>
                     <td class="w120" id="ITEM{{ $key }}">{{ $value['ITEM'] }}</td>
                     <td class="w80" id="ITEM_CODE{{ $key }}">{{ $value['ITEM_CODE'] }}</td>

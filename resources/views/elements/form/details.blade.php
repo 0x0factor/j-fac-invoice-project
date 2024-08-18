@@ -1,6 +1,4 @@
 @php
-    $formType = $name; // Assuming $name is defined in your controller or passed to the view
-
     // Prepare tax options, excluding "0"
     $taxOption = isset($taxClass) && is_array($taxClass) ? $taxClass : [];
 
@@ -100,15 +98,15 @@
                         onclick="return form.f_delline({{ $i }});">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[ITEM_NO][]" maxlength="2"
+                        <input type="text" name="[{{$i}}][item][ITEM_NO]" maxlength="2"
                             class="w31 @if (isset($error['ITEM_NO']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[ITEM_CODE][]" maxlength="8"
+                        <input type="text" name="[{{$i}}][item][ITEM_CODE]" maxlength="8"
                             class="w64 @if (isset($error['ITEM_CODE']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[ITEM][]" maxlength="80" id="QuoteName"
+                        <input type="text" name="[{{$i}}][item][ITEM]" maxlength="80" id="QuoteName"
                             class="w120 hoverLine @if (isset($error['ITEM']['NO'][$i])) error @endif">
                         <span id="INSERT_ITEM_IMG{{ $i }}">
                             <img src="{{ asset('img/bt_select3.jpg') }}" style="margin: 0px 0px 2px" alt="商品選択"
@@ -116,25 +114,25 @@
                         </span>
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[QUANTITY][]" maxlength="7"
+                        <input type="text" name="[{{$i}}][item][QUANTITY]" maxlength="7"
                             onkeyup="recalculation('{{ $formType }}')"
                             class="w63 @if (isset($error['QUANTITY']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[UNIT][]" maxlength="8"
+                        <input type="text" name="[{{$i}}][item][UNIT]" maxlength="8"
                             class="w45 @if (isset($error['UNIT']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[UNIT_PRICE][]" maxlength="9"
+                        <input type="text" name="[{{$i}}][item][UNIT_PRICE]" maxlength="9"
                             onkeyup="recalculation('{{ $formType }}')"
                             class="w73 @if (isset($error['UNIT_PRICE']['NO'][$i])) error @endif">
                     </td>
                     <td>
-                        <input type="text" name="{{ $formType }}item[AMOUNT][]" class="w103"
+                        <input type="text" name="[{{$i}}][item][AMOUNT]" class="w103"
                             readonly="readonly" onchange="recalculation('{{ $formType }}')">
                     </td>
                     <td>
-                        <select name="{{ $formType }}item[LINE_ATTRIBUTE][]" class="w103"
+                        <select name="[{{$i}}][item][LINE_ATTRIBUTE]" class="w103"
                             onchange="changeAttribute('{{ $formType }}', {{ $i }}, value);">
                             @if (is_array($lineAttribute))
                                 @foreach ($lineAttribute as $key => $value)
@@ -147,7 +145,7 @@
                             @endif
 
                         </select>
-                        <select name="{{ $formType }}item[TAX_CLASS][]" class="w105"
+                        <select name="[{{$i}}][item][TAX_CLASS]" class="w105"
                             onchange="changeTaxClass('{{ $formType }}', {{ $i }}, value);">
                             @if (is_array($taxClass))
                                 @foreach ($taxClass as $key => $value)
@@ -160,8 +158,8 @@
                             @endif
 
                         </select>
-                        <input type="hidden" name="{{ $formType }}item[DISCOUNT][]">
-                        <input type="hidden" name="{{ $formType }}item[DISCOUNT_TYPE][]">
+                        <input type="hidden" name="[{{$i}}][item][DISCOUNT][>
+                        <input type="hidden" name="[{{$i}}][item][DISCOUNT_TYPE][>
                     </td>
                     <td>
                         <img src="{{ asset('img/bt_up.jpg') }}" class="btn_up" alt="×" url="javascript:void(0);"

@@ -193,8 +193,6 @@
                                                     &nbsp;
                                                 @endisset
                                             </td>
-                                            <a href="{{ route('item.index', ['sort' => 'TAX_CLASS']) }}">税区分</a>
-
                                             <td>{{ $val['ITM_ID'] }}</td>
                                             <td>{{ $val['UNIT'] }}</td>
                                             <td>{{ $val['UNIT_PRICE'] }}</td>
