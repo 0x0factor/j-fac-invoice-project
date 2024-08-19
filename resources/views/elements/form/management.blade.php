@@ -39,4 +39,4 @@
 
 <input type="hidden" name="UPDATE_USR_ID" value="{{ $user['USR_ID'] }}">
 <input type="hidden" name="dataformline" value="{{ $dataline }}">
-@csrf <!-- CSRF Token -->
+</form>

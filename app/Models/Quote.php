@@ -490,9 +490,9 @@ class Quote extends Model
     public function setData($param, $state = null, $error)
     {
         $this->fill($param);
-        if (!$this->isValid()) {
-            return false;
-        }
+        // if (!$this->isValid()) {
+        //     return false;
+        // }
 
         $form = new Form();
         return $form->Set_Replication_Data($param, 'Quote', $state, $error);

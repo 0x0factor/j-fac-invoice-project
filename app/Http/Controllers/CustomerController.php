@@ -161,7 +161,7 @@ class CustomerController extends Controller
             $setdata = $this->customer->set_data($request->input(), $company_ID, 'new', $phone_error, $fax_error);
 
             if (!isset($setdata['error'])) {
-                $customer_ID = $setdata['Customer']['CST_ID'];
+                $customer_ID = $setdata['CST_ID'];
                 session()->flash('success', '取引先を保存しました');
                 return redirect()->route('customer.check', ['customer_ID' => $customer_ID])->with('success', '取引先を保存しました');
             }
@@ -169,9 +169,9 @@ class CustomerController extends Controller
             $Cus = new Customer;
             $customer = $Cus->getPayment($company_ID);
             if ($default_honor = $Cus->getHonor($company_ID)) {
-                $customer['Customer']['HONOR_CODE'] = $default_honor[0]['Company']['HONOR_CODE'];
-                if ($default_honor[0]['Company']['HONOR_CODE'] == 2) {
-                    $customer['Customer']['HONOR_TITLE'] = $default_honor[0]['Company']['HONOR_TITLE'];
+                $customer['HONOR_CODE'] = $default_honor[0]['HONOR_CODE'];
+                if ($default_honor[0]['HONOR_CODE'] == 2) {
+                    $customer['HONOR_TITLE'] = $default_honor[0]['HONOR_TITLE'];
                 }
             }
         }
@@ -221,8 +221,14 @@ class CustomerController extends Controller
         $payment = config('constants.PaymentMonth');
         $countys = config('constants.PrefectureCode');
         $honor = config('constants.HonorCode');
+        $user = Auth::user();
+        $phone_error = 0;
+        $fax_error = 0;
+        $perror = $phone_error;
+        $ferror = $fax_error;
 
-        return view('customer.add', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooffSelect', 'paymentSelect', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error', 'controller_name'));
+
+        return view('customer.add', compact('main_title', 'title_text', 'title', 'payment', 'countys', 'cutooffSelect', 'paymentSelect', 'excises', 'fractions', 'tax_fraction_timing', 'honor', 'phone_error', 'fax_error', 'controller_name', 'user', 'perror', 'ferror'));
     }
 
     public function edit(Request $request, $customer_ID)

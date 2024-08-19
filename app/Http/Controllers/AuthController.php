@@ -32,7 +32,7 @@ class AuthController extends Controller
             'LOGIN_ID' => 'required',
             'PASSWORD' => 'required'
         ]);
-        
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/homes');
@@ -95,6 +95,7 @@ class AuthController extends Controller
     // Handle password reset request
     public function resetPost(Request $request)
     {
+        dd($request);
 
             $request->validate([
                 'email' => 'required|email|exists:users,email'

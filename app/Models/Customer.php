@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\User;
 use App\Models\Charge;
+use App\Vendors\model\Form;
 
 class Customer extends Model
 {
@@ -189,7 +190,7 @@ class Customer extends Model
     public function getHonor($_company_id)
     {
         $form = new Form(); // Assuming Form model exists in App\Models namespace
-        return $form->getHonor($_company_id);
+        return $form->Get_Honor($_company_id);
     }
 
     public function getPayment($companyId)

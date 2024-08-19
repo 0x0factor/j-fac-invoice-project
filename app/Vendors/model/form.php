@@ -430,7 +430,7 @@ class Form
             $itemModel_Name = 'Deliveryitem';
             $_primary_key = 'MDV_ID';
         }
-
+// dd($_set_param[$_model_Name]);
         $_set_param[$_model_Name]['ISSUE_DATE'] = $_set_param[$_model_Name]['DATE'];
 
         if ($_state === "new") {

@@ -190,6 +190,8 @@ class AppController extends Controller
      */
     public function item_validation(Request $request, $_field)
     {
+        var_export($request);
+        dd($request);
         $_param = $request->input();
         $_error = [
             'ITEM' => [

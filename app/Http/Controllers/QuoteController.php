@@ -114,6 +114,7 @@ class QuoteController extends AppController
         $user = Auth::user();
         $action = config('constants.ActionCode');
 
+        $quote = new Quote();
 
         $name = $user['NAME'];
 
@@ -134,7 +135,7 @@ class QuoteController extends AppController
             // Token check (Laravel handles CSRF automatically)
 
             // Validation
-            $error = $this->item_validation($request, 'Quoteitem');
+            // $error = $this->item_validation($request, 'Quoteitem');
 
             // Discount validation
             // $error['DISCOUNT'] = $this->validateDiscount($request);
@@ -157,7 +158,7 @@ class QuoteController extends AppController
             }
 
             // Insert data
-            if ($MQT_ID = $this->setData($request->input(), 'new', $error)) {
+            if ($MQT_ID = $quote->setData($request->input(), 'new', $error)) {
                 // Action log
                 $this->reportAction($request->input('Quote.USR_ID'), 2, $MQT_ID);
 
@@ -188,7 +189,6 @@ class QuoteController extends AppController
 
             // Serial settings
 
-            $quote = new Quote();
 
             if ($quote->getSerial($company_ID) == 0) {
                 $serial = new Serial();
@@ -206,7 +206,6 @@ class QuoteController extends AppController
             ]);
 
             // Company payment settings
-            $quote = new Quote();
             $default_cmp = $quote->getCompanyPayment($company_ID);
 
             if ($default_cmp) {
@@ -226,7 +225,6 @@ class QuoteController extends AppController
             }
 
             // Company decimal settings
-            $quote = new Quote();
             $default_dec = $quote->Get_Decimal($company_ID);
             if ($default_dec && isset($default_dec[0]['Company']['DECIMAL_QUANTITY']) && isset($default_dec[0]['Company']['DECIMAL_UNITPRICE'])) {
                 $request->merge([
@@ -295,7 +293,6 @@ class QuoteController extends AppController
             Item::where('USR_ID', $this->getUserID())->get() :
             Item::all();
 
-        $quote = new Quote();
 
         // Call the instance method get_customer
         $company = $quote->get_customer($company_ID, $cst_condition);
