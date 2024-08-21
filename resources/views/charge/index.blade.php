@@ -170,35 +170,35 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($list as $key => $val)
-                                        <?php $val['Charge']['SEAL'] = !empty($val['Charge']['SEAL']) ? 0 : 1; ?>
+                                        <?php $val['SEAL'] = !empty($val['SEAL']) ? 0 : 1; ?>
                                         <tr>
                                             <td>
-                                                @if (empty($delcheck[$val['Charge']['CHR_ID']]))
-                                                    <input type="checkbox" name="{{ $val['Charge']['CHR_ID'] }}"
+                                                @if (empty($delcheck[$val['CHR_ID']]))
+                                                    <input type="checkbox" name="{{ $val['CHR_ID'] }}"
                                                         class="chk">
                                                 @else
                                                     &nbsp;
                                                 @endif
                                             </td>
-                                            <td>{{ $val['Charge']['CHR_ID'] }}</td>
+                                            <td>{{ $val['CHR_ID'] }}</td>
                                             <td>
-                                                @if ($authcheck[$val['Charge']['CHR_ID']] == 1)
+                                                @if ($val['CHR_ID'] == 1)
                                                     <a
-                                                        href="{{ route('charge.check', $val['Charge']['CHR_ID']) }}">{{ $val['Charge']['CHARGE_NAME'] }}</a>
+                                                        href="{{ route('charge.check', $val['CHR_ID']) }}">{{ $val['CHARGE_NAME'] }}</a>
                                                 @else
-                                                    {{ nl2br($val['Charge']['CHARGE_NAME']) }}
+                                                    {{ nl2br($val['CHARGE_NAME']) }}
                                                 @endif
                                             </td>
-                                            <td>{{ ht2br($val['Charge']['UNIT']) ?: '&nbsp;' }}</td>
+                                            <td>{{ nl2br($val['UNIT']) ?: '&nbsp;' }}</td>
                                             <td>
-                                                @if (!empty($val['Charge']['PHONE_NO1']) || !empty($val['Charge']['PHONE_NO2']) || !empty($val['Charge']['PHONE_NO3']))
-                                                    {{ $val['Charge']['PHONE_NO1'] . '-' . $val['Charge']['PHONE_NO2'] . '-' . $val['Charge']['PHONE_NO3'] }}
+                                                @if (!empty($val['PHONE_NO1']) || !empty($val['PHONE_NO2']) || !empty($val['PHONE_NO3']))
+                                                    {{ $val['PHONE_NO1'] . '-' . $val['PHONE_NO2'] . '-' . $val['PHONE_NO3'] }}
                                                 @endif
                                             </td>
-                                            <td>{{ $seal[$val['Charge']['SEAL']] }}</td>
-                                            <td>{{ $status[$val['Charge']['STATUS']] }}</td>
+                                            <td>{{ $seal[$val['SEAL']] }}</td>
+                                            <td>{{ $val['STATUS'] }}</td>
                                             @if ($user['AUTHORITY'] != 1)
-                                                <td>{{ $val['User']['NAME'] }}</td>
+                                                <td>{{ $val['NAME'] }}</td>
                                             @endif
                                         </tr>
                                     @endforeach

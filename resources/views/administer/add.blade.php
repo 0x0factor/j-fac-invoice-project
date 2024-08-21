@@ -13,16 +13,16 @@
 
     <!-- contents_Start -->
     <div id="contents">
-        <div class="arrow_under">
-            <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow Under">
-        </div>
-
-        <h3>
-            <div class="edit_01_administer"><span class="edit_txt">&nbsp;</span></div>
-        </h3>
-
-        <form method="POST" action="{{ route('administer.add') }}" class="Administer" id="AdministerAddForm">
+        <form method="POST" action="{{ route('administer.store') }}" class="Administer" id="AdministerAddForm">
             @csrf
+            <div class="arrow_under">
+                <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="Arrow Under">
+            </div>
+
+            <h3>
+                <div class="edit_01_administer"><span class="edit_txt">&nbsp;</span></div>
+            </h3>
+
 
             <div class="contents_box">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Contents Top">

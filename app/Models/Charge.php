@@ -133,9 +133,10 @@ class Charge extends Model
     public function setData($_param, $_company_ID, $_perror, $_ferror, &$_chr_id = null)
     {
         // Generate searchable address
-        $county = config('prefecture_code');
+        $county = config('constants.PrefectureCode');
 
         $_param['SEARCH_ADDRESS'] = '';
+
 
 
         if ($_param['CNT_ID']) {
@@ -151,13 +152,37 @@ class Charge extends Model
 
         try {
             // Save charge data
-            $charge = new Charge();
-            $charge->fill($_param);
+            $charge = new Charge;
+            // $charge->fill($_param);
+            $charge->CHR_ID = $_company_ID;
             $charge->CMP_ID = $_company_ID;
+            $charge->USR_ID = $_param['USR_ID'];
+            $charge->UPDATE_USR_ID = $_param['UPDATE_USR_ID'];
+            $charge->UNIT = $_param['UNIT'];
+            $charge->POST = $_param['POST'];
+            $charge->CHARGE_NAME = $_param['CHARGE_NAME'];
+            $charge->CHARGE_NAME_KANA = $_param['CHARGE_NAME_KANA'];
+            $charge->MAIL = $_param['MAIL'];
+            $charge->POSTCODE1 = $_param['POSTCODE1'];
+            $charge->POSTCODE2 = $_param['POSTCODE2'];
+            $charge->CNT_ID = $_param['CNT_ID'];
+            $charge->ADDRESS = $_param['ADDRESS'];
+            $charge->SEARCH_ADDRESS = $_param['SEARCH_ADDRESS'];
+            $charge->BUILDING = $_param['BUILDING'];
+            $charge->PHONE_NO1 = $_param['PHONE_NO1'];
+            $charge->PHONE_NO2 = $_param['PHONE_NO2'];
+            $charge->PHONE_NO3 = $_param['PHONE_NO3'];
+            $charge->FAX_NO1 = $_param['FAX_NO1'];
+            $charge->FAX_NO2 = $_param['FAX_NO2'];
+            $charge->FAX_NO3 = $_param['FAX_NO3'];
+            $charge->STATUS = $_param['STATUS'];
+            $charge->SEAL = "SEAL";
+            $charge->CHR_SEAL_FLG = $_param['CHR_SEAL_FLG'];
+
             $charge->INSERT_DATE = date("Y-m-d H:i:s");
             $charge->LAST_UPDATE = date("Y-m-d H:i:s");
+            $charge->ADD_DATE = date("Y-m-d H:i:s");
             $charge->save();
-
             // Commit transaction on success
             \DB::commit();
             $_chr_id = $charge->CHR_ID;

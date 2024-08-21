@@ -46,6 +46,25 @@ class AdministerController extends Controller
             'PASSWORD' => 0,
             'MAIL' => 0
         ];
+        // 登録用
+        $status = config('constants.StatusCode');
+
+        $authority = config('constants.AuthorityCode');
+
+        return view('administer.add', compact('main_title', 'title_text', 'title', 'error', 'status', 'authority'));
+    }
+    public function store(Request $request)
+    {
+        $main_title = "ユーザ登録";
+        $title_text = "管理者メニュー";
+        $title = "抹茶請求書";
+
+        $company_ID = 1;
+        $error = [
+            'LOGIN_ID' => 0,
+            'PASSWORD' => 0,
+            'MAIL' => 0
+        ];
 
         if ($request->has('cancel_x')) {
             return redirect('/administers');
@@ -59,21 +78,22 @@ class AdministerController extends Controller
 
             $requestData = $request->all();
 
-            var_export($requestData);die;
 
             $requestData['EDIT_PASSWORD'] = bcrypt($requestData['EDIT_PASSWORD']);
 
             // Validation
             $validator = Validator::make($requestData, [
-                'LOGIN_ID' => 'unique:administers',
+                'LOGIN_ID' => 'unique:T_USER',
                 'MAIL' => 'email'
             ]);
+
 
             if ($validator->fails()) {
                 $error = $validator->errors()->toArray();
             }
 
             $requestData['CMP_ID'] = $company_ID;
+
             $administer = Administer::create($requestData);
 
             if ($administer) {

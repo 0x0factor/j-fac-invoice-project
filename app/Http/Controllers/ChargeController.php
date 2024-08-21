@@ -81,10 +81,57 @@ class ChargeController extends AppController
             }
 
             // Insert data
-            $Charge = new Charge;
-            $result = $Charge->setData($request->input(), $company_ID, $phone_error, $fax_error, $chr_id);
+            // $result = $Charge->setData($request->input(), $company_ID, $phone_error, $fax_error, $chr_id);
+            $_param = $request->input();
 
-            if ($result) {
+            $county = config('constants.PrefectureCode');
+
+            $_param['SEARCH_ADDRESS'] = '';
+
+
+
+            if ($_param['CNT_ID']) {
+                $_param['SEARCH_ADDRESS'] .= $county[$_param['CNT_ID']];
+            }
+
+            $_param['SEARCH_ADDRESS'] .= $_param['ADDRESS'] . $_param['BUILDING'];
+
+            // Handle image processing (not shown in the provided code)
+
+
+            // Save charge data
+            // $charge->fill($_param);
+            $charge = new Charge;
+            $charge->CHR_ID = $company_ID;
+            $charge->CMP_ID = $company_ID;
+            $charge->USR_ID = $_param['USR_ID'];
+            $charge->UPDATE_USR_ID = $_param['UPDATE_USR_ID'];
+            $charge->UNIT = $_param['UNIT'];
+            $charge->POST = $_param['POST'];
+            $charge->CHARGE_NAME = $_param['CHARGE_NAME'];
+            $charge->CHARGE_NAME_KANA = $_param['CHARGE_NAME_KANA'];
+            $charge->MAIL = $_param['MAIL'];
+            $charge->POSTCODE1 = $_param['POSTCODE1'];
+            $charge->POSTCODE2 = $_param['POSTCODE2'];
+            $charge->CNT_ID = $_param['CNT_ID'];
+            $charge->ADDRESS = $_param['ADDRESS'];
+            $charge->SEARCH_ADDRESS = $_param['SEARCH_ADDRESS'];
+            $charge->BUILDING = $_param['BUILDING'];
+            $charge->PHONE_NO1 = $_param['PHONE_NO1'];
+            $charge->PHONE_NO2 = $_param['PHONE_NO2'];
+            $charge->PHONE_NO3 = $_param['PHONE_NO3'];
+            $charge->FAX_NO1 = $_param['FAX_NO1'];
+            $charge->FAX_NO2 = $_param['FAX_NO2'];
+            $charge->FAX_NO3 = $_param['FAX_NO3'];
+            $charge->STATUS = $_param['STATUS'];
+            $charge->SEAL = "SEAL";
+            $charge->CHR_SEAL_FLG = $_param['CHR_SEAL_FLG'];
+            $charge->INSERT_DATE = date("Y-m-d H:i:s");
+            $charge->LAST_UPDATE = date("Y-m-d H:i:s");
+            $charge->save();
+
+
+            if ($charge->save()) {
                 if ($result === 1 || $result === 2 || $result === 3) {
                     $image_error = $result;
                 } else {
