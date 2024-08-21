@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
 
-use App\Main\AppController;
 
 class QuoteController extends AppController
 {

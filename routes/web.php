@@ -79,6 +79,7 @@ Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name(
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
+Route::post('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 Route::get('charges/delete', [ChargeController::class, 'delete'])->name('charge.delete');
 Route::get('charges/check', [ChargeController::class, 'check'])->name('charge.check');
 Route::get('charges/edit', [ChargeController::class, 'edit'])->name('charge.edit');

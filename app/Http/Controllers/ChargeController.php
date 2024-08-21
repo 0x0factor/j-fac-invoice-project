@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Charge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Main\AppController;
 
-class ChargeController extends Controller
+
+class ChargeController extends AppController
 {
     public function __construct()
     {
@@ -68,9 +70,10 @@ class ChargeController extends Controller
                 // Add other validations here
             ]);
 
+
             // Update validation
-            $phone_error = $this->phone_validation($request->input('Charge'));
-            $fax_error = $this->fax_validation($request->input('Charge'));
+            $phone_error = $this->phone_validation($request->input());
+            $fax_error = $this->fax_validation($request->input());
 
             // Seal creation
             if ($request->input('Charge.SEAL_METHOD') && !empty($request->input('Charge.SEAL_STR'))) {
@@ -78,7 +81,8 @@ class ChargeController extends Controller
             }
 
             // Insert data
-            $result = Charge::set_data($request->input('Charge'), $company_ID, $phone_error, $fax_error, $chr_id);
+            $Charge = new Charge;
+            $result = $Charge->setData($request->input(), $company_ID, $phone_error, $fax_error, $chr_id);
 
             if ($result) {
                 if ($result === 1 || $result === 2 || $result === 3) {
@@ -143,14 +147,14 @@ class ChargeController extends Controller
                 Charge::seal_delete($charge_ID);
             }
 
-            $phone_error = $this->phone_validation($request->input('Charge'));
-            $fax_error = $this->fax_validation($request->input('Charge'));
+            $phone_error = $this->phone_validation($request->input());
+            $fax_error = $this->fax_validation($request->input());
 
             if ($request->input('Charge.SEAL_METHOD') && !empty($request->input('Charge.SEAL_STR'))) {
                 $this->make_seal($request->input('Charge.SEAL_STR'));
             }
 
-            $result = Charge::set_data($request->input('Charge'), $company_ID, $phone_error, $fax_error);
+            $result = Charge::set_data($request->input(), $company_ID, $phone_error, $fax_error);
 
             if ($result) {
                 if ($result === 1 || $result === 2 || $result === 3) {

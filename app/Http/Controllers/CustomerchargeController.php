@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use App\Main\AppController;
 
-class CustomerChargeController extends Controller
+class CustomerChargeController extends AppController
 {
     public function __construct()
     {

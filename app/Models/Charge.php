@@ -137,6 +137,7 @@ class Charge extends Model
 
         $_param['SEARCH_ADDRESS'] = '';
 
+
         if ($_param['CNT_ID']) {
             $_param['SEARCH_ADDRESS'] .= $county[$_param['CNT_ID']];
         }

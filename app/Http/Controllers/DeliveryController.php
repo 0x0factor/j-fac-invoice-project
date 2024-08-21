@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use App\Services\ExcelService;
 use Carbon\Carbon;
+use App\Main\AppController;
 
-class DeliveryController extends Controller
+
+class DeliveryController extends AppController
 {
     const DISCOUNT_TYPE_PERCENT = 0;
     const DISCOUNT_TYPE_NONE = 2;

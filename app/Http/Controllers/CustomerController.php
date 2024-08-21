@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use App\Main\AppController;
 
-class CustomerController extends Controller
+
+class CustomerController extends AppController
 {
     protected $customer;
 
@@ -250,7 +252,7 @@ class CustomerController extends Controller
           // Check if request has data
           if ($request->isMethod('post')) {
             // Phone number validation
-            $phone_error = $this->phoneValidation($request->input('Customer'));
+            $phone_error = $this->phone_Validation($request->input('Customer'));
 
             // FAX number validation
             $fax_error = $this->faxValidation($request->input('Customer'));

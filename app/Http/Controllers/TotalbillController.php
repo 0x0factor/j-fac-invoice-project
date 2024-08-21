@@ -14,8 +14,9 @@ use App\Models\Serial;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Barryvdh\DomPDF\Facade\Pdf; // For PDF generation
+use App\Main\AppController;
 
-class TotalbillController extends Controller
+class TotalbillController extends AppController
 {
     protected $totalbill;
     protected $bill;

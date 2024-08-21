@@ -95,34 +95,39 @@ class AuthController extends Controller
     // Handle password reset request
     public function resetPost(Request $request)
     {
-        dd($request);
 
-            $request->validate([
-                'email' => 'required|email|exists:users,email'
-            ]);
+        $request->validate([
+            'email' => 'required|email|exists:t_user,MAIL'
+        ]);
 
-            $user = User::where('MAIL', $request->email)->first();
+        $user = User::where('MAIL', $request->email)->first();
 
-            if (!$user) {
-                return back()->withErrors(['email' => '入力されたメールアドレスは登録されていません']);
-            }
+        if (!$user) {
+            return back()->withErrors(['email' => '入力されたメールアドレスは登録されていません']);
+        }
 
             // Generate a random key
-            $key = Str::random(60);
-            $user->random_key = Hash::make($key);
-            $user->save();
+        $key = Hash::make(uniqid() . mt_rand());
 
-            // Generate the reset URL
-            $url = url('/users/pass_edit?k=' . $key);
-            $body = config('mail.txt.pass_edit') . "\n" . $url;
+        // Update the user with the random key
+        $user->RANDOM_KEY = $key;
+        $user->save();
 
-            try {
-                Mail::to($user->email)->send(new PasswordResetMail($body));
-            } catch (\Exception $e) {
-                return back()->withErrors(['email' => 'メールの送信に失敗しました']);
-            }
+        // Prepare and send the email
+        $url = url('/users/pass_edit') . '?k=' . $key;
+        $body = config('mail.txt.pass_edit') . "\n" . $url;
 
-            return view('users.reset_end');
+        try {
+            Mail::raw($body, function ($message) use ($user) {
+                $message->to($user->MAIL)
+                        ->subject(config('mail.subject.pass_edit'));
+            });
+        } catch (\Exception $e) {
+            Session::flash('error', 'メールの送信に失敗しました');
+            return redirect()->route('users.reset');
+        }
+
+        return view('users.reset_end');
     }
 
 
