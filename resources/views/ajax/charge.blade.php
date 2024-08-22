@@ -176,15 +176,16 @@
                                 <button onclick="return insert({{ $key }})">
                                     <img src="{{ asset('img/bt_insert.jpg') }}" alt="Insert">
                                 </button>
-                                {{ Form::hidden('CHR_ID', $value['CHR_ID']) }}
-                                {{ Form::hidden('TMP_CHR_SEAL_FLG', $value['CHR_SEAL_FLG']) }}
+                                <input type="hidden" name="CHR_ID" value="{{ $value['CHR_ID'] }}">
+                                <input type="hidden" name="TMP_CHR_SEAL_FLG" value="{{ $value['CHR_SEAL_FLG'] }}">
+
                             </td>
                             <td class="w140" id="name{{ $key }}">{{ $value['CHARGE_NAME'] }}</td>
                             <td class="w140">{{ $value['UNIT'] }}</td>
                             <td>{{ $value['User']['NAME'] }}</td>
                         </tr>
                     @endforeach
-                  
+
 
                 </table>
                 <div class="save_btn">

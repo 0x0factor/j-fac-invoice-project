@@ -106,6 +106,7 @@ Route::post('customers/edit/{customer_ID}', [CustomerController::class,'edit'])-
 
 Route::get('customer_charges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
 Route::get('customer_charges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
+Route::post('customer_charges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
 Route::get('customer_charges/check', [CustomerchargeController::class, 'check'])->name('customer_charge.check');
 Route::get('customer_charges/edit', [CustomerchargeController::class, 'edit'])->name('customer_charge.edit');
 Route::get('customer_charges/delete', [CustomerchargeController::class, 'delete'])->name('customer_charge.delete');
