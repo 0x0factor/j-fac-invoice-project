@@ -81,7 +81,7 @@ Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
 Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 Route::post('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 Route::get('charges/delete', [ChargeController::class, 'delete'])->name('charge.delete');
-Route::get('charges/check', [ChargeController::class, 'check'])->name('charge.check');
+Route::get('charges/check/{charge_ID}', [ChargeController::class, 'check'])->name('charge.check');
 Route::get('charges/edit', [ChargeController::class, 'edit'])->name('charge.edit');
 
 Route::get('companies', [CompanyController::class, 'index'])->name('company.index');

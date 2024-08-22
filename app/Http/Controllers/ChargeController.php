@@ -96,13 +96,10 @@ class ChargeController extends AppController
 
             $_param['SEARCH_ADDRESS'] .= $_param['ADDRESS'] . $_param['BUILDING'];
 
-            // Handle image processing (not shown in the provided code)
-
-
             // Save charge data
             // $charge->fill($_param);
             $charge = new Charge;
-            $charge->CHR_ID = $company_ID;
+            // $charge->CHR_ID = $company_ID;
             $charge->CMP_ID = $company_ID;
             $charge->USR_ID = $_param['USR_ID'];
             $charge->UPDATE_USR_ID = $_param['UPDATE_USR_ID'];
@@ -130,14 +127,15 @@ class ChargeController extends AppController
             $charge->LAST_UPDATE = date("Y-m-d H:i:s");
             $charge->save();
 
+            $_chr_id = $charge->CHR_ID;
 
             if ($charge->save()) {
-                if ($result === 1 || $result === 2 || $result === 3) {
-                    $image_error = $result;
-                } else {
+                // if ($result === 1 || $result === 2 || $result === 3) {
+                //     $image_error = $result;
+                // } else {
                     Session::flash('message', '自社担当者を保存しました');
-                    return redirect()->route('charge.check', ['id' => $chr_id]);
-                }
+                    return redirect()->route('charge.check', ['charge_ID' => $chr_id]);
+                // }
             }
         }
 
@@ -217,7 +215,8 @@ class ChargeController extends AppController
                 }
             }
         } else {
-            $charge = Charge::edit_select($charge_ID);
+            $Char = new Charge;
+            $charge = $Char->edit_select($charge_ID);
             if (!$charge) {
                 return redirect()->route('charge.index');
             }
@@ -255,25 +254,29 @@ class ChargeController extends AppController
             return redirect()->route('charge.index');
         }
 
-        $charge = Charge::edit_select($charge_ID);
+        $Char = new Charge;
+        $charge = $Char->editSelect($charge_ID);
         if (!$charge) {
             return redirect()->route('charge.index');
         }
 
-        if (!$this->Get_Check_Authority($charge['Charge']['USR_ID'])) {
+        if (!$this->Get_Check_Authority($charge['USR_ID'])) {
             Session::flash('error', 'ページを開く権限がありません');
             return redirect()->route('charge.index');
         }
 
-        $image = $charge['Charge']['SEAL'] ?? null;
+        $image = $charge['SEAL'] ?? null;
 
         $status = config('constants.StatusCode');
         $countys = config('constants.PrefectureCode');
         $seal_flg = config('constants.SealFlg');
+        $user = Auth::user();
 
-        return view('charge.check', compact('charge', 'image', 'charge_ID'))
+
+        return view('charge.check', compact('charge', 'image', 'charge_ID', 'user'))
             ->with('main_title', '自社担当者確認')
             ->with('title_text', '自社情報設定')
+            ->with('title', '自社情報設定')
             ->with('status', 'status')
             ->with('countys', 'countys')
             ->with('seal_flg', 'seal_flg')

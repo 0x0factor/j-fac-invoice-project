@@ -134,7 +134,7 @@ class AppController extends Controller
      */
     public function Get_Check_Authority($_id)
     {
-        $user = $this->Auth::user();
+        $user = Auth::user();
         if ($user['AUTHORITY'] == 1) {
             if ($_id != $user['USR_ID']) {
                 return false;

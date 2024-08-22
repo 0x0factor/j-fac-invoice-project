@@ -21,12 +21,12 @@
     <!-- header_End -->
     <!-- contents_Start -->
     <div class="edit_btn">
-        @if ($editauth)
-            <a href="{{ route('charge.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
+        @if (isset($editauth))
+            <a href="{{ route('charge.edit', ['charge' => $charge['CHR_ID']]) }}" class="imgover">
                 <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
             </a>
         @endif
-        <form method="POST" action="{{ route('charge.moveback') }}" style="display:inline;">
+        <form method="POST" action="{{ route('charge.index') }}" style="display:inline;">
             @csrf
             <a href="javascript:move_to_index();" class="imgover">
                 <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
@@ -44,14 +44,14 @@
         <div class="contents_box">
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
             <div class="contents_area">
-                <form method="POST" action="{{ route('charge.update', ['charge' => $params['Charge']['CHR_ID']]) }}"
+                <form method="POST" action="{{ route('charge.edit', ['charge' => $charge['CHR_ID']]) }}"
                     enctype="multipart/form-data" class="Charge">
                     @csrf
                     @method('PUT')
                     <table width="880" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>ステータス</th>
-                            <td>{{ $status[$params['Charge']['STATUS']] }}</td>
+                            <td>{{ $status[$charge['STATUS']] }}</td>
                         </tr>
                         <tr>
                             <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
@@ -60,7 +60,7 @@
                         <tr>
                             <th style="width:150px;"><span class="float_l">担当者名</span></th>
                             <td style="width:730px;">
-                                {!! nl2br(e($params['Charge']['CHARGE_NAME'])) !!}
+                                {!! nl2br(e($charge['CHARGE_NAME'])) !!}
                             </td>
                         </tr>
                         <!-- Continue with other table rows similarly -->
@@ -70,8 +70,8 @@
             <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="" class="block">
         </div>
         <div class="edit_btn">
-            @if ($editauth)
-                <a href="{{ route('charge.edit', ['charge' => $params['Charge']['CHR_ID']]) }}" class="imgover">
+            @if (isset($editauth))
+                <a href="{{ route('charge.edit', ['charge' => $charge['CHR_ID']]) }}" class="imgover">
                     <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                 </a>
             @endif

@@ -178,7 +178,6 @@ class Charge extends Model
             $charge->STATUS = $_param['STATUS'];
             $charge->SEAL = "SEAL";
             $charge->CHR_SEAL_FLG = $_param['CHR_SEAL_FLG'];
-
             $charge->INSERT_DATE = date("Y-m-d H:i:s");
             $charge->LAST_UPDATE = date("Y-m-d H:i:s");
             $charge->ADD_DATE = date("Y-m-d H:i:s");
