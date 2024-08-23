@@ -148,7 +148,7 @@ class AppController extends Controller
      */
     public function Get_Edit_Authority($_id)
     {
-        $user = $this->Auth::user();
+        $user = Auth::user();
         if ($user['AUTHORITY'] == 2 || $user['AUTHORITY'] == 1) {
             if ($_id != $user['USR_ID']) {
                 return false;

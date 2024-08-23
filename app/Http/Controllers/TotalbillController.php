@@ -104,7 +104,7 @@ class TotalbillController extends AppController
 
             $totalbill = new Totalbill();
             $user_ID = $totalbill->get_user_id($user);
-            $user_auth = $this->getUserAuthority($user);
+            $user_auth = $this->Get_User_AUTHORITY($user);
 
 
             // var_export($request);
@@ -336,8 +336,8 @@ class TotalbillController extends AppController
         }
 
         if ($request->has('cancel_x') || $request->isMethod('get') || $request->has('search_x') || $request->has('search_y')) {
-            $user_ID = $this->getUserID();
-            $user_auth = $this->getUserAuthority();
+            $user_ID = $this->Get_User_ID();
+            $user_auth = $this->Get_User_AUTHORITY();
 
             if ($request->isMethod('post') && !$request->has('cancel_x')) {
                 $data = ($user_auth != 1)
@@ -393,7 +393,7 @@ class TotalbillController extends AppController
             $data = Totalbill::getBill($tbl_ID);
             $cst = Totalbill::getCustomer($tbl_ID);
             $edit = Totalbill::getEditStatus($tbl_ID);
-            $tbl_user_id = Totalbill::getUserID($tbl_ID);
+            $tbl_user_id = Totalbill::Get_User_ID($tbl_ID);
 
             if ($request->input('Customer.NAME')) {
                 $cst_name = $request->input('Customer.NAME');
@@ -450,7 +450,7 @@ class TotalbillController extends AppController
     {
         $this->validateToken($request->input('Security.token'));
 
-        $user_ID = $this->getUserID();
+        $user_ID = $this->Get_User_ID();
 
         if ($request->has('delete_x')) {
             if (empty($request->input('Totalbill'))) {
@@ -521,14 +521,6 @@ class TotalbillController extends AppController
         ]);
 
         return $pdf->download('invoice.pdf');
-    }
-
-    private function getUserAuthority()
-    {
-        if (auth()->check()) {
-            return auth()->user()->authority;
-        }
-        return null;
     }
 
 }

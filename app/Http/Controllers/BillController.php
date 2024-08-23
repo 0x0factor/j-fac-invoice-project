@@ -353,8 +353,8 @@ class BillController extends AppController
         }
 
         $error = config('constants.ItemErrorCode');
-        $user_ID = $this->getUserID();
-        $user_auth = $this->getUserAuthority();
+        $user_ID = $this->Get_User_ID();
+        $user_auth = $this->Get_User_AUTHORITY();
 
         if (empty($data)) {
             // Initial Data Fetch
@@ -893,19 +893,6 @@ class BillController extends AppController
         ]);
     }
 
-    private function getUserAuthority()
-    {
-        if (auth()->check()) {
-            return auth()->user()->authority;
-        }
-        return null;
-    }
 
-    private function getUserId()
-    {
-        if (auth()->check()) {
-            return auth()->user()->id;
-        }
-        return null;
-    }
+
 }

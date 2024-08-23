@@ -285,11 +285,11 @@ class QuoteController extends AppController
 
         // Company information
         $cst_condition = $this->Get_User_AUTHORITY() == 1 ?
-            ['.CMP_ID' => $company_ID, 'Customer.USR_ID' => $this->getUserID()] :
+            ['.CMP_ID' => $company_ID, 'Customer.USR_ID' => $this->Get_User_ID()] :
             ['.CMP_ID' => $company_ID];
 
         $item = $this->Get_User_AUTHORITY() == 1 ?
-            Item::where('USR_ID', $this->getUserID())->get() :
+            Item::where('USR_ID', $this->Get_User_ID())->get() :
             Item::all();
 
 

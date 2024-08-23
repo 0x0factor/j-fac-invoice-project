@@ -305,11 +305,11 @@ class DeliveryController extends AppController
 
         // Get company information
         $company_ID = 1; // Assuming company_ID is 1, adjust as needed
-        $cst_condition = $this->getUserAuthority() == 1
-            ? ['CMP_ID' => $company_ID, 'USR_ID' => $this->getUserId()]
+        $cst_condition = $this->Get_User_AUTHORITY() == 1
+            ? ['CMP_ID' => $company_ID, 'USR_ID' => $this->Get_User_ID()]
             : ['CMP_ID' => $company_ID];
 
-        $items = Item::where('USR_ID', $this->getUserId())->get();
+        $items = Item::where('USR_ID', $this->Get_User_ID())->get();
         $itemList = [];
         foreach ($items as $item) {
             $itemList[$item->ITM_ID] = [
@@ -385,7 +385,7 @@ class DeliveryController extends AppController
             return redirect()->route('delivery.index');
         }
 
-        if (!$this->getCheckAuthority($delivery->USR_ID)) {
+        if (!$this->Get_Check_Authority($delivery->USR_ID)) {
             Session::flash('error', '帳票を閲覧する権限がありません');
             return redirect()->route('delivery.index');
         }
@@ -533,12 +533,12 @@ class DeliveryController extends AppController
         }
 
         // 企業情報の取得
-        if ($this->getUserAuthority() == 1) {
+        if ($this->Get_User_AUTHORITY() == 1) {
             $cst_condition = [
                 'CMP_ID' => $company_ID,
-                'USR_ID' => $this->getUserID()
+                'USR_ID' => $this->Get_User_ID()
             ];
-            $items = Item::where('USR_ID', $this->getUserID())->get();
+            $items = Item::where('USR_ID', $this->Get_User_ID())->get();
         } else {
             $cst_condition = [
                 'CMP_ID' => $company_ID
@@ -780,42 +780,6 @@ class DeliveryController extends AppController
         }
 
         return $pdf->stream($fileName);
-    }
-
-    private function getUserAuthority()
-    {
-        if (auth()->check()) {
-            return auth()->user()->authority;
-        }
-        return null;
-    }
-
-    private function getUserId()
-    {
-        if (auth()->check()) {
-            return auth()->user()->id;
-        }
-        return null;
-    }
-    private function getCheckAuthority($user_id)
-    {
-        // Implement the method to check user authority
-        // For example:
-        return Auth::user()->id == $user_id || Auth::user()->AUTHORITY == 1;
-    }
-
-    private function Get_Edit_Authority($user_id)
-    {
-        // Implement the method to get edit authority
-        // For example:
-        return Auth::user()->id == $user_id || Auth::user()->AUTHORITY == 1;
-    }
-
-    private function getCompatibleItems($delivery)
-    {
-        // Implement your discount conversion logic here
-        // For now, we'll just return the delivery object as is
-        return $delivery;
     }
 
 
