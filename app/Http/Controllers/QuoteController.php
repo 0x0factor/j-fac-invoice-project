@@ -97,7 +97,6 @@ class QuoteController extends AppController
             'quotes' => $quotes,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
-            'searchStatus' => $searchStatus,
             'controller_name' => "Quote",
 
         ]);
@@ -338,8 +337,7 @@ class QuoteController extends AppController
         $customer_condition = [];
         $customer = Customer::where($customer_condition)
         ->orderBy('INSERT_DATE')
-        ->paginate(10);;
-
+        ->paginate(10);
 
         return view('quote.add', [
             'main_title' => $main_title,
@@ -435,7 +433,7 @@ class QuoteController extends AppController
                     $data['quote']['CUSTOMER_CHARGE_UNIT'] = $customerCharge->UNIT;
                 }
 
-                if (!$this->hasEditAuthority($quote->USR_ID)) {
+                if (!$this->Get_Edit_Authority($quote->USR_ID)) {
                     Session::flash('message', '帳票を編集する権限がありません');
                     return redirect('/quotes/');
                 }
@@ -444,7 +442,7 @@ class QuoteController extends AppController
                 return redirect('/quotes/check');
             }
         } else {
-            $this->validateToken($request->input('Security.token'));
+            $this->validateToken($request->input('data.Security.token'));
 
             if ($request->has('del_x')) {
                 Quote::destroy($request->input('Quote.MQT_ID'));
@@ -494,13 +492,16 @@ class QuoteController extends AppController
 
     public function action(Request $request)
     {
+        $quote = new Quote();
+
         $customerId = $request->input('Customer.id');
 
-        $this->validateToken($request->input('Security.token'));
+        // $this->validateToken($request->input('data.Security.token'));
         $userId = auth()->id();
 
+
         if ($request->has('delete_x')) {
-            $quoteIds = array_keys($request->input('Quote', []));
+            $quoteIds = array_keys($request->input('selected_quotes', []));
             if (empty($quoteIds)) {
                 Session::flash('message', '見積書が選択されていません');
                 return redirect()->route('quote.index', ['customer' => $customerId]);
@@ -508,44 +509,45 @@ class QuoteController extends AppController
 
             foreach ($quoteIds as $quoteId) {
                 $quote = Quote::find($quoteId);
-                if ($quote && !$this->hasEditAuthority($quote->USR_ID)) {
+                if ($quote && !$this->Get_Edit_Authority($quote->USR_ID)) {
                     Session::flash('message', '削除できない見積書が含まれていました');
                     return redirect()->route('quote.index', ['customer' => $customerId]);
                 }
+                $history = new History();
+                $history->h_reportaction($userId, 4, $quoteId);
             }
 
             Quote::destroy($quoteIds);
-            History::logActions($userId, 4, $quoteIds);
             Session::flash('message', '見積書を削除しました');
             return redirect()->route('quote.index', ['customer' => $customerId]);
         }
 
         if ($request->has('reproduce_quote_x')) {
-            $result = $this->checkReproduce($request->all(), 'Quote');
-            if ($result && $quoteId = $this->insertReproduce($result, $userId, Quote::class)) {
+            $result = $quote->reproduce_check($request->all(), 'Quote');
+            if ($result && $quoteId = $quote->insert_reproduce($result, $userId, Quote::class)) {
                 Session::flash('message', '見積書に転記しました');
                 return redirect("/quote/edit/$quoteId");
             }
         }
 
         if ($request->has('reproduce_bill_x')) {
-            $result = $this->checkReproduce($request->all());
-            if ($result && $this->insertReproduce($result, $userId, Bill::class)) {
+            $result = $quote->reproduce_check($request->all());
+            if ($result && $quote->insert_reproduce($result, $userId, Bill::class)) {
                 Session::flash('message', '請求書に転記しました');
                 return redirect()->route('bill.index', ['customer' => $customerId]);
             }
         }
 
         if ($request->has('reproduce_delivery_x')) {
-            $result = $this->checkReproduce($request->all());
-            if ($result && $this->insertReproduce($result, $userId, Delivery::class)) {
+            $result = $quote->reproduce_check($request->all());
+            if ($result && $quote->insert_reproduce($result, $userId, Delivery::class)) {
                 Session::flash('message', '納品書に転記しました');
                 return redirect()->route('delivery.index', ['customer' => $customerId]);
             }
         }
 
         if ($request->has('status_change_x')) {
-            return $this->statusChange($request->input('Quote'), ['controller' => 'quotes', 'action' => 'index', 'customer' => $customerId]);
+            return $quote->status_change($request->input('Quote'), ['controller' => 'quotes', 'action' => 'index', 'customer' => $customerId]);
         }
     }
     public function export(Request $request)

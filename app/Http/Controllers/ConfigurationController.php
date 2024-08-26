@@ -58,7 +58,7 @@ class ConfigurationController extends Controller
 
         if ($request->isMethod('post')) {
             // トークンチェック
-            $this->isCorrectToken($request->input('Security.token'));
+            $this->isCorrectToken($request->input('data.Security.token'));
 
             // データのインサート
             $data = $request->input('Configuration');

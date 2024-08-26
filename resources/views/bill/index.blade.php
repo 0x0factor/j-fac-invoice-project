@@ -45,7 +45,7 @@
 
         <div class="quote_search_box">
             <div class="quote_search_area">
-                <form method="get" action="{{ route('bill.index') }}">
+                <form method="GET" action="{{ route('bill.index') }}">
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
@@ -217,8 +217,10 @@
 
             <div class="list_area">
                 @if (is_array($list))
-                    <form method="POST" action="{{ route('bill.index') }}">
+                    <form method="POST" action="{{ route('bill.delete') }} " id="BillActionForm"
+                        accept-charset="utf-8">
                         @csrf
+                        @method('DELETE')
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
                                 <tr>
@@ -310,10 +312,10 @@
                                 id="SecurityToken">
                         </div>
 
-            </div>
 
-            </form>
-            @endif
+                    </form>
+                @endif
+            </div>
             <img src="{{ asset('img/bg_contents_bottom.jpg') }}" class="block" alt="">
         </div>
     </div>

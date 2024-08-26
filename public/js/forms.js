@@ -2673,7 +2673,7 @@ var FormClass = function () {
             html += '<option value="102">外税(10%)</option>';
             html += '<option value="101">内税(10%)</option>';
             html += '<option value="3">非課税</option>';
-        
+
         var currentRate = this.getRateByIssueDate();
 
         if (form.tax_operation_date && form.tax_operation_date.length)
@@ -3850,8 +3850,10 @@ $(function () {
 
 //削除の確認
 function del() {
+
     cnum = new Array(20);
     for (i = 0; i < $(".chk:checked").length; i++) {
+
         cnum[i] = $(".chk:checked:eq(" + i + ")")
             .attr("name")
             .match("([0-9]+)");
@@ -3948,15 +3950,14 @@ function count_strw(id, str, max) {
     }
 }
 
+var count = 0;
 //すべてのチェックボックスを選択
 function select_all() {
-    $(".chk").attr("checked", "checked");
+    count++;
+    if(count%2)  $(".chk").attr("checked", "checked");
+    else $(".chk").attr("checked", "");
 }
 
-//すべてのチェックボックスを選択
-function release_all() {
-    $(".chk").attr("checked", "");
-}
 
 //フォーカスされている行の背景を色付け
 function focusLine(type) {

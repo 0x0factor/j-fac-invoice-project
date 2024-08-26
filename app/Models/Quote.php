@@ -294,19 +294,20 @@ class Quote extends Model
 
     public function reproduce_check($param, $auto_serial = true, $model_from = 'Quote')
     {
+
         $form = new Form();
 
         unset($param['Quote']['STATUS_CHANGE']);
 
         // Check if any of the copy items are non-numeric
-        foreach ($param['Quote'] as $key => $val) {
+        foreach ($param['selected_quotes'] as $key => $val) {
             if (!preg_match("/^[0-9]+$/", $key)) {
                 return false;
             }
         }
 
         // Organize the IDs of the items to be copied
-        $form->Sort_Replication_ID($param, 'Quote');
+        $form->Sort_Replication_ID($param, 'selected_quotes');
         if (!$param) {
             return false;
         }

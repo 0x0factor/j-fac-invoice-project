@@ -98,7 +98,7 @@ class History extends Model
         $history->ACTION = $a_num;
         $history->RPT_ID = $r_num;
         $history->ACTION_DATE = Carbon::now();
-        $history->DEL_FLAG = 0;
+        // $history->DEL_FLAG = 0;
 
         return $history->save();
     }

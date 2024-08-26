@@ -90,7 +90,7 @@ class CompanyController extends Controller
 
         if ($request->isMethod('post')) {
             // トークンチェック
-            $this->isCorrectToken($request->input('Security.token'));
+            $this->isCorrectToken($request->input('data.Security.token'));
 
             // 更新時処理
             if ($request->input('Company.DEL_SEAL') != 0) {

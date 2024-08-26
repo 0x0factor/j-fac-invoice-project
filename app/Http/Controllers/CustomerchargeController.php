@@ -28,7 +28,7 @@ class CustomerChargeController extends AppController
 
         if (request()->has('delete_x')) {
             // トークンチェック
-            $this->isCorrectToken(request()->input('Security.token'));
+            $this->isCorrectToken(request()->input('data.Security.token'));
 
             // 成功
             if (CustomerCharge::destroy(request()->input('data'))) {
@@ -107,7 +107,7 @@ class CustomerChargeController extends AppController
         $fax_error = 0;
 
         if ($request->isMethod('post')) {
-            $this->isCorrectToken($request->input('Security.token'));
+            $this->isCorrectToken($request->input('data.Security.token'));
 
             $phone_error = $this->phone_validation($request->input('CustomerCharge'));
             $fax_error = $this->fax_validation($request->input('CustomerCharge'));
@@ -153,7 +153,7 @@ class CustomerChargeController extends AppController
             $this->data = $chargeAry;
 
         } else {
-            $this->isCorrectToken($request->input('Security.token'));
+            $this->isCorrectToken($request->input('data.Security.token'));
 
             $phone_error = $this->phone_validation($request->input('CustomerCharge'));
             $fax_error = $this->fax_validation($request->input('CustomerCharge'));

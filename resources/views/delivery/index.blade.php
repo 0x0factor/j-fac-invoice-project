@@ -256,7 +256,7 @@
                                                     class="chk"></td>
 
                                             @if (isset($authcheck[$key]))
-                                                <div class="auth{{ $val['Delivery']['MDV_ID'] }}" style="display:none;">
+                                                <div class="auth{{ $val['MDV_ID'] }}" style="display:none;">
                                                     {{ $authcheck[$key] }}
                                                 </div>
                                             @endif

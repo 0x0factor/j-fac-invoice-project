@@ -166,7 +166,7 @@ class ChargeController extends AppController
             'Security.token' => 'required'
         ]);
 
-        if ($this->isCorrectToken($request->input('Security.token')) && Charge::index_delete($request->input())) {
+        if ($this->isCorrectToken($request->input('data.Security.token')) && Charge::index_delete($request->input())) {
             Session::flash('message', '自社担当者を削除しました');
             return redirect()->route('charge.index');
         } else {
@@ -187,7 +187,7 @@ class ChargeController extends AppController
             return redirect()->route('charge.index');
         }
 
-        if ($request->isMethod('post') && $this->isCorrectToken($request->input('Security.token'))) {
+        if ($request->isMethod('post') && $this->isCorrectToken($request->input('data.Security.token'))) {
             if ($request->input('Charge.DEL_SEAL') != 0) {
                 Charge::seal_delete($charge_ID);
             }

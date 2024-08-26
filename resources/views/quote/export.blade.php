@@ -1,4 +1,4 @@
-@extends('layout.default')
+P@extends('layout.default')
 
 @section('content')
     @if (session()->has('flash'))

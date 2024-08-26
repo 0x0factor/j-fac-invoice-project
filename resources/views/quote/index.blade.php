@@ -200,10 +200,16 @@
                         accept-charset="utf-8">
                         @csrf
                         @method('DELETE')
+                            @foreach ($quotes as $key => $quote)
+                            <div class="auth{{ $quote->MQT_ID }}" style="display:none;">
+                                {{ $key }}
+                            </div>
+                            @endforeach
+
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
                                 <tr>
-                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();">
+                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();" >
                                     </th>
                                     <th class="w50">
                                         <a href="{{ route('quote.index', ['sort' => 'MQT_ID']) }}">No.</a>
@@ -234,8 +240,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($quotes as $quote)
+                                @foreach ($quotes as $key => $quote)
                                     <tr>
+                                        <div class="auth{{ $quote->MQT_ID }}" style="display:none;">
+                                            {{ $key }}
+                                        </div>
                                         <td class="v50"><input type="checkbox" name="selected_quotes[]"
                                                 value="{{ $quote->MQT_ID }}" class="chk"></td>
                                         <td class="v50">{{ $quote->MQT_ID }}</td>
@@ -276,9 +285,12 @@
 
 
                                 @include('elements.status_change')
+
                                 @if (isset($customer_id))
                                     <input type="hidden" name="Customer.id" value="{{ $customer_id }}">
                                 @endif
+                                <input type="hidden" name="data[Security][token]" value="{{ csrf_token() }}"
+                                id="SecurityToken">
                         </div>
                     </form>
                 @endif

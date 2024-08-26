@@ -498,9 +498,8 @@ class BillController extends AppController
             $request->merge(['reproduce_' . $request->input('Action.type') . '_x' => 1]);
             $form_check = true; // 詳細から転記したかどうか
         }
-
         // トークンチェック
-        $this->isCorrectToken($request->input('Security.token'));
+        // $this->isCorrectToken($request->input('data.Security.token'));
 
         $user_ID = $this->Get_User_ID(); // Assuming Get_User_ID() function exists
 
@@ -599,7 +598,8 @@ class BillController extends AppController
     }
 
     // excel形式の一覧を抽出します
-    public function export(Request $request, ExcelService $excelService)
+    // public function export(Request $request, ExcelService $excelService)
+    public function export(Request $request)
     {
         // Browser identification
         $browser = $request->server('HTTP_USER_AGENT');
@@ -608,39 +608,40 @@ class BillController extends AppController
             'date' => date('m/d/Y'),
         ];
 
-        // Load the view and pass the data
-        $pdf = PDF::loadView('bill.pdf', $data);
+        // // Load the view and pass the data
+        // $pdf = PDF::loadView('bill.pdf', $data);
 
-        // Define print format type (e.g., A4, A3, Letter)
-        $pdf->setPaper('A4', 'portrait'); // Options: 'A4', 'A3', 'Letter', etc.
+        // // Define print format type (e.g., A4, A3, Letter)
+        // $pdf->setPaper('A4', 'portrait'); // Options: 'A4', 'A3', 'Letter', etc.
 
-        return $pdf->download('bill.pdf');
-        // if ($request->filled('download_x')) {
-        //     $billIds = $request->input('Bill', []);
+        // return $pdf->download('bill.pdf');
+        if ($request->filled('download_x')) {
+            $billIds = $request->input('Bill', []);
 
-        //     if (!empty($billIds)) {
-        //         $error = "";
-        //         $data = (new Bill())->export($billIds, $error, 'term', $this->Get_User_AUTHORITY(), $this->Get_User_ID());
+            if (!empty($billIds)) {
+                $error = "";
+                $data = (new Bill())->export($billIds, $error, 'term', $this->Get_User_AUTHORITY(), $this->Get_User_ID());
 
-        //         if ($data) {
-        //             $fileName = "請求書";
-        //             if (preg_match("/MSIE/", $browser) || preg_match('/Trident\/[0-9]\.[0-9]/', $browser)) {
-        //                 $excelService->outputXls($fileName, $data);
-        //             } else {
-        //                 $excelService->outputXls($fileName, $data);
-        //             }
-        //         } else {
-        //             Session::flash('error', $error);
-        //             return redirect()->route('bill.export');
-        //         }
-        //     }
-        // }
+                if ($data) {
+                    $fileName = "請求書";
+                    if (preg_match("/MSIE/", $browser) || preg_match('/Trident\/[0-9]\.[0-9]/', $browser)) {
+                        $excelService->outputXls($fileName, $data);
+                    } else {
+                        $excelService->outputXls($fileName, $data);
+                    }
+                } else {
+                    Session::flash('error', $error);
+                    return redirect()->route('bill.export');
+                }
+            }
+        }
 
-        // return view('bill.export')->with([
-        //     'main_title' => '請求書Excel出力',
-        //     'title_text' => '帳票管理',
-        //      'controller_name' => "Bill",
-        // ]);
+        return view('bill.export')->with([
+            'main_title' => '請求書Excel出力',
+            'title_text' => '帳票管理',
+            'title' => '抹茶請求書',
+             'controller_name' => "Bill",
+        ]);
     }
 
     public function pdf(Request $request)

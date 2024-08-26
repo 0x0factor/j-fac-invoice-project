@@ -162,7 +162,7 @@ class DeliveryController extends AppController
 
         if ($request->isMethod('post')) {
             // Validate token
-            $this->validateToken($request->input('Security.token'));
+            $this->validateToken($request->input('data.Security.token'));
 
             // Validate item data
             $error = $this->itemValidation($request->input('data'), 'Deliveryitem');
@@ -473,7 +473,7 @@ class DeliveryController extends AppController
 
         } else {
             // トークンチェック
-            $this->isCorrectToken($request->input('Security.token'));
+            $this->isCorrectToken($request->input('data.Security.token'));
 
             if ($request->has('del_x')) {
                 Delivery::where('MDV_ID', $request->input('Delivery.MDV_ID'))->delete();
@@ -626,7 +626,7 @@ class DeliveryController extends AppController
         $form_check = $request->has('Action.type');
 
         // Token validation (assuming this is handled in middleware or custom logic)
-        // $this->validateToken($request->input('Security.token'));
+        // $this->validateToken($request->input('data.Security.token'));
 
         $user_id = Auth::id();
 

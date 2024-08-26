@@ -250,7 +250,7 @@ class AppController extends Controller {
 		return $error;
 	}
 
-	function isCorrectToken() {
+	function validateToken($_token) {
 		if ($this->params['controller'] == 'data'){
 			if($this->params['action']=='moveback' || $this->params['action']=='check' || $this->params['action']=='edit'){
 				$token = $this->Session->read('edit_token');

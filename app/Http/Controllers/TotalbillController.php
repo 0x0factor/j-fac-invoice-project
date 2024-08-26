@@ -169,7 +169,7 @@ class TotalbillController extends AppController
 
                 if ($request->has('submit_x')) {
                     // Token check
-                    $this->isCorrectToken($request->input('Security.token'));
+                    $this->isCorrectToken($request->input('data.Security.token'));
 
                     if ($request->input('Totalbill.EDIT_STAT') == 1) {
                         $total = $request->input('Totalbill.SALE', '0');
@@ -448,7 +448,7 @@ class TotalbillController extends AppController
      */
     public function action(Request $request)
     {
-        $this->validateToken($request->input('Security.token'));
+        $this->validateToken($request->input('data.Security.token'));
 
         $user_ID = $this->Get_User_ID();
 
