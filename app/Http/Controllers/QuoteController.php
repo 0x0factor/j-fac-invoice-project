@@ -501,7 +501,8 @@ class QuoteController extends AppController
 
 
         if ($request->has('delete_x')) {
-            $quoteIds = array_keys($request->input('selected_quotes', []));
+            // $quoteIds = array_keys($request->input('selected_quotes', []));
+            $quoteIds = $request->input('selected_quotes', []);
             if (empty($quoteIds)) {
                 Session::flash('message', '見積書が選択されていません');
                 return redirect()->route('quote.index', ['customer' => $customerId]);
