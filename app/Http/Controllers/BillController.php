@@ -504,42 +504,31 @@ class BillController extends AppController
         $user_ID = $this->Get_User_ID(); // Assuming Get_User_ID() function exists
 
         if ($request->has('delete_x')) {
-            if (empty($request->input('Bill'))) {
+            $billIds = $request->input('selected', []);
+            if (empty($billIds)) {
                 Session::flash('error', '請求書が選択されていません');
                 return redirect()->route('bill.index', ['customer' => $customer_id]);
             }
 
             // 削除
-            foreach ($request->input('Bill') as $key => $val) {
-                if ($val == 1) {
-                    $bill = Bill::where('MBL_ID', $key)->first(['USR_ID']);
-                    if (! $this->Get_Edit_Authority($bill->USR_ID)) {
-                        Session::flash('error', '削除できない請求書が含まれていました');
-                        return redirect()->route('bill.index', ['customer' => $customer_id]);
-                    }
+            foreach ($billIds as $key => $val) {
+                $bill = Bill::find($val);
+                if ($bill && !$this->Get_Edit_Authority($bill->USR_ID)) {
+                    Session::flash('message', '削除できない請求書が含まれていました');
+                    return redirect()->route('bill.index', ['customer' => $customer_id]);
                 }
+                $history = new History();
+                $history->h_reportaction($user_ID, 4, $val);
             }
 
-            if (Bill::index_delete($request->input('Bill'))) {
-                // アクションログ
-                $user = Auth::user();
-                foreach ($request->input('Bill') as $key => $value) {
-                    if ($value == 1) {
-                        History::h_reportaction($user->USR_ID, 7, $key); // Assuming h_reportaction() method exists in History model
-                    }
-                }
-                // 成功
-                Session::flash('success', '請求書を削除しました');
-                return redirect()->route('bill.index', ['customer' => $customer_id]);
-            } else {
-                // 失敗
-                return redirect()->route('bill.index', ['customer' => $customer_id]);
-            }
+            Bill::destroy($billIds);
+            Session::flash('message', '見積書を削除しました');
+            return redirect()->route('quote.index', ['customer' => $customer_id]);
         }
 
         // 見積書へ複製
         elseif ($request->has('reproduce_quote_x')) {
-            if ($result = Bill::reproduce_check($request->input('Bill'), false)) {
+            if ($result = Bill::reproduce_check($billIds, false)) {
                 // 成功
                 if (Quote::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '見積書に転記しました');
@@ -555,7 +544,7 @@ class BillController extends AppController
 
         // 請求書へ複製
         elseif ($request->has('reproduce_bill_x')) {
-            if ($result = Bill::reproduce_check($request->input('Bill'), Serial::getSerialConf(), 'Bill')) {
+            if ($result = Bill::reproduce_check($billIds, Serial::getSerialConf(), 'Bill')) {
                 // 成功
                 if ($inv_id = Bill::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '請求書に転記しました');
@@ -576,7 +565,7 @@ class BillController extends AppController
 
         // 納品書へ複製
         elseif ($request->has('reproduce_delivery_x')) {
-            if ($result = Bill::reproduce_check($request->input('Bill'), false)) {
+            if ($result = Bill::reproduce_check($billIds, false)) {
                 // 成功
                 if (Delivery::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '納品書に転記しました');
@@ -593,7 +582,7 @@ class BillController extends AppController
 
         // 発行ステータス一括変更
         elseif ($request->has('status_change_x')) {
-            return $this->status_change($request->input('Bill'), ['controller' => 'bills', 'action' => 'index', 'customer' => $customer_id]);
+            return $this->status_change($billIds, ['controller' => 'bills', 'action' => 'index', 'customer' => $customer_id]);
         }
     }
 

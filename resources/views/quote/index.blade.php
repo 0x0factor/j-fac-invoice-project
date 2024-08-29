@@ -200,11 +200,7 @@
                         accept-charset="utf-8">
                         @csrf
                         @method('DELETE')
-                            <!-- @foreach ($quotes as $key => $quote)
-                            <div class="auth{{ $quote->MQT_ID }}" style="display:none;">
-                                {{ $key }}
-                            </div>
-                            @endforeach -->
+                          
 
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
@@ -243,7 +239,7 @@
                                 @foreach ($quotes as $key => $quote)
                                     <tr>
                                         <div class="auth{{ $quote->MQT_ID }}" style="display:none;">
-                                            {{ $quote->MQT_ID }}
+                                            {{ $key}}
                                         </div>
                                         <td class="v50"><input type="checkbox" name="selected_quotes[]"
                                                 value="{{ $quote->MQT_ID }}" class="chk"></td>

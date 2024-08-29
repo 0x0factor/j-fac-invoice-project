@@ -117,6 +117,8 @@ Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery
 Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
 Route::get('deliveries/check', [DeliveryController::class, 'check'])->name('delivery.check');
 Route::get('deliveries/edit', [DeliveryController::class, 'edit'])->name('delivery.edit');
+Route::post('deliveries/action', [DeliveryController::class, 'action'])->name('delivery.action');
+Route::delete('deliveries/action', [DeliveryController::class, 'action'])->name('delivery.action');
 
 Route::get('histories', [HistoryController::class, 'index'])->name('history.index');
 

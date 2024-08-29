@@ -524,6 +524,7 @@ class QuoteController extends AppController
         }
 
         if ($request->has('reproduce_quote_x')) {
+
             $result = $quote->reproduce_check($request->all(), 'Quote');
             if ($result && $quoteId = $quote->insert_reproduce($result, $userId, Quote::class)) {
                 Session::flash('message', '見積書に転記しました');

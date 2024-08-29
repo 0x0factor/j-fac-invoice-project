@@ -258,6 +258,9 @@
                             <tbody>
                                 @foreach ($list as $key => $val)
                                     <tr>
+                                        <div class="auth{{ $val->MBL_ID }}" style="display:none;">
+                                            {{ $key}}
+                                        </div>
                                         <td><input type="checkbox" name="selected[]" value="{{ $val->MBL_ID }}"
                                                 class="chk"></td>
                                         <td>{{ $val->MBL_ID }}</td>
@@ -311,7 +314,6 @@
                             <input type="hidden" name="data[Security][token]" value="{{ csrf_token() }}"
                                 id="SecurityToken">
                         </div>
-
 
                     </form>
                 @endif

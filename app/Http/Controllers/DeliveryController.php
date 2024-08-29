@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\Charge;
 use App\Models\Customer;
 use App\Models\Company;
+use App\Models\History;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use App\Services\ExcelService;
@@ -347,7 +348,7 @@ class DeliveryController extends AppController
         $this->data['lineAttribute'] = config('constants.LineAttribute');
         $this->data['taxClass'] = config('constants.TaxClass');
         $this->data['taxRates'] = config('constants.TaxRates');
-        $this->data['taxOperationDate'] = config('constants.TaxOpera  tionDate');
+        $this->data['taxOperationDate'] = config('constants.TaxOperationDate');
         $this->data['seal_flg'] = config('constants.SealFlg');
 
         return view('delivery.add', $this->data);
@@ -631,36 +632,49 @@ class DeliveryController extends AppController
         $user_id = Auth::id();
 
         if ($request->has('delete_x')) {
-            $selectedDeliveries = $request->input('data.Delivery', []);
-            if (empty($selectedDeliveries)) {
+            $deliveyIds = $request->input('selected_deliveries', []);
+            if (empty($deliveyIds)) {
                 return redirect()->route('delivery.index', ['customer' => $customer_id])
                     ->with('error', '納品書が選択されていません');
             }
 
-            foreach ($selectedDeliveries as $key => $val) {
-                if ($val == 1) {
-                    $delivery = Delivery::where('MDV_ID', $key)->first();
-                    if ($delivery && !$this->hasEditAuthority($delivery->USR_ID)) {
-                        return redirect()->route('delivery.index', ['customer' => $customer_id])
-                            ->with('error', '削除できない請求書が含まれていました');
-                    }
+            // foreach ($selectedDeliveries as $key => $val) {
+            //     if ($val == 1) {
+            //         $delivery = Delivery::where('MDV_ID', $key)->first();
+            //         if ($delivery && !$this->hasEditAuthority($delivery->USR_ID)) {
+            //             return redirect()->route('delivery.index', ['customer' => $customer_id])
+            //                 ->with('error', '削除できない請求書が含まれていました');
+            //         }
+            //     }
+            // }
+
+            // if ($this->deleteDeliveries($selectedDeliveries)) {
+            //     // Log the action
+            //     foreach ($selectedDeliveries as $key => $value) {
+            //         if ($value == 1) {
+            //             History::create([
+            //                 'USR_ID' => $user_id,
+            //                 'action_type' => 10, // Assuming 10 represents the delete action
+            //                 'reference_id' => $key,
+            //             ]);
+            //         }
+            //     }
+            //     return redirect()->route('delivery.index', ['customer' => $customer_id])
+            //         ->with('success', '納品書を削除しました');
+            // }
+
+            foreach ($deliveyIds as $deliveyId) {
+                $delivery = Delivery::find($deliveyId);
+                if ($delivery && !$this->Get_Edit_Authority($delivery->USR_ID)) {
+                    Session::flash('message', '削除できない請求書が含まれていました');
+                    return redirect()->route('delivery.index', ['customer' => $customer_id]);
                 }
+                $history = new History();
+                $history->h_reportaction($user_id, 4, $deliveyId);
             }
 
-            if ($this->deleteDeliveries($selectedDeliveries)) {
-                // Log the action
-                foreach ($selectedDeliveries as $key => $value) {
-                    if ($value == 1) {
-                        History::create([
-                            'USR_ID' => $user_id,
-                            'action_type' => 10, // Assuming 10 represents the delete action
-                            'reference_id' => $key,
-                        ]);
-                    }
-                }
-                return redirect()->route('delivery.index', ['customer' => $customer_id])
-                    ->with('success', '納品書を削除しました');
-            }
+            Delivery::destroy($deliveyIds);
+            Session::flash('message', '見積書を削除しました');
 
             return redirect()->route('delivery.index', ['customer' => $customer_id]);
         }

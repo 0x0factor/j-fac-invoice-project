@@ -37,17 +37,17 @@
         {{ session('flash') }}
     @endif
 
-    <form action="{{ route('delivery.index') }}" method="get">
-        <div id="contents">
-            <div class="arrow_under">
-                <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
-            </div>
+    <div id="contents">
+        <div class="arrow_under">
+            <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
+        </div>
 
-            <h3>
-                <div class="quote_search"><span class="edit_txt">&nbsp;</span></div>
-            </h3>
-            <div class="quote_search_box">
-                <div class="quote_search_area">
+        <h3>
+            <div class="quote_search"><span class="edit_txt">&nbsp;</span></div>
+        </h3>
+        <div class="quote_search_box">
+            <div class="quote_search_area">
+                <form action="{{ route('delivery.index') }}" method="get">
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
@@ -151,174 +151,177 @@
                             </tr>
                         </table>
                     </div>
-                </div>
-            </div>
-
-            <div class="new_document">
-                <a href="{{ route('delivery.add') }}">
-                    <img src="{{ asset('img/bt_new.jpg') }}" alt="" class="imgover">
-                </a>
-                <a href="{{ route('delivery.export') }}">
-                    <img src="{{ asset('img/bt_excel.jpg') }}" alt="" class="imgover">
-                </a>
-            </div>
-
-            <h3>
-                <div class="edit_02_deliver"><span class="edit_txt">&nbsp;</span></div>
-            </h3>
-
-            <div class="contents_box mb40">
-                <div id='pagination'>
-                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
-                </div>
-
-                <div id='pagination'>
-                    <!-- Previous Page Link -->
-                    @if ($paginator->onFirstPage())
-                        <span class="disabled">
-                            << {{ __('前へ') }}</span> |
-                            @else
-                                <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a> |
-                    @endif
-
-                    <!-- Pagination Elements -->
-                    @foreach ($paginator->links()->elements as $element)
-                        <!-- "Three Dots" Separator -->
-                        @if (is_string($element))
-                            <span class="disabled">{{ $element }}</span> |
-                        @endif
-
-                        <!-- Array Of Links -->
-                        @if (is_array($element))
-                            @foreach ($element as $page => $url)
-                                @if ($page == $paginator->currentPage())
-                                    <span class="active">{{ $page }}</span> |
-                                @else
-                                    <a href="{{ $url }}">{{ $page }}</a> |
-                                @endif
-                            @endforeach
-                        @endif
-                    @endforeach
-
-                    <!-- Next Page Link -->
-                    @if ($paginator->hasMorePages())
-                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
-                    @else
-                        <span class="disabled">{{ __('次へ') }} >></span>
-                    @endif
-                </div>
-
-
-                <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="" />
-
-                <div class="list_area">
-                    @if (is_array($list))
-                        <form action="{{ route('delivery.index') }}" method="POST">
-                            <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
-                                <thead>
-                                    <tr>
-                                        <th class="w50"><input type="checkbox" name="action.select_all"
-                                                class="chk_all" onclick="select_all();"></th>
-                                        <th class="w50">
-                                            <a href="{{ route('delivery.index', ['sort' => 'MDV_ID']) }}">No.</a>
-                                        </th>
-                                        <th class="w100">
-                                            <a href="{{ route('delivery.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
-                                        </th>
-                                        <th class="w150">
-                                            <a href="{{ route('delivery.index', ['sort' => 'SUBJECT']) }}">件名</a>
-                                        </th>
-                                        <th class="w100">
-                                            <a href="{{ route('delivery.index', ['sort' => 'CAST_TOTAL']) }}">合計金額</a>
-                                        </th>
-                                        <th class="w100">
-                                            <a href="{{ route('delivery.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
-                                        </th>
-                                        @if ($user['AUTHORITY'] != 1)
-                                            <th class="w150">
-                                                <a href="{{ route('delivery.index', ['sort' => 'USR_ID']) }}">作成者</a>/
-                                                <a
-                                                    href="{{ route('delivery.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
-
-                                            </th>
-                                        @endif
-                                        <th class="w100">
-                                            <a href="{{ route('delivery.index', ['sort' => 'STATUS']) }}">発行ステータス</a>
-                                        </th>
-                                        <th class="w100">メモ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($list as $key => $val)
-                                        <tr>
-                                            <td><input type="checkbox" name="{{ $val['MDV_ID'] }}"
-                                                    class="chk"></td>
-
-                                            @if (isset($authcheck[$key]))
-                                                <div class="auth{{ $val['MDV_ID'] }}" style="display:none;">
-                                                    {{ $authcheck[$key] }}
-                                                </div>
-                                            @endif
-                                            <td>{{ nl2br($val['MDV_ID']) }}
-                                            </td>
-                                            <td>{{ nl2br($val['Customer']['NAME'] ?? "") }}</td>
-                                            <td>
-                                                <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
-                                                    {{ $val['SUBJECT'] }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                {{ isset($val['TOTAL']) ? nl2br($val['TOTAL']) . '円' : '&nbsp;' }}
-                                            </td>
-                                            <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '&nbsp;' }}
-                                            </td>
-                                            @if ($user['AUTHORITY'] != 1)
-
-                                                <td>
-                                                    {{ nl2br($val['USER']['NAME']) }} /
-                                                    {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}
-                                                </td>
-                                            @endif
-                                            <td>{{ $status[$val['STATUS']] }}</td>
-                                            <td>{{ $val['MEMO'] ? nl2br($val['MEMO']) : '&nbsp;' }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                            <div class="list_btn">
-                                <input type="image" src="{{ asset('img/document/bt_delete2.jpg') }}" name="delete"
-                                    alt="削除" onclick="return del();" class="mr5" disabled="">
-                                <input type="image" src="{{ asset('img/bt_01.jpg') }}" name="reproduce_quote"
-                                    alt="複製" class="mr5">
-                                <input type="image" src="{{ asset('img/bt_02.jpg') }}" name="reproduce_bill"
-                                    alt="複製" class="mr5">
-                                <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery"
-                                    alt="複製" class="mr5">
-
-                                {{-- Include status_change element --}}
-                                @include('elements.status_change')
-
-
-                                {{-- Hidden fields --}}
-                                @if (isset($customer_id))
-                                    <input type="hidden" name="Customer.id" value="{{ $customer_id }}">
-                                @endif
-
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="image" src="{{ asset('img/document/bt_delete2.jpg') }}" name="delete"
-                                    alt="削除" onclick="return del();" class="mr5">
-
-                            </div>
-                        </form>
-                    @endif
-                </div>
-                <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="" class="block">
+                </form>
             </div>
         </div>
-    </form>
+        <div id="calid"></div>
+
+        <div class="new_document">
+            <a href="{{ route('delivery.add') }}">
+                <img src="{{ asset('img/bt_new.jpg') }}" alt="" class="imgover">
+            </a>
+            <a href="{{ route('delivery.export') }}">
+                <img src="{{ asset('img/bt_excel.jpg') }}" alt="" class="imgover">
+            </a>
+        </div>
+
+        <h3>
+            <div class="edit_02_deliver"><span class="edit_txt">&nbsp;</span></div>
+        </h3>
+
+        <div class="contents_box mb40">
+            <div id='pagination'>
+                {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
+            </div>
+
+            <div id='pagination'>
+                <!-- Previous Page Link -->
+                @if ($paginator->onFirstPage())
+                    <span class="disabled">
+                        << {{ __('前へ') }}</span> |
+                        @else
+                            <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
+                                << {{ __('前へ') }}</a> |
+                @endif
+
+                <!-- Pagination Elements -->
+                @foreach ($paginator->links()->elements as $element)
+                    <!-- "Three Dots" Separator -->
+                    @if (is_string($element))
+                        <span class="disabled">{{ $element }}</span> |
+                    @endif
+
+                    <!-- Array Of Links -->
+                    @if (is_array($element))
+                        @foreach ($element as $page => $url)
+                            @if ($page == $paginator->currentPage())
+                                <span class="active">{{ $page }}</span> |
+                            @else
+                                <a href="{{ $url }}">{{ $page }}</a> |
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
+
+                <!-- Next Page Link -->
+                @if ($paginator->hasMorePages())
+                    <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                @else
+                    <span class="disabled">{{ __('次へ') }} >></span>
+                @endif
+            </div>
+
+
+            <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="" />
+
+            <div class="list_area">
+                @if (is_array($list))
+                    <form action="{{ route('delivery.action') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
+                            <thead>
+                                <tr>
+                                    <th class="w50"><input type="checkbox" name="action.select_all"
+                                            class="chk_all" onclick="select_all();"></th>
+                                    <th class="w50">
+                                        <a href="{{ route('delivery.index', ['sort' => 'MDV_ID']) }}">No.</a>
+                                    </th>
+                                    <th class="w100">
+                                        <a href="{{ route('delivery.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
+                                    </th>
+                                    <th class="w150">
+                                        <a href="{{ route('delivery.index', ['sort' => 'SUBJECT']) }}">件名</a>
+                                    </th>
+                                    <th class="w100">
+                                        <a href="{{ route('delivery.index', ['sort' => 'CAST_TOTAL']) }}">合計金額</a>
+                                    </th>
+                                    <th class="w100">
+                                        <a href="{{ route('delivery.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
+                                    </th>
+                                    @if ($user['AUTHORITY'] != 1)
+                                        <th class="w150">
+                                            <a href="{{ route('delivery.index', ['sort' => 'USR_ID']) }}">作成者</a>/
+                                            <a
+                                                href="{{ route('delivery.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
+
+                                        </th>
+                                    @endif
+                                    <th class="w100">
+                                        <a href="{{ route('delivery.index', ['sort' => 'STATUS']) }}">発行ステータス</a>
+                                    </th>
+                                    <th class="w100">メモ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($list as $key => $val)
+                                    <tr>
+                                        <div class="auth{{ $val->MDV_ID }}" style="display:none;">
+                                            {{ $key}}
+                                        </div>
+                                        <td><input type="checkbox" value="{{ $val['MDV_ID'] }}" name="selected_deliveries[]"
+                                                class="chk"></td>
+                                        <!-- @if (isset($authcheck[$key]))
+                                            <div class="auth{{ $val['MDV_ID'] }}" style="display:none;">
+                                                {{ $authcheck[$key] }}
+                                            </div>
+                                        @endif -->
+                                        <td>{{ nl2br($val['MDV_ID']) }}
+                                        </td>
+                                        <td>{{ nl2br($val['customer']['NAME'] ?? "") }}</td>
+                                        <td>
+                                            <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
+                                                {{ $val['SUBJECT'] }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ isset($val['TOTAL']) ? nl2br($val['TOTAL']) . '円' : '&nbsp;' }}
+                                        </td>
+                                        <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '&nbsp;' }}
+                                        </td>
+                                        @if ($user['AUTHORITY'] != 1)
+
+                                            <td>
+                                                {{ nl2br($val['USER']['NAME']) }} /
+                                                {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}
+                                            </td>
+                                        @endif
+                                        <td>{{ $status[$val['STATUS']] }}</td>
+                                        <td>{{ $val['MEMO'] ? nl2br($val['MEMO']) : '&nbsp;' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <div class="list_btn">
+                            <input type="image" src="{{ asset('img/document/bt_delete2.jpg') }}" name="delete"
+                                alt="削除" onclick="return del();" class="mr5" disabled="">
+                            <input type="image" src="{{ asset('img/bt_01.jpg') }}" name="reproduce_quote"
+                                alt="複製" class="mr5">
+                            <input type="image" src="{{ asset('img/bt_02.jpg') }}" name="reproduce_bill"
+                                alt="複製" class="mr5">
+                            <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery"
+                                alt="複製" class="mr5">
+
+                            {{-- Include status_change element --}}
+                            @include('elements.status_change')
+
+
+                            {{-- Hidden fields --}}
+                            @if (isset($customer_id))
+                                <input type="hidden" name="Customer.id" value="{{ $customer_id }}">
+                            @endif
+
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                        </div>
+                    </form>
+                @endif
+            </div>
+            <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="" class="block">
+        </div>
+    </div>
 @endsection
 @section('script')
     <script language="JavaScript">

@@ -3852,6 +3852,7 @@ $(function () {
 function del() {
 
     cnum = new Array(20);
+    if (confirm("本当に削除をしてもよろしいですか？")) {
     for (i = 0; i < $(".chk:checked").length; i++) {
 
         cnum[i] = $(".chk:checked:eq(" + i + ")")
@@ -3864,7 +3865,6 @@ function del() {
             }
         }
     }
-    if (confirm("本当に削除をしてもよろしいですか？")) {
         //削除
         return true;
     } else {
