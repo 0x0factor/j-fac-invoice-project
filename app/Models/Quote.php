@@ -294,10 +294,9 @@ class Quote extends Model
 
     public function reproduce_check($param, $auto_serial = true, $model_from = 'Quote')
     {
-
         $form = new Form();
 
-        unset($param['Quote']['STATUS_CHANGE']);
+        unset($param['STATUS_CHANGE']);
 
         // Check if any of the copy items are non-numeric
         foreach ($param['selected_quotes'] as $key => $val) {
@@ -306,14 +305,18 @@ class Quote extends Model
             }
         }
 
+
         // Organize the IDs of the items to be copied
         $form->Sort_Replication_ID($param, 'selected_quotes');
         if (!$param) {
             return false;
         }
 
+
         // Fetch the data to be copied
-        $quotes = $this->whereIn('MQT_ID', explode(',', implode(',', $param)))->get();
+        $quote = new Quote;
+        // $quotes = $quote->whereIn('MQT_ID', explode(',', implode(',', $param)))->get();
+        $quotes = $quote->whereIn('MQT_ID', $param['selected_quotes'])->get();
         if (!$quotes) {
             return false;
         }

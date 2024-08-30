@@ -104,7 +104,7 @@ class Serial extends Model
     public function serial_increment($_form)
     {
         $data = $this->get_data();
-        $id = Config::get('FormID');
+        $id = config('constants.FormID');
         $next = $data[$id[$_form]]['NEXT'];
 
         DB::table($this->table)

@@ -17,6 +17,7 @@ use App\Models\Delivery;
 use App\Models\DeliveryItem;
 use App\Models\Customer;
 use App\Models\Charge;
+use App\Models\Serial;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -32,18 +33,21 @@ class Form
 	public function Sort_Replication_ID(&$_param, $modelName)
 	{
 
-		$param = array();
+		// $param = array();
+        // dd($_param);
 
-		if(is_array($_param)){
-			//複製する項目をピックアップ
-			foreach($_param[$modelName] as $key => $value){
-				if($value == 1){
-					$param[] = $key;
-				}
-			}
-		}
+		// if(is_array($_param)){
+		// 	//複製する項目をピックアップ
+		// 	foreach($_param[$modelName] as $key => $value){
+		// 		if($value == 1){
+        //             $param[$key] = $value;
+		// 		}
 
-		$_param = $param;
+        //         $_param = $param;
+		// 	}
+        //     dd($_param);
+		// }
+        $param = $_param[$modelName];
 	}
 
 	/*
@@ -106,8 +110,6 @@ class Form
         }
 
 		if($auto_serial) {
-			App::import('Model','Serial');
-
 			if(empty($model_from)) {
 				$model_from = $modelName;
 			}
@@ -115,50 +117,62 @@ class Form
 
 		}
 
-        if ($auto_serial) {
-            if (empty($model_from)) {
-                $model_from = $modelName;
-            }
-            $Serial = new Serial();
-        }
-
         if (!$Model) return $_param = null;
+
 
         foreach ($_param as $key => $value) {
             // Initialize status
-            $_param[$key][$modelName]['STATUS'] = 0;
+            $_param[$key]['STATUS'] = 0;
 
             // Set timestamps
-            $_param[$key][$modelName]['INSERT_DATE'] = now();
-            $_param[$key][$modelName]['LAST_UPDATE'] = now();
+            $_param[$key]['INSERT_DATE'] = now();
+            $_param[$key]['LAST_UPDATE'] = now();
 
             // Append subject
-            $_param[$key][$modelName]['SUBJECT'] = $value[$modelName]['SUBJECT'] . 'のコピー';
+            $_param[$key]['SUBJECT'] = $value['SUBJECT'] . 'のコピー';
+
 
             // Set serial number
             if ($auto_serial) {
-                $_param[$key][$modelName]['NO'] = $Serial->get_number($model_from);
+                $_param[$key]['NO'] = $Serial->get_number($model_from);
                 $Serial->serial_increment($modelName);
             }
 
-            $_param[$key]['Table'] = $_param[$key][$modelName];
+            $_param[$key]['Table'] = $_param[$key];
 
             if ($modelName === 'Quote') {
-                $items = $Model->where('MQT_ID', $_param[$key][$modelName]['MQT_ID'])->get()->toArray();
+                $items = $Model->where('MQT_ID', $_param[$key]['MQT_ID'])->get()->toArray();
             } elseif ($modelName === 'Bill') {
-                $items = $Model->where('MBL_ID', $_param[$key][$modelName]['MBL_ID'])->get()->toArray();
+                $items = $Model->where('MBL_ID', $_param[$key]['MBL_ID'])->get()->toArray();
             } elseif ($modelName === 'Delivery') {
-                $items = $Model->where('MDV_ID', $_param[$key][$modelName]['MDV_ID'])->get()->toArray();
+                $items = $Model->where('MDV_ID', $_param[$key]['MDV_ID'])->get()->toArray();
             }
 
             if (is_array($items)) {
                 foreach ($items as $key1 => $value) {
-                    $items[$key1]['Item'] = $items[$key1][$modelName . 'item'];
-                    unset($items[$key1][$modelName . 'item']);
+                    // $items[$key1]['Item'] = $items[$key1][$modelName . 'item'];
+                    $items[$key1]['Item'] = $items[$key1]['ITEM'];
+                    // unset($items[$key1][$modelName . 'item']);
+                    unset($items[$key1]['ITEM']);
                 }
             }
 
+
+            if ($_param[$key] instanceof App\Models\Quote) {
+                $_param[$key] = $_param[$key]->toArray();
+            }
+
+            // Ensure $items is an array
+            if (!is_array($items)) {
+                $items = [];
+            }
+
+            // Merge arrays
+
+            dd($_param[$key], $items);
             $_param[$key] = array_merge($_param[$key], $items);
+
+            // $_param[$key] = array_merge($_param[$key], $items);
 
             // Remove IDs
             if ($modelName === 'Quote') {
@@ -197,6 +211,7 @@ class Form
             $ItemModel = new DeliveryItem();
         }
 
+        $id = null;
         // Start transaction
         DB::beginTransaction();
 
@@ -240,6 +255,7 @@ class Form
             return false;
         }
     }
+
 	/*
 	 *
 	 */
