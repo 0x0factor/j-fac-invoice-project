@@ -317,12 +317,15 @@ class Quote extends Model
         $quote = new Quote;
         // $quotes = $quote->whereIn('MQT_ID', explode(',', implode(',', $param)))->get();
         $quotes = $quote->whereIn('MQT_ID', $param['selected_quotes'])->get();
+
+        dd($quotes);
         if (!$quotes) {
             return false;
         }
 
         // Get the information of the items to be copied
         $form->Get_Replication_Item($quotes, 'Quote', $auto_serial, $model_from);
+
         if (!$quotes) {
             return false;
         }

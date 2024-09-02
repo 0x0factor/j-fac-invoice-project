@@ -158,7 +158,7 @@ class Form
             }
 
 
-            if ($_param[$key] instanceof App\Models\Quote) {
+            if ($_param[$key] instanceof Quote) {
                 $_param[$key] = $_param[$key]->toArray();
             }
 
@@ -169,14 +169,20 @@ class Form
 
             // Merge arrays
 
-            dd($_param[$key], $items);
-            $_param[$key] = array_merge($_param[$key], $items);
+            // dd($_param[$key], $items[$key]);
+            $_param[$key] = array_merge($_param[$key], $items[$key]);
 
             // $_param[$key] = array_merge($_param[$key], $items);
 
             // Remove IDs
             if ($modelName === 'Quote') {
-                unset($_param[$key]['Table']['MQT_ID']);
+                foreach ($_param as $key => $item) {
+                    if (isset($item['Table'])) {
+                        unset($item['Table']['MQT_ID']);
+                        $_param[$key] = $item; // re-assign modified item back to the collection
+                    }
+                }
+                // unset($_param[$key]['Table']['MQT_ID']);
             }
             if ($modelName === 'Bill') {
                 unset($_param[$key]['Table']['MBL_ID']);
@@ -184,8 +190,20 @@ class Form
             if ($modelName === 'Delivery') {
                 unset($_param[$key]['Table']['MDV_ID']);
             }
-            unset($_param[$key][$modelName]);
-            unset($_param[$key]['Customer']);
+            // unset($_param[$key][$modelName]);
+            // unset($_param[$key]['Customer']);
+
+            // Unset the modelName key if it exists
+            if (isset($item[$modelName])) {
+                unset($item[$modelName]);
+            }
+
+            // Unset the Customer key if it exists
+            if (isset($item['Customer'])) {
+                unset($item['Customer']);
+            }
+
+
         }
     }
 	/*
@@ -215,11 +233,16 @@ class Form
         // Start transaction
         DB::beginTransaction();
 
+
+        $modelInstance = $Model->create($_copy_param[0]);
+        dd($_copy_param[0]['USR_ID'], $_copy_param[0]['UPDATE_USR_ID'], $modelInstance);
+
         try {
+
             foreach ($_copy_param as $key => $value) {
-                $_copy_param[$key][$_model_Name]['USR_ID'] = $_user_id;
-                $_copy_param[$key][$_model_Name]['UPDATE_USR_ID'] = $_user_id;
-                $modelInstance = $Model->create($_copy_param[$key][$_model_Name]);
+                $_copy_param[$key]['USR_ID'] = $_user_id;
+                $_copy_param[$key]['UPDATE_USR_ID'] = $_user_id;
+                $modelInstance = $Model->create($_copy_param[$key]);
 
                 if ($modelInstance) {
                     // Get the inserted ID
@@ -245,6 +268,7 @@ class Form
                     return false;
                 }
             }
+
 
             // Commit transaction
             DB::commit();
@@ -447,8 +471,10 @@ class Form
             $itemModel_Name = 'Deliveryitem';
             $_primary_key = 'MDV_ID';
         }
-// dd($_set_param[$_model_Name]);
-        $_set_param[$_model_Name]['ISSUE_DATE'] = $_set_param[$_model_Name]['DATE'];
+
+        dd($_set_param);
+        // $_set_param[$_model_Name]['ISSUE_DATE'] = $_set_param[$_model_Name]['DATE'];
+        $_set_param['data'][$_model_Name]['DATE'] = $_set_param['data'][$_model_Name]['DATE'];
 
         if ($_state === "new") {
             $_set_param[$_model_Name]['INSERT_DATE'] = Carbon::now();
@@ -457,6 +483,7 @@ class Form
 
         // Begin transaction
         DB::beginTransaction();
+
 
         if ($Model->fill($_set_param[$_model_Name])->save()) {
             if ($_state === "new") {

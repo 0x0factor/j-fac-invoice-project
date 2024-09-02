@@ -41,21 +41,21 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300" value="{{$searchData->NO}}"></td>
+                            <td><input type="text" name="NO" class="w300" value="{{$searchData->NO}}" id="QuoteNO"></td>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData->SUBJECT}}"></td>
+                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData->SUBJECT}}" id="QuoteSUBJECT"></td>
                         </tr>
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w300" value="{{$searchData->NAME}}"></td>
+                            <td><input type="text" name="NAME" class="w300" value="{{$searchData->NAME}}" id="QuoteNAME"></td>
                             <th>自社担当者</th>
-                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData->CHR_USR_NAME}}"></td>
+                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData->CHR_USR_NAME}}" id="QuoteCHRUSRNAME"></td>
                         </tr>
                         <tr>
                             <th>作成者</th>
-                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData->USR_NAME}}"></td>
+                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData->USR_NAME}}" id="QuoteUSRNAME"></td>
                             <th>更新者</th>
-                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData->UPD_USR_NAME}}"></td>
+                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData->UPD_USR_NAME}}" id="QuoteUPDUSRNAME"></td>
                         </tr>
                         <tr>
                             <th>発行ステータス</th>
@@ -84,19 +84,19 @@
                             <table width="940" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <th>商品名</th>
-                                    <td><input type="text" name="ITEM_NAME" class="w300"></td>
+                                    <td><input type="text" name="ITEM_NAME" class="w300" value="{{$searchData->ITEM_NAME}}" id="QuoteITEMNAME"></td>
                                     <th>商品コード</th>
-                                    <td><input type="text" name="ITEM_CODE" class="w300"></td>
+                                    <td><input type="text" name="ITEM_CODE" class="w300" value="{{$searchData->ITEM_CODE}}" id="QuoteITEMCODE"></td>
                                 </tr>
                                 <tr>
                                     <th>合計金額</th>
-                                    <td><input type="text" name="TOTAL_FROM" class="w100"> 円 ～ <input type="text"
-                                            name="TOTAL_TO" class="w100"> 円</td>
+                                    <td><input type="text" name="TOTAL_FROM" class="w100" value="{{$searchData->TOTAL_FROM}}" id="QuoteTOTALFROM"> 円 ～ <input type="text"
+                                            name="TOTAL_TO" class="w100" value="{{$searchData->TOTAL_TO}}" id="QuoteTOTALTO"> 円</td>
                                 </tr>
                                 <tr>
                                     <th>発行日 開始日</th>
                                     <td width="320">
-                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_FROM]" id="ACTION_DATE_FROM" class="w100 p2 date cal" value="{{ request('ACTION_DATE_FROM') }}" readonly>
+                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_FROM]" value="{{$searchData->ACTION_DATE_FROM}}" id="ACTIONDATEFROM" class="w100 p2 date cal" value="{{ request('ACTION_DATE_FROM') }}" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal1.write();">
@@ -104,7 +104,7 @@
                                     </td>
                                     <th>発行日 終了日</th>
                                     <td width="320">
-                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_TO]" id="ACTION_DATE_TO" class="w100 p2 date cal" readonly>
+                                        <input type="text" name="data[{{$formType}}][ACTION_DATE_TO]" value="{{$searchData->ACTION_DATE_TO}}" id="ACTIONDATETO" class="w100 p2 date cal" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_TO').value = new Date().toISOString().split('T')[0];">
                                         <img src="{{ asset('img/bt_calender.jpg') }}" alt="カレンダー" class="pl5"
                                             onclick="return cal2.write();">
@@ -200,7 +200,7 @@
                         accept-charset="utf-8">
                         @csrf
                         @method('DELETE')
-                          
+
 
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>

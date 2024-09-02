@@ -49,21 +49,21 @@
                     <table width="940" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>管理番号</th>
-                            <td><input type="text" name="NO" class="w300" value="{{$searchData['NO']}}"></td>
+                            <td><input type="text" name="NO" class="w300" value="{{$searchData['NO']}}" id="BillNO"></td>
                             <th>件名</th>
-                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData['SUBJECT']}}"></td>
+                            <td><input type="text" name="SUBJECT" class="w300" value="{{$searchData['SUBJECT']}}" id="BillSUBJECT"></td>
                         </tr>
                         <tr>
                             <th>顧客名</th>
-                            <td><input type="text" name="NAME" class="w300" value="{{$searchData['NAME']}}"></td>
+                            <td><input type="text" name="NAME" class="w300" value="{{$searchData['NAME']}}" id="BillNAME"></td>
                             <th>自社担当者</th>
-                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData['CHR_USR_NAME']}}"></td>
+                            <td colspan="3"><input type="text" name="CHR_USR_NAME" class="w300" value="{{$searchData['CHR_USR_NAME']}}" id="BillCHRUSRNAME"></td>
                         </tr>
                         <tr>
                             <th>作成者</th>
-                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData['USR_NAME']}}"></td>
+                            <td><input type="text" name="USR_NAME" class="w300" value="{{$searchData['USR_NAME']}}" id="BillUSRNAME"></td>
                             <th>更新者</th>
-                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData['UPD_USR_NAME']}}"></td>
+                            <td><input type="text" name="UPD_USR_NAME" class="w300" value="{{$searchData['UPD_USR_NAME']}}" id="BillUPDUSRNAME"></td>
                         </tr>
                         <tr>
                             <th>発行ステータス</th>
@@ -96,19 +96,19 @@
                             <table width="940" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <th>商品名</th>
-                                    <td><input type="text" name="ITEM_NAME" class="w300" value="{{$searchData['ITEM_NAME']}}"></td>
+                                    <td><input type="text" name="ITEM_NAME" class="w300" value="{{$searchData['ITEM_NAME']}}" id="BillITEMNAME"></td>
                                     <th>商品コード</th>
-                                    <td><input type="text" name="ITEM_CODE" class="w300" value="{{$searchData['ITEM_CODE']}}"></td>
+                                    <td><input type="text" name="ITEM_CODE" class="w300" value="{{$searchData['ITEM_CODE']}}" id="BillITEMCODE"></td>
                                 </tr>
                                 <tr>
                                     <th>合計金額</th>
                                     <td>
-                                        <input type="text" name="TOTAL_FROM" class="w100" value="{{$searchData['TOTAL_FROM']}}"> 円 ～
-                                        <input type="text" name="TOTAL_TO" class="w100" value="{{$searchData['TOTAL_TO']}}"> 円
+                                        <input type="text" name="TOTAL_FROM" class="w100" value="{{$searchData['TOTAL_FROM']}}" id="BillTOTALFROM"> 円 ～
+                                        <input type="text" name="TOTAL_TO" class="w100" value="{{$searchData['TOTAL_TO']}}" id="BillTOTALTO"> 円
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>発行日 開始日</th>
+                                <th>発行日 開始日</th>
                                     <td width="320">
                                         <input type="text" name="data[{{$formType}}][ACTION_DATE_FROM]" id="ACTION_DATE_FROM" class="w100 p2 date cal" readonly>
                                         <img src="{{ asset('img/bt_now.jpg') }}" alt="現在" class="pl5 nowtime" onclick="document.getElementById('ACTION_DATE_FROM').value = new Date().toISOString().split('T')[0];">
@@ -127,9 +127,9 @@
                                 </tr>
                                 <tr>
                                     <th>備考</th>
-                                    <td><input type="text" name="NOTE" class="w300" value="{{$searchData['NOTE']}}"></td>
+                                    <td><input type="text" name="NOTE" class="w300" value="{{$searchData['NOTE']}}" id="BillNOTE"></td>
                                     <th>メモ</th>
-                                    <td><input type="text" name="MEMO" class="w300" value="{{$searchData['MEMO']}}"></td>
+                                    <td><input type="text" name="MEMO" class="w300" value="{{$searchData['MEMO']}}" id="BillMEMO"></td>
                                 </tr>
                             </table>
                         </div>
