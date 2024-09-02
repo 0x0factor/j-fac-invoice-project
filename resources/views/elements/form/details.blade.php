@@ -158,8 +158,8 @@
                             @endif
 
                         </select>
-                        <input type="hidden" name="[{{$i}}][item][DISCOUNT][>
-                        <input type="hidden" name="[{{$i}}][item][DISCOUNT_TYPE][>
+                        <input type="hidden" name="[{{$i}}][item][DISCOUNT]">
+                        <input type="hidden" name="[{{$i}}][item][DISCOUNT_TYPE]">
                     </td>
                     <td>
                         <img src="{{ asset('img/bt_up.jpg') }}" class="btn_up" alt="×" url="javascript:void(0);"

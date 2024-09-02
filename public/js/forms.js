@@ -2525,7 +2525,7 @@ var FormClass = function () {
         var bt_down = $("tr.row_0 td img.btn_down").attr("src");
         var html;
         var excise = $(
-            'input[name="data[' + this.maintype + '][EXCISE]"]:radio:checked'
+            'input[name="[' + this.maintype + '][EXCISE]"]:radio:checked'
         ).val();
         html =
             '<td><a href="#"><img src="' +
@@ -2536,7 +2536,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2548,7 +2548,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2560,7 +2560,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2580,7 +2580,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2594,7 +2594,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2606,7 +2606,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2620,7 +2620,7 @@ var FormClass = function () {
         html +=
             '<td><input type="text" id="' +
             this.maintype +
-            'Name" name="data[' +
+            'Name" name="[' +
             _no +
             "][" +
             this.type +
@@ -2634,7 +2634,7 @@ var FormClass = function () {
             this.maintype +
             "');\"></td>";
         html +=
-            '<td><select name="data[' +
+            '<td><select name="[' +
             _no +
             "][" +
             this.type +
@@ -2653,7 +2653,7 @@ var FormClass = function () {
         html += "</select> ";
 
         html +=
-            '<select name="data[' +
+            '<select name="[' +
             _no +
             "][" +
             this.type +
@@ -2688,13 +2688,13 @@ var FormClass = function () {
         html += "</select>";
 
         html +=
-            '<input type="hidden" name="data[' +
+            '<input type="hidden" name="[' +
             _no +
             "][" +
             this.type +
             '][DISCOUNT]" />';
         html +=
-            '<input type="hidden" name="data[' +
+            '<input type="hidden" name="[' +
             _no +
             "][" +
             this.type +
@@ -2714,10 +2714,10 @@ var FormClass = function () {
 
         $(".row_" + _no).hover(
             function () {
-                $(':text[name*="data[' + _no + ']"]').addClass("hoverLine");
+                $(':text[name*="[' + _no + ']"]').addClass("hoverLine");
             },
             function () {
-                $(':text[name*="data[' + _no + ']"]').removeClass("hoverLine");
+                $(':text[name*="[' + _no + ']"]').removeClass("hoverLine");
             }
         );
 
