@@ -77,7 +77,7 @@ class QuoteController extends AppController
         if ($request->STATUS) {
             $query->whereIn('STATUS', $request->STATUS);
         }
-        
+
 
 
         $paginator = $query->orderBy('INSERT_DATE')->paginate(20);

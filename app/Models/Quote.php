@@ -317,8 +317,6 @@ class Quote extends Model
         $quote = new Quote;
         // $quotes = $quote->whereIn('MQT_ID', explode(',', implode(',', $param)))->get();
         $quotes = $quote->whereIn('MQT_ID', $param['selected_quotes'])->get();
-
-        dd($quotes);
         if (!$quotes) {
             return false;
         }
@@ -329,6 +327,7 @@ class Quote extends Model
         if (!$quotes) {
             return false;
         }
+        // dd($quotes);
 
         return $quotes;
     }

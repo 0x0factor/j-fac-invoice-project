@@ -119,7 +119,6 @@ class Form
 
         if (!$Model) return $_param = null;
 
-
         foreach ($_param as $key => $value) {
             // Initialize status
             $_param[$key]['STATUS'] = 0;
@@ -130,7 +129,6 @@ class Form
 
             // Append subject
             $_param[$key]['SUBJECT'] = $value['SUBJECT'] . 'のコピー';
-
 
             // Set serial number
             if ($auto_serial) {
@@ -168,9 +166,8 @@ class Form
             }
 
             // Merge arrays
-
             // dd($_param[$key], $items[$key]);
-            $_param[$key] = array_merge($_param[$key], $items[$key]);
+            $_param[$key] = array_merge($items[$key], $_param[$key]);
 
             // $_param[$key] = array_merge($_param[$key], $items);
 
@@ -202,9 +199,14 @@ class Form
             if (isset($item['Customer'])) {
                 unset($item['Customer']);
             }
-
-
         }
+        $_param = $_param->map(function ($item) {
+            // Ensure the item is an array before unsetting the key
+            if (is_array($item)) {
+                unset($item['MQT_ID']);
+            }
+            return $item;
+        });
     }
 	/*
 	 *
@@ -233,12 +235,9 @@ class Form
         // Start transaction
         DB::beginTransaction();
 
-
         $modelInstance = $Model->create($_copy_param[0]);
-        dd($_copy_param[0]['USR_ID'], $_copy_param[0]['UPDATE_USR_ID'], $modelInstance);
 
         try {
-
             foreach ($_copy_param as $key => $value) {
                 $_copy_param[$key]['USR_ID'] = $_user_id;
                 $_copy_param[$key]['UPDATE_USR_ID'] = $_user_id;
@@ -256,7 +255,6 @@ class Form
                             $items[$i][$_Item_after][$_primary_key] = $id;
                         }
                     }
-
                     if (!$ItemModel->insert($items)) {
                         // Rollback on error
                         DB::rollBack();
@@ -268,7 +266,6 @@ class Form
                     return false;
                 }
             }
-
 
             // Commit transaction
             DB::commit();
