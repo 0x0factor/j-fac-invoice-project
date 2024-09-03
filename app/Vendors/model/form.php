@@ -166,10 +166,9 @@ class Form
             }
 
             // Merge arrays
-            // dd($_param[$key], $items[$key]);
-            $_param[$key] = array_merge($items[$key], $_param[$key]);
+            // $_param[$key] = array_merge($items[$key], $_param[$key]);
 
-            // $_param[$key] = array_merge($_param[$key], $items);
+            $_param[$key] = array_merge($_param[$key], $items);
 
             // Remove IDs
             if ($modelName === 'Quote') {
@@ -239,22 +238,28 @@ class Form
 
         try {
             foreach ($_copy_param as $key => $value) {
-                $_copy_param[$key]['USR_ID'] = $_user_id;
-                $_copy_param[$key]['UPDATE_USR_ID'] = $_user_id;
+                $_copy_param[$key]['USR_ID'] == $_user_id;
+                $_copy_param[$key]['UPDATE_USR_ID'] == $_user_id;
                 $modelInstance = $Model->create($_copy_param[$key]);
 
                 if ($modelInstance) {
                     // Get the inserted ID
-                    $id = $modelInstance->id;
+                    $id = $modelInstance->MQT_ID;
 
                     $items = [];
-                    for ($i = 0; $i < count($_copy_param[$key]) - 3; $i++) {
-                        unset($_copy_param[$key][$i][$_Item_after]['ITM_ID']);
-                        if (!empty($_copy_param[$key][$i][$_Item_after])) {
-                            $items[$i] = $_copy_param[$key][$i];
-                            $items[$i][$_Item_after][$_primary_key] = $id;
+
+                    for ($i = 0; $i < count($_copy_param) - 3; $i++) {
+                        // unset($_copy_param[$key][$i][$_Item_after]['ITM_ID']);
+                        // dd($_copy_param[$i]);
+                        if (!empty($_copy_param[$i])) {
+                            dd($_copy_param[$i]);
+                            $items[$i] == $_copy_param[$i];
+                            dd($_Item_after, $_primary_key);
+                            $items[$i][$_Item_after][$_primary_key] == $id;
+
                         }
                     }
+
                     if (!$ItemModel->insert($items)) {
                         // Rollback on error
                         DB::rollBack();

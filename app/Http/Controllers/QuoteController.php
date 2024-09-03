@@ -400,8 +400,9 @@ class QuoteController extends AppController
     }
 
 
-    public function edit(Request $request, $quoteId = null)
+    public function edit(Request $request, $quoteId)
     {
+        dd('sadfsdafsadd');
         $data = [];
         $data['main_title'] = "見積書編集";
         $data['title_text'] = "帳票管理";
@@ -528,7 +529,8 @@ class QuoteController extends AppController
             $result = $quote->reproduce_check($request->all(), 'Quote');
             if ($result && $quoteId = $quote->insert_reproduce($result, $userId, Quote::class)) {
                 Session::flash('message', '見積書に転記しました');
-                return redirect("/quote/edit/$quoteId");
+                    return redirect()->route('quote.index', ['customer' => $customerId]);
+                // return redirect("/quote/edit/$quoteId");
             }
         }
 

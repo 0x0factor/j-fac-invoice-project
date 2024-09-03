@@ -217,7 +217,7 @@
 
             <div class="list_area">
                 @if (is_array($list))
-                    <form method="POST" action="{{ route('bill.delete') }} " id="BillActionForm"
+                    <form method="POST" action="{{ route('bill.action') }} " id="BillActionForm"
                         accept-charset="utf-8">
                         @csrf
                         @method('DELETE')

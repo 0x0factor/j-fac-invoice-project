@@ -75,8 +75,8 @@ Route::get('bills/check', [BillController::class, 'check'])->name('bill.check');
 Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
 Route::get('bills/export', [BillController::class, 'export'])->name('bill.export');
 Route::post('bills/export', [BillController::class, 'export'])->name('bill.export');
-Route::get('bills/delete', [BillController::class, 'delete'])->name('bill.delete');
-Route::delete('bills/delete', [BillController::class, 'delete'])->name('bill.delete');
+Route::get('bills/action', [BillController::class, 'action'])->name('bill.action');
+Route::delete('bills/action', [BillController::class, 'action'])->name('bill.action');
 Route::post('bills/download-pdf', [BillController::class, 'downloadPDF'])->name('bill.download-pdf');
 
 Route::get('charges', [ChargeController::class, 'index'])->name('charge.index');
@@ -143,7 +143,7 @@ Route::get('postcode/reset', [PostcodeController::class, 'reset'])->name('postco
 Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::post('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
-Route::get('quotes/edit', [QuoteController::class, 'edit'])->name('quote.edit');
+Route::get('quotes/edit/{quoteId}', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::post('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::get('quotes/check', [QuoteController::class, 'check'])->name('quote.check');

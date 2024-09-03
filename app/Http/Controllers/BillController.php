@@ -488,8 +488,9 @@ class BillController extends AppController
             'taxOperationDate' => config('constants.TaxOperationDate'),
         ]);
     }
-    public function delete(Request $request)
+    public function action(Request $request)
     {
+        $bill = new Bill();
         // 絞り込みした場合の顧客IDを取得
         $customer_id = $request->input('Customer.id');
 
@@ -502,9 +503,9 @@ class BillController extends AppController
         // $this->isCorrectToken($request->input('data.Security.token'));
 
         $user_ID = $this->Get_User_ID(); // Assuming Get_User_ID() function exists
+        $billIds = $request->input('selected', []);
 
         if ($request->has('delete_x')) {
-            $billIds = $request->input('selected', []);
             if (empty($billIds)) {
                 Session::flash('error', '請求書が選択されていません');
                 return redirect()->route('bill.index', ['customer' => $customer_id]);
@@ -528,7 +529,7 @@ class BillController extends AppController
 
         // 見積書へ複製
         elseif ($request->has('reproduce_quote_x')) {
-            if ($result = Bill::reproduce_check($billIds, false)) {
+            if ($result = $bill->reproduce_check($billIds, false)) {
                 // 成功
                 if (Quote::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '見積書に転記しました');
@@ -544,9 +545,9 @@ class BillController extends AppController
 
         // 請求書へ複製
         elseif ($request->has('reproduce_bill_x')) {
-            if ($result = Bill::reproduce_check($billIds, Serial::getSerialConf(), 'Bill')) {
+            if ($result = $bill->reproduce_check($billIds, Serial::getSerialConf(), 'Bill')) {
                 // 成功
-                if ($inv_id = Bill::insert_reproduce($result, $user_ID)) {
+                if ($inv_id = $bill->insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '請求書に転記しました');
                     if ($form_check) {
                         return redirect("/bills/edit/$inv_id");
@@ -565,7 +566,7 @@ class BillController extends AppController
 
         // 納品書へ複製
         elseif ($request->has('reproduce_delivery_x')) {
-            if ($result = Bill::reproduce_check($billIds, false)) {
+            if ($result = $bill->reproduce_check($billIds, false)) {
                 // 成功
                 if (Delivery::insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '納品書に転記しました');
