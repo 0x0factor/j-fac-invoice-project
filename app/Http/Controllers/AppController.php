@@ -343,13 +343,13 @@ class AppController extends Controller {
 			"ITEM_REMARK_10",
 		);
 
-		for ($i = 0; $i < count($items); $i++) {
-			for ($j = 0; $j < count($oldfields); $j++) {
-				if (empty($items[$i]["Item"][$newfields[$j]])) {
-					$items[$i]["Item"][$newfields[$j]] = $items[$i]["Item"][$oldfields[$j]];
-				}
-			}
-		}
+		// for ($i = 0; $i < count($items); $i++) {
+		// 	for ($j = 0; $j < count($oldfields); $j++) {
+		// 		if (empty($items[$i]["Item"][$newfields[$j]])) {
+		// 			$items[$i]["Item"][$newfields[$j]] = $items[$i]["Item"][$oldfields[$j]];
+		// 		}
+		// 	}
+		// }
 
 		return $items;
 	}

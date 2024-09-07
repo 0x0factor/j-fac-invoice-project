@@ -490,6 +490,7 @@ class BillController extends AppController
     }
     public function action(Request $request)
     {
+        dd($request->all());
         $bill = new Bill();
         // 絞り込みした場合の顧客IDを取得
         $customer_id = $request->input('Customer.id');
@@ -504,6 +505,7 @@ class BillController extends AppController
 
         $user_ID = $this->Get_User_ID(); // Assuming Get_User_ID() function exists
         $billIds = $request->input('selected', []);
+        dd($request->all(), $billIds);
 
         if ($request->has('delete_x')) {
             if (empty($billIds)) {
@@ -545,7 +547,10 @@ class BillController extends AppController
 
         // 請求書へ複製
         elseif ($request->has('reproduce_bill_x')) {
-            if ($result = $bill->reproduce_check($billIds, Serial::getSerialConf(), 'Bill')) {
+            // dd($request->all(), $billIds);
+            // $serial = new Serial();
+            // $serial->getSerialConf(),
+            if ($result = $bill->reproduce_check($request->all(), 'Bill')) {
                 // 成功
                 if ($inv_id = $bill->insert_reproduce($result, $user_ID)) {
                     Session::flash('success', '請求書に転記しました');

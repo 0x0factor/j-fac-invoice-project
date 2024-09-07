@@ -84,7 +84,7 @@ Route::get('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 Route::post('charges/add', [ChargeController::class, 'add'])->name('charge.add');
 Route::get('charges/delete', [ChargeController::class, 'delete'])->name('charge.delete');
 Route::get('charges/check/{charge_ID}', [ChargeController::class, 'check'])->name('charge.check');
-Route::get('charges/edit', [ChargeController::class, 'edit'])->name('charge.edit');
+Route::get('charges/edit/{charge_ID}', [ChargeController::class, 'edit'])->name('charge.edit');
 
 Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
 Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
@@ -117,8 +117,8 @@ Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.i
 Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
 Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
 Route::post('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
-Route::get('deliveries/check', [DeliveryController::class, 'check'])->name('delivery.check');
-Route::get('deliveries/edit', [DeliveryController::class, 'edit'])->name('delivery.edit');
+Route::get('deliveries/check/{delivery_ID}', [DeliveryController::class, 'check'])->name('delivery.check');
+Route::get('deliveries/edit/{delivery_ID}', [DeliveryController::class, 'edit'])->name('delivery.edit');
 Route::post('deliveries/action', [DeliveryController::class, 'action'])->name('delivery.action');
 Route::delete('deliveries/action', [DeliveryController::class, 'action'])->name('delivery.action');
 
@@ -128,7 +128,7 @@ Route::get('items', [ItemController::class, 'index'])->name('item.index');
 Route::get('items/add', [ItemController::class, 'add'])->name('item.add');
 Route::post('items/store', [ItemController::class, 'store'])->name('item.store');
 Route::get('items/check/{item_ID}', [ItemController::class, 'check'])->name('item.check');
-Route::get('items/edit', [ItemController::class, 'edit'])->name('item.edit');
+Route::get('items/edit/{item_ID}', [ItemController::class, 'edit'])->name('item.edit');
 Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete');
 
 Route::get('mails', [MailController::class, 'index'])->name('mail.index');
@@ -146,7 +146,7 @@ Route::post('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::get('quotes/edit/{quoteId}', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::post('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
-Route::get('quotes/check', [QuoteController::class, 'check'])->name('quote.check');
+Route::get('quotes/check/{quoteId}', [QuoteController::class, 'check'])->name('quote.check');
 Route::get('quotes/action', [QuoteController::class, 'action'])->name('quote.action');
 Route::delete('/quotes/action', [QuoteController::class, 'action'])->name('quotes.action');
 Route::post('quotes/action', [QuoteController::class, 'action'])->name('quote.action');

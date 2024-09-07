@@ -22,7 +22,7 @@
     <!-- contents_Start -->
     <div class="edit_btn">
         @if (isset($editauth))
-            <a href="{{ route('charge.edit', ['charge' => $charge['CHR_ID']]) }}" class="imgover">
+            <a href="{{ route('charge.edit', ['charge_ID' => $charge['CHR_ID']]) }}" class="imgover">
                 <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
             </a>
         @endif
@@ -44,8 +44,8 @@
         <div class="contents_box">
             <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
             <div class="contents_area">
-                <form method="POST" action="{{ route('charge.edit', ['charge' => $charge['CHR_ID']]) }}"
-                    enctype="multipart/form-data" class="Charge">
+                <form method="POST" action="{{ route('charge.edit', ['charge_ID' => $charge['CHR_ID']]) }}" enctype="multipart/form-data" class="Charge">
+
                     @csrf
                     @method('PUT')
                     <table width="880" cellpadding="0" cellspacing="0" border="0">

@@ -246,7 +246,7 @@
                                         <td class="v50">{{ $quote->MQT_ID }}</td>
                                         <td class="v100">{{ $quote->customer->NAME }}</td>
                                         <td class="v100">
-                                            <a href="{{ route('quote.edit', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a>
+                                            <a href="{{ route('quote.check', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a>
                                         </td>
                                         <td class="v150">{{ $quote->TOTAL }}円</td>
                                         <td class="v150">{{ $quote->ISSUE_DATE }}</td>

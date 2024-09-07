@@ -2,6 +2,12 @@
 
 
 @section('content')
+
+    @php
+        $formType = $formType ?? 'Quote';
+        $controller = strtolower($formType);
+        $action = request()->route()->getActionMethod();
+    @endphp
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}

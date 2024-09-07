@@ -118,13 +118,13 @@ class Bill extends Model
      * @param string $modelFrom
      * @return array|boolean
      */
-    public function reproduceCheck($_param, $autoSerial = true, $modelFrom = 'T_BILL')
+    public function reproduce_check($_param, $autoSerial = true, $modelFrom = 'T_BILL')
     {
         $form = new Form();
-        unset($_param['T_BILL']['STATUS_CHANGE']);
+        unset($_param['STATUS_CHANGE']);
 
         // Check if any copy item is not numeric
-        foreach ($_param['T_BILL'] as $key => $val) {
+        foreach ($_param as $key => $val) {
             if (!is_numeric($key)) {
                 return false;
             }
@@ -381,11 +381,11 @@ class Bill extends Model
         $lineAttrNormal = 0;
 
         // If no discount type, skip the check
-        if ($discountCodeNone == $data['T_BILL']['DISCOUNT_TYPE']) {
+        if ($discountCodeNone == $data['DISCOUNT_TYPE']) {
             return;
         }
 
-        unset($data['T_BILL']);
+        unset($data);
         unset($data['Security']);
 
         $prevTaxRate = null;

@@ -371,9 +371,9 @@ class QuoteController extends AppController
         ]);
     }
 
-    public function check($id)
+    public function check(Request $request, $charge_ID)
     {
-        $quote = Quote::find($id);
+        $quote = Quote::find($charge_ID);
 
         if (!$quote) {
             session()->flash('error', '指定の見積書が存在しません');
@@ -400,61 +400,208 @@ class QuoteController extends AppController
     }
 
 
-    public function edit(Request $request, $quoteId)
-    {
-        dd('sadfsdafsadd');
-        $data = [];
-        $data['main_title'] = "見積書編集";
-        $data['title_text'] = "帳票管理";
-        $data['title'] = "抹茶請求書";
+    // public function edit(Request $request, $quoteId)
+    // {
+    //     $data = [];
+    //     $data['main_title'] = "見積書編集";
+    //     $data['title_text'] = "帳票管理";
+    //     $data['title'] = "抹茶請求書";
 
+    //     if ($request->has('cancel_x')) {
+    //         return redirect('/quotes');
+    //     }
+
+    //     $companyId = 1;
+    //     $error = config('constants.ItemErrorCode'); // Assuming you have ItemErrorCode config
+    //     $count = 1;
+
+    //     if (!$request->isMethod('post')) {
+    //         $data['collapse'] = ['management' => 1, 'other' => 1];
+
+    //         if ($quoteId) {
+    //             $quote = Quote::find($quoteId);
+    //             if (!$quote) {
+    //                 Session::flash('message', '指定の見積書が存在しません');
+    //                 return redirect('/quotes/check');
+    //             }
+    //             dd($data);
+
+    //             $data['quote'] = $quote;
+    //             $data['quote'] = $this->getCompatibleItems($quote); // Assuming a method getCompatibleItems
+
+    //             $customerCharge = CustomerCharge::find($quote->CHRC_ID);
+    //             if ($customerCharge) {
+    //                 $data['quote']['CUSTOMER_CHARGE_NAME'] = $customerCharge->CHARGE_NAME;
+    //                 $data['quote']['CUSTOMER_CHARGE_UNIT'] = $customerCharge->UNIT;
+    //             }
+
+    //             if (!$this->Get_Edit_Authority($quote->USR_ID)) {
+    //                 Session::flash('message', '帳票を編集する権限がありません');
+    //                 return redirect('/quotes/');
+    //             }
+    //         } else {
+    //             Session::flash('message', '指定の見積書が存在しません');
+    //             return redirect('/quotes/check');
+    //         }
+    //     } else {
+    //         $this->validateToken($request->input('data.Security.token'));
+
+    //         if ($request->has('del_x')) {
+    //             Quote::destroy($request->input('Quote.MQT_ID'));
+    //             Session::flash('message', '削除しました。');
+    //             return redirect('/quotes/index');
+    //         }
+
+    //         $user = auth()->user();
+    //         $error = $this->validateItem($request->all(), 'Quoteitem');
+    //         $error['DISCOUNT'] = $this->validateDiscount($request->all());
+
+    //         if ($request->input('Quote.DISCOUNT_TYPE') == DISCOUNT_TYPE_PERCENT) {
+    //             $discount = strlen($request->input('Quote.DISCOUNT'));
+    //             if ($discount > 2) {
+    //                 $error['DISCOUNT'] = 1;
+    //             }
+    //             if ($request->input('Quote.DISCOUNT') == '100') {
+    //                 $error['DISCOUNT'] = 0;
+    //             }
+    //             if (!ctype_digit($request->input('Quote.DISCOUNT')) && $request->input('Quote.DISCOUNT') != null) {
+    //                 $error['DISCOUNT'] = 2;
+    //             }
+    //         }
+
+    //         if ($request->input('Quote.HONOR_CODE') != 2) {
+    //             $request->merge(['Quote.HONOR_TITLE' => ""]);
+    //         }
+
+    //         if ($MQT_ID = $this->updateQuote($request->all(), $error)) {
+    //             History::logAction($user->id, 3, $request->input('Quote.MQT_ID'));
+    //             Session::flash('message', '見積書を保存しました');
+    //             return redirect("/quotes/check/$MQT_ID");
+    //         } else {
+    //             $count = max(count($request->all()) - 2, 1);
+    //             $collaspe = [
+    //                 'other' => empty($data['Bill']['FEE']) && empty($data['Bill']['DUE_DATE']),
+    //                 'management' => empty($data['Bill']['MEMO']) ? 1 : 0,
+    //             ];
+    //             // $data['collapse']['other'] = empty($data['quote']['DEADLINE']) && empty($data['quote']['DEAL']) && empty($data['quote']['DELIVERY']) && empty($data['quote']['DUE_DATE']) ? 1 : 0;
+    //             // $data['collapse']['management'] = empty($data['quote']['MEMO']) ? 1 : 0;
+    //         }
+    //     }
+
+    //     // $items = $this->getItems($companyId);
+    //     // $data['hidden'] = $this->getPaymentInfo($companyId);
+
+    //     // $this->setViewData($data, $items, $error, $count);
+    //     $companyID = 1;
+    //     $seal_flg = config('constants.SealFlg');
+    //     $user = Auth::user();
+    //     $items = Item::where('USR_ID', $quote->get_user($companyID))->pluck('ITEM', 'ITM_ID')->toArray();
+    //     // $company = $quote->get_customer($companyID);
+    //     $hidden = $quote->getPayment($companyID);
+    //     $defaultCompany = $quote->getCompanyPayment($companyID);
+
+    //     return view('quote.edit', [
+    //         'data' => $data,
+    //         'user' => $user,
+    //         'seal_flg' => config('constants.SealFlg'),
+    //         'taxRates' => config('constants.TaxRates'),
+    //         'taxOperationDate' => config('constants.TaxOperationDate'),
+    //         'lineAttribute' => config('constants.LineAttribute'),
+    //         'taxClass' => config('constants.TaxClass'),
+    //         'issuedStatCode' => config('constants.IssuedStatCode',[]),
+    //         'status' => config('constants.StatusCode'),
+    //         'itemlist' => json_encode($items),
+    //         'dataline' => $count,
+    //         'collapse_other' => $collaspe['other'],
+    //         'collapse_management' => $collaspe['management'],
+    //     ]);
+    // }
+
+    public function edit(Request $request, $quote_ID)
+    {
+        $main_title = "見積書編集";
+        $title_text = "帳票管理";
+        $title = "抹茶請求書";
+        $user = Auth::user();
+        // // Share titles to view
+        // view()->share('main_title', $main_title);
+        // view()->share('title_text', $title_text);
+
+        // If cancel button is clicked
         if ($request->has('cancel_x')) {
-            return redirect('/quotes');
+            return redirect()->route('quote.index');
         }
 
-        $companyId = 1;
-        $error = config('constants.ItemErrorCode'); // Assuming you have ItemErrorCode config
+        // Test data for the company
+        $company_ID = 1;
+        $error = config('constants.ItemErrorCode');
+
+        // Default count
         $count = 1;
 
-        if (!$request->isMethod('post')) {
-            $data['collapse'] = ['management' => 1, 'other' => 1];
+        // Check if form data is submitted
+        if (!$request->has('data')) {
+            // Collapse settings
+            $collapse = [
+                'management' => 1,
+                'other' => 1,
+            ];
 
-            if ($quoteId) {
-                $quote = Quote::find($quoteId);
+            // Get quote ID
+            if ($quote_ID) {
+                $quote = Quote::find($quote_ID);
+
                 if (!$quote) {
-                    Session::flash('message', '指定の見積書が存在しません');
-                    return redirect('/quotes/check');
+                    return redirect()->route('quote.check')
+                        ->with('error', '指定の見積書が存在しません');
                 }
 
-                $data['quote'] = $quote;
-                $data['quote'] = $this->getCompatibleItems($quote); // Assuming a method getCompatibleItems
+                // Fetch initial data for the quote
+                $data = $quote->edit_select($quote_ID, $count);
 
-                $customerCharge = CustomerCharge::find($quote->CHRC_ID);
-                if ($customerCharge) {
-                    $data['quote']['CUSTOMER_CHARGE_NAME'] = $customerCharge->CHARGE_NAME;
-                    $data['quote']['CUSTOMER_CHARGE_UNIT'] = $customerCharge->UNIT;
+                // Additional processing for discounts (version 2.3.0 feature)
+                $data = $this->getCompatibleItems($data);
+                $count = $data['tax_kind_count'];
+
+                // If no data found for the given ID
+                if (!$data) {
+                    return redirect()->route('quote.index')
+                        ->with('error', '指定の見積書が削除されたか、存在しない可能性があります');
                 }
 
-                if (!$this->Get_Edit_Authority($quote->USR_ID)) {
-                    Session::flash('message', '帳票を編集する権限がありません');
-                    return redirect('/quotes/');
+                // Fetch customer charge data
+                if ($customer_charge = CustomerCharge::where('CHRC_ID', $data['CHRC_ID'])->first()) {
+                    $data['CUSTOMER_CHARGE_NAME'] = $customer_charge['CHARGE_NAME'];
+                    $data['CUSTOMER_CHARGE_UNIT'] = $customer_charge['UNIT'];
                 }
+
+                // Check if the user has authority to edit
+                if (!$this->Get_Edit_Authority($data['USR_ID'])) {
+                    return redirect()->route('quote.index')
+                        ->with('error', '帳票を編集する権限がありません');
+                }
+
             } else {
-                Session::flash('message', '指定の見積書が存在しません');
-                return redirect('/quotes/check');
+                return redirect('quote/check')
+                    ->with('error', '指定の見積書が存在しません');
             }
-        } else {
-            $this->validateToken($request->input('data.Security.token'));
 
+        } else {
+            // Token validation
+            $this->isCorrectToken($request->input('Security.token'));
+
+            // If delete button is clicked
             if ($request->has('del_x')) {
                 Quote::destroy($request->input('Quote.MQT_ID'));
-                Session::flash('message', '削除しました。');
-                return redirect('/quotes/index');
+                return redirect()->route('quote.index')->with('success', '削除しました。');
             }
 
+            // User info
             $user = auth()->user();
-            $error = $this->validateItem($request->all(), 'Quoteitem');
-            $error['DISCOUNT'] = $this->validateDiscount($request->all());
+
+            // Validation of items and discounts
+            $error = $this->item_validation($request->all(), 'Quoteitem');
+            $error['DISCOUNT'] = Quote::validateDiscount($request->input());
 
             if ($request->input('Quote.DISCOUNT_TYPE') == DISCOUNT_TYPE_PERCENT) {
                 $discount = strlen($request->input('Quote.DISCOUNT'));
@@ -464,33 +611,79 @@ class QuoteController extends AppController
                 if ($request->input('Quote.DISCOUNT') == '100') {
                     $error['DISCOUNT'] = 0;
                 }
-                if (!ctype_digit($request->input('Quote.DISCOUNT')) && $request->input('Quote.DISCOUNT') != null) {
+                if (!preg_match("/^[0-9]+$/", $request->input('Quote.DISCOUNT')) && !is_null($request->input('Quote.DISCOUNT'))) {
                     $error['DISCOUNT'] = 2;
                 }
             }
 
             if ($request->input('Quote.HONOR_CODE') != 2) {
-                $request->merge(['Quote.HONOR_TITLE' => ""]);
+                $request->merge(['Quote.HONOR_TITLE' => '']);
             }
 
-            if ($MQT_ID = $this->updateQuote($request->all(), $error)) {
-                History::logAction($user->id, 3, $request->input('Quote.MQT_ID'));
-                Session::flash('message', '見積書を保存しました');
-                return redirect("/quotes/check/$MQT_ID");
+            // Insert or update data
+            if ($MQT_ID = Quote::set_data($request->all(), 'update', $error)) {
+                // Log user action
+                History::h_reportaction($user['USR_ID'], 3, $request->input('Quote.MQT_ID'));
+                return redirect('/quote/check/' . $MQT_ID)
+                    ->with('success', '見積書を保存しました');
             } else {
-                $count = max(count($request->all()) - 2, 1);
-                $data['collapse']['other'] = empty($data['quote']['DEADLINE']) && empty($data['quote']['DEAL']) && empty($data['quote']['DELIVERY']) && empty($data['quote']['DUE_DATE']) ? 1 : 0;
-                $data['collapse']['management'] = empty($data['quote']['MEMO']) ? 1 : 0;
+                $count = max(1, count($request->all()) - 2);
+                // Set collapse settings for view
+                $collapse['other'] = empty($request->input('Quote.DEADLINE')) && empty($request->input('Quote.DEAL')) ? 1 : 0;
+                $collapse['management'] = empty($request->input('Quote.MEMO')) ? 1 : 0;
             }
         }
 
-        $items = $this->getItems($companyId);
-        $data['hidden'] = $this->getPaymentInfo($companyId);
+        // Get user authority and items
+        $items = ['item' => '＋アイテム追加＋', 'default' => '＋アイテム選択＋'];
+        $itemlist = [];
 
-        $this->setViewData($data, $items, $error, $count);
+        if ($this->Get_User_Authority() == 1) {
+            $item = Item::where('USR_ID', $this->Get_User_ID())->get();
+        } else {
+            $item = Item::all();
+        }
 
-        return view('quote.edit', $data);
+        foreach ($item as $value) {
+            $items[$value->ITM_ID] = $value->ITEM;
+            $itemlist[$value->ITM_ID] = [
+                'ITEM' => $value->ITEM,
+                'UNIT' => $value->UNIT,
+                'UNIT_PRICE' => $value->UNIT_PRICE,
+            ];
+        }
+        $quote = new Quote();
+        $hidden = $quote->getPayment($company_ID);
+
+        // Set data to view
+        return view('quote.edit', [
+            'main_title' => $main_title,
+            'title_text' => $title_text,
+            'title' => $title,
+            'excises' => config('constants.ExciseCode'),
+            'fractions' => config('constants.FractionCode'),
+            'tax_fraction_timing' => config('constants.TaxFractionTimingCode'),
+            'discount' => config('constants.DiscountCode'),
+            'decimal' => config('constants.DecimalCode'),
+            'status' => config('constants.IssuedStatCode'),
+            'itemlist' => $itemlist ? json_encode($itemlist) : false,
+            'error' => $error,
+            'user' => $user,
+            'dataline' => $count,
+            'item' => $items,
+            'honor' => config('constants.HonorCode'),
+            'collapse_other' => $collapse['other'],
+            'collapse_management' => $collapse['management'],
+            'lineAttribute' => config('constants.LineAttribute'),
+            'taxClass' => config('constants.TaxClass'),
+            'taxRates' => config('constants.TaxRates'),
+            'taxOperationDate' => config('constants.TaxOperationDate'),
+            'seal_flg' => config('constants.SealFlg'),
+            'issuedStatCode' => config('constants.IssuedStatCode'),
+        ]);
     }
+
+
 
     public function action(Request $request)
     {
@@ -525,35 +718,55 @@ class QuoteController extends AppController
             return redirect()->route('quote.index', ['customer' => $customerId]);
         }
 
-        if ($request->has('reproduce_quote_x')) {
-            $result = $quote->reproduce_check($request->all(), 'Quote');
-            if ($result && $quoteId = $quote->insert_reproduce($result, $userId, Quote::class)) {
-                Session::flash('message', '見積書に転記しました');
+        elseif ($request->has('reproduce_quote_x')) {
+            if($result = $quote->reproduce_check($request->all(), 'Quote')){
+                if ($result && $quoteId = $quote->insert_reproduce($result, $userId, Quote::class)) {
+                    Session::flash('message', '見積書に転記しました');
                     return redirect()->route('quote.index', ['customer' => $customerId]);
-                // return redirect("/quote/edit/$quoteId");
+                    // return redirect("/quote/edit/$quoteId");
+                } else {
+                    return redirect()->route('quote.index', ['customer' => $customerId]);
+                }
+            } else {
+                // 失敗
+                return redirect()->route('quote.index', ['customer' => $customerId]);
             }
         }
 
-        if ($request->has('reproduce_bill_x')) {
-            $result = $quote->reproduce_check($request->all());
-            if ($result && $quote->insert_reproduce($result, $userId, Bill::class)) {
-                Session::flash('message', '請求書に転記しました');
-                return redirect()->route('bill.index', ['customer' => $customerId]);
+        elseif ($request->has('reproduce_bill_x')) {
+            if($result = $quote->reproduce_check($request->all())){
+                if ($result && $quote->insert_reproduce($result, $userId, Bill::class)) {
+                    Session::flash('message', '請求書に転記しました');
+                    return redirect()->route('bill.index', ['customer' => $customerId]);
+                } else {
+                    return redirect()->route('quote.index', ['customer' => $customerId]);
+                }
+            } else {
+                // 失敗
+                return redirect()->route('quote.index', ['customer' => $customerId]);
             }
         }
 
-        if ($request->has('reproduce_delivery_x')) {
-            $result = $quote->reproduce_check($request->all());
-            if ($result && $quote->insert_reproduce($result, $userId, Delivery::class)) {
-                Session::flash('message', '納品書に転記しました');
-                return redirect()->route('delivery.index', ['customer' => $customerId]);
+        elseif ($request->has('reproduce_delivery_x')) {
+            if($result = $quote->reproduce_check($request->all())){
+
+                if ($result && $quote->insert_reproduce($result, $userId, Delivery::class)) {
+                    Session::flash('message', '納品書に転記しました');
+                    return redirect()->route('delivery.index', ['customer' => $customerId]);
+                } else {
+                    return redirect()->route('quote.index', ['customer' => $customerId]);
+                }
+            } else {
+                // 失敗
+                return redirect()->route('quote.index', ['customer' => $customerId]);
             }
         }
 
-        if ($request->has('status_change_x')) {
+        elseif ($request->has('status_change_x')) {
             return $quote->status_change($request->input('Quote'), ['controller' => 'quotes', 'action' => 'index', 'customer' => $customerId]);
         }
     }
+
     public function export(Request $request)
     {
         $browser = $request->header('User-Agent');

@@ -292,11 +292,14 @@ class Quote extends Model
         return $form->Delete_Replication_Data($param, 'Quote', 'MQT_ID');
     }
 
-    public function reproduce_check($param, $auto_serial = true, $model_from = 'Quote')
+    public function reproduce_check($param, $model_from = 'Quote', $auto_serial = true )
     {
+        dd($param);
         $form = new Form();
-
         unset($param['STATUS_CHANGE']);
+        if(!isset($param['selected_quotes'])){
+            return false;
+        }
 
         // Check if any of the copy items are non-numeric
         foreach ($param['selected_quotes'] as $key => $val) {
