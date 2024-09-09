@@ -144,6 +144,8 @@ Route::get('quotes', [QuoteController::class, 'index'])->name('quote.index');
 Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::post('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::get('quotes/edit/{quoteId}', [QuoteController::class, 'edit'])->name('quote.edit');
+Route::get('quotes/download', [QuoteController::class, 'export'])->name('quote.download');
+Route::get('quotes/preview', [QuoteController::class, 'export'])->name('quote.preview');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::post('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::get('quotes/check/{quoteId}', [QuoteController::class, 'check'])->name('quote.check');

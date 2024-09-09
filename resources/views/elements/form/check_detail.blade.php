@@ -1,6 +1,6 @@
 {{-- resources/views/your-view.blade.php --}}
 @php
-    $formType = $name; // assuming $name is passed from the controller
+    $formType = $controller_name; // assuming $name is passed from the controller
     $formID = '';
     $formController = '';
     $mailAction = '';
@@ -47,6 +47,7 @@
             @php
                 $taxClass = ['', '内 ', '', '非 '];
             @endphp
+
 
             @for ($i = 0; $i < $dataline; $i++)
                 @php

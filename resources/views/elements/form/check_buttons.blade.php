@@ -1,6 +1,6 @@
 <!-- resources/views/your-view.blade.php -->
 @php
-    $formType = $name; // assuming $name is passed from the controller
+    $formType = $controller_name; // assuming $name is passed from the controller
     $formID = '';
     $formController = '';
     $mailAction = '';
@@ -8,17 +8,17 @@
     switch ($formType) {
         case 'Quote':
             $formID = 'MQT_ID';
-            $formController = 'quotes';
+            $formController = 'quote';
             $mailAction = 'quote';
             break;
         case 'Bill':
             $formID = 'MBL_ID';
-            $formController = 'bills';
+            $formController = 'bill';
             $mailAction = 'bill';
             break;
         case 'Delivery':
             $formID = 'MDV_ID';
-            $formController = 'deliveries';
+            $formController = 'delivery';
             $mailAction = 'delivery';
             break;
     }
@@ -26,27 +26,27 @@
 
 <div class="edit_btn2">
     @if ($editauth)
-        <a href="{{ route($formController . '.edit', ['id' => $param[$formType][$formID]]) }}">
+        <a href="{{ route($formController . '.edit', ['quoteId' => $param[$formID]]) }}">
             <img src="{{ asset('img/bt_edit.jpg') }}" class="imgover" alt="編集する">
         </a>
 
-        @if ($param[$formType]['STATUS'] == 1)
-            <a href="{{ route('mail.sendmail', ['action' => $mailAction, 'id' => $param[$formType][$formID]]) }}">
+        @if ($param['STATUS'] == 1)
+            <a href="{{ route('mail.sendmail', ['action' => $mailAction, 'quoteId' => $param[$formID]]) }}">
                 <img src="{{ asset('img/bt_send_mail.jpg') }}" class="imgover" alt="メール送付">
             </a>
         @endif
     @endif
 
-    <a href="{{ route($formController . '.download', ['id' => $param[$formType][$formID]]) }}">
+    <a href="{{ route($formController . '.download', ['quoteId' => $param[$formID]]) }}">
         <img src="{{ asset('img/bt_download.jpg') }}" class="imgover" alt="ダウンロード">
     </a>
 
-    <a href="{{ route($formController . '.preview', ['id' => $param[$formType][$formID]]) }}" target="_blank">
+    <a href="{{ route($formController . '.preview', ['quoteId' => $param[$formID]]) }}" target="_blank">
         <img src="{{ asset('img/bt_preview.jpg') }}" class="imgover" alt="プレビュー">
     </a>
 
-    @if ($param[$formType]['STATUS'] == 1)
-        <a href="{{ route($formController . '.download_with_coverpage', ['id' => $param[$formType][$formID]]) }}">
+    @if ($param['STATUS'] == 1)
+        <a href="{{ route($formController . '.download_with_coverpage', ['quoteId' => $param[$formID]]) }}">
             <img src="{{ asset('img/bt_invoice.jpg') }}" class="imgover" alt="ダウンロード">
         </a>
     @endif
@@ -55,7 +55,7 @@
     <form action="{{ url('action') }}" method="POST" style="display:inline;">
         @csrf
         <input type="hidden" name="Action.type" value="{{ strtolower($formType) }}">
-        <input type="hidden" name="{{ $param[$formType][$formID] }}" value="1">
+        <input type="hidden" name="{{ $param[$formID] }}" value="1">
         <button type="submit" style="vertical-align:bottom;"
             onmouseover="this.src='{{ asset('img/bt_copy_on.jpg') }}'"
             onmouseout="this.src='{{ asset('img/bt_copy.jpg') }}'">
@@ -64,7 +64,7 @@
     </form>
 
     @if (isset($rb_flag) && $rb_flag && $formType == 'Bill')
-        <a href="{{ route('regularbill.add', ['id' => $param[$formType][$formID]]) }}">
+        <a href="{{ route('regularbill.add', ['quoteId' => $param[$formID]]) }}">
             <img src="{{ asset('img/bt_rb_copy.jpg') }}" class="imgover" alt="定期請求書へコピー">
         </a>
     @endif

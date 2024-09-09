@@ -375,6 +375,7 @@ class QuoteController extends AppController
     {
         $quote = Quote::find($charge_ID);
 
+        $count = 1;
         if (!$quote) {
             session()->flash('error', '指定の見積書が存在しません');
             return redirect('/quotes/index');
@@ -654,6 +655,7 @@ class QuoteController extends AppController
         }
         $quote = new Quote();
         $hidden = $quote->getPayment($company_ID);
+
 
         // Set data to view
         return view('quote.edit', [
