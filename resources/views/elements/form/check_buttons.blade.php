@@ -56,7 +56,7 @@
         @csrf
         <input type="hidden" name="Action.type" value="{{ strtolower($formType) }}">
         <input type="hidden" name="{{ $param[$formID] }}" value="1">
-        <button type="submit" style="vertical-align:bottom;"
+        <button type="submit" style="vertical-align:bottom;border:none;" 
             onmouseover="this.src='{{ asset('img/bt_copy_on.jpg') }}'"
             onmouseout="this.src='{{ asset('img/bt_copy.jpg') }}'">
             <img src="{{ asset('img/bt_copy.jpg') }}" alt="転記">

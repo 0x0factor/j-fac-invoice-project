@@ -33,7 +33,7 @@
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th class="w100">発行ステータス</th>
-                        <td class="w770">{{ $status[$customHtml->ht2br($param['Quote']['STATUS'], 'Quote', 'STATUS')] }}
+                        <td class="w770">{{ $status[$param['STATUS']] }}
                         </td>
                     </tr>
                     <tr>
@@ -42,7 +42,7 @@
 
                     <tr>
                         <th class="w100">納入期限</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['DEADLINE'], 'Quote', 'DEADLINE') }}</td>
+                        <td class="w770">{{ $param['DEADLINE']}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" /></td>
@@ -50,7 +50,7 @@
 
                     <tr>
                         <th class="w100">取引方法</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['DEAL'], 'Quote', 'DEAL') }}</td>
+                        <td class="w770">{{ $param['DEAL']}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" /></td>
@@ -58,7 +58,7 @@
 
                     <tr>
                         <th class="w100">納入場所</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['DELIVERY'], 'Quote', 'DELIVERY') }}</td>
+                        <td class="w770">{{ $param['DELIVERY']}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" /></td>
@@ -66,7 +66,7 @@
 
                     <tr>
                         <th class="w100">有効期限</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['DUE_DATE'], 'Quote', 'DUE_DATE') }}</td>
+                        <td class="w770">{{ $param['DUE_DATE']}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" /></td>
@@ -74,7 +74,7 @@
 
                     <tr>
                         <th class="txt_top w100">備考</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['NOTE'], 'Quote', 'NOTE') }}</td>
+                        <td class="w770">{{ $param['NOTE']}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" /></td>
@@ -82,7 +82,7 @@
 
                     <tr>
                         <th class="w100">メモ</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Quote']['MEMO'], 'Quote', 'MEMO') }}</td>
+                        <td class="w770">{{ $param['MEMO']}}</td>
                     </tr>
                 </table>
             </div>
@@ -92,6 +92,7 @@
         <div class="arrow_under">
             <img src="{{ asset('img/i_arrow_under.jpg') }}" />
         </div>
+        @include('elements.form.check_buttons')
 
         <!-- Include other elements if needed -->
     </div>

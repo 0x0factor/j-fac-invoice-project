@@ -354,7 +354,7 @@ class DeliveryController extends AppController
         return view('delivery.add', $this->data);
     }
 
-    public function check(Request $request, $id)
+    public function check(Request $request, $delivery_ID)
     {
         // Set the main title and title text
         $main_title = "納品書確認";
@@ -369,10 +369,12 @@ class DeliveryController extends AppController
         }
 
         // 初期データの取得
-        $delivery = Delivery::edit_select($delivery_ID);
+        $delivery = new Delivery();
+        $delivery->edit_select($delivery_ID);
 
         // 顧客に紐付けられた自社担当者を取得
-        $charge_name = Charge::get_charge($delivery->CHR_ID);
+        $charge = new Charge();
+        $charge_name = $charge->get_charge($delivery->CHR_ID);
         $delivery->Charge->NAME = $charge_name;
 
         $customer_charge = CustomerCharge::where('CHRC_ID', $delivery->CHRC_ID)->first();

@@ -47,7 +47,39 @@
             @php
                 $taxClass = ['', '内 ', '', '非 '];
             @endphp
+             @@var_export($param);
+            @dd($taxClass,$param);
+            @for ($i = 0; $i < $dataline; $i++)
+                @php
+                    $tmpTax = $taxClass[$param[$i][$formType . 'item']['TAX_CLASS'] % 10];
+                    $td_color = $i % 2 == 1 ? ' class="td_gray"' : '';
+                    $reduced_tax_mark = in_array($param[$i][$formType . 'item']['TAX_CLASS'], [91, 92]) ? '(※)' : '';
+                @endphp
 
+                <tr>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['ITEM_NO'] ?? '&nbsp;' }}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['ITEM_CODE'] ?? '&nbsp;' }}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['ITEM'] ?? '&nbsp;' }}{!! $reduced_tax_mark !!}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['QUANTITY'] ?? '&nbsp;' }}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['UNIT'] ?? '&nbsp;' }}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {{ $param[$i][$formType . 'item']['UNIT_PRICE'] ?? '&nbsp;' }}
+                    </td>
+                    <td{!! $td_color !!}>
+                    {!! $tmpTax !!}{{ $param[$i][$formType . 'item']['AMOUNT'] ?? '&nbsp;' }}
+                    </td>
+                </tr>
+            @endfor
         </table>
     </div>
 
@@ -116,13 +148,13 @@
                     <img src="{{ asset('img/i_subtotal.jpg') }}" alt="小計">
                 </td>
                 <td class="pt10">
-                    {{ $param['SUBTOTAL'] }}円
+                    {{ $customHtml->ht2br($param['SUBTOTAL'], $formType, 'SUBTOTAL') }}円
                 </td>
                 <td class="pt10">
                     <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税">
                 </td>
                 <td class="pt10">
-                    {{ $param['SALES_TAX'] }}円
+                    {{ $customHtml->ht2br($param['SALES_TAX'], $formType, 'SALES_TAX') }}円
                 </td>
             </tr>
             <tr>
@@ -130,7 +162,7 @@
                     <img src="{{ asset('img/i_total.jpg') }}" alt="合計">
                 </td>
                 <td colspan="3" class="pt10">
-                    {{ $param['TOTAL'] }}円
+                    {{ $customHtml->ht2br($param['TOTAL'], $formType, 'TOTAL') }}円
                 </td>
             </tr>
             @if ($param['tax_kind_count'] >= 1)
@@ -146,13 +178,13 @@
                             <img src="{{ asset('img/button/i_10_tax.jpg') }}" alt="10%対象">
                         </td>
                         <td class="pt10">
-                            {{ $param['TEN_RATE_TOTAL'] }}円
+                            {{ $customHtml->ht2br($param['TEN_RATE_TOTAL'], $formType, 'TOTAL') }}円
                         </td>
                         <td class="pt10">
                             <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税">
                         </td>
                         <td class="pt10">
-                            {{ $param['TEN_RATE_TAX'] }}円
+                            {{ $customHtml->ht2br($param['TEN_RATE_TAX'], $formType, 'SALES_TAX') }}円
                         </td>
                     </tr>
                 @endif
@@ -163,13 +195,13 @@
                             <img src="{{ asset('img/button/i_reduced_tax.jpg') }}" alt="8%(軽減)対象">
                         </td>
                         <td class="pt10">
-                            {{ $param['REDUCED_RATE_TOTAL'] }}円
+                            {{ $customHtml->ht2br($param['REDUCED_RATE_TOTAL'], $formType, 'TOTAL') }}円
                         </td>
                         <td class="pt10">
                             <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税">
                         </td>
                         <td class="pt10">
-                            {{ $param['REDUCED_RATE_TAX'] }}円
+                            {{ $customHtml->ht2br($param['REDUCED_RATE_TAX'], $formType, 'SALES_TAX') }}円
                         </td>
                     </tr>
                 @endif
@@ -180,13 +212,13 @@
                             <img src="{{ asset('img/button/i_8_tax.jpg') }}" alt="8%対象">
                         </td>
                         <td class="pt10">
-                            {{ $param['EIGHT_RATE_TOTAL'] }}円
+                            {{ $customHtml->ht2br($param['EIGHT_RATE_TOTAL'], $formType, 'TOTAL') }}円
                         </td>
                         <td class="pt10">
                             <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税">
                         </td>
                         <td class="pt10">
-                            {{ $param['EIGHT_RATE_TAX'] }}円
+                            {{ $customHtml->ht2br($param['EIGHT_RATE_TAX'], $formType, 'SALES_TAX') }}円
                         </td>
                     </tr>
                 @endif
@@ -197,13 +229,13 @@
                             <img src="{{ asset('img/button/i_5_tax.jpg') }}" alt="5%対象">
                         </td>
                         <td class="pt10">
-                            {{ $param['FIVE_RATE_TOTAL'] }}円
+                            {{ $customHtml->ht2br($param['FIVE_RATE_TOTAL'], $formType, 'TOTAL') }}円
                         </td>
                         <td class="pt10">
                             <img src="{{ asset('img/i_tax.jpg') }}" alt="消費税">
                         </td>
                         <td class="pt10">
-                            {{ $param['FIVE_RATE_TAX'] }}円
+                            {{ $customHtml->ht2br($param['FIVE_RATE_TAX'], $formType, 'SALES_TAX') }}円
                         </td>
                     </tr>
                 @endif
