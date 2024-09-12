@@ -374,8 +374,8 @@ class DeliveryController extends AppController
 
         // 顧客に紐付けられた自社担当者を取得
         $charge = new Charge();
-        $charge_name = $charge->get_charge($delivery->CHR_ID);
-        $delivery->Charge->NAME = $charge_name;
+        $charge_name = $charge->getCharge($delivery->CHR_ID);
+        // $delivery->Charge->NAME = $charge_name;
 
         $customer_charge = CustomerCharge::where('CHRC_ID', $delivery->CHRC_ID)->first();
         if ($customer_charge) {

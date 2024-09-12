@@ -474,7 +474,6 @@ class Form
             $_primary_key = 'MDV_ID';
         }
 
-        dd($_set_param);
         // $_set_param[$_model_Name]['ISSUE_DATE'] = $_set_param[$_model_Name]['DATE'];
         $_set_param['data'][$_model_Name]['DATE'] = $_set_param['data'][$_model_Name]['DATE'];
 

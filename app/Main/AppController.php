@@ -387,6 +387,8 @@ class AppController extends Controller
         $compatibleItems = $_param;
         $count = 0;
 
+        dd($_param);
+
         for ($i = 0; $i < count($_param); $i++) {
             if (!empty($_param[$i])) {
                 $count = $i;

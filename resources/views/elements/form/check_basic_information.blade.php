@@ -77,7 +77,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
+                <td colspan="4" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
             </tr>
             <tr>
                 <th class="txt_top w100">敬称</th>

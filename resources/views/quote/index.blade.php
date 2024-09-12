@@ -208,29 +208,101 @@
                                     <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();" >
                                     </th>
                                     <th class="w50">
-                                        <a href="{{ route('quote.index', ['sort' => 'MQT_ID']) }}">No.</a>
+                                        <a href="{{ route('quote.index', ['sort' => 'MQT_ID', 'direction' => $sortField === 'MQT_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            No.
+                                            @if ($sortField === 'MQT_ID')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'NAME_KANA']) }}">顧客名</a>
+                                        <a href="{{ route('quote.index', ['sort' => 'NAME_KANA', 'direction' => $sortField === 'NAME_KANA' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            顧客名.
+                                            @if ($sortField === 'NAME_KANA')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     <th class="w150">
-                                        <a href="{{ route('quote.index', ['sort' => 'SUBJECT']) }}">件名</a>
+                                        <a href="{{ route('quote.index', ['sort' => 'SUBJECT', 'direction' => $sortField === 'SUBJECT' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            件名
+                                            @if ($sortField === 'SUBJECT')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'TOTAL']) }}">合計金額</a>
+                                        <a href="{{ route('quote.index', ['sort' => 'TOTAL', 'direction' => $sortField === 'TOTAL' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            合計金額
+                                            @if ($sortField === 'TOTAL')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'ISSUE_DATE']) }}">発行日</a>
+                                        <a href="{{ route('quote.index', ['sort' => 'ISSUE_DATE', 'direction' => $sortField === 'ISSUE_DATE' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            発行日
+                                            @if ($sortField === 'ISSUE_DATE')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     @if ($user->AUTHORITY != 1)
                                         <th class="w150">
-                                            <a href="{{ route('quote.index', ['sort' => 'USR_ID']) }}">作成者</a>/
-                                            <a href="{{ route('quote.index', ['sort' => 'UPDATE_USR_ID']) }}">更新者</a>
+                                            <a href="{{ route('quote.index', ['sort' => 'USR_ID', 'direction' => $sortField === 'USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                                作成者
+                                                @if ($sortField === 'USR_ID')
+                                                    @if ($sortDirection === 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                @endif
+                                            </a>/
+                                            <a href="{{ route('quote.index', ['sort' => 'UPDATE_USR_ID', 'direction' => $sortField === 'UPDATE_USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                                更新者
+                                                @if ($sortField === 'UPDATE_USR_ID')
+                                                    @if ($sortDirection === 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                @endif
+                                            </a>
                                         </th>
                                     @endif
 
                                     <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'STATUS']) }}">発行ステータス</a>
+                                            <a href="{{ route('quote.index', ['sort' => 'STATUS', 'direction' => $sortField === 'STATUS' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                            発行ステータス
+                                            @if ($sortField === 'STATUS')
+                                                @if ($sortDirection === 'asc')
+                                                    ↑
+                                                @else
+                                                    ↓
+                                                @endif
+                                            @endif
+                                        </a>
                                     </th>
                                     <th class="w100">メモ</th>
                                 </tr>

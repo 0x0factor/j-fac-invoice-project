@@ -47,8 +47,10 @@ class QuoteController extends AppController
             $customer_id = null;
         }
 
+        $sortField = $request->input('sort', 'MQT_ID'); // Default sorting column
+        $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
 
-        $query = Quote::query();
+        $query = Quote::orderBy($sortField, $sortDirection);
         // Apply filters based on request input
         if ($request->NO) {
             $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
@@ -78,7 +80,7 @@ class QuoteController extends AppController
             $query->whereIn('STATUS', $request->STATUS);
         }
 
-
+        // dd($request->query('sort'));
 
         $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $quotes = $paginator->items();
@@ -98,6 +100,8 @@ class QuoteController extends AppController
             'quotes' => $quotes,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
             'controller_name' => "Quote",
 
         ]);
@@ -767,6 +771,7 @@ class QuoteController extends AppController
         elseif ($request->has('status_change_x')) {
             return $quote->status_change($request->input('Quote'), ['controller' => 'quotes', 'action' => 'index', 'customer' => $customerId]);
         }
+
     }
 
     public function export(Request $request)
