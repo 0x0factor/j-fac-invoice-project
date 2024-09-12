@@ -46,13 +46,7 @@ class BillController extends AppController
 
     public function index(Request $request)
     {
-        $bills = Bill::orderBy('STATUS', 'DESC')->paginate(20);
         $authority = [];
-        $list = $bills->items();
-
-        foreach ($bills as $bill) {
-            $authority[$bill->user->USR_ID] = $this->Get_Edit_Authority($bill->user->USR_ID) ? true : false;
-        }
 
         if ($request->has('customer')) {
             $customer = Customer::find($request->input('customer'));
@@ -65,10 +59,20 @@ class BillController extends AppController
         }
 
         $name = Auth::user()->NAME;
-        $query = Bill::query();
+
+        $sortField = $request->input('sort', 'MBL_ID'); // Default sorting column
+        $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
+
+        $query = Bill::orderBy($sortField, $sortDirection);
+        $bills = $query->orderBy('STATUS', 'DESC')->paginate(20);
+        $list = $bills->items();
+
+        foreach ($bills as $bill) {
+            $authority[$bill->user->USR_ID] = $this->Get_Edit_Authority($bill->user->USR_ID) ? true : false;
+        }
 
         if ($request->NO) {
-            $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
+            $query->where('MBL_ID', 'like', '%' . $request->NO . '%');
         }
 
         if ($request->SUBJECT) {
@@ -119,7 +123,6 @@ class BillController extends AppController
         $searchData = $request ? $request: "";
         $searchStatus = $request->STATUS;
 
-
         return view('bill.index', [
             'bills' => $bills,
             'authority' => $authority,
@@ -130,6 +133,8 @@ class BillController extends AppController
             'list' => $list,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
             'mailstatus' => config('constants.MailStatusCode'),
             'status' => config('constants.IssuedStatCode')
         ]);

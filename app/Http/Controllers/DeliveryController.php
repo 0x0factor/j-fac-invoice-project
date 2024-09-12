@@ -49,6 +49,8 @@ class DeliveryController extends AppController
         // var_export($deliveries[0]->USER['NAME']);
         // var_export($deliveries[0]->UPDATEUSER['NAME']);
         // die;
+
+
         if ($request->has('customer')) {
             $customer = Customer::where('CST_ID', $request->query('customer'))->first();
             if ($customer) {
@@ -66,15 +68,16 @@ class DeliveryController extends AppController
             }
         }
 
-
-
         $action = config('constants.ActionCode');
         $name = Auth::user()->NAME;
 
-        $query = Delivery::query();
+        $sortField = $request->input('sort', 'MDV_ID'); // Default sorting column
+        $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
+
+        $query = Delivery::orderBy($sortField, $sortDirection);
 
         if ($request->NO) {
-            $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
+            $query->where('MDV_ID', 'like', '%' . $request->NO . '%');
         }
 
         if ($request->SUBJECT) {
@@ -123,9 +126,7 @@ class DeliveryController extends AppController
         }
 
         $condition = [];
-        $paginator = Delivery::where($condition)
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+        $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
         $list = $paginator->items();
 
         $searchData = $request ? $request: "";
@@ -139,6 +140,8 @@ class DeliveryController extends AppController
         $this->data['searchData'] = $searchData;
         $this->data['paginator'] = $paginator;
         $this->data['list'] = $list;
+        $this->data['sortField'] = $sortField;
+        $this->data['sortDirection'] = $sortDirection;
         $this->data['mailstatus'] = config('constants.MailStatusCode');
         $this->data['status'] = config('constants.IssuedStatCode');
 
