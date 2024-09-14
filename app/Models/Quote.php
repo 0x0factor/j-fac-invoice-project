@@ -317,7 +317,7 @@ class Quote extends Model
 
         // Fetch the data to be copied
         $quote = new Quote;
-        dd($param);
+        // dd($param);
         // $quotes = $quote->whereIn('MQT_ID', explode(',', implode(',', $param)))->get();
         $quotes = $quote->whereIn('MQT_ID', $param['selected_quotes'])->get();
         if (!$quotes) {
