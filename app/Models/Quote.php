@@ -294,7 +294,7 @@ class Quote extends Model
 
     public function reproduce_check($param, $model_from = 'Quote', $auto_serial = true )
     {
-        dd($param);
+        // dd($param);
         $form = new Form();
         unset($param['STATUS_CHANGE']);
         if(!isset($param['selected_quotes'])){
