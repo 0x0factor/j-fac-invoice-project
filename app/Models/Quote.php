@@ -307,8 +307,6 @@ class Quote extends Model
                 return false;
             }
         }
-        dd($param);
-
 
         // Organize the IDs of the items to be copied
         $form->Sort_Replication_ID($param, 'selected_quotes');
