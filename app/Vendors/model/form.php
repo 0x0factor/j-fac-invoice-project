@@ -32,9 +32,8 @@ class Form
 	 */
 	public function Sort_Replication_ID(&$_param, $modelName)
 	{
-        dd($_param);
+        dd($_param, $modelName);
 		// $param = array();
-        // dd($_param);
 
 		// if(is_array($_param)){
 		// 	//複製する項目をピックアップ
