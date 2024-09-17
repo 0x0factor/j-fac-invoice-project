@@ -233,6 +233,7 @@ class Form
         // Start transaction
         DB::beginTransaction();
 
+
         $modelInstance = $Model->create($_copy_param[0]);
 
         try {
@@ -484,6 +485,7 @@ class Form
         // Begin transaction
         DB::beginTransaction();
 
+dd($_set_param);
 
         if ($Model->fill($_set_param[$_model_Name])->save()) {
             if ($_state === "new") {
@@ -524,6 +526,7 @@ class Form
             DB::rollBack();
             return false;
         }
+
     }
 
     public function Get_Preview_Data($_model_id, $_model_Name, &$_items = null, &$_discounts = null)

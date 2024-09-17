@@ -300,6 +300,8 @@ class QuoteController extends AppController
         // Call the instance method get_customer
         $company = $quote->get_customer($company_ID, $cst_condition);
         $hidden = $quote->getPayment($company_ID);
+        $default_cmp = $quote->getCompanyPayment($company_ID);
+
         if ($default_cmp) {
             $hidden['default'] = [
                 'EXCISE' => $default_cmp['EXCISE'],

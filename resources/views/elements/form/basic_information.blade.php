@@ -99,11 +99,12 @@
                     <td id="SETCUSTOMER" style="width:270px;">
                         <input type="text" name="CUSTOMER_NAME"
                             class="w130{{ $errors->has('CST_ID') ? ' error' : '' }}"
-                            value="{{ old('CUSTOMER_NAME') }}" readonly>
+                            value="{{ old('CUSTOMER_NAME') }}"
+                        >
                         <input type="hidden" name="CST_ID" value="{{ old('CST_ID') }}"
                             id="{{ $formType }}CSTID">
-                            <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
-                                <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
+                        <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
+                            <img src="{{ asset('img/bt_select2.jpg') }}" alt="">
                         </button>
                         <button onclick="return customer_reset();" style="border: none;">
                             <img src="{{ asset('img/bt_delete2.jpg') }}" alt="">

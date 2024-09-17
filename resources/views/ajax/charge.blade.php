@@ -6,12 +6,12 @@
         function insert(no) {
             $('#SETCHARGE input[type=text]').val($('#name' + no).html());
             $('#SETCHARGE input[type=hidden]').val($('#user' + no + ' input#CHR_ID').val());
-            $('#SET_CHR_SEAL_FLG input[type=radio]').prop('checked', false);
+            $('#SET_CHR_SEAL_FLG input[type=radio]').val('checked', false);
 
             if ($('#user' + no + ' input#TMP_CHR_SEAL_FLG').val() == 1) {
-                $('#SET_CHR_SEAL_FLG input[type=radio]:first').prop('checked', true);
+                $('#SET_CHR_SEAL_FLG input[type=radio]:first').val('checked', true);
             } else {
-                $('#SET_CHR_SEAL_FLG input[type=radio]:last').prop('checked', true);
+                $('#SET_CHR_SEAL_FLG input[type=radio]:last').val('checked', true);
             }
 
             popupclass.popup_close();
