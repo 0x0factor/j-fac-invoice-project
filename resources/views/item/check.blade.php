@@ -26,7 +26,8 @@
             <div class="edit_01_item"><span class="edit_txt">&nbsp;</span></div>
         </h3>
 
-        <form action="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" method="POST" class="Item">
+        <form action="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" method="POST" class="Item">
+
             @csrf
             <div class="contents_box">
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
@@ -109,13 +110,13 @@
             </div>
             <div class="edit_btn">
                 @if ($editauth)
-                    <a href="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" class="imgover"
+                    <a href="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" class="imgover"
                         onclick="event.preventDefault(); document.getElementById('editForm').submit();">
                         <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                     </a>
                 @endif
 
-                <form id="editForm" action="{{ route('item.edit', ['id' => $data['ITM_ID']]) }}" method="POST"
+                <form id="editForm" action="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" method="POST"
                     style="display:inline;">
                     @csrf
                     <input type="hidden" name="ITM_ID" value="{{ $data['ITM_ID'] }}">
