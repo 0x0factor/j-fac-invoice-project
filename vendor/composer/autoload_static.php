@@ -552,6 +552,8 @@ class ComposerStaticInit3be09291fe71cddb7bc1647cb4b1c8ca
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AdministerController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdministerController.php',
+        'App\\Http\\Controllers\\AjaxController' => __DIR__ . '/../..' . '/app/Http/Controllers/AjaxController.php',
+        'App\\Http\\Controllers\\AppController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\BarangController' => __DIR__ . '/../..' . '/app/Http/Controllers/BarangController.php',
         'App\\Http\\Controllers\\BillController' => __DIR__ . '/../..' . '/app/Http/Controllers/BillController.php',

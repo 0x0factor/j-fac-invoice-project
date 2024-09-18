@@ -23,6 +23,8 @@ use App\Http\Controllers\TotalbillController;
 use App\Http\Controllers\View_optionController;
 use App\Http\Controllers\ZipcodeController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\PDFController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -71,7 +73,7 @@ Route::post('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('a
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::post('bills/add', [BillController::class, 'add'])->name('bill.add');
-Route::get('bills/check', [BillController::class, 'check'])->name('bill.check');
+Route::get('bills/check/{bill_ID}', [BillController::class, 'check'])->name('bill.check');
 Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
 Route::get('bills/export', [BillController::class, 'export'])->name('bill.export');
 Route::post('bills/export', [BillController::class, 'export'])->name('bill.export');
@@ -172,3 +174,6 @@ Route::get('zipcode/reset', [ZipcodeController::class, 'reset'])->name('zipcode.
 
 //route barang
 Route::resource('barang', BarangController::class)->middleware('auth');
+
+
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);

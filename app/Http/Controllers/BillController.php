@@ -298,18 +298,22 @@ class BillController extends AppController
     }
 
     // 確認
-    public function check($bill_ID = null)
+    public function check(Request $request, $bill_ID)
     {
         if (is_null($bill_ID)) {
             Session::flash('error', '指定の請求書が存在しません');
             return redirect('/bills/index');
         }
+        $count = 1;
 
-        $param = Bill::edit_select($bill_ID, $count);
+        $bill = new Bill();
+
+        $param = $bill->editSelect($bill_ID, $count);
         if (!$param) {
             Session::flash('error', '指定の請求書が削除されたか、存在しない可能性があります');
             return redirect('/bills/index');
         }
+        dd($param);
 
         $param['Charge']['NAME'] = Charge::get_charge($param['Bill']['CHR_ID']);
 
