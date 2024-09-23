@@ -336,7 +336,7 @@
                                         <td><input type="checkbox" name="selected[]" value="{{ $val->MBL_ID }}"
                                                 class="chk"></td>
                                         <td>{{ $val->MBL_ID }}</td>
-                                        <td>{{ nl2br($val['Customer']['NAME'] ?? "") }}</td>
+                                        <td>{{ nl2br($val['Customer']['NAME'] ?? $val['Customer']['NAME']) }}</td>
                                         <td><a href="{{ route('bill.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
                                         <td>{{ $val->TOTAL ?? $val['TOTAL'] }}円</td>
                                         <td>{{ $val->ISSUE_DATE ?? $val['ISSUE_DATE'] }}</td>

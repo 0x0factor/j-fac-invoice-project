@@ -48,14 +48,26 @@ class BillController extends AppController
     {
         $authority = [];
 
+        // if ($request->has('customer')) {
+        //     $customer = Customer::find($request->input('customer'));
+        //     $customerName = $customer->NAME;
+        //     $request->session()->put('session_params', [
+        //         $request->route()->getName() => [
+        //             'NAME' => $customerName
+        //         ]
+        //     ]);
+        // }
+
         if ($request->has('customer')) {
-            $customer = Customer::find($request->input('customer'));
-            $customerName = $customer->NAME;
-            $request->session()->put('session_params', [
-                $request->route()->getName() => [
-                    'NAME' => $customerName
+            $customer = $this->customer->where('CST_ID', $request->input('customer'))->first();
+            session()->put('session_params', [
+                'Quote' => [
+                    'NAME' => $customer->NAME
                 ]
             ]);
+            $customer_id = $request->input('customer');
+        } else {
+            $customer_id = null;
         }
 
         $name = Auth::user()->NAME;
@@ -63,8 +75,12 @@ class BillController extends AppController
         $sortField = $request->input('sort', 'MBL_ID'); // Default sorting column
         $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
 
-        $query = Bill::orderBy($sortField, $sortDirection);
+        $query = Bill::with('customer', 'user')
+             ->orderBy($sortField, $sortDirection);
         $bills = $query->orderBy('STATUS', 'DESC')->paginate(20);
+        foreach ($bills as $bill) {
+            $user = $bill->user;
+          }
         $list = $bills->items();
 
         foreach ($bills as $bill) {
@@ -130,6 +146,7 @@ class BillController extends AppController
             'title_text' => '帳票管理',
             'title' => "抹茶請求書",
             'controller_name' => "Bill",
+            'customer_id' => $customer_id,
             'list' => $list,
             'searchData' => $searchData,
             'searchStatus' => $searchStatus,

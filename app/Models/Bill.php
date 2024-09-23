@@ -36,7 +36,7 @@ class Bill extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'USR_ID', 'USR_ID');
+        return $this->belongsTo(User::class, 'USR_ID');
     }
 
     public function updateUser()
