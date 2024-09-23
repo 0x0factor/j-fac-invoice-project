@@ -322,7 +322,6 @@
                                         </td>
                                         <td class="v150">{{ $quote->TOTAL }}円</td>
                                         <td class="v150">{{ $quote->ISSUE_DATE }}</td>
-                                        @dd($quote->UpdateUser->NAME);
                                         @if (auth()->user()->AUTHORITY != 1)
 
                                             <td class="v50">{{ $quote->user->NAME }} /
