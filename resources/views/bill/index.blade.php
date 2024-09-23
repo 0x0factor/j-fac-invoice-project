@@ -338,8 +338,8 @@
                                         <td>{{ $val->MBL_ID }}</td>
                                         <td>{{ nl2br($val['Customer']['NAME'] ?? "") }}</td>
                                         <td><a href="{{ route('bill.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
-                                        <td>{{ $val->TOTAL ?? '&nbsp;' }}円</td>
-                                        <td>{{ $val->ISSUE_DATE ?? '&nbsp;' }}</td>
+                                        <td>{{ $val->TOTAL ?? $val['TOTAL'] }}円</td>
+                                        <td>{{ $val->ISSUE_DATE ?? $val['ISSUE_DATE'] }}</td>
                                         @if ($user->AUTHORITY != 1)
                                             <td> {{ nl2br($val['USER']['NAME']) }} /
                                             {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}</td>

@@ -58,25 +58,25 @@
 
                 <tr>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['ITEM_NO'] ?? '&nbsp;' }}
+                    {{ $param[$i][$formType . 'item']['ITEM_NO'] ?? $param[$i][$formType . 'item']['ITEM_NO'] }}
                     </td>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['ITEM_CODE'] ?? '&nbsp;' }}
+                    {{ $param[$i][$formType . 'item']['ITEM_CODE'] ?? $param[$i][$formType . 'item']['ITEM_CODE'] }}
                     </td>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['ITEM'] ?? '&nbsp;' }}{!! $reduced_tax_mark !!}
+                    {{ $param[$i][$formType . 'item']['ITEM'] ?? $param[$i][$formType . 'item']['ITEM'] }}{!! $reduced_tax_mark !!}
                     </td>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['QUANTITY'] ?? '&nbsp;' }}
+                    {{ $param[$i][$formType . 'item']['QUANTITY'] ?? $param[$i][$formType . 'item']['QUANTITY'] }}
                     </td>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['UNIT'] ?? '&nbsp;' }}
+                    {{ $param[$i][$formType . 'item']['UNIT'] ?? $param[$i][$formType . 'item']['UNIT'] }}
                     </td>
                     <td{!! $td_color !!}>
-                    {{ $param[$i][$formType . 'item']['UNIT_PRICE'] ?? '&nbsp;' }}
+                    {{ $param[$i][$formType . 'item']['UNIT_PRICE'] ?? $param[$i][$formType . 'item']['UNIT_PRICE'] }}
                     </td>
                     <td{!! $td_color !!}>
-                    {!! $tmpTax !!}{{ $param[$i][$formType . 'item']['AMOUNT'] ?? '&nbsp;' }}
+                    {!! $tmpTax !!}{{ $param[$i][$formType . 'item']['AMOUNT'] ?? $param[$i][$formType . 'item']['AMOUNT'] }}
                     </td>
                 </tr>
             @endfor

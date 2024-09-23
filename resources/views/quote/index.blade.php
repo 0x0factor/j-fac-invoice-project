@@ -322,9 +322,11 @@
                                         </td>
                                         <td class="v150">{{ $quote->TOTAL }}円</td>
                                         <td class="v150">{{ $quote->ISSUE_DATE }}</td>
+                                        @dd($quote->UpdateUser->NAME);
                                         @if (auth()->user()->AUTHORITY != 1)
+
                                             <td class="v50">{{ $quote->user->NAME }} /
-                                                {{ $quote->updateUser->NAME ?? '&nbsp;' }}</td>
+                                                {{ $quote->updateUser->NAME ?? $quote['UpdateUser']['NAME'] }}</td>
                                         @endif
 
                                         @if($quote->STATUS == 1)
@@ -336,7 +338,7 @@
                                                 下書き
                                             </td>
                                         @endif
-                                        <td class="v100">{{ $quote->MEMO ?? '&nbsp;' }}</td>
+                                        <td class="v100">{{ $quote->MEMO ?? $quote['MEMO'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -245,6 +245,11 @@ class Quote extends Model
         return $this->belongsTo(User::class, 'USR_ID');
     }
 
+    public function updateUser()
+    {
+        return $this->belongsTo(User::class, 'UPDATE_USR_ID'); // Assuming UPDATE_USR_ID is the foreign key
+    }
+
     public function quoteItem()
     {
         return $this->hasOne(QuoteItem::class, 'MQT_ID');

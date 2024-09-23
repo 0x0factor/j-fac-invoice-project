@@ -231,7 +231,7 @@
                                     </td>
                                     <td>{{ $val['Totalbill']['ISSUE_DATE'] ?: '&nbsp;' }}</td>
                                     @if ($user['AUTHORITY'] != 1)
-                                        <td>{{ $val['User']['NAME'] }} / {{ $val['UpdateUser']['NAME'] ?? '&nbsp;' }}</td>
+                                        <td>{{ $val['User']['NAME'] }} / {{ $val['UpdateUser']['NAME'] ?? $val['UpdateUser']['NAME'] }}</td>
                                     @endif
                                     <td>{{ $edit_stat[$val['Totalbill']['EDIT_STAT']] }}</td>
                                 </tr>
