@@ -24,6 +24,10 @@ class Delivery extends Model
     protected $table = 'T_DELIVERY';
     protected $primaryKey = 'MDV_ID';
     public $timestamps = false;
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'CST_ID');
+    }
 
     public function user()
     {

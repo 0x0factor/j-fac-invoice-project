@@ -181,25 +181,18 @@
                                         <tr>
                                             <td>
                                                 <input type="checkbox" name="ITM_ID[]"
-                                                    value="{{ $val['Item']['ITM_ID'] ?? '' }}" class="chk"
+                                                    value="{{ $val['ITM_ID'] ?? '' }}" class="chk"
                                                     style="width:30px;">
                                             </td>
-                                            <td>{{ $val['Item']['ITM_ID'] ?? '' }}</td>
+                                            <td>{{ $key }}</td>
                                             <td>
-                                                @isset($val['Item']['ITM_ID'])
-                                                    <a
-                                                        href="{{ route('item.check', $val['Item']['ITM_ID']) }}">{{ $val['Item']['ITEM'] }}</a>
-                                                @else
-                                                    &nbsp;
-                                                @endisset
+                                                <a href="{{ route('item.check', $val['ITM_ID']) }}">{{ $val['ITEM'] }}</a>
                                             </td>
                                             <td>{{ $val['ITM_ID'] }}</td>
                                             <td>{{ $val['UNIT'] }}</td>
                                             <td>{{ $val['UNIT_PRICE'] }}</td>
                                             <td>{{ $val['TAX_CLASS'] }}</td>
-                                            @if ($user['AUTHORITY'] != 1)
-                                                <td>{{ $val['NAME'] }}</td>
-                                            @endif
+                                            <td>{{ $val['customer']['NAME'] }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

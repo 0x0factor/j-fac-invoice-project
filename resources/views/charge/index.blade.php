@@ -183,8 +183,7 @@
                                             <td>{{ $val['CHR_ID'] }}</td>
                                             <td>
                                                 @if ($val['CHR_ID'] == 1)
-                                                    <a
-                                                        href="{{ route('charge.check', $val['CHR_ID']) }}">{{ $val['CHARGE_NAME'] }}</a>
+                                                    <a href="{{ route('charge.check', $val['CHR_ID']) }}">{{ $val['CHARGE_NAME'] }}</a>
                                                 @else
                                                     {{ nl2br($val['CHARGE_NAME']) }}
                                                 @endif

@@ -340,16 +340,16 @@
                                         @endif -->
                                         <td>{{ nl2br($val['MDV_ID']) }}
                                         </td>
-                                        <td>{{ nl2br($val['customer']['NAME'] ?? "") }}</td>
+                                        <td>{{ nl2br($val['customer']['NAME']) }}</td>
                                         <td>
                                             <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
                                                 {{ $val['SUBJECT'] }}
                                             </a>
                                         </td>
                                         <td>
-                                            {{ isset($val['TOTAL']) ? nl2br($val['TOTAL']) . '円' : '&nbsp;' }}
+                                            {{ isset($val['TOTAL']) ? nl2br($val['TOTAL']) . '円' : '' }}
                                         </td>
-                                        <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '&nbsp;' }}
+                                        <td>{{ $val['ISSUE_DATE'] ? $val['ISSUE_DATE'] : '' }}
                                         </td>
                                         @if ($user['AUTHORITY'] != 1)
 
@@ -359,7 +359,7 @@
                                             </td>
                                         @endif
                                         <td>{{ $status[$val['STATUS']] }}</td>
-                                        <td>{{ $val['MEMO'] ? nl2br($val['MEMO']) : '&nbsp;' }}
+                                        <td>{{ $val['MEMO'] ? nl2br($val['MEMO']) : '' }}
                                         </td>
                                     </tr>
                                 @endforeach

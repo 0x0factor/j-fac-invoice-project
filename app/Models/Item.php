@@ -43,6 +43,11 @@ class Item extends Model
     /**
      * Define relationships.
      */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'USR_ID');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'USR_ID');

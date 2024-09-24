@@ -180,8 +180,8 @@
                                     <td>{{ $val['CST_ID'] }}</td>
                                     <td>
                                         @if ($val['CST_ID'] == 1)
-                                            <a
-                                                href="{{ route('customer.check', ['id' => $val['CST_ID']]) }}">{{ $val['NAME'] }}</a>
+                                            <a href="{{ route('customer.check', ['customer_ID' => $val['CST_ID']]) }}">{{ $val['NAME'] }}</a>
+
                                         @else
                                             {{ $val['NAME'] }}
                                         @endif
