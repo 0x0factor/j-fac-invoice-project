@@ -47,7 +47,7 @@ class QuoteController extends AppController
             $customer_id = null;
         }
 
-        $sortField = $request->input('sort', 'MQT_ID'); // Default sorting column
+        $sortField = $request->input('sort', 'INSERT_DATE'); // Default sorting column
         $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
 
         $query = Quote::orderBy($sortField, $sortDirection);
@@ -61,7 +61,7 @@ class QuoteController extends AppController
         }
 
         // if ($request->NAME) {
-        //     $query->where('NAME', 'like', '%' . $request->NAME . '%');
+        //     $query->where('CST_ID', 'like', '%' . $request->NAME . '%');
         // }
 
         if ($request->CHR_USR_NAME) {

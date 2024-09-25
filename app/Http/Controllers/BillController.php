@@ -72,7 +72,7 @@ class BillController extends AppController
 
         $name = Auth::user()->NAME;
 
-        $sortField = $request->input('sort', 'MBL_ID'); // Default sorting column
+        $sortField = $request->input('sort', 'INSERT_DATE'); // Default sorting column
         $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
 
         $query = Bill::with('customer', 'user')

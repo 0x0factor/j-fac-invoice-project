@@ -71,7 +71,7 @@ class DeliveryController extends AppController
         $action = config('constants.ActionCode');
         $name = Auth::user()->NAME;
 
-        $sortField = $request->input('sort', 'MDV_ID'); // Default sorting column
+        $sortField = $request->input('sort', 'INSERT_DATE'); // Default sorting column
         $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
 
         $query = Delivery::orderBy($sortField, $sortDirection);
