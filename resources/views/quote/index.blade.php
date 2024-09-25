@@ -352,7 +352,6 @@
                             <input type="image" src="{{ asset('img/bt_03.jpg') }}" name="reproduce_delivery"
                                 alt="複製" class="mr5">
 
-
                                 @include('elements.status_change')
 
                                 @if (isset($customer_id))

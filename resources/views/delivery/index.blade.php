@@ -338,8 +338,7 @@
                                                 {{ $authcheck[$key] }}
                                             </div>
                                         @endif -->
-                                        <td>{{ nl2br($val['MDV_ID']) }}
-                                        </td>
+                                        <td>{{ nl2br($val['MDV_ID']) }}</td>
                                         <td>{{ nl2br($val['customer']['NAME']) }}</td>
                                         <td>
                                             <a href="{{ route('delivery.check', $val['MDV_ID']) }}">
@@ -378,7 +377,6 @@
 
                             {{-- Include status_change element --}}
                             @include('elements.status_change')
-
 
                             {{-- Hidden fields --}}
                             @if (isset($customer_id))

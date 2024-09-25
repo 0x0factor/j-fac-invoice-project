@@ -100,7 +100,7 @@
                         <input type="text" name="CUSTOMER_NAME"
                             class="w130{{ $errors->has('CST_ID') ? ' error' : '' }}"
                             value="{{ old('CUSTOMER_NAME') }}"
-                        >
+                            readonly>
                         <input type="hidden" name="CST_ID" value="{{ old('CST_ID') }}"
                             id="{{ $formType }}CSTID">
                         <button onclick="return popupclass.popupajax('select_customer');" style="border: none;">
