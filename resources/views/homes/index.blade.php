@@ -119,7 +119,6 @@
                     <dl>
                         @if ($bill)
                             @foreach ($bill as $value)
-                            @dd($value['LAST_UPDATE']);
                                 <dt>{{ $value['LAST_UPDATE'] }}</dt>
                                 @if ($user['AUTHORITY'] != 1)
                                     <dd>作成者 ： {{ $user['NAME'] }}</dd>
