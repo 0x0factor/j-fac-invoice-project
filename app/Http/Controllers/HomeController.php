@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Home;
 use App\Models\User;
 
@@ -10,6 +11,11 @@ class HomeController extends Controller
 {
     public function index()
     {
+        if (!Auth::check()) {
+            // Redirect to the login page if not authenticated
+            return redirect()->route('login');
+        }
+
         if ($this->getUserAuthority() != 1) {
             $bill = Home::getRecentForms('T_BILL');
             $quote = Home::getRecentForms('T_QUOTE');

@@ -239,9 +239,9 @@
                                         </a>
                                     </th>
                                     <th class="w100">
-                                        <a href="{{ route('bill.index', ['sort' => 'NAME_KANA', 'direction' => $sortField === 'NAME_KANA' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                        <a href="{{ route('bill.index', ['sort' => 'CST_ID', 'direction' => $sortField === 'CST_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
                                             顧客名
-                                            @if ($sortField === 'NAME_KANA')
+                                            @if ($sortField === 'CST_ID')
                                                 @if ($sortDirection === 'asc')
                                                     ↑
                                                 @else

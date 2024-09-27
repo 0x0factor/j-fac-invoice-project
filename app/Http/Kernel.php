@@ -45,6 +45,12 @@ class Kernel extends HttpKernel
         ],
     ];
 
+    protected $routeMiddleware = [
+        // other middleware
+        'check.session' => \App\Http\Middleware\CheckSessionMiddleware::class,
+    ];
+
+
     /**
      * The application's middleware aliases.
      *
