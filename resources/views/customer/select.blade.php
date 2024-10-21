@@ -119,12 +119,8 @@
                                 <tr>
                                     <td>{{ $val['CST_ID'] }}</td>
                                     <td>
-                                        @if (isset($authcheck[$val['CST_ID']]) && $authcheck[$val['CST_ID']] == 1)
-                                            <a
-                                                href="{{ route('customers.check', ['id' => $val['CST_ID']]) }}">{{ $val['NAME'] }}</a>
-                                        @else
-                                            {!! nl2br(e($val['NAME'])) !!}
-                                        @endif
+                                        <a
+                                            href="{{ route('customer.check', $val['CST_ID']) }}">{{ $val['NAME'] }}</a>
                                     </td>
                                     <td>
                                         @if (

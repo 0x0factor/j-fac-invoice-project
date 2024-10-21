@@ -24,19 +24,21 @@ class ChargeController extends AppController
         $seal = config('constants.SealCode');
 
         $query = Charge::query();
+        
         // Apply filters based on request input
         if ($request->CHARGE_NAME) {
-            $query->where('MQT_ID', 'like', '%' . $request->CHARGE_NAME . '%');
+            $query->where('CHARGE_NAME', 'like', '%' . $request->CHARGE_NAME . '%');
         }
-
         if ($request->UNIT) {
             $query->where('UNIT', 'like', '%' . $request->UNIT . '%');
         }
 
-        $condition = [];
-        $paginator = Charge::where($condition)
-            ->orderBy('INSERT_DATE')
-            ->paginate(20);
+        // Add sorting based on request
+        $sortField = $request->input('sort', 'INSERT_DATE');
+        $sortDirection = $request->input('direction', 'asc');
+        $query->orderBy($sortField, $sortDirection);
+
+        $paginator = $query->paginate(20);
 
         $list = $paginator->items();
 
@@ -66,10 +68,29 @@ class ChargeController extends AppController
 
         if ($request->isMethod('post')) {
             $this->validate($request, [
-                'Charge.SEAL_STR' => 'nullable|string',
-                // Add other validations here
+                'STATUS' => 'required|string',
+                'CHARGE_NAME' => 'required|string',
+                'CHARGE_NAME_KANA' => 'required|string',
+                'UNIT' => 'required|string',
+                'POST' => 'required|string',
+                'MAIL' => 'required|email',
+                'POSTCODE1' => 'required|string|size:3',
+                'POSTCODE2' => 'required|string|size:3',
+                'CNT_ID' => 'required|string',
+                'ADDRESS' => 'required|string',
+                'BUILDING' => 'nullable|string',
+                'PHONE_NO1' => 'required|string',
+                'PHONE_NO2' => 'nullable|string',
+                'PHONE_NO3' => 'nullable|string',
+                'FAX_NO1' => 'required|string',
+                'FAX_NO2' => 'nullable|string',
+                'FAX_NO3' => 'nullable|string',
+                'SEAL_METHOD' => 'required|string',
+                'SEAL_STR' => 'nullable|string',
+                'CHR_SEAL_FLG' => 'required|string',
+                'USR_ID' => 'required|string',
+                'UPDATE_USR_ID' => 'required|string',
             ]);
-
 
             // Update validation
             $phone_error = $this->phone_validation($request->input());
@@ -95,7 +116,7 @@ class ChargeController extends AppController
             }
 
             $_param['SEARCH_ADDRESS'] .= $_param['ADDRESS'] . $_param['BUILDING'];
-
+            
             // Save charge data
             // $charge->fill($_param);
             $charge = new Charge;
@@ -125,6 +146,7 @@ class ChargeController extends AppController
             $charge->CHR_SEAL_FLG = $_param['CHR_SEAL_FLG'];
             $charge->INSERT_DATE = date("Y-m-d H:i:s");
             $charge->LAST_UPDATE = date("Y-m-d H:i:s");
+            
             $charge->save();
 
             $_chr_id = $charge->CHR_ID;
@@ -144,19 +166,20 @@ class ChargeController extends AppController
         $seal_method = config('constants.SealMethod');
         $seal_flg = config('constants.SealFlg');
         $user = Auth::user();
-
-        return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg'))
-            ->with('main_title', '自社担当者登録')
-            ->with('title_text', '自社情報設定')
-            ->with('title', '抹茶請求書')
-            ->with('controller_name', 'Charge')
-            ->with('page_title', 'Company')
-            ->with('status', $status)
-            ->with('countys', $countys)
-            ->with('seal_method', $seal_method)
-            ->with('seal_flg', $seal_flg)
-            ->with('user', $user)
-            ->with('ierror', '0');
+        $ierror = 0;
+        return view('charge.add', compact('image_error', 'phone_error', 'fax_error', 'status', 'countys', 'seal_method', 'seal_flg', 'ierror'))
+            ->with([
+                'main_title' => '自社担当者登録',
+                'title_text' => '自社情報設定',
+                'title' => '抹茶請求書',
+                'controller_name' => 'Charge',
+                'page_title' => 'Company',
+                'status' => $status,
+                'countys' => $countys,
+                'seal_method' => $seal_method,
+                'seal_flg' => $seal_flg,
+                'user' => $user
+            ]);
     }
 
     // 削除用
@@ -182,6 +205,8 @@ class ChargeController extends AppController
         $phone_error = 0;
         $fax_error = 0;
         $image_error = 0;
+        $user = Auth::user();
+        $title = '自社担当者編集';
 
         if ($request->has('cancel_x')) {
             return redirect()->route('charge.index');
@@ -205,7 +230,7 @@ class ChargeController extends AppController
                 if ($result === 1 || $result === 2 || $result === 3) {
                     $image_error = $result;
                     $image = Charge::get_image($charge_ID);
-                    return view('charge.edit', compact('image', 'image_error', 'phone_error', 'fax_error', 'charge_ID'))
+                    return view('charge.edit', compact('image', 'image_error', 'phone_error', 'fax_error', 'charge_ID', 'user', 'title'))
                         ->with('main_title', '自社担当者編集')
                         ->with('title_text', '自社情報設定')
                         ->with('page_title', 'Company');
@@ -215,32 +240,27 @@ class ChargeController extends AppController
                 }
             }
         } else {
-            $Char = new Charge;
-            $charge = $Char->edit_select($charge_ID);
+            $charge = Charge::find($charge_ID);
             if (!$charge) {
                 return redirect()->route('charge.index');
             }
 
-            if (!$this->Get_Edit_Authority($charge['Charge']['USR_ID'])) {
+            if (!$this->Get_Edit_Authority($charge->USR_ID)) {
                 Session::flash('error', 'ページを開く権限がありません');
                 return redirect()->route('charge.index');
             }
 
-            $image = $charge['Charge']['SEAL'] ?? null;
+            $image = $charge->SEAL ?? null;
 
             $status = config('constants.StatusCode');
             $countys = config('constants.PrefectureCode');
             $seal_method = config('constants.SealMethod');
             $seal_flg = config('constants.SealFlg');
-
-            return view('charge.edit', compact('image', 'phone_error', 'fax_error', 'charge_ID'))
+            $ierror = 0;
+            return view('charge.edit', compact('charge',  'image', 'phone_error', 'fax_error', 'charge_ID', 'status', 'countys', 'seal_method', 'seal_flg', 'ierror', 'user', 'title'))
                 ->with('main_title', '自社担当者編集')
                 ->with('title_text', '自社情報設定')
                 ->with('controller_name', 'Charge')
-                ->with('status', 'status')
-                ->with('countys', 'countys')
-                ->with('seal_method', 'seal_method')
-                ->with('seal_flg', 'seal_flg')
                 ->with('page_title', 'Company');
         }
     }
@@ -273,13 +293,10 @@ class ChargeController extends AppController
         $user = Auth::user();
 
 
-        return view('charge.check', compact('charge', 'image', 'charge_ID', 'user'))
+        return view('charge.check', compact('charge', 'image', 'charge_ID', 'user', 'status', 'countys', 'seal_flg'))
             ->with('main_title', '自社担当者確認')
             ->with('title_text', '自社情報設定')
             ->with('title', '自社情報設定')
-            ->with('status', 'status')
-            ->with('countys', 'countys')
-            ->with('seal_flg', 'seal_flg')
             ->with('controller_name', 'Charge')
             ->with('page_title', 'Company');
     }
@@ -364,5 +381,56 @@ class ChargeController extends AppController
         imagedestroy($im);
 
         return $sealImage;
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $this->validate($request, [
+            'STATUS' => 'required|string',
+            'CHARGE_NAME' => 'required|string',
+            'CHARGE_NAME_KANA' => 'required|string',
+            'UNIT' => 'required|string',
+            'POST' => 'required|string',
+            'MAIL' => 'required|email',
+            'POSTCODE1' => 'required|string|size:3',
+            'POSTCODE2' => 'required|string|size:4',
+            'CNT_ID' => 'required|string',
+            'ADDRESS' => 'required|string',
+            'BUILDING' => 'nullable|string',
+            'PHONE_NO1' => 'required|string',
+            'PHONE_NO2' => 'nullable|string',
+            'PHONE_NO3' => 'nullable|string',
+            'FAX_NO1' => 'required|string',
+            'FAX_NO2' => 'nullable|string',
+            'FAX_NO3' => 'nullable|string',
+            'SEAL' => 'nullable|string',
+            'SEAL_STR' => 'nullable|string',
+            'CHR_SEAL_FLG' => 'nullable|string',
+            'USR_ID' => 'required|string',
+            'UPDATE_USR_ID' => 'required|string',
+            'CHR_ID' => 'nullable|integer',
+        ]);
+
+        // Check if CHR_ID is provided in the request
+            
+        $charge = Charge::where('CHR_ID', $validatedData['CHR_ID'])->first();
+        if (!$charge) {
+            return redirect()->back()->withErrors(['update' => '自社担当者が見つかりませんでした。']);
+        }
+        
+        $validatedData['LAST_UPDATE'] = now();
+        if (!$charge->update($validatedData)) {
+            return redirect()->back()->withErrors(['update' => '自社担当者の更新に失敗しました。']);
+        }
+        // Check if the charge was successfully updated
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('seals', $filename, 'public');
+            $charge->SEAL = $path;
+            $charge->save();
+        }
+
+        return redirect()->route('charge.check', ['charge_ID' => $charge->CHR_ID]);
     }
 }

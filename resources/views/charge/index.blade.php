@@ -52,7 +52,7 @@
             </h3>
             <div class="search_box">
                 <div class="search_area">
-                    <table width="600" cellpadding="0" cellspacing="0" border="0">
+                    <table width="600" id="search_box"  cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>担当者名</th>
                             <td><input type="text" name="CHARGE_NAME" class="w350" value="{{$searchData['CHARGE_NAME']}}"></td>
@@ -85,7 +85,7 @@
                                     </button>
                                 </td>
                                 <td style="border:none;">
-                                    <button onclick="reset_forms();" style="border:none;">
+                                    <button type="button" onclick="reset_custom_forms();" style="border:none;">
                                         <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="">
                                     </button>
                                 </td>
@@ -104,10 +104,9 @@
             <h3>
                 <div class="edit_02_charge"><span class="edit_txt">&nbsp;</span></div>
             </h3>
-
             <div class="contents_box mb40">
                 <div id='pagination'>
-                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
+                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
                 </div>
 
                 <div id='pagination'>
@@ -115,9 +114,9 @@
                     @if ($paginator->onFirstPage())
                         <span class="disabled">
                             << {{ __('前へ') }}</span> |
-                            @else
-                                <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a> |
+                    @else
+                        <a href="{{ $paginator->previousPageUrl() }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}{{ request()->has('CHARGE_NAME') ? '&CHARGE_NAME='.request('CHARGE_NAME') : '' }}{{ request()->has('UNIT') ? '&UNIT='.request('UNIT') : '' }}{{ request()->has('STATUS') ? '&STATUS='.request('STATUS') : '' }}" rel="prev">
+                            << {{ __('前へ') }}</a> |
                     @endif
 
                     <!-- Pagination Elements -->
@@ -133,7 +132,7 @@
                                 @if ($page == $paginator->currentPage())
                                     <span class="active">{{ $page }}</span> |
                                 @else
-                                    <a href="{{ $url }}">{{ $page }}</a> |
+                                    <a href="{{ $url }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}{{ request()->has('CHARGE_NAME') ? '&CHARGE_NAME='.request('CHARGE_NAME') : '' }}{{ request()->has('UNIT') ? '&UNIT='.request('UNIT') : '' }}{{ request()->has('STATUS') ? '&STATUS='.request('STATUS') : '' }}">{{ $page }}</a> |
                                 @endif
                             @endforeach
                         @endif
@@ -141,7 +140,7 @@
 
                     <!-- Next Page Link -->
                     @if ($paginator->hasMorePages())
-                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                        <a href="{{ $paginator->nextPageUrl() }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}{{ request()->has('CHARGE_NAME') ? '&CHARGE_NAME='.request('CHARGE_NAME') : '' }}{{ request()->has('UNIT') ? '&UNIT='.request('UNIT') : '' }}{{ request()->has('STATUS') ? '&STATUS='.request('STATUS') : '' }}" rel="next">{{ __('次へ') }} >></a>
                     @else
                         <span class="disabled">{{ __('次へ') }} >></span>
                     @endif
@@ -155,17 +154,34 @@
                             <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                                 <thead>
                                     <tr>
-                                        <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();">
+                                        <th class="w50">
+                                            <input type="checkbox" name="action.select_all" class="chk_all"
+                                                onclick="select_all();">
                                         </th>
-                                        <th class="w50">No.</th>
-                                        <th class="w200">担当者名</th>
-                                        <th class="w200">部署名</th>
-                                        <th class="w200">電話番号</th>
-                                        <th class="w100">印鑑</th>
-                                        <th class="w100">ステータス</th>
-                                        @if ($user['AUTHORITY'] != 1)
-                                            <th class="w100">作成者</th>
-                                        @endif
+                                        @php
+                                            $columns = [
+                                                'CHR_ID' => 'No.',
+                                                'CHARGE_NAME' => '担当者名',
+                                                'UNIT' => '部署名',
+                                                'PHONE_NO' => '電話番号',
+                                                'SEAL' => '印鑑',
+                                                'STATUS' => 'ステータス',
+                                                'USR_ID' => '作成者'
+                                            ];
+                                        @endphp
+
+                                        @foreach($columns as $field => $label)
+                                            @if($field !== 'USR_ID' || $user['AUTHORITY'] != 1)
+                                                <th class="{{ in_array($field, ['CHR_ID', 'SEAL', 'STATUS']) ? 'w100' : (in_array($field, ['USR_ID']) ? 'w100' : 'w200') }}">
+                                                    <a href="{{ route('charge.index', ['sort' => $field, 'direction' => request('sort') === $field && request('direction') === 'asc' ? 'desc' : 'asc']) }}">
+                                                        {{ $label }}
+                                                        @if (request('sort') === $field)
+                                                            {{ request('direction') === 'asc' ? '↓' : '↑' }}
+                                                        @endif
+                                                    </a>
+                                                </th>
+                                            @endif
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -182,12 +198,8 @@
                                             </td>
                                             <td>{{ $val['CHR_ID'] }}</td>
                                             <td>
-                                                @if ($val['CHR_ID'] == 1)
-                                                    <a href="{{ route('charge.check', $val['CHR_ID']) }}">{{ $val['CHARGE_NAME'] }}</a>
-                                                @else
-                                                    {{ nl2br($val['CHARGE_NAME']) }}
-                                                @endif
-                                            </td>
+                                                <a href="{{ route('charge.check', $val['CHR_ID']) }}">{{ $val['CHARGE_NAME'] }}</a>
+                                        </td>
                                             <td>{{ nl2br($val['UNIT']) ?: '&nbsp;' }}</td>
                                             <td>
                                                 @if (!empty($val['PHONE_NO1']) || !empty($val['PHONE_NO2']) || !empty($val['PHONE_NO3']))

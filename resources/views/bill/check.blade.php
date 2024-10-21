@@ -17,7 +17,7 @@
     <div id="contents">
         @include('elements.arrow_under')
         @include('elements.form.check_buttons')
-        @include('elements.form.check_basic_infomation')
+        @include('elements.form.check_basic_information')
         @include('elements.arrow_under')
         @include('elements.form.check_detail')
         @include('elements.arrow_under')

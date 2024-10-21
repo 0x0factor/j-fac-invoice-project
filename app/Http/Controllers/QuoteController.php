@@ -47,42 +47,32 @@ class QuoteController extends AppController
             $customer_id = null;
         }
 
-        $sortField = $request->input('sort', 'INSERT_DATE'); // Default sorting column
-        $sortDirection = $request->input('direction', 'asc'); // Default sorting direction
+        $sortField = $request->input('sort', 'INSERT_DATE');
+        $sortDirection = $request->input('direction', 'asc');
 
-        $query = Quote::orderBy($sortField, $sortDirection);
-        // Apply filters based on request input
-        if ($request->NO) {
-            $query->where('MQT_ID', 'like', '%' . $request->NO . '%');
+        $query = Quote::query();
+
+        $filters = [
+            'MQT_ID' => 'NO',
+            'SUBJECT' => 'SUBJECT', 
+            'CHR_ID' => 'CHR_USR_NAME',
+            'USR_ID' => 'USR_NAME',
+            'UPDATE_USR_ID' => 'UPD_USR_NAME'
+        ];
+
+        foreach ($filters as $column => $param) {
+            if ($request->filled($param)) {
+                $query->where($column, 'like', '%' . $request->input($param) . '%');
+            }
         }
 
-        if ($request->SUBJECT) {
-            $query->where('SUBJECT', 'like', '%' . $request->SUBJECT . '%');
-        }
-
-        // if ($request->NAME) {
-        //     $query->where('CST_ID', 'like', '%' . $request->NAME . '%');
-        // }
-
-        if ($request->CHR_USR_NAME) {
-            $query->where('CHR_ID', 'like', '%' . $request->CHR_USR_NAME . '%');
-        }
-
-        if ($request->USR_NAME) {
-            $query->where('USR_ID', 'like', '%' . $request->USR_NAME . '%');
-        }
-
-        if ($request->UPD_USR_NAME) {
-            $query->where('UPDATE_USR_ID', 'like', '%' . $request->UPD_USR_NAME . '%');
-        }
-
-        if ($request->STATUS) {
+        if ($request->filled('STATUS')) {
             $query->whereIn('STATUS', $request->STATUS);
         }
 
-        // dd($request->query('sort'));
-
-        $paginator = $query->orderBy('INSERT_DATE')->paginate(20);
+        $paginator = $query->orderBy($sortField, $sortDirection)
+                           ->orderBy('INSERT_DATE')
+                           ->paginate(2);
         $quotes = $paginator->items();
 
         $searchData = $request ? $request: "";

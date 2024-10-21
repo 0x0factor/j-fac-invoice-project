@@ -22,11 +22,60 @@
 @endphp
 
 <script type="text/javascript">
-    // var form = {
-    //     tax_rates: @json($taxRates),
-    //     tax_rates_option: @json($taxClassforJson),
-    //     tax_operation_date: @json($taxOperationDate)
-    // };
+    function calculateAmount(row) {
+        var quantity = parseFloat(document.querySelector(`input[name="[${row}][item][QUANTITY]"]`).value) || 0;
+        var unitPrice = parseFloat(document.querySelector(`input[name="[${row}][item][UNIT_PRICE]"]`).value) || 0;
+        var amount = quantity * unitPrice;
+        document.querySelector(`input[name="[${row}][item][AMOUNT]"]`).value = amount.toFixed(2);
+        
+        updateTotals();
+    }
+
+    function updateTotals() {
+        var subtotal = 0;
+        var taxAmount = 0;
+
+        // Loop through all rows
+        document.querySelectorAll('[name$="[AMOUNT]"]').forEach((amountInput, index) => {
+            var amount = parseFloat(amountInput.value) || 0;
+            var taxClassSelect = document.querySelector(`select[name="[${index}][item][TAX_CLASS]"]`);
+            var taxClassOption = taxClassSelect.options[taxClassSelect.selectedIndex];
+            var taxRate = parseFloat(taxClassOption.value) / 100;
+            var isTaxIncluded = taxClassOption.textContent.includes('内税');
+
+            if (isTaxIncluded) {
+                // For internal tax, subtract tax from amount to get subtotal
+                var rowSubtotal = amount / (1 + taxRate);
+                var rowTax = amount - rowSubtotal;
+                subtotal += rowSubtotal;
+                taxAmount += rowTax;
+            } else {
+                // For external tax, amount is already subtotal
+                subtotal += amount;
+                taxAmount += amount * taxRate;
+            }
+        });
+
+        var total = subtotal + taxAmount;
+
+        // Update the totals
+        document.querySelector('input[name="SUBTOTAL"]').value = subtotal.toFixed(2);
+        document.querySelector('input[name="SALES_TAX"]').value = taxAmount.toFixed(2);
+        document.querySelector('input[name="TOTAL"]').value = total.toFixed(2);
+    }
+
+    // Add event listeners to quantity and unit price inputs
+    document.querySelectorAll('input[name$="[QUANTITY]"], input[name$="[UNIT_PRICE]"]').forEach((input, index) => {
+        input.addEventListener('input', () => calculateAmount(index));
+    });
+
+    // Add event listeners to tax class selects
+    document.querySelectorAll('select[name$="[TAX_CLASS]"]').forEach((select) => {
+        select.addEventListener('change', updateTotals);
+    });
+
+    // Initial call to set up the form state
+    updateTotals();
 </script>
 
 <h3>
@@ -42,8 +91,8 @@
     </div>
 </h3>
 
-<div class="contents_box">
-    <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Top">
+    <div class="contents_box">
+        <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="Top">
     <div class="contents_area2">
         <span class="usernavi">{{ $usernavi['ITEM_LIST'] }}</span>
         <table id="detail_table" width="920px" cellpadding="0" cellspacing="0" border="0">
@@ -98,6 +147,7 @@
                         onclick="return form.f_delline({{ $i }});">
                     </td>
                     <td>
+
                         <input type="text" name="[{{$i}}][item][ITEM_NO]" maxlength="2"
                             class="w31 @if (isset($error['ITEM_NO']['NO'][$i])) error @endif">
                     </td>
@@ -115,7 +165,7 @@
                     </td>
                     <td>
                         <input type="text" name="[{{$i}}][item][QUANTITY]" maxlength="7"
-                            onkeyup="recalculation('{{ $formType }}')"
+                            onkeyup="calculateAmount({{ $i }}); recalculation('{{ $formType }}')"
                             class="w63 @if (isset($error['QUANTITY']['NO'][$i])) error @endif">
                     </td>
                     <td>
@@ -124,7 +174,7 @@
                     </td>
                     <td>
                         <input type="text" name="[{{$i}}][item][UNIT_PRICE]" maxlength="9"
-                            onkeyup="recalculation('{{ $formType }}')"
+                            onkeyup="calculateAmount({{ $i }}); recalculation('{{ $formType }}')"
                             class="w73 @if (isset($error['UNIT_PRICE']['NO'][$i])) error @endif">
                     </td>
                     <td>
@@ -311,9 +361,9 @@
                             <span class="must">{{ $errors->first('TAX_FRACTION_TIMING') }}</span>
                         @endif
                         <br />
-                        <span class="usernavi">※発行日を2023年10月01日以降に設定した場合、消費税端数計算は法律により自動的に「帳票単位」に設定されます</span>
+                        <span class="usernavi">※発行日を2023年10月01日以降に設定した場合、消費税端数計算は法律により自動的に「帳票単位」に設定され���す</span>
                     </td>
-                    <th class="w100">基本端数処理</th>
+                    <th class="w100">本端数処理</th>
                     <td id="FRACTION" class="w440">
                         @foreach($fractions ?? [] as $value => $label)
                             <label class="ml20 mr5 txt_mid">
@@ -393,3 +443,6 @@
         </table>
     </div>
 </div>
+
+
+

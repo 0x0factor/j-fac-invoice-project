@@ -190,11 +190,11 @@ class CustomerCharge extends Model
      * Select customer charge records.
      *
      * @param int|null $id
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function select($id = null)
+    public static function select($id = null)
     {
-        $query = $this->newQuery();
+        $query = (new static)->newQuery();
 
         if ($id) {
             $query->where('CHRC_ID', $id);
@@ -239,4 +239,5 @@ class CustomerCharge extends Model
 
 
 }
+
 

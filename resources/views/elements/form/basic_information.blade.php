@@ -4,9 +4,6 @@
     $action = request()->route()->getActionMethod();
 @endphp
 
-<form method="POST" action="{{ route($controller . '.add') }}" class="{{ $formType }}">
-    @csrf
-
     <div class="arrow_under">
         <img src="{{ asset('img/i_arrow_under.jpg') }}" alt="">
     </div>

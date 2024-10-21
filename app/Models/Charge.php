@@ -137,15 +137,11 @@ class Charge extends Model
 
         $_param['SEARCH_ADDRESS'] = '';
 
-
-
         if ($_param['CNT_ID']) {
             $_param['SEARCH_ADDRESS'] .= $county[$_param['CNT_ID']];
         }
 
         $_param['SEARCH_ADDRESS'] .= $_param['ADDRESS'] . $_param['BUILDING'];
-
-        // Handle image processing (not shown in the provided code)
 
         // Begin transaction
         \DB::beginTransaction();
@@ -153,8 +149,6 @@ class Charge extends Model
         try {
             // Save charge data
             $charge = new Charge;
-            // $charge->fill($_param);
-            $charge->CHR_ID = $_company_ID;
             $charge->CMP_ID = $_company_ID;
             $charge->USR_ID = $_param['USR_ID'];
             $charge->UPDATE_USR_ID = $_param['UPDATE_USR_ID'];
@@ -180,8 +174,9 @@ class Charge extends Model
             $charge->CHR_SEAL_FLG = $_param['CHR_SEAL_FLG'];
             $charge->INSERT_DATE = date("Y-m-d H:i:s");
             $charge->LAST_UPDATE = date("Y-m-d H:i:s");
-            $charge->ADD_DATE = date("Y-m-d H:i:s");
-            $charge->save();
+
+            $charge->save(['timestamps' => false]);  // Disable automatic timestamp updating
+
             // Commit transaction on success
             \DB::commit();
             $_chr_id = $charge->CHR_ID;

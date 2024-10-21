@@ -161,7 +161,7 @@
                     <span class="disabled">
                         << {{ __('前へ') }}</span> |
                         @else
-                            <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
+                            <a href="{{ $paginator->previousPageUrl() }}&sort={{ $sortField }}&direction={{ $sortDirection }}" rel="prev">
                                 << {{ __('前へ') }}</a> |
                 @endif
 
@@ -179,7 +179,7 @@
                             @if ($page == $paginator->currentPage())
                                 <span class="active">{{ $page }}</span> |
                             @else
-                                <a href="{{ $url }}">{{ $page }}</a> |
+                                <a href="{{ $url }}&sort={{ $sortField }}&direction={{ $sortDirection }}">{{ $page }}</a> |
                             @endif
                         @endforeach
                     @endif
@@ -187,7 +187,7 @@
 
 
                 @if ($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                    <a href="{{ $paginator->nextPageUrl() }}&sort={{ $sortField }}&direction={{ $sortDirection }}" rel="next">{{ __('次へ') }} >></a>
                 @else
                     <span class="disabled">{{ __('次へ') }} >></span>
                 @endif
@@ -205,105 +205,36 @@
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
                                 <tr>
-                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();" >
-                                    </th>
-                                    <th class="w50">
-                                        <a href="{{ route('quote.index', ['sort' => 'MQT_ID', 'direction' => $sortField === 'MQT_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            No.
-                                            @if ($sortField === 'MQT_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'CST_ID', 'direction' => $sortField === 'CST_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            顧客名.
-                                            @if ($sortField === 'CST_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w150">
-                                        <a href="{{ route('quote.index', ['sort' => 'SUBJECT', 'direction' => $sortField === 'SUBJECT' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            件名
-                                            @if ($sortField === 'SUBJECT')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'TOTAL', 'direction' => $sortField === 'TOTAL' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            合計金額
-                                            @if ($sortField === 'TOTAL')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w100">
-                                        <a href="{{ route('quote.index', ['sort' => 'ISSUE_DATE', 'direction' => $sortField === 'ISSUE_DATE' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            発行日
-                                            @if ($sortField === 'ISSUE_DATE')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    @if ($user->AUTHORITY != 1)
-                                        <th class="w150">
-                                            <a href="{{ route('quote.index', ['sort' => 'USR_ID', 'direction' => $sortField === 'USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                                作成者
-                                                @if ($sortField === 'USR_ID')
-                                                    @if ($sortDirection === 'asc')
-                                                        ↑
-                                                    @else
-                                                        ↓
-                                                    @endif
-                                                @endif
-                                            </a>/
-                                            <a href="{{ route('quote.index', ['sort' => 'UPDATE_USR_ID', 'direction' => $sortField === 'UPDATE_USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                                更新者
-                                                @if ($sortField === 'UPDATE_USR_ID')
-                                                    @if ($sortDirection === 'asc')
-                                                        ↑
-                                                    @else
-                                                        ↓
-                                                    @endif
-                                                @endif
-                                            </a>
-                                        </th>
-                                    @endif
+                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="select_all();"></th>
+                                    @php
+                                        $columns = [
+                                            'MQT_ID' => 'No.',
+                                            'CST_ID' => '顧客名',
+                                            'SUBJECT' => '件名',
+                                            'TOTAL' => '合計金額',
+                                            'ISSUE_DATE' => '発行日',
+                                            'USR_ID' => '作成者',
+                                            'UPDATE_USR_ID' => '更新者',
+                                            'STATUS' => '発行ステータス'
+                                        ];
+                                    @endphp
 
-                                    <th class="w100">
-                                            <a href="{{ route('quote.index', ['sort' => 'STATUS', 'direction' => $sortField === 'STATUS' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            発行ステータス
-                                            @if ($sortField === 'STATUS')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
+                                    @foreach($columns as $field => $label)
+                                        @if($field !== 'USR_ID' && $field !== 'UPDATE_USR_ID' || $user->AUTHORITY != 1)
+                                            <th class="{{ in_array($field, ['MQT_ID', 'STATUS']) ? 'w50' : (in_array($field, ['CST_ID', 'TOTAL', 'ISSUE_DATE']) ? 'w100' : 'w150') }}">
+                                                <a href="{{ route('quote.index', ['sort' => $field, 'direction' => $sortField === $field && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                                    {{ $label }}
+                                                    @if ($sortField === $field)
+                                                        {{ $sortDirection === 'asc' ? '↓' : '↑' }}
+                                                    @endif
+                                                </a>
+                                                @if($field === 'USR_ID')
+                                                    /
                                                 @endif
-                                            @endif
-                                        </a>
-                                    </th>
+                                            </th>
+                                        @endif
+                                    @endforeach
+
                                     <th class="w100">メモ</th>
                                 </tr>
                             </thead>
@@ -323,7 +254,6 @@
                                         <td class="v150">{{ $quote->TOTAL }}円</td>
                                         <td class="v150">{{ $quote->ISSUE_DATE }}</td>
                                         @if (auth()->user()->AUTHORITY != 1)
-
                                             <td class="v50">{{ $quote->user->NAME }} /
                                                 {{ $quote->updateUser->NAME ?? $quote['UpdateUser']['NAME'] }}</td>
                                         @endif

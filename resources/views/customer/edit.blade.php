@@ -89,7 +89,7 @@
                     <input type="hidden" name="CST_ID">
                     <button type="submit" name="submit" class="imgover" alt="保存する"><img
                             src="{{ asset('img/bt_save.jpg') }}" alt="保存する"></button>
-                    <button type="submit" name="cancel" class="imgover" alt="キャンセル"><img
+                    <button type="button" onclick="window.history.back()" class="imgover" alt="キャンセル"><img
                             src="{{ asset('img/bt_cancel.jpg') }}" alt="キャンセル"></button>
                 </form>
             </div>
@@ -113,7 +113,7 @@
                         <th style="width:130px;" @if ($errors->has('CUTOOFF_DATE')) class="txt_top" @endif>締日</th>
                         <td style="width:750px;">
                             <select name="CUTOOFF_SELECT" class="txt_mid">
-                                @foreach ($cutooff_select as $key => $value)
+                                @foreach ($cutooff_select['options'] as $key => $value)
                                     <option value="{{ $key }}"
                                         {{ old('CUTOOFF_SELECT') == $key ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach

@@ -23,6 +23,10 @@ class Delivery extends Model
 
     protected $table = 'T_DELIVERY';
     protected $primaryKey = 'MDV_ID';
+    protected $fillable = [
+        'NO',
+        // other properties you want to mass assign
+    ];
     public $timestamps = false;
     public function customer()
     {

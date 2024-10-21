@@ -163,54 +163,103 @@ class BillController extends AppController
         $titleText = '帳票管理';
         $title = "抹茶請求書";
         $controller_name = "Bill";
+        $bill = new Bill();
 
         $companyID = 1;
 
         if ($request->has('cancel_x')) {
             return redirect('/bills');
         }
-
-        $data = $request->input('data');
-
+        $data = $request->all();
         if (isset($data['Bill']['DISCOUNT_TYPE']) && $data['Bill']['DISCOUNT_TYPE'] == self::DISCOUNT_TYPE_NONE) {
             $data['Bill']['DISCOUNT'] = '';
         }
-
         $error = config('constants.ItemErrorCode');
         $count = 1;
-
-        if ($data && $this->isCorrectToken($data['Security']['token'])) {
-            $error = $this->itemValidation($data, 'Billitem');
-            $error['DISCOUNT'] = $this->validateDiscount($data['Bill']);
-
-            if ($data['Bill']['DISCOUNT_TYPE'] == self::DISCOUNT_TYPE_PERCENT) {
-                $discountLength = strlen($data['Bill']['DISCOUNT']);
+        
+        if ($request->filled('data') && $request->input('data.Security.token')) {
+            // var_dump($request->filled('data') && $request->input('data.Security.token') && $this->isCorrectToken($request->input('data.Security.token')));
+            
+            if ($data['DISCOUNT_TYPE'] == self::DISCOUNT_TYPE_PERCENT) {
+                $discountLength = strlen($data['DISCOUNT']);
                 if ($discountLength > 2) {
                     $error['DISCOUNT'] = 1;
                 }
-                if ($data['Bill']['DISCOUNT'] == '100') {
+                if ($data['DISCOUNT'] == '100') {
                     $error['DISCOUNT'] = 0;
                 }
-                if (!preg_match("/^[0-9]+$/", $data['Bill']['DISCOUNT']) && $data['Bill']['DISCOUNT'] != null) {
+                if (!preg_match("/^[0-9]+$/", $data['DISCOUNT']) && $data['DISCOUNT'] != null) {
                     $error['DISCOUNT'] = 2;
                 }
             }
-
-            if ($data['Bill']['HONOR_CODE'] != 2) {
-                $data['Bill']['HONOR_TITLE'] = '';
+            
+            if ($data['HONOR_CODE'] != 2) {
+                $data['HONOR_TITLE'] = '';
             }
+            $billData = [
+                'CST_ID' => $data['CST_ID'] ?? 0,
+                'CHR_ID' => $data['CHR_ID'] ? intval($data['CHR_ID']) : null,
+                'CHRC_ID' => $data['CHRC_ID'] ? intval($data['CHRC_ID']) : null,
+                'USR_ID' => Auth::id(),
+                'UPDATE_USR_ID' => $data['UPDATE_USR_ID'] ? intval($data['UPDATE_USR_ID']) : null,
+                'ISSUE_DATE' => $data['data']['Bill']['DATE'] ?? null,
+                'DUE_DATE' => $data['DUE_DATE'] ?? null,
+                'SUBJECT' => $data['SUBJECT'] ?? '',
+                'HONOR_CODE' => $data['HONOR_CODE'] ? intval($data['HONOR_CODE']) : 0,
+                'HONOR_TITLE' => $data['HONOR_TITLE'] ?? '',
+                'CMP_SEAL_FLG' => $data['CMP_SEAL_FLG'] ? intval($data['CMP_SEAL_FLG']) : 0,
+                'CHR_SEAL_FLG' => $data['CHR_SEAL_FLG'] ? intval($data['CHR_SEAL_FLG']) : 0,
+                'NO' => $data['NO'] ?? '',
+                'STATUS' => $data['STATUS'] ? intval($data['STATUS']) : null,
+                'MEMO' => $data['MEMO'] ?? '',
+                'DECIMAL_QUANTITY' => $data['DECIMAL_QUANTITY'] ? intval($data['DECIMAL_QUANTITY']) : 0,
+                'DECIMAL_UNITPRICE' => $data['DECIMAL_UNITPRICE'] ? intval($data['DECIMAL_UNITPRICE']) : 0,
+                'EXCISE' => isset($data['EXCISE']) ? intval($data['EXCISE']) : 0,
+                'FRACTION' => isset($data['FRACTION']) ? intval($data['FRACTION']) : null,
+                'TAX_FRACTION' => isset($data['TAX_FRACTION']) ? intval($data['TAX_FRACTION']) : null,
+                'TAX_FRACTION_TIMING' => isset($data['TAX_FRACTION_TIMING']) ? intval($data['TAX_FRACTION_TIMING']) : null,
+                'DISCOUNT' => $data['DISCOUNT'] ?? null,
+                'DISCOUNT_TYPE' => $data['DISCOUNT_TYPE'] ?? null,
+                'FEE' => $data['FEE'] ?? null,
+                'NOTE' => $data['NOTE'] ?? '',
+                'SUBTOTAL' => $data['SUBTOTAL'] ?? null,
+                'SALES_TAX' => $data['SALES_TAX'] ?? null,
+                'TOTAL' => $data['TOTAL'] ?? null,
+                'TEN_RATE_TAX' => $data['TEN_TAX'] ?? null,
+                'TEN_RATE_TOTAL' => $data['TEN_TAX_AMOUNT'] ?? null,
+                'EIGHT_RATE_TAX' => $data['EIGHT_TAX'] ?? null,
+                'EIGHT_RATE_TOTAL' => $data['EIGHT_TAX_AMOUNT'] ?? null,
+                'INSERT_DATE' => now(),
+                'LAST_UPDATE' => now(),
+                'ADD_DATE' => now()
+            ];
+            // Remove null values and convert empty strings to null for integer fields
+            $billData = array_map(function ($value) {
+                return $value === '' ? null : $value;
+            }, $billData);
 
-            if ($MBL_ID = $this->setData($data, 'new', $error)) {
-                $this->historyReportAction($data['Bill']['USR_ID'], 5, $MBL_ID);
-                Session::flash('message', '請求書を保存しました');
-                Serial::increment('Bill');
-                return redirect("/bills/check/{$MBL_ID}");
+            // Remove any remaining null values
+            $billData = array_filter($billData, function ($value) {
+                return $value !== null;
+            });
+
+            $newBill = $bill->create($billData);
+            if ($newBill) {
+                return redirect()->route('bill.check', ['bill_ID' => $newBill->MBL_ID])->with('message', '請求書を保存しました');
+            } else {
+                return back()->withInput()->with('error', '請求書の保存に失敗しました');
+            }
+            
+            if ($MBL_ID = $bill->create($billData)) {
+                $this->historyReportAction(Auth::id(), 5, $MBL_ID);
+                return redirect()->route('bills.check', ['id' => $MBL_ID])->with('message', '請求書を保存しました');
             } else {
                 $count = max(1, count($data) - 2);
-                $collaspe = [
+                $collapse = [
                     'other' => empty($data['Bill']['FEE']) && empty($data['Bill']['DUE_DATE']) ? 1 : 0,
                     'management' => empty($data['Bill']['MEMO']) ? 1 : 0
                 ];
+                dd($data['DISCOUNT_TYPE']);
             }
         } else {
             $collaspe = [
@@ -325,30 +374,27 @@ class BillController extends AppController
 
         $bill = new Bill();
 
-        $param = $bill->editSelect($bill_ID, $count);
+        $param['Bill'] = $bill->editSelect($bill_ID, $count);
         if (!$param) {
             Session::flash('error', '指定の請求書が削除されたか、存在しない可能性があります');
             return redirect('/bills/index');
         }
-        dd($param);
-
-        $param['Charge']['NAME'] = Charge::get_charge($param['Bill']['CHR_ID']);
+        
+        $param['Charge']['NAME'] = Charge::where('CHR_ID', $param['Bill']['CHR_ID'])->value('CHARGE_NAME');
 
         $customer_charge = CustomerCharge::select(['CHRC_ID' => $param['Bill']['CHRC_ID']])->first();
         if ($customer_charge) {
             $param['CustomerCharge'] = $customer_charge->CustomerCharge;
         }
-
-        if (!$this->getCheckAuthority($param['Bill']['USR_ID'])) {
-            Session::flash('error', '帳票を閲覧する権限がありません');
-            return redirect('/bills/');
-        }
-
-        $param = $this->getCompatibleItems($param);
-        $count = $param['count'];
+        // if (!auth()->user()->can('view', $param['Bill']['MBL_ID'])) {
+            //     Session::flash('error', '帳票を閲覧する権限がありません');
+            //     return redirect('/bills/');
+            // }
+        // var_dump($param);die;
+        // $param = $bill->getCompatibleItems($param);
+        // $count = $param['count'];
 
         $editauth = $this->Get_Edit_Authority($param['Bill']['USR_ID']);
-
         // Set data for the view
         return view('bill.check', [
             'main_title' => '請求書確認',
@@ -706,8 +752,7 @@ class BillController extends AppController
         }
 
         // Add compatible items
-        $param = $this->getCompatibleItems($param); // Implement getCompatibleItems
-
+        $param = $this->getCompatibleItems($param); // Implement 
         $itemCount = $param['count'];
         $direction = $param['Company']['DIRECTION'];
 

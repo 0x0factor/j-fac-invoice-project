@@ -17,20 +17,24 @@
 $user = Auth::user(); // Assuming you are using Laravel's built-in authentication system
 @endphp
 @php
-        $formType = $formType ?? 'Bill';
-        $controller = strtolower($formType);
-        $action = request()->route()->getActionMethod();
-    @endphp
+    $formType = $formType ?? 'Bill';
+    $controller = strtolower($formType);
+    $action = request()->route()->getActionMethod();
+@endphp
 <div id="guide">
     <div id="guide_box" class="clearfix">
-            <img src="{{ asset('img/i_guide02.jpg') }}" alt="Guide Image">
-            <p>こちらのページは請求書編集の画面です。<br />必要な情報を入力の上「保存する」ボタンを押すと請求書を作成できます。</p>
-        </div>
+        <img src="{{ asset('img/i_guide02.jpg') }}" alt="Guide Image">
+        <p>こちらのページは請求書編集の画面です。<br />必要な情報を入力の上「保存する」ボタンを押すと請求書を作成できます。</p>
     </div>
-    <br class="clear">
+</div>
+<br class="clear">
 
-    <!-- contents_Start -->
-    <div id="contents">
+<!-- contents_Start -->
+<div id="contents">
+    <form action="{{ route($controller . '.add') }}" method="POST">
+        @csrf
+        <input type="hidden" name="data[Security][token]" value="{{ csrf_token() }}">
+        
         @include('elements.form.basic_information')
         @include('elements.arrow_under')
         @include('elements.form.details')
@@ -38,12 +42,14 @@ $user = Auth::user(); // Assuming you are using Laravel's built-in authenticatio
         @include('elements.form.bill_other')
         @include('elements.arrow_under')
         @include('elements.form.management')
-    </div>
-    <!-- contents_End -->
-    <div id="itemlist" style="display:none;">{!! nl2br(e($itemlist)) !!}</div>
-    @include('elements.form.scripts')
+        
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">保存する</button>
+        </div>
+    </form>
+</div>
+<!-- contents_End -->
+<div id="itemlist" style="display:none;">{!! nl2br(e($itemlist)) !!}</div>
+@include('elements.form.scripts')
 
 @endsection
-
-
-

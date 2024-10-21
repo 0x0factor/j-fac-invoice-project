@@ -27,10 +27,20 @@ class ItemController extends AppController
         $controller_name = "Item";
 
         $page_title = "Company";
+        $query = Item::query();
 
-        $paginator = Item::where('ITEM', 'like', '%'.$request->ITEM.'%')
-        ->orderBy('INSERT_DATE')
-        ->paginate(20);
+        if ($request->has('ITEM')) {
+            $query->where('ITEM', 'like', '%' . $request->ITEM . '%');
+        }
+
+        if ($request->has('sort')) {
+            $direction = $request->input('direction', 'asc');
+            $query->orderBy($request->input('sort'), $direction);
+        } else {
+            $query->orderBy('INSERT_DATE');
+        }
+
+        $paginator = $query->paginate(2);
         $list = $paginator->items();
         $search_name = $request->ITEM;
         return view('item.index', compact('excises', 'main_title', 'title_text', 'title', 'page_title', 'paginator', 'list', 'search_name', 'controller_name'));
@@ -129,6 +139,7 @@ class ItemController extends AppController
         $title_text = "自社情報設定";
         $title = "抹茶請求書";
         $controller_name = "Item";
+        $user = Auth::user();
 
         if ($request->has('cancel_x')) {
             return redirect('/items');
@@ -139,7 +150,7 @@ class ItemController extends AppController
             if (!$data) {
                 return redirect('/items');
             }
-            if (!$this->Get_Edit_Authority($data['Item']['USR_ID'])) {
+            if (!$this->Get_Edit_Authority($data->USR_ID)) {
                 Session::flash('status', 'ページを開く権限がありません');
                 return redirect('/items/index/');
             }
@@ -160,7 +171,7 @@ class ItemController extends AppController
 
         $excises = config('constants.ExciseCode');
 
-        return view('item.edit', compact('main_title', 'title_text', 'title', 'excises', 'controller_name'));
+        return view('item.edit', compact('main_title', 'title_text', 'title', 'excises', 'controller_name', 'user'));
     }
 
     // 削除用

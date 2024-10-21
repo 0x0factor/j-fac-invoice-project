@@ -192,7 +192,7 @@
                             </td>
                             <td class="w100" id="name{{ $key }}">
                                 {{ $value['CHARGE_NAME'] }}</td>
-                            <td class="w100">{{ $value['Customer']['NAME'] }}</td>
+                            <td class="w100">{{ $value['Customer']['NAME'] ?? '' }}</td>
                             <td class="w60" id="unit{{ $key }}">{{ $value['UNIT'] }}
                             </td>
                             <input type="hidden" name="CHRC_ID" id="CHRC_ID"

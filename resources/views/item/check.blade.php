@@ -109,25 +109,14 @@
                 <img src="{{ asset('img/bg_contents_bottom.jpg') }}" alt="" class="block">
             </div>
             <div class="edit_btn">
-                @if ($editauth)
-                    <a href="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" class="imgover"
-                        onclick="event.preventDefault(); document.getElementById('editForm').submit();">
+                @if (isset($editauth))
+                    <a href="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" class="imgover">
                         <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                     </a>
                 @endif
-
-                <form id="editForm" action="{{ route('item.edit', ['item_ID' => $data['ITM_ID']]) }}" method="POST"
-                    style="display:inline;">
-                    @csrf
-                    <input type="hidden" name="ITM_ID" value="{{ $data['ITM_ID'] }}">
-                </form>
-
-                <form action="{{ route('item.index') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <a href="javascript:move_to_index();" class="imgover">
-                        <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
-                    </a>
-                </form>
+                <a href="{{ route('item.index') }}" class="imgover">
+                    <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
+                </a>
             </div>
         </form>
     </div>

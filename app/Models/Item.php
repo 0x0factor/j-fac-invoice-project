@@ -109,9 +109,9 @@ class Item extends Model
      * @param int $_item_ID
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
      */
-    public function edit_select($_item_ID)
+    public static function edit_select($_item_ID)
     {
-        return $this->where('ITM_ID', $_item_ID)->first();
+        return self::where('ITM_ID', $_item_ID)->first();
     }
 
     /**

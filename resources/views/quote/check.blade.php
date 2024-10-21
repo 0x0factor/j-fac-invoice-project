@@ -93,7 +93,6 @@
             <img src="{{ asset('img/i_arrow_under.jpg') }}" />
         </div>
         @include('elements.form.check_buttons')
-
         <!-- Include other elements if needed -->
     </div>
 @endsection

@@ -69,12 +69,19 @@ Route::get('administers/check', [AdministerController::class, 'check'])->name('a
 Route::get('ajax/popup', [AjaxController::class, 'popup'])->name('ajax.popup');
 Route::post('ajax/popupInsert', [AjaxController::class, 'popupInsert'])->name('ajax.popupInsert');
 
-
 Route::get('bills', [BillController::class, 'index'])->name('bill.index');
 Route::get('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::post('bills/add', [BillController::class, 'add'])->name('bill.add');
 Route::get('bills/check/{bill_ID}', [BillController::class, 'check'])->name('bill.check');
 Route::get('bills/receipt', [BillController::class, 'receipt'])->name('bill.receipt');
+Route::get('bills/edit/{bill_ID}', [BillController::class, 'edit'])->name('bill.edit');
+Route::post('bills/edit/{bill_ID}', [BillController::class, 'edit'])->name('bill.edit');
+Route::get('bills/download/{quoteId}', [BillController::class, 'download'])->name('bill.download');
+Route::get('bills/preview/{quoteId}', [BillController::class, 'preview'])->name('bill.preview');
+Route::get('bills/download-with-coverpage/{quoteId}', [BillController::class, 'downloadWithCoverpage'])->name('bill.download_with_coverpage');
+
+// Route::get('receipts/create', [BillController::class, 'receipt'])->name('receipts.create');
+
 Route::get('bills/export', [BillController::class, 'export'])->name('bill.export');
 Route::post('bills/export', [BillController::class, 'export'])->name('bill.export');
 Route::get('bills/action', [BillController::class, 'action'])->name('bill.action');
@@ -87,6 +94,7 @@ Route::post('charges/add', [ChargeController::class, 'add'])->name('charge.add')
 Route::get('charges/delete', [ChargeController::class, 'delete'])->name('charge.delete');
 Route::get('charges/check/{charge_ID}', [ChargeController::class, 'check'])->name('charge.check');
 Route::get('charges/edit/{charge_ID}', [ChargeController::class, 'edit'])->name('charge.edit');
+Route::post('/charge', [ChargeController::class, 'store'])->name('charge.store');
 
 Route::get('companies', [CompanyController::class, 'index'])->name('company.index');
 Route::get('companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
@@ -107,6 +115,7 @@ Route::post('customers/add', [CustomerController::class ,'add'])->name('customer
 Route::post('customers/delete', [CustomerController::class ,'delete'])->name('customer.delete');
 Route::get('customers/edit/{customer_ID}', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::post('customers/edit/{customer_ID}', [CustomerController::class,'edit'])->name('customer.update');
+Route::post('customers/store', [CustomerController::class, 'store'])->name('customers.store');
 
 Route::get('customer_charges', [CustomerchargeController::class, 'index'])->name('customer_charge.index');
 Route::get('customer_charges/add', [CustomerchargeController::class, 'add'])->name('customer_charge.add');
@@ -116,7 +125,8 @@ Route::get('customer_charges/edit', [CustomerchargeController::class, 'edit'])->
 Route::get('customer_charges/delete', [CustomerchargeController::class, 'delete'])->name('customer_charge.delete');
 
 Route::get('deliveries', [DeliveryController::class, 'index'])->name('delivery.index');
-Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
+// Route::get('deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
+Route::match(['get', 'post'], '/deliveries/add', [DeliveryController::class, 'add'])->name('delivery.add');
 Route::get('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
 Route::post('deliveries/export', [DeliveryController::class, 'export'])->name('delivery.export');
 Route::get('deliveries/check/{delivery_ID}', [DeliveryController::class, 'check'])->name('delivery.check');
@@ -135,6 +145,8 @@ Route::get('items/delete', [ItemController::class, 'delete'])->name('item.delete
 
 Route::get('mails', [MailController::class, 'index'])->name('mail.index');
 Route::get('mails/check', [MailController::class, 'check'])->name('mail.check');
+Route::get('mails/sendmail', [MailController::class, 'sendmail'])->name('mail.sendmail');
+
 
 Route::get('personals/passEdit', [PersonalController::class, 'passEdit'])->name('personal.passEdit');
 
@@ -147,6 +159,8 @@ Route::get('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::post('quotes/add', [QuoteController::class, 'add'])->name('quote.add');
 Route::get('quotes/edit/{quoteId}', [QuoteController::class, 'edit'])->name('quote.edit');
 Route::get('quotes/download', [QuoteController::class, 'export'])->name('quote.download');
+Route::get('quotes/download_with_coverpage/{quoteId}', [QuoteController::class, 'downloadWithCoverpage'])->name('quote.download_with_coverpage');
+
 Route::get('quotes/preview', [QuoteController::class, 'export'])->name('quote.preview');
 Route::get('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
 Route::post('quotes/export', [QuoteController::class, 'export'])->name('quote.export');
@@ -177,3 +191,4 @@ Route::resource('barang', BarangController::class)->middleware('auth');
 
 
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+

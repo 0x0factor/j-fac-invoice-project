@@ -139,7 +139,7 @@ class Customer extends Model
         return $result;
     }
 
-    public function getCharge($chrId)
+    public static function getCharge($chrId)
     {
         $charge = Charge::find($chrId, ['CHR_ID', 'CHARGE_NAME']);
         return $charge ? $charge->CHARGE_NAME : '';
@@ -193,6 +193,7 @@ class Customer extends Model
         return $form->Get_Honor($_company_id);
     }
 
+    
     public function getPayment($companyId)
     {
         $company = Company::find($companyId);

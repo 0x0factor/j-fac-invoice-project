@@ -56,7 +56,7 @@
 
             <div class="search_box">
                 <div class="search_area">
-                    <table width="600" cellpadding="0" cellspacing="0" border="0">
+                    <table id="search_box" width="600" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <th>商品名</th>
                             <td><input type="text" name="ITEM" value="{{$search_name}}" class="w350"></td>
@@ -66,14 +66,13 @@
                         <table style="margin-left:-80px;">
                             <tr>
                                 <td style="border:none;">
-                                    <button
-                                        onclick="document.getElementById('itemForm').submit();" style="border:none;">
-                                        <img src="{{ asset('img/bt_search.jpg') }}" alt="検索する">
+                                    <button onclick="document.getElementById('itemSearchForm').submit();" style="border:none;">
+                                        <img src="{{ asset('img/bt_search.jpg') }}" alt="">
                                     </button>
                                 </td>
                                 <td style="border:none;">
-                                    <button onclick="reset_forms();" style="border:none;">
-                                        <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="リセット">
+                                    <button type="button" onclick="reset_custom_forms();" style="border:none;">
+                                        <img src="{{ asset('img/bt_search_reset.jpg') }}" alt="">
                                     </button>
                                 </td>
                             </tr>
@@ -98,33 +97,33 @@
 
             <div class="contents_box mb40">
                 <div id='pagination'>
-                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator-> currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator-> currentPage()) }} 件表示中
-
+                    {{ $paginator->total() }} 件中 {{ ($paginator->count() * ($paginator->currentPage() - 1) + 1) }} - {{ ($paginator->count() * $paginator->currentPage()) }} 件表示中
                 </div>
+
                 <div id='pagination'>
                     <!-- Previous Page Link -->
                     @if ($paginator->onFirstPage())
                         <span class="disabled">
-                            << {{ __('前へ') }}</span>
-                            @else
-                                <a href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                                    << {{ __('前へ') }}</a>
+                            << {{ __('前へ') }}</span> |
+                    @else
+                        <a href="{{ $paginator->previousPageUrl() }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}" rel="prev">
+                            << {{ __('前へ') }}</a> |
                     @endif
 
                     <!-- Pagination Elements -->
                     @foreach ($paginator->links()->elements as $element)
                         <!-- "Three Dots" Separator -->
                         @if (is_string($element))
-                            <span class="disabled">{{ $element }}</span>
+                            <span class="disabled">{{ $element }}</span> |
                         @endif
 
                         <!-- Array Of Links -->
                         @if (is_array($element))
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
-                                    <span class="active">{{ $page }}</span>
+                                    <span class="active">{{ $page }}</span> |
                                 @else
-                                    <a href="{{ $url }}">{{ $page }}</a>
+                                    <a href="{{ $url }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}">{{ $page }}</a> |
                                 @endif
                             @endforeach
                         @endif
@@ -132,12 +131,11 @@
 
                     <!-- Next Page Link -->
                     @if ($paginator->hasMorePages())
-                        <a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('次へ') }} >></a>
+                        <a href="{{ $paginator->nextPageUrl() }}{{ request()->has('sort') ? '&sort='.request('sort').'&direction='.request('direction') : '' }}" rel="next">{{ __('次へ') }} >></a>
                     @else
                         <span class="disabled">{{ __('次へ') }} >></span>
                     @endif
                 </div>
-
 
                 <img src="{{ asset('img/bg_contents_top.jpg') }}" alt="">
                 <div class="list_area">
@@ -151,44 +149,45 @@
                                             <input type="checkbox" name="action.select_all" class="chk_all"
                                                 onclick="select_all();">
                                         </th>
-                                        <th class="w50">
-                                            <a href="{{ route('item.index', ['sort' => 'ITM_ID']) }}">No.</a>
-                                        </th>
-                                        <th class="w250">
-                                            <a href="{{ route('item.index', ['sort' => 'ITEM_KANA']) }}">商品名</a>
-                                        </th>
-                                        <th class="w100">
-                                            <a href="{{ route('item.index', ['sort' => 'ITEM_CODE']) }}">商品コード</a>
-                                        </th>
-                                        <th class="w200">
-                                            <a href="{{ route('item.index', ['sort' => 'UNIT']) }}">単位</a>
-                                        </th>
-                                        <th class="w250">
-                                            <a href="{{ route('item.index', ['sort' => 'UNIT_PRICE']) }}">価格</a>
-                                        </th>
-                                        <th class="w100">
-                                            <a href="{{ route('item.index', ['sort' => 'TAX_CLASS']) }}">税区分</a>
-                                        </th>
-                                        @if ($user->AUTHORITY != 1)
-                                            <th class="w100">
-                                                <a href="{{ route('item.index', ['sort' => 'USR_ID']) }}">作成者</a>
-                                            </th>
-                                        @endif
+                                        @php
+                                            $columns = [
+                                                'ITM_ID' => 'No.',
+                                                'ITEM' => '商品名',
+                                                'ITEM_CODE' => '商品コード',
+                                                'UNIT' => '単位',
+                                                'UNIT_PRICE' => '価格',
+                                                'TAX_CLASS' => '税区分',
+                                                'USR_ID' => '作成者'
+                                            ];
+                                        @endphp
+
+                                        @foreach($columns as $field => $label)
+                                            @if($field !== 'USR_ID' || $user->AUTHORITY != 1)
+                                                <th class="{{ in_array($field, ['ITM_ID', 'TAX_CLASS']) ? 'w50' : (in_array($field, ['ITEM_CODE', 'UNIT', 'USR_ID']) ? 'w100' : (in_array($field, ['UNIT_PRICE']) ? 'w250' : 'w200')) }}">
+                                                    <a href="{{ route('item.index', ['sort' => $field, 'direction' => request('sort') === $field && request('direction') === 'asc' ? 'desc' : 'asc']) }}">
+                                                        {{ $label }}
+                                                        @if (request('sort') === $field)
+                                                            {{ request('direction') === 'asc' ? '↓' : '↑' }}
+                                                        @endif
+                                                    </a>
+                                                </th>
+                                            @endif
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($list as $key => $val)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="ITM_ID[]"
-                                                    value="{{ $val['ITM_ID'] ?? '' }}" class="chk"
+                                                <input type="checkbox" name="data[Item][{{ $val['ITM_ID'] }}]"
+                                                    value="1" class="chk"
                                                     style="width:30px;">
                                             </td>
-                                            <td>{{ $key }}</td>
+                                            <td>{{ $val['ITM_ID'] }}</td>
                                             <td>
                                                 <a href="{{ route('item.check', $val['ITM_ID']) }}">{{ $val['ITEM'] }}</a>
                                             </td>
-                                            <td>{{ $val['ITM_ID'] }}</td>
+                                            <td>{{ $val['ITEM_CODE'] }}</td>
                                             <td>{{ $val['UNIT'] }}</td>
                                             <td>{{ $val['UNIT_PRICE'] }}</td>
                                             <td>{{ $val['TAX_CLASS'] }}</td>

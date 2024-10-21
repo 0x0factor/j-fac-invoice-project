@@ -4,7 +4,6 @@
     <!-- Laravel Blade View -->
 
     {{-- 完了メッセージ --}}
-    {{ session()->flash() }}
 
     <div id="guide">
         <div id="guide_box" class="clearfix">
@@ -20,13 +19,13 @@
         <div class="arrow_under"><img src="{{ asset('img/i_arrow_under.jpg') }}" alt=""></div>
         <div class="edit_btn2">
             @if ($editauth)
-                <a href="{{ url('customers/edit/' . $cstID) }}" class="imgover">
+                <a href="{{ url('customers/edit/' . $customer_ID) }}" class="imgover">
                     <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                 </a>
             @endif
             <form action="{{ url('moveback') }}" method="POST" style="display:inline;">
                 @csrf
-                <a href="javascript:move_to_index();" class="imgover">
+                <a href="{{ route('customer.select') }}" class="imgover">
                     <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
                 </a>
             </form>
@@ -174,7 +173,7 @@
                     <tr>
                         <th style="width:130px;">締日</th>
                         <td style="width:750px;">
-                            {{ $cutooff_select[$customer['CUTOOFF_SELECT']] }}
+                            {{ $cutooff_select['options'][$customer['CUTOOFF_SELECT']] }}
                             {{ nl2br(e($customer['CUTOOFF_DATE'] ? $customer['CUTOOFF_DATE'] . '日' : '')) }}
                         </td>
                     </tr>
@@ -187,7 +186,7 @@
                         <th style="width:130px;">支払日</th>
                         <td style="width:750px;">
                             {{ $customer['PAYMENT_MONTH'] || $customer['PAYMENT_MONTH'] != null ? $payment[$customer['PAYMENT_MONTH']] : '' }}
-                            {{ $payment_select[$customer['PAYMENT_SELECT']] }}
+                            {{ $payment_select['options'][$customer['PAYMENT_SELECT']] }}
                             {{ nl2br(e($customer['PAYMENT_DAY'] ? $customer['PAYMENT_DAY'] . '日' : '')) }}
                         </td>
                     </tr>
@@ -198,7 +197,7 @@
 
                     <tr>
                         <th style="width:130px;">消費税設定</th>
-                        <td style="width:750px;">{{ $excises[$customer['EXCISE']] }}</td>
+                        <td style="width:750px;">{{ isset($excises['options'][$customer['EXCISE']]) ? $excises['options'][$customer['EXCISE']] : '' }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
@@ -206,7 +205,7 @@
                     </tr>
                     <tr>
                         <th>消費税端数処理</th>
-                        <td>{{ $fractions[$customer['TAX_FRACTION']] }}</td>
+                        <td>{{ $fractions['options'][$customer['TAX_FRACTION']] }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
@@ -214,7 +213,7 @@
                     </tr>
                     <tr>
                         <th>消費税端数計算</th>
-                        <td>{{ $tax_fraction_timing[$customer['TAX_FRACTION_TIMING']] }}</td>
+                        <td>{{ $tax_fraction_timing['options'][$customer['TAX_FRACTION_TIMING']] }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
@@ -222,7 +221,7 @@
                     </tr>
                     <tr>
                         <th style="width:130px;">基本端数処理</th>
-                        <td style="width:750px;">{{ $fractions[$customer['FRACTION']] }}</td>
+                        <td style="width:750px;">{{ $fractions['options'][$customer['FRACTION']] }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}"
@@ -243,11 +242,11 @@
 
         <div class="edit_btn2">
             @if ($editauth)
-                <a href="{{ url('customers/edit/' . $cstID) }}" class="imgover">
+                <a href="{{ url('customers/edit/' . $customer_ID) }}" class="imgover">
                     <img src="{{ asset('img/bt_edit.jpg') }}" alt="編集する">
                 </a>
             @endif
-            <a href="{{ url('customers/index') }}" class="imgover">
+            <a href="{{ route('customer.select') }}" class="imgover">
                 <img src="{{ asset('img/bt_index.jpg') }}" alt="一覧">
             </a>
         </div>

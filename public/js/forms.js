@@ -4321,7 +4321,7 @@ function calcSubtotal(type, no) {
     var tmpAttribute = 0;
 
     //商品名を【小計】に
-    $('input[name="data[' + no + "][" + type + 'item][ITEM]"]').val("　(小計)");
+    $('input[name="data[' + no + "][" + type + 'item][ITEM]"]').val("(小計)");
 
     //小計を計算
     for (var i = 0; i < no; i++) {
@@ -4825,6 +4825,13 @@ function reset_forms() {
     $("#" + controller_name + "STATUS").val("");
     $("#" + controller_name + "ITEM").val("");
     $("#" + controller_name + "UNIT").val("");
+}
+
+function reset_custom_forms() {
+    console.log("123");
+    console.log($("#search_box"));
+    $("#search_box").find("input").val("");
+    $("#search_box").find("select").val("");
 }
 
 function setBeforeSubmit(formId) {

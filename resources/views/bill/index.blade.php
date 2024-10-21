@@ -224,104 +224,37 @@
                         <table width="900" cellpadding="0" cellspacing="0" border="0" id="index_table">
                             <thead>
                                 <tr>
-                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="selectAll();">
-                                    </th>
-                                    <th class="w50">
-                                        <a href="{{ route('bill.index', ['sort' => 'MBL_ID', 'direction' => $sortField === 'MBL_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            No.
-                                            @if ($sortField === 'MBL_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
+                                    <th class="w50"><input type="checkbox" class="chk_all" onclick="selectAll();"></th>
+                                    @php
+                                        $columns = [
+                                            'MBL_ID' => 'No.',
+                                            'CST_ID' => '顧客名',
+                                            'SUBJECT' => '件名',
+                                            'TOTAL' => '合計金額',
+                                            'ISSUE_DATE' => '発行日',
+                                            'USR_ID' => '作成者',
+                                            'UPDATE_USR_ID' => '更新者',
+                                            'STATUS' => '発行ステータス'
+                                        ];
+                                    @endphp
+
+                                    @foreach($columns as $field => $label)
+                                        <th class="{{ $field === 'MBL_ID' ? 'w50' : ($field === 'CST_ID' ? 'w100' : ($field === 'SUBJECT' ? 'w150' : ($field === 'TOTAL' ? 'w70' : ($field === 'ISSUE_DATE' ? 'w100' : ($field === 'STATUS' ? 'w80' : 'w100'))))) }}">
+                                            <a href="{{ route('bill.index', ['sort' => $field, 'direction' => $sortField === $field && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
+                                                {{ $label }}
+                                                @if ($sortField === $field)
+                                                    {{ $sortDirection === 'asc' ? '↓' : '↑' }}
                                                 @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w100">
-                                        <a href="{{ route('bill.index', ['sort' => 'CST_ID', 'direction' => $sortField === 'CST_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            顧客名
-                                            @if ($sortField === 'CST_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w150">
-                                        <a href="{{ route('bill.index', ['sort' => 'SUBJECT', 'direction' => $sortField === 'SUBJECT' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            件名
-                                            @if ($sortField === 'SUBJECT')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w70">
-                                        <a href="{{ route('bill.index', ['sort' => 'TOTAL', 'direction' => $sortField === 'TOTAL' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            合計金額
-                                            @if ($sortField === 'TOTAL')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    <th class="w100">
-                                        <a href="{{ route('bill.index', ['sort' => 'ISSUE_DATE', 'direction' => $sortField === 'ISSUE_DATE' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            発行日
-                                            @if ($sortField === 'ISSUE_DATE')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                        </a>
-                                    </th>
-                                    @if ($user->AUTHORITY != 1)
-                                        <th class="w100">
-                                            <a href="{{ route('bill.index', ['sort' => 'USR_ID', 'direction' => $sortField === 'USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                                作成者
-                                                @if ($sortField === 'USR_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
-                                            </a>/
-                                            <a href="{{ route('bill.index', ['sort' => 'UPDATE_USR_ID', 'direction' => $sortField === 'UPDATE_USR_ID' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                                更新者
-                                                @if ($sortField === 'UPDATE_USR_ID')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
-                                            @endif
                                             </a>
-                                        </th>
-                                    @endif
-                                    <th class="w80">
-                                        <a href="{{ route('bill.index', ['sort' => 'STATUS', 'direction' => $sortField === 'STATUS' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-                                            発行ステータス
-                                            @if ($sortField === 'STATUS')
-                                                @if ($sortDirection === 'asc')
-                                                    ↑
-                                                @else
-                                                    ↓
-                                                @endif
+                                            @if(in_array($field, ['USR_ID', 'UPDATE_USR_ID']) && $loop->index === 5)
+                                                /
                                             @endif
-                                        </a>
-                                    </th>
+                                        </th>
+                                        @if($field === 'UPDATE_USR_ID' && $user->AUTHORITY == 1)
+                                            @break
+                                        @endif
+                                    @endforeach
+
                                     <th class="w100">メモ</th>
                                     <th class="w100">領収書作成</th>
                                 </tr>
@@ -336,19 +269,21 @@
                                         <td><input type="checkbox" name="selected[]" value="{{ $val->MBL_ID }}"
                                                 class="chk"></td>
                                         <td>{{ $val->MBL_ID }}</td>
-                                        <td>{{ nl2br($val['Customer']['NAME'] ?? $val['Customer']['NAME']) }}</td>
+                                        <td>{{ nl2br($val['Customer']['NAME'] ?? '') }}</td>
                                         <td><a href="{{ route('bill.check', $val->MBL_ID) }}">{{ $val->SUBJECT }}</a></td>
                                         <td>{{ $val->TOTAL ?? $val['TOTAL'] }}円</td>
                                         <td>{{ $val->ISSUE_DATE ?? $val['ISSUE_DATE'] }}</td>
                                         @if ($user->AUTHORITY != 1)
-                                            <td> {{ nl2br($val['USER']['NAME']) }} /
-                                            {{ $val['UPDATEUSER']['NAME'] ? $val['UPDATEUSER']['NAME']:'' }}</td>
+                                            <td>
+                                                {{ nl2br($val['USER']['NAME'] ?? '') }} /
+                                                {{ $val['UPDATEUSER']['NAME'] ?? '' }}
+                                            </td>
                                         @endif
                                         <td>{{ $status[$val->STATUS] ?? '' }}</td>
                                         <td>{{ $val->MEMO }}</td>
                                         <td>
                                             @if ($val->STATUS == 1)
-                                                <a href="{{ route('receipts.create', ['mbl_id' => $val->MBL_ID]) }}">
+                                                <a href="{{ route('bill.receipt', ['mbl_id' => $val->MBL_ID]) }}">
                                                     <img src="{{ asset('img/button/receipt.jpg') }}" class="imgover"
                                                         alt="領収書作成">
                                                 </a>

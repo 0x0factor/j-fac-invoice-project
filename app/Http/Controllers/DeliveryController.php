@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Config;
 use App\Services\ExcelService;
 use Carbon\Carbon;
 use App\Main\AppController;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
 
 
 class DeliveryController extends AppController
@@ -29,7 +31,6 @@ class DeliveryController extends AppController
     const DISCOUNT_TYPE_NONE = 2;
 
     protected $excelService;
-
     // public function __construct(ExcelService $excelService)
     public function __construct()
     {
@@ -159,61 +160,88 @@ class DeliveryController extends AppController
         if ($request->has('cancel_x')) {
             return redirect()->route('delivery.index');
         }
-
+        
         $company_ID = 1;
         $error = config('constants.ItemErrorCode');
         $count = 1;
 
         if ($request->isMethod('post')) {
-            // Validate token
-            $this->validateToken($request->input('data.Security.token'));
+            $validator = Validator::make($request->all(), [
+                'NO' => 'required|string',
+                'SUBJECT' => 'required|string',
+                'CST_ID' => 'nullable',
+                'CHR_ID' => 'nullable',
+                'CHRC_ID' => 'nullable',
+                'HONOR_CODE' => 'required|in:0,1,2',
+                'HONOR_TITLE' => 'nullable|string',
+                'CMP_SEAL_FLG' => 'required|boolean',
+                'CHR_SEAL_FLG' => 'required|boolean',
+                'DISCOUNT' => 'nullable|numeric',
+                'DISCOUNT_TYPE' => 'required|in:0,1,2',
+                'DECIMAL_QUANTITY' => 'required|boolean',
+                'DECIMAL_UNITPRICE' => 'required|boolean',
+                'STATUS' => 'required|in:0,1,2,3,4,5',
+                'DELIVERY' => 'nullable|date',
+                'NOTE' => 'nullable|string',
+                'MEMO' => 'nullable|string',
+                'SUBTOTAL' => 'nullable|numeric',
+                'SALES_TAX' => 'nullable|numeric',
+                'TOTAL' => 'nullable|numeric',
+                'TEN_TAX' => 'nullable|numeric',
+                'TEN_TAX_AMOUNT' => 'nullable|numeric',
+                'EIGHT_TAX' => 'nullable|numeric',
+                'EIGHT_TAX_AMOUNT' => 'nullable|numeric',
+                'FRACTION' => 'required|numeric',
+                'TAX_FRACTION' => 'required|numeric',
+                'TAX_FRACTION_TIMING' => 'required|numeric',
+            ]);
 
-            // Validate item data
-            $error = $this->itemValidation($request->input('data'), 'Deliveryitem');
-
-            // Validate discount
-            $error['DISCOUNT'] = $this->validateDiscount($request->input('data'));
-
-            if ($request->input('data.Delivery.DISCOUNT_TYPE') == self::DISCOUNT_TYPE_PERCENT) {
-                $discount = mb_strlen($request->input('data.Delivery.DISCOUNT'));
-                if ($discount > 2) {
-                    $error['DISCOUNT'] = 1;
-                }
-                if ($request->input('data.Delivery.DISCOUNT') == '100') {
-                    $error['DISCOUNT'] = 0;
-                }
-                if (!preg_match("/^[0-9]+$/", $request->input('data.Delivery.DISCOUNT')) && $request->input('data.Delivery.DISCOUNT') != null) {
-                    $error['DISCOUNT'] = 2;
-                }
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            if ($request->input('data.Delivery.HONOR_CODE') != 2) {
-                $request->merge(['data.Delivery.HONOR_TITLE' => '']);
+            $deliveryData = $request->only([
+                'NO', 'SUBJECT', 'CST_ID', 'CHR_ID', 'CHRC_ID', 'HONOR_CODE', 'HONOR_TITLE',
+                'CMP_SEAL_FLG', 'CHR_SEAL_FLG', 'DISCOUNT', 'DISCOUNT_TYPE', 'DECIMAL_QUANTITY',
+                'DECIMAL_UNITPRICE', 'SUBTOTAL', 'SALES_TAX', 'TOTAL', 'FIVE_RATE_TAX',
+                'FIVE_RATE_TOTAL', 'EIGHT_RATE_TAX', 'EIGHT_RATE_TOTAL', 'REDUCED_RATE_TAX',
+                'REDUCED_RATE_TOTAL', 'TEN_RATE_TAX', 'TEN_RATE_TOTAL', 'STATUS', 'DELIVERY',
+                'NOTE', 'MEMO', 'EXCISE', 'FRACTION', 'TAX_FRACTION', 'TAX_FRACTION_TIMING'
+            ]);
+
+            $deliveryData['ISSUE_DATE'] = $request->input('ISSUE_DATE');
+            $deliveryData['USR_ID'] = Auth::id();
+            $deliveryData['UPDATE_USR_ID'] = Auth::id();
+            $deliveryData['INSERT_DATE'] = now();
+            $deliveryData['LAST_UPDATE'] = now();
+
+            if ($request->input('HONOR_CODE') != 2) {
+                $deliveryData['HONOR_TITLE'] = '';
+            }else{
+                $deliveryData['HONOR_TITLE'] = '123';
             }
 
-            $deliveryData = $request->input('data.Delivery');
-            $delivery = new Delivery();
-            $result = $delivery->setData($deliveryData, 'new', $error);
+            $discountType = $request->input('DISCOUNT_TYPE');
+            $discount = $request->input('DISCOUNT');
 
-            if ($result) {
-                // Log action
-                // Assuming you have a History service for logging actions
-                app('App\Services\HistoryService')->h_reportaction($deliveryData['USR_ID'], 8, $result);
+            if ($discountType == self::DISCOUNT_TYPE_PERCENT && (!is_null($discount) && (!is_numeric($discount) || $discount < 0 || $discount > 100))) {
+                return redirect()->back()->withErrors(['DISCOUNT' => 'The discount percentage must be between 0 and 100.'])->withInput();
+            } elseif ($discountType == self::DISCOUNT_TYPE_NONE) {
+                $deliveryData['DISCOUNT'] = null;
+            }
+            // var_export($deliveryData);die;
 
-                // Success
-                Session::flash('message', '納品書を保存しました');
-
-                // Increment serial
+            try {
+                $delivery = Delivery::create($deliveryData);
+                
+                $this->h_reportaction($deliveryData['USR_ID'], 8, $delivery->id);
                 Serial::serial_increment('Delivery');
 
-                return redirect()->route('delivery.check', ['id' => $result]);
-            } else {
-                // Failure
-                $count = count($request->input('data')) - 2 > 1 ? count($request->input('data')) - 2 : 1;
-
-                // Set collapse settings
-                $collaspe['other'] = empty($request->input('data.Delivery.DELIVERY')) ? 1 : 0;
-                $collaspe['management'] = empty($request->input('data.Delivery.MEMO')) ? 1 : 0;
+                return redirect()->route('delivery.check', ['id' => $delivery->id])->with('message', '納品書を保存しました');
+            } catch (\Exception $e) {
+                var_export($e->getMessage());die;
+                \Log::error('Error creating delivery: ' . $e->getMessage());
+                return redirect()->back()->withInput()->with('error', '納品書の保存に失敗しました。');
             }
         } else {
             // Default settings
@@ -356,7 +384,14 @@ class DeliveryController extends AppController
 
         return view('delivery.add', $this->data);
     }
-
+    public function h_reportaction($userId, $actionType, $referenceId)
+    {
+        return History::create([
+            'USR_ID' => $userId,
+            'action_type' => $actionType,
+            'reference_id' => $referenceId,
+        ]);
+    }
     public function check(Request $request, $delivery_ID)
     {
         // Set the main title and title text
@@ -529,7 +564,7 @@ class DeliveryController extends AppController
                     $collapse['other'] = 0;
                 }
 
-                // 管理情報に何も入力されていなければ非表示
+                // 管理情に何も入力れていなければ非表示
                 if (empty($data['Delivery']['MEMO'])) {
                     $collapse['management'] = 1;
                 } else {
@@ -801,6 +836,21 @@ class DeliveryController extends AppController
         return $pdf->stream($fileName);
     }
 
+    // Define the validateDiscount method in your controller
+    protected function validateDiscount($discount)
+    {
+        // Your discount validation logic here
+        // Return true if valid, false if not
+    }
+
+    protected function validateToken($token)
+    {
+        // Implement your token validation logic here
+        // For example:
+        if (!$token || $token !== session('csrf_token')) {
+            abort(403, 'Invalid token');
+        }
+    }
 
 }
 

@@ -36,23 +36,23 @@
         <table width="880" cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <th class="w100">管理番号</th>
-                <td class="w320">{{ $param['MQT_ID'], $formType, 'NO' }}</td>
+                <td class="w320">{{ $param[$formType][$formID] ?? '' }}</td>
                 <th class="w100">発行日</th>
-                <td class="w320">{{ $param['ISSUE_DATE'] }}</td>
+                <td class="w320">{{ $param[$formType]['ISSUE_DATE'] ?? '' }}</td>
             </tr>
             <tr>
                 <td colspan="4"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
             </tr>
             <tr>
                 <th class="txt_top w100">件名</th>
-                <td colspan="3">{{ $param['SUBJECT'], 'Quote', 'SUBJECT' }}</td>
+                <td colspan="3">{{ $param[$formType]['SUBJECT'], 'Quote', 'SUBJECT' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
             </tr>
             <tr>
                 <th class="w100">顧客名</th>
-                <td colspan="3">{{ $param['Customer']['NAME'], 'Customer', 'NAME' }}</td>
+                <td colspan="3">{{ isset($param['Customer']['NAME']) ? $param['Customer']['NAME'] : '' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
@@ -82,10 +82,10 @@
             <tr>
                 <th class="txt_top w100">敬称</th>
                 <td colspan="3">
-                    @if ($param['HONOR_CODE'] == 2)
-                        {{ $param['HONOR_TITLE'] }}
+                    @if ($param[$formType]['HONOR_CODE'] == 2)
+                        {{ $param[$formType]['HONOR_TITLE'] }}
                     @else
-                        {{ $honor[$param['HONOR_CODE']] }}
+                        {{ $honor[$param[$formType]['HONOR_CODE']] }}
                     @endif
                 </td>
             </tr>
@@ -94,7 +94,8 @@
             </tr>
             <tr>
                 <th class="txt_top w100">自社印押印設定</th>
-                <td colspan="3">{{ $seal_flg[$param['CMP_SEAL_FLG']] }}</td>
+                @dd($param[$formType]['CMP_SWAL_FLG'])
+                <td colspan="3">{{ $seal_flg[$param[$formType]['CMP_SEAL_FLG']] }}</td>
             </tr>
             <tr>
                 <td colspan="4"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>

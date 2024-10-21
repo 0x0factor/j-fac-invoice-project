@@ -1,6 +1,5 @@
 <div class="edit_btn">
     <!-- Save Button -->
-
     <input type="image" src="{{ asset('img/bt_save3.jpg') }}" name="submit" alt="保存する" class="btn btn-save">
 
     <!-- Delete Button (Only in Edit Mode) -->

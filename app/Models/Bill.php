@@ -20,13 +20,46 @@ class Bill extends Model
     protected $primaryKey = 'MBL_ID';
 
     protected $fillable = [
+        'MBL_ID',
+        'CST_ID',
+        'CHR_ID',
+        'CHRC_ID',
+        'USR_ID',
+        'UPDATE_USR_ID',
+        'ISSUE_DATE',
+        'DUE_DATE',
+        'SUBJECT',
+        'HONOR_CODE',
+        'HONOR_TITLE',
+        'CMP_SEAL_FLG',
+        'CHR_SEAL_FLG',
         'NO',
-        'DATE',
+        'STATUS',
+        'MEMO',
+        'DECIMAL_QUANTITY',
+        'DECIMAL_UNITPRICE',
+        'EXCISE',
+        'FRACTION',
+        'TAX_FRACTION',
+        'TAX_FRACTION_TIMING',
+        'DISCOUNT',
+        'DISCOUNT_TYPE',
+        'FEE',
+        'NOTE',
+        'SUBTOTAL',
+        'SALES_TAX',
+        'TOTAL',
+        'FIVE_RATE_TAX',
+        'FIVE_RATE_TOTAL',
+        'EIGHT_RATE_TAX',
         'EIGHT_RATE_TOTAL',
         'REDUCED_RATE_TAX',
         'REDUCED_RATE_TOTAL',
         'TEN_RATE_TAX',
         'TEN_RATE_TOTAL',
+        'INSERT_DATE',
+        'LAST_UPDATE',
+        'ADD_DATE'
     ];
 
     public function customer()
@@ -230,7 +263,7 @@ class Bill extends Model
 
     /**
      * Get customer information
-     *
+     * 
      * @param integer $_companyId
      * @param array|null $_condition
      * @return array
@@ -379,16 +412,16 @@ class Bill extends Model
         $taxClassInclusive = 1;
         $taxClassExclusive = 2;
         $lineAttrNormal = 0;
-
         // If no discount type, skip the check
         if ($discountCodeNone == $data['DISCOUNT_TYPE']) {
             return;
         }
-
-        unset($data);
-        unset($data['Security']);
-
+        
+        // unset($data);
+        // unset($data['data']['Security']);
+        var_dump($data);die;
         $prevTaxRate = null;
+        
         foreach ($data as $key => $item) {
             if ($item['T_BILL_ITEM']['LINE_ATTRIBUTE'] != 0) {
                 continue;
