@@ -247,7 +247,7 @@
                                         <td class="v50"><input type="checkbox" name="selected_quotes[]"
                                                 value="{{ $quote->MQT_ID }}" class="chk"></td>
                                         <td class="v50">{{ $quote->MQT_ID }}</td>
-                                        <td class="v100">{{ $quote->customer->NAME }}</td>
+                                        <td class="v100">{{ $quote->customer->NAME ?? 'N/A' }}</td>
                                         <td class="v100">
                                             <a href="{{ route('quote.check', $quote->MQT_ID) }}">{{ $quote->SUBJECT }}</a>
                                         </td>
