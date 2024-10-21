@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th class="txt_top w100">件名</th>
-                <td colspan="3">{{ $param[$formType]['SUBJECT'], 'Quote', 'SUBJECT' }}</td>
+                <td colspan="3">{{ $param[$formType]['SUBJECT'] ?? '' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
@@ -82,10 +82,16 @@
             <tr>
                 <th class="txt_top w100">敬称</th>
                 <td colspan="3">
-                    @if ($param[$formType]['HONOR_CODE'] == 2)
-                        {{ $param[$formType]['HONOR_TITLE'] }}
+                    @if (isset($param[$formType]['HONOR_CODE']))
+                        @if ($param[$formType]['HONOR_CODE'] == 2)
+                            {{ $param[$formType]['HONOR_TITLE'] ?? '' }}
+                        @elseif (isset($honor[$param[$formType]['HONOR_CODE']]))
+                            {{ $honor[$param[$formType]['HONOR_CODE']] }}
+                        @else
+                            敬称なし
+                        @endif
                     @else
-                        {{ $honor[$param[$formType]['HONOR_CODE']] }}
+                        敬称なし
                     @endif
                 </td>
             </tr>
@@ -94,15 +100,27 @@
             </tr>
             <tr>
                 <th class="txt_top w100">自社印押印設定</th>
-                @dd($param[$formType]['CMP_SWAL_FLG'])
-                <td colspan="3">{{ $seal_flg[$param[$formType]['CMP_SEAL_FLG']] }}</td>
+                <td colspan="3">
+                    @if(isset($param[$formType]['CMP_SEAL_FLG']) && isset($seal_flg[$param[$formType]['CMP_SEAL_FLG']]))
+                    {{ $seal_flg[$param[$formType]['CMP_SEAL_FLG']] }}
+                    @else
+                    設定なし
+                    @endif
+                </td>
             </tr>
+            
             <tr>
                 <td colspan="4"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>
             </tr>
             <tr>
                 <th class="txt_top w100">担当者印押印設定</th>
-                <td colspan="3">{{ $seal_flg[$param['CHR_SEAL_FLG']] }}</td>
+                <td colspan="3">
+                    @if(isset($param['CHR_SEAL_FLG']) && isset($seal_flg[$param['CHR_SEAL_FLG']]))
+                        {{ $seal_flg[$param['CHR_SEAL_FLG']] }}
+                    @else
+                        設定なし
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td colspan="4"><img src="{{ asset('img/i_line_solid.gif') }}" alt="Line"></td>

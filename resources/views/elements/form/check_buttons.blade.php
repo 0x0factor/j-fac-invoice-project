@@ -26,10 +26,11 @@
 
 <div class="edit_btn2">
     @if ($editauth)
-        <a href="{{ route($formController . '.edit', ['bill_ID' => $param[$formType][$formID] ?? 0]) }}">
+    
+        <a href="{{ route($formController . '.edit', [$param[$formType][$formID] ?? '0']) }}">
             <img src="{{ asset('img/bt_edit.jpg') }}" class="imgover" alt="編集する">
         </a>
-        
+
         @if (isset($param[$formType]['STATUS']) && $param[$formType]['STATUS'] == 1)
             <a href="{{ route('mail.sendmail', ['action' => $mailAction, 'quoteId' => $param[$formType][$formID] ?? null]) }}">
                 <img src="{{ asset('img/bt_send_mail.jpg') }}" class="imgover" alt="メール送付">

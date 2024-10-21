@@ -31,7 +31,7 @@
                 <table width="880" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <th class="w100">発行ステータス</th>
-                        <td class="w770">{{ $status[$customHtml->ht2br($param['Bill']['STATUS'], 'Bill', 'STATUS')] }}
+                        <td class="w770">{{ isset($status[$param['Bill']['STATUS'] ?? '']) ? $status[$param['Bill']['STATUS'] ?? ''] : 'N/A' }}
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <th class="w100">振込手数料</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Bill']['FEE'], 'Bill', 'FEE') }}</td>
+                        <td class="w770">{{ isset($param['Bill']['FEE']) ? $customHtml->ht2br($param['Bill']['FEE'], 'Bill', 'FEE') : 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="">
@@ -48,7 +48,7 @@
                     </tr>
                     <tr>
                         <th class="w100">振込期限</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Bill']['DUE_DATE'], 'Bill', 'DUE_DATE') }}</td>
+                        <td class="w770">{{ isset($param['Bill']['DUE_DATE']) ? $customHtml->ht2br($param['Bill']['DUE_DATE'], 'Bill', 'DUE_DATE') : 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="">
@@ -56,7 +56,7 @@
                     </tr>
                     <tr>
                         <th class="txt_top w100">備考</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Bill']['NOTE'], 'Bill', 'NOTE') }}</td>
+                        <td class="w770">{{ isset($param['Bill']['NOTE']) ? $customHtml->ht2br($param['Bill']['NOTE'], 'Bill', 'NOTE') : 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="line"><img src="{{ asset('img/i_line_solid.gif') }}" alt="">
@@ -64,7 +64,7 @@
                     </tr>
                     <tr>
                         <th class="w100">メモ</th>
-                        <td class="w770">{{ $customHtml->ht2br($param['Bill']['MEMO'], 'Bill', 'MEMO') }}</td>
+                        <td class="w770">{{ isset($param['Bill']['MEMO']) ? $customHtml->ht2br($param['Bill']['MEMO'], 'Bill', 'MEMO') : 'N/A' }}</td>
                     </tr>
                 </table>
             </div>
